@@ -23,7 +23,6 @@ class RegisterUserPage extends StatefulWidget {
 }
 
 class _RegisterUserPageState extends State<RegisterUserPage> {
-
   final authViewModel = Get.put(AuthViewModel());
   final preferenceManager = Get.put(PreferenceManager());
   final TextEditingController mobileController = TextEditingController();
@@ -38,7 +37,6 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   @override
   Widget build(BuildContext context) {
     // final addressViewModel = Get.put(AddressViewModel());
-
 
     return StatefulWrapper(
       onInit: () async {
@@ -67,14 +65,14 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.userModel != null ? SecondaryHeadingComponent(buttonTxt: "VERIFY DETAILS",cartVisible: false,buttonClick:(){
+              widget.userModel != null ? SecondaryHeadingComponent(buttonTxt: "VERIFY DETAILS",buttonClick:(){
                 Get.close(1);
               }) : Container(
                   color: CustomColors.white,child: Column(children: [
-                    Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: SizedBox(width:200,child: Text("REGISTER",textAlign: TextAlign.start,style: TextStyle(color: CustomColors.primary,fontWeight: FontWeight.w600,fontSize: 22),)),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: SizedBox(width:200,child: Text("REGISTER",textAlign: TextAlign.start,style: TextStyle(color: CustomColors.primary,fontWeight: FontWeight.w600,fontSize: 22),)),
+                ),
                 Container(width: double.infinity,height: 1,color: CustomColors.primary,),
               ])),
               const SizedBox(height:30),
@@ -274,8 +272,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         loading: (loading) => const CustomProgressBar(),
                         orElse: () => PrimaryButton(buttonTxt: "CONFIRM", buttonClick: () {
                           if(selectedGender == "Other"){
-                             Get.snackbar("Error","Please Select Gender",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
-                             return;
+                            Get.snackbar("Error","Please Select Gender",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+                            return;
                           }
                           authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,age: int.tryParse(ageController.text ?? '0') ?? 0,gender: selectedGender));
                         },))
@@ -288,4 +286,5 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           ),)),
     );
   }
+
 }

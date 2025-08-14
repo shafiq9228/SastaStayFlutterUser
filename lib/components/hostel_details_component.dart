@@ -1,88 +1,155 @@
 import 'package:flutter/material.dart';
+import 'package:pg_hostel/components/amenities_component.dart';
+import 'package:pg_hostel/components/primary_button.dart';
+import 'package:pg_hostel/pages/hostel_details_page.dart';
+import 'package:pg_hostel/response_model/hostel_response_model.dart';
 
 import '../utils/custom_colors.dart';
 import 'custom_network_image.dart';
+import 'package:get/get.dart';
 
 
 class HostelDetailsComponent extends StatelessWidget {
-  const HostelDetailsComponent({super.key});
+  final HostelModel? hostelModel;
+  const HostelDetailsComponent({super.key, required this.hostelModel});
+
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
-        width: 240,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.topCenter,
+    return  InkWell(
+      onTap: (){
+        Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
+          child: IntrinsicHeight(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomNetworkImage(imageUrl: 'https://images.squarespace-cdn.com/content/v1/5e72c8bfe21ad940ba788673/1620923464746-9P9CHDE3GWWYHK2WWALV/hostel-dorm-bedroom-two.jpg',width: 250,height: 130,fit: BoxFit.cover),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
+                SizedBox(
+                  height: 150,
+                  width: double.infinity,
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 100),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(200),
-                            color: CustomColors.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal:10,vertical: 5),
-                            child: Text("20% Off",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 12,color: Colors.green)),
-                          ),
+                      CustomNetworkImage(imageUrl: hostelModel?.hostelImage ?? 'https://i.pinimg.com/originals/5b/81/5f/5b815fa3c99fc946d20070770857e829.png',width: double.infinity,height: 150,fit: BoxFit.cover),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 100),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(200),
+                                  color: CustomColors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal:10,vertical: 5),
+                                  child: Text(hostelModel?.hostelType ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Colors.green)),
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
+                              child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 18)),
+                            ),
+                          ],
                         ),
-                      ),
-                      const Spacer(),
-                      Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
-                        child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 18)),
-                      ),
+                      )
                     ],
                   ),
-                )
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const SizedBox(height: 10),
-                    Text("Sri Raja Hostel",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20,color: CustomColors.black)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        children: [
-                          Image.asset("assets/images/location.png",width: 15,height: 15,color: CustomColors.darkGray),
-                          Expanded(child: Text("Sr Nagar",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: CustomColors.darkGray))),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text("₹5,000",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
-                        Text("/mo",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.darkGray)),
-                        Spacer(),
-                        Image.asset("assets/images/star.png",width: 18,height: 18),
-                        Text("4.6",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
-                        Text("(50)",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.darkGray)),
-                      ],
-                    )
-                  ],
+                ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: SizedBox(
+                  height: 40,
+                  child: Builder(
+                    builder: (context) {
+                      final List<AmenitiesModel> displayList = List.from(hostelModel?.amenities ?? []);
+                      if ((hostelModel?.amenitiesMore ?? 0) > 0) {
+                        displayList.add(
+                          AmenitiesModel(
+                            image: "https://icon-library.com/images/add-icon-png/add-icon-png-0.jpg",
+                            name: "${hostelModel?.amenitiesMore} More",
+                          ),
+                        );
+                      }
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: displayList.length,
+                        itemBuilder: (context, index) {
+                          return AmenitiesComponent(amenitiesModel: displayList[index],view: 1);
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
-            )
-          ],
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(child: Text(hostelModel?.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20,color: CustomColors.black))),
+                          Image.asset("assets/images/star.png",width: 18,height: 18),
+                          Text("${hostelModel?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Row(
+                          children: [
+                            Image.asset("assets/images/location.png",width: 10,height: 10,color: CustomColors.darkGray),
+                            Expanded(child: Text(hostelModel?.location?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                            Text("${hostelModel?.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
+                          ],
+                        ),
+                      ),
+                      hostelModel?.room != null  ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              children: [
+                                Image.asset("assets/images/info.png",width: 10,height: 10,color: CustomColors.darkGray),
+                                Expanded(child: Text("Avg. Locality Price",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                                Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.primary)),
+                                Text("/mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
+                              Text("/mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                              Spacer(),
+                              Text("+₹600 taxes and fee",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          PrimaryButton(buttonTxt: "Book Now",buttonClick: (){
+                            Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
+                          })
+                        ],
+                      ) :  Text("Currently Beds Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
         ),
       ),
     );

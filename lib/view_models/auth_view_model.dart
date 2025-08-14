@@ -1,6 +1,8 @@
 
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/components/onboarding_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_provider.dart';
@@ -16,6 +18,7 @@ import '../request_model/auth_request_model.dart';
 import '../response_model/auth_response_model.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
+import '../utils/geo_util.dart';
 import '../utils/preference_manager.dart';
 
 class AuthViewModel extends GetxController{
@@ -31,6 +34,25 @@ class AuthViewModel extends GetxController{
   final preferenceManager = Get.put(PreferenceManager());
   RxString profilePic = "".obs;
   RxString userId = "".obs;
+
+  Rx<Position?> locationObserver = Rx<Position?>(null);
+  Rx<LocationModel?> locationDetails = Rx<LocationModel?>(null);
+
+  Future<Position?> fetchCurrentLocation() async {
+    if (locationObserver.value == null) {
+      await Geolocator.requestPermission();
+      LocationPermission locationPermission =
+      await Geolocator.checkPermission();
+      if (locationPermission == LocationPermission.denied) return null;
+      final position = await Geolocator.getCurrentPosition();
+      final geoAddress = await GeoUtil().getApiAddress(position.latitude, position.longitude);
+      locationObserver.value = position;
+      locationDetails.value = geoAddress;
+      return position;
+    } else {
+      return locationObserver.value;
+    }
+  }
 
 
   Future<void> validateVersion(ValidateVersionRequestModel request) async {
@@ -58,7 +80,7 @@ class AuthViewModel extends GetxController{
             final prefs = await SharedPreferences.getInstance();
             final page = prefs.getString('page') ?? "";
             if(page.isEmpty){
-              Get.offAll(() => MobileVerificationPage());
+              Get.offAll(() => const OnBoardingScreens());
             }
             else{
               AuthUtils.navigateFromPageName(page);
@@ -129,8 +151,10 @@ class AuthViewModel extends GetxController{
   }
 
 
-  Future<void> fetchUserDetails() async {
+  Future<void> fetchUserDetails(bool refresh) async {
     try{
+      final success = fetchUserDetailsObserver.value.maybeWhen(success: (data) => true ,orElse: () => false);
+      if(success && refresh == false)
       fetchUserDetailsObserver.value = const ApiResult.loading("");
       final response = await apiProvider.post(EndPoints.fetchUserDetails,{});
       final body = response.body;

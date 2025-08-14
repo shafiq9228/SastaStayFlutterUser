@@ -35,7 +35,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> {
         body:SafeArea(top:true,child:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SecondaryHeadingComponent(buttonTxt: "Otp Verification",cartVisible: false),
+        SecondaryHeadingComponent(buttonTxt: "Otp Verification"),
         SizedBox(height:30),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

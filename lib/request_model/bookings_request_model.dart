@@ -1,0 +1,23 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../response_model/address_response_model.dart';
+import '../response_model/hostel_response_model.dart';
+
+part 'bookings_request_model.freezed.dart';
+part 'bookings_request_model.g.dart';
+
+
+@Freezed()
+class BookingRequestModel with _$BookingRequestModel{
+  const factory BookingRequestModel({
+    required RoomModel? roomModel,
+    required String? hostelId,
+    required String? roomId,
+    required DateTime? checkInDate,
+    required DateTime? checkOutDate,
+    required int? guestCount
+  }) = _BookingRequestModel;
+
+  factory BookingRequestModel.fromJson(Map<String, dynamic> json) => _$BookingRequestModelFromJson(json);
+}
+

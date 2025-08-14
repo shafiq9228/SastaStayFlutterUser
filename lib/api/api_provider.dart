@@ -7,7 +7,7 @@ import '../utils/preference_manager.dart';
 class ApiProvider<T> extends GetConnect{
 
   String apiKey = "654321";
-  String liveUrl = "http://192.168.0.218:8055/user/";
+  String liveUrl = false ? "https://sastastay-1d420.el.r.appspot.com/user/" : "http://192.168.0.218:8055/user/";
 
   @override
   Future<void> onInit() async {
@@ -16,7 +16,6 @@ class ApiProvider<T> extends GetConnect{
     httpClient.defaultContentType = "application/json";
     httpClient.timeout = const Duration(seconds: 100);
     httpClient.addRequestModifier<T>((request) async {
-      print("apiproviders");
       final token = await preferenceManager.getValue("token") ?? "";
       final modifiedRequest = request as Request<T>;
       modifiedRequest.headers['Authorization'] = token;

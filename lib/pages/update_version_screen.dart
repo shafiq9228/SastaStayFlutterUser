@@ -51,7 +51,7 @@ class _UpdateVersionScreenState extends State<UpdateVersionScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/update_version.png',width: 250,height: 250,),
+                        Image.asset('assets/images/update_version.png',width: 150,height: 150,),
                         const SizedBox(height: 30),
                          Text("Current Version $appVersion",textAlign: TextAlign.center,style: TextStyle(
                             fontSize: 16,

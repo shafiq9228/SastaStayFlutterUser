@@ -15,6 +15,11 @@ class AuthUtils {
   static String formatPrice(double price) => '\$${price.toStringAsFixed(2)}';
   static String formatDate(DateTime date) => DateFormat.yMd().format(date);
 
+  static String formatDateToLong(DateTime? date) {
+    if(date == null) return "";
+    return DateFormat("MMM d yyyy").format(date);
+  }
+
   static void navigateFromPageName(String? page){
     switch(page){
       case "mainPage": Get.offAll(() =>  const MainPage());

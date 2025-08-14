@@ -23,9 +23,8 @@ _$PaginationRequestModelImpl _$$PaginationRequestModelImplFromJson(
     _$PaginationRequestModelImpl(
       query: json['query'] as String?,
       type: json['type'] as String?,
-      categoryId: json['categoryId'] as String?,
-      subCategoryId: json['subCategoryId'] as String?,
-      childCategoryId: json['childCategoryId'] as String?,
+      docId: json['docId'] as String?,
+      hostelId: json['hostelId'] as String?,
       page: json['page'] as int?,
     );
 
@@ -34,9 +33,8 @@ Map<String, dynamic> _$$PaginationRequestModelImplToJson(
     <String, dynamic>{
       'query': instance.query,
       'type': instance.type,
-      'categoryId': instance.categoryId,
-      'subCategoryId': instance.subCategoryId,
-      'childCategoryId': instance.childCategoryId,
+      'docId': instance.docId,
+      'hostelId': instance.hostelId,
       'page': instance.page,
     };
 

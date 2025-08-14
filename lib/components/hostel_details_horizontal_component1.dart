@@ -1,66 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/components/custom_network_image.dart';
+import 'package:pg_hostel/response_model/hostel_response_model.dart';
 
+import '../pages/hostel_details_page.dart';
 import '../utils/custom_colors.dart';
+import 'package:get/get.dart';
 
 class HostelDetailsHorizontalComponent1 extends StatelessWidget {
-  const HostelDetailsHorizontalComponent1({super.key});
+  final HostelModel? hostelModel;
+  const HostelDetailsHorizontalComponent1({super.key, required this.hostelModel});
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      width: 200,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            alignment: Alignment.topRight,
-            children: [
-              const CustomNetworkImage(imageUrl: 'https://images.squarespace-cdn.com/content/v1/5e72c8bfe21ad940ba788673/1620923464746-9P9CHDE3GWWYHK2WWALV/hostel-dorm-bedroom-two.jpg',width: 200,height: 100,fit: BoxFit.cover),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  width: 25,
-                  height: 25,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
-                  child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 14,)),
-                ),
-              )
-            ],
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return  InkWell(
+      onTap: (){
+        Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        width: 200,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: Alignment.topRight,
               children: [
-                const SizedBox(height: 5),
-                Text("Sri Laila Hostel",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18,color: CustomColors.black)),
+                CustomNetworkImage(imageUrl: hostelModel?.hostelImage ?? 'https://images.squarespace-cdn.com/content/v1/5e72c8bfe21ad940ba788673/1620923464746-9P9CHDE3GWWYHK2WWALV/hostel-dorm-bedroom-two.jpg',width: 200,height: 100,fit: BoxFit.cover),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/images/location.png",width: 15,height: 15,color: CustomColors.darkGray),
-                      const SizedBox(width: 2),
-                      Expanded(child: Text("Sr Nagar",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
-                    ],
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
+                    child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 14,)),
                   ),
-                ),
-                Row(
-                  children: [
-                    Text("₹5,000",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
-                    Text("/Mo",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.darkGray)),
-                    Spacer(),
-                    Image.asset("assets/images/star.png",width: 15,height: 15),
-                    Text("4.6",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
-                    Text("(50)",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.darkGray)),
-                  ],
                 )
               ],
             ),
-          )
-        ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const SizedBox(height: 5),
+                  Text(hostelModel?.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18,color: CustomColors.black)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/images/location.png",width: 15,height: 15,color: CustomColors.darkGray),
+                        const SizedBox(width: 2),
+                        Expanded(child: Text(hostelModel?.location?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                      ],
+                    ),
+                  ),
+                  hostelModel?.room != null ? Row(
+                    children: [
+                      Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
+                      Text("/Mo",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.darkGray)),
+                      Spacer(),
+                      Image.asset("assets/images/star.png",width: 15,height: 15),
+                      Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
+                      Text("(${hostelModel?.totalVotes ?? ""})",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.darkGray)),
+                    ],
+                  ) : Text("Currently Beds Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

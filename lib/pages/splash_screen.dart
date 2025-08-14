@@ -34,10 +34,30 @@ class _SplashScreenState extends State<SplashScreen> {
         backgroundColor: CustomColors.white,
         body: Center(
           child:
-          SizedBox(
-            width: 100,
-            height: 100,
-            child: Image.asset("assets/images/accomodation.png"),
+          IntrinsicHeight(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Image.asset("assets/images/splash.png"),
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Sasta',
+                        style: TextStyle(color: CustomColors.textColor, fontSize: 20, fontWeight: FontWeight.w900),
+                      ),
+                      TextSpan(
+                        text: 'Stays',
+                        style: TextStyle(color: CustomColors.primary, fontSize: 20, fontWeight: FontWeight.w900),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

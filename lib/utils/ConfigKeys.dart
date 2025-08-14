@@ -1,0 +1,1 @@
+class ConfigKeys {  ConfigKeys._();  // test id = rzp_test_x9zZZnzoLiEG7C  // live id = rzp_live_YMcnEc8qAQRE4M  static const razorPayId = false ? 'rzp_live_XhjweDBSf9fLuN' : 'rzp_test_GiSicPkSgjuPNl';}
