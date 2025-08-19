@@ -54,6 +54,19 @@ class VerifyOtpRequestModel with _$VerifyOtpRequestModel{
 }
 
 @Freezed()
+class GoogleAuthRequestModel with _$GoogleAuthRequestModel{
+  const factory GoogleAuthRequestModel({
+    required String? email,
+    required String? name,
+    required String? source,
+    required String? version,
+    required String? deviceId,
+  }) = _GoogleAuthRequestModel;
+
+  factory GoogleAuthRequestModel.fromJson(Map<String, dynamic> json) => _$GoogleAuthRequestModelFromJson(json);
+}
+
+@Freezed()
 class RegisterUserRequestModel with _$RegisterUserRequestModel{
   const factory RegisterUserRequestModel({
     bool? registerByMobile,
@@ -61,7 +74,7 @@ class RegisterUserRequestModel with _$RegisterUserRequestModel{
     String? mobile,
     String? name,
     String? email,
-    int? age,
+    String? dob,
     String? gender
   }) = _RegisterUserRequestModel;
 

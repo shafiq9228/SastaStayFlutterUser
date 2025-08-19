@@ -7,7 +7,7 @@ import '../utils/preference_manager.dart';
 class ApiProvider<T> extends GetConnect{
 
   String apiKey = "654321";
-  String liveUrl = false ? "https://sastastay-1d420.el.r.appspot.com/user/" : "http://192.168.0.218:8055/user/";
+  String liveUrl = true ? "https://sastastay-1d420.el.r.appspot.com/user/" : "http://192.168.0.218:8055/user/";
 
   @override
   Future<void> onInit() async {

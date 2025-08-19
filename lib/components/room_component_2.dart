@@ -6,7 +6,7 @@ import 'package:pg_hostel/utils/app_styles.dart';
 
 import '../utils/custom_colors.dart';
 import 'custom_network_image.dart';
-import 'hostel_room_availability_dialog.dart';
+import 'hostel_room_availability_bottom_sheet.dart';
 
 class RoomComponent2 extends StatelessWidget {
   final RoomModel? roomModel;
@@ -18,7 +18,7 @@ class RoomComponent2 extends StatelessWidget {
     final occupiedCount = roomModel?.occupiedCount ?? 0;
     final bannerText =   occupiedCount == capacityCount  ? "Occupied" : occupiedCount == 0 ? "Available" : "Partially Occupied";
     return  Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
       child: Container(
         decoration: AppStyles.categoryBg4,
         child: IntrinsicHeight(
@@ -36,26 +36,17 @@ class RoomComponent2 extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       child: Row(
                         children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints(maxWidth: 100),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(200),
-                                color: CustomColors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal:10,vertical: 5),
-                                child: Text(bannerText,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Colors.green)),
-                              ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(200),
+                              color: CustomColors.white,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal:10,vertical: 5),
+                              child: Text(bannerText,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Colors.green)),
                             ),
                           ),
-                          const Spacer(),
-                          Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
-                            child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 18)),
-                          ),
+                          const Spacer()
                         ],
                       ),
                     )
@@ -118,9 +109,15 @@ class RoomComponent2 extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     PrimaryButton(buttonTxt: "Check Availability",buttonClick: (){
-                      showDialog(
+                      showModalBottomSheet(
                         context: context,
-                        builder: (context) => HostelRoomAvailabilityDialog(roomModel: roomModel),
+                        isScrollControlled: true, // allows full height scroll
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                        ),
+                        builder: (context) {
+                          return HostelRoomAvailabilityBottomSheet(roomModel: roomModel);
+                        },
                       );
                     }),
                     const SizedBox(height: 10),
@@ -134,7 +131,5 @@ class RoomComponent2 extends StatelessWidget {
       ),
     );
   }
-
-
 
 }

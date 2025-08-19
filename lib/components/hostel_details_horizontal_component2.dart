@@ -3,8 +3,11 @@ import 'package:pg_hostel/components/custom_network_image.dart';
 
 import '../pages/hostel_details_page.dart';
 import '../response_model/hostel_response_model.dart';
+import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 import 'package:get/get.dart';
+
+import '../view_models/hostel_view_model.dart';
 
 class HostelDetailsHorizontalComponent2 extends StatelessWidget {
   final HostelModel? hostelModel;
@@ -12,6 +15,9 @@ class HostelDetailsHorizontalComponent2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hostelViewModel = Get.put(HostelViewModel());
+
+
     return  InkWell(
       onTap: (){
         Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
@@ -46,11 +52,15 @@ class HostelDetailsHorizontalComponent2 extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
-                          child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 18)),
+                        Obx(() => hostelViewModel.updateFavouritesObserver.value.maybeWhen(
+                            loading: (loadingId) => loadingId ==  hostelModel?.id ? const CircularProgressIndicator() : Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelModel?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelModel?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                            orElse: () => InkWell(
+                              onTap: (){
+                                hostelViewModel.updateFavouriteStatus(hostelModel?.id ?? "",hostelModel?.isFavorite ?? false);
+                              },
+                              child: Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelModel?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelModel?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                            )
+                        )
                         ),
                       ],
                     ),
@@ -84,7 +94,7 @@ class HostelDetailsHorizontalComponent2 extends StatelessWidget {
                           Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
                           Text("(${hostelModel?.totalVotes ?? ""})",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.darkGray)),
                         ],
-                      ): Text("Currently Beds Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
+                      ): Text("Currently Rooms Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
                     ],
                   ),
                 ),

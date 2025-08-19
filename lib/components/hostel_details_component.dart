@@ -3,7 +3,9 @@ import 'package:pg_hostel/components/amenities_component.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/pages/hostel_details_page.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
+import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
+import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 import 'custom_network_image.dart';
 import 'package:get/get.dart';
@@ -16,6 +18,8 @@ class HostelDetailsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hostelViewModel = Get.put(HostelViewModel()); 
+   
     return  InkWell(
       onTap: (){
         Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
@@ -53,41 +57,48 @@ class HostelDetailsComponent extends StatelessWidget {
                               ),
                             ),
                             const Spacer(),
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
-                              child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 18)),
-                            ),
+                            Obx(() => hostelViewModel.updateFavouritesObserver.value.maybeWhen(
+                              loading: (loadingId) => loadingId ==  hostelModel?.id ? const CircularProgressIndicator() : Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelModel?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelModel?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                                orElse: () => InkWell(
+                              onTap: (){
+                                hostelViewModel.updateFavouriteStatus(hostelModel?.id ?? "",hostelModel?.isFavorite ?? false);
+                              },
+                              child: Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelModel?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelModel?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                            )
+                            )
+                            )
                           ],
                         ),
                       )
                     ],
                   ),
                 ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                  height: 40,
-                  child: Builder(
-                    builder: (context) {
-                      final List<AmenitiesModel> displayList = List.from(hostelModel?.amenities ?? []);
-                      if ((hostelModel?.amenitiesMore ?? 0) > 0) {
-                        displayList.add(
-                          AmenitiesModel(
-                            image: "https://icon-library.com/images/add-icon-png/add-icon-png-0.jpg",
-                            name: "${hostelModel?.amenitiesMore} More",
-                          ),
+              Visibility(
+                visible: hostelModel?.amenities?.isNotEmpty == true,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SizedBox(
+                    height: 40,
+                    child: Builder(
+                      builder: (context) {
+                        final List<AmenitiesModel> displayList = List.from(hostelModel?.amenities ?? []);
+                        if ((hostelModel?.amenitiesMore ?? 0) > 0) {
+                          displayList.add(
+                            AmenitiesModel(
+                              image: "https://firebasestorage.googleapis.com/v0/b/sastastay-1d420.firebasestorage.app/o/bannerImages%2F1755513864049.png?alt=media&token=b25f99c1-8dcc-44a7-a888-fc7bf4398426",
+                              name: "${hostelModel?.amenitiesMore} More",
+                            ),
+                          );
+                        }
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: displayList.length,
+                          itemBuilder: (context, index) {
+                            return AmenitiesComponent(amenitiesModel: displayList[index],view: 1);
+                          },
                         );
-                      }
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: displayList.length,
-                        itemBuilder: (context, index) {
-                          return AmenitiesComponent(amenitiesModel: displayList[index],view: 1);
-                        },
-                      );
-                    },
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -142,7 +153,7 @@ class HostelDetailsComponent extends StatelessWidget {
                             Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
                           })
                         ],
-                      ) :  Text("Currently Beds Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
+                      ) :  Text("Currently Rooms Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
                     ],
                   ),
                 ),

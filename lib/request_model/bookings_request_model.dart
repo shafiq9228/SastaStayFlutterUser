@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pg_hostel/response_model/bookings_response_model.dart';
 
 import '../response_model/address_response_model.dart';
 import '../response_model/hostel_response_model.dart';
@@ -13,6 +14,7 @@ class BookingRequestModel with _$BookingRequestModel{
     required RoomModel? roomModel,
     required String? hostelId,
     required String? roomId,
+    required List<GuestDetailsModel>? guestDetailsList,
     required DateTime? checkInDate,
     required DateTime? checkOutDate,
     required int? guestCount

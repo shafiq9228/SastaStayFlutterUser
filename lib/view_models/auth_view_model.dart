@@ -1,8 +1,13 @@
 
 
+import 'dart:convert';
+import 'dart:io';
+import 'package:image/image.dart' as img;
+
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/onboarding_screens.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pg_hostel/pages/onboarding_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_provider.dart';
@@ -20,6 +25,8 @@ import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/geo_util.dart';
 import '../utils/preference_manager.dart';
+import 'package:http/http.dart' as http;
+
 
 class AuthViewModel extends GetxController{
   final apiProvider = Get.put(ApiProvider());
@@ -33,6 +40,13 @@ class AuthViewModel extends GetxController{
 
   final preferenceManager = Get.put(PreferenceManager());
   RxString profilePic = "".obs;
+
+  final uploadFileObserver  = const ApiResult<UploadFileResponseModel>.init().obs;
+
+  Rx<File> uploadingFile = File('').obs;
+  RxString aadharImage = "".obs;
+  RxString uploadedImage = "".obs;
+
   RxString userId = "".obs;
 
   Rx<Position?> locationObserver = Rx<Position?>(null);
@@ -54,6 +68,73 @@ class AuthViewModel extends GetxController{
     }
   }
 
+  Future<void> performUploadFile(File selectedFile,String type) async {
+    try {
+      uploadFileObserver.value =  const ApiResult.loading("Compressing");
+      File file = await compressImage(selectedFile,50);
+      uploadFileObserver.value =  const ApiResult.loading("");
+      var uri = Uri.parse(apiProvider.liveUrl + EndPoints.uploadFile);
+      var request = http.MultipartRequest('POST', uri);
+      request.headers['apiKey'] = apiProvider.apiKey;
+      final preferenceManager = Get.put(PreferenceManager());
+      final token = await preferenceManager.getValue("token") ?? "";
+      request.headers['authorization'] = token;
+      request.fields['type'] = type;
+      var stream = http.ByteStream(file.openRead());
+      stream.cast();
+      var length = await file.length() ?? 0;
+      var multipart = http.MultipartFile(
+        'file',
+        stream,
+        length,
+        filename: file.path
+            .split('/')
+            .last,
+      );
+      request.files.add(multipart);
+      var response = await request.send();
+      String responseBody = await response.stream.bytesToString();
+      final json = jsonDecode(responseBody);
+      if(json != null){
+        final jsonData = UploadFileResponseModel.fromJson(json);
+        if (jsonData.status == 1) {
+          uploadFileObserver.value = ApiResult.success(jsonData);
+          if(type == "aadhar"){
+            aadharImage.value =  jsonData.data ?? "";
+          }
+          else{
+            uploadedImage.value = jsonData.data ?? "";
+          }
+          Get.close(1);
+          return;
+        }
+        throw jsonData.message.toString();
+      }
+      throw "Body Null";
+    } catch (e) {
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      uploadFileObserver.value = ApiResult.error(e.toString());
+    }
+  }
+
+
+  Future<File> compressImage(File file, int quality) async {
+    try{
+      final originalSize = file.lengthSync();
+      print('Original size: ${(originalSize / 1024).toStringAsFixed(2)} KB');
+      final image = img.decodeImage(await file.readAsBytes());
+      final tempDir = await getTemporaryDirectory();
+      final targetPath = "${tempDir.path}/compressed_${file.path.split('/').last}";
+      final compressedImage = File(targetPath)
+        ..writeAsBytesSync(img.encodeJpg(image!, quality: quality));
+      final compressedSize = compressedImage.lengthSync();
+      print('Compressed size: ${(compressedSize / 1024).toStringAsFixed(2)} KB');
+      return compressedImage;
+    }
+    catch(error){
+      return file;
+    }
+  }
 
   Future<void> validateVersion(ValidateVersionRequestModel request) async {
     try{
@@ -150,11 +231,38 @@ class AuthViewModel extends GetxController{
     }
   }
 
+  Future<void> googleAuth(GoogleAuthRequestModel request) async {
+    try{
+      googleAuthResponseObserver.value = const ApiResult.loading("");
+      final String? validatorResponse = AuthUtils.validateRequestFields(['email','name'], request.toJson());
+      if(validatorResponse != null) throw validatorResponse;
+      final response = await apiProvider.post(EndPoints.googleAuth,request.toJson());
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = VerifyOtpResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          final page = responseData.data?.registerUser ==  true ? "registerUserPage" : "mainPage";
+          preferenceManager.setValue("page",page);
+          preferenceManager.setValue("registerValue",request.email.toString());
+          preferenceManager.setValue("token",responseData.data?.token);
+          googleAuthResponseObserver.value = ApiResult.success(responseData);
+          AuthUtils.navigateFromPageName(page);
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error","something went wrong $e",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      googleAuthResponseObserver.value = ApiResult.error(e.toString());
+    }
+  }
 
   Future<void> fetchUserDetails(bool refresh) async {
     try{
       final success = fetchUserDetailsObserver.value.maybeWhen(success: (data) => true ,orElse: () => false);
-      if(success && refresh == false)
+      if(success && refresh == false) return;
       fetchUserDetailsObserver.value = const ApiResult.loading("");
       final response = await apiProvider.post(EndPoints.fetchUserDetails,{});
       final body = response.body;
@@ -186,11 +294,10 @@ class AuthViewModel extends GetxController{
     }
   }
 
-
   Future<void> registerUser(RegisterUserRequestModel request) async {
     try{
       registerUserResponseObserver.value = const ApiResult.loading("");
-      final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','age','gender'], request.toJson());
+      final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','dob','gender'], request.toJson());
       if(validatorResponse != null) throw validatorResponse;
       // final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','landmark','pinCode','latitude','longitude'], request.location!.toJson());
       // if(locationValidation != null) throw locationValidation;
@@ -214,7 +321,6 @@ class AuthViewModel extends GetxController{
       registerUserResponseObserver.value = ApiResult.error(e.toString());
     }
   }
-
 
 
 

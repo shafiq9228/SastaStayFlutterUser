@@ -2,9 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/components/primary_button.dart';
-import '../pages/mobile_verification_page.dart';
+import 'package:pg_hostel/response_model/auth_response_model.dart';
+import 'mobile_verification_page.dart';
 import '../utils/custom_colors.dart';
-import 'onboarding_component.dart';
+import '../components/onboarding_component.dart';
 
 class OnBoardingScreens extends StatefulWidget {
   const OnBoardingScreens({super.key});
@@ -14,10 +15,9 @@ class OnBoardingScreens extends StatefulWidget {
 }
 
 class _OnBoardingScreens  extends State<OnBoardingScreens> {
-  List<String> itemList = [
-    'assets/images/onboarding_1.png',
-    'assets/images/onboarding_2.png',
-    'assets/images/onboarding_3.png',
+  List<OnBoardingDataModel> itemList = [
+    OnBoardingDataModel(image: 'assets/images/onboarding_1.png', title: "Find the Perfect Hostel for Your Budget", message: "Compare hostels, amenities, and pricing - all in one place."),
+    OnBoardingDataModel(image: 'assets/images/onboarding_2.png', title: "Verified Properties & Real Reviews", message: "Every hostel is reviewed by real users to help you book confidently."),
   ];
   late PageController _pageController;
   int _currentPage = 0;
@@ -36,7 +36,7 @@ class _OnBoardingScreens  extends State<OnBoardingScreens> {
   }
 
   void _goToNextPage() {
-    if (_currentPage < 2) { // 2 represents the index of the last skippable page
+    if (_currentPage < itemList.length - 1) { // 2 represents the index of the last skippable page
       _pageController.animateToPage(
           _currentPage + 1,
           duration: const Duration(milliseconds: 300),
@@ -71,16 +71,16 @@ class _OnBoardingScreens  extends State<OnBoardingScreens> {
                       _currentPage = page;
                     });
                   },
-                  itemCount: 3,
+                  itemCount: itemList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return OnBoardingScreenComponent(image: itemList[index]);
+                    return OnBoardingScreenComponent(onBoardingDataModel: itemList[index]);
                   },
                 ),
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List<Widget>.generate(3,
+                children: List<Widget>.generate(itemList.length,
                       (int index) {
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -97,50 +97,21 @@ class _OnBoardingScreens  extends State<OnBoardingScreens> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    Visibility(
-                      visible: _currentPage < 2,
-                      child: Expanded(
-                        child: Container(
-                          height: 40,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.textColor)),
-                          child:
-                          TextButton(onPressed:(){
-                            Get.offAll(() => MobileVerificationPage());
-                          }
-                          , child:  Text( style: TextStyle(
-                            color:CustomColors.textColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            fontStyle: FontStyle.normal,
-                          ),'Skip'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                    Expanded(
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: CustomColors.primary),
-                        child:
-                        TextButton(onPressed:
-                        _goToNextPage, child:  Text( style: TextStyle(
-                          color:  Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          fontStyle: FontStyle.normal,
-                        ),_currentPage == 2 ? 'Get Started' : "Next"),
-                        ),
-                      ),
-                    )
-
-                  ],
+                child: Container(
+                  width: double.infinity,
+                  height: 40,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: CustomColors.primary),
+                  child:
+                  TextButton(onPressed:
+                  _goToNextPage, child:  Text( style: TextStyle(
+                    color:  Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                  ),_currentPage == 1 ? 'Get Started' : "Next"),
+                  ),
                 ),
               )
-
-
             ],
           ),
         ),

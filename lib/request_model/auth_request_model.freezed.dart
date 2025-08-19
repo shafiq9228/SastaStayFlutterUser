@@ -751,6 +751,234 @@ abstract class _VerifyOtpRequestModel implements VerifyOtpRequestModel {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+GoogleAuthRequestModel _$GoogleAuthRequestModelFromJson(
+    Map<String, dynamic> json) {
+  return _GoogleAuthRequestModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GoogleAuthRequestModel {
+  String? get email => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get source => throw _privateConstructorUsedError;
+  String? get version => throw _privateConstructorUsedError;
+  String? get deviceId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GoogleAuthRequestModelCopyWith<GoogleAuthRequestModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GoogleAuthRequestModelCopyWith<$Res> {
+  factory $GoogleAuthRequestModelCopyWith(GoogleAuthRequestModel value,
+          $Res Function(GoogleAuthRequestModel) then) =
+      _$GoogleAuthRequestModelCopyWithImpl<$Res, GoogleAuthRequestModel>;
+  @useResult
+  $Res call(
+      {String? email,
+      String? name,
+      String? source,
+      String? version,
+      String? deviceId});
+}
+
+/// @nodoc
+class _$GoogleAuthRequestModelCopyWithImpl<$Res,
+        $Val extends GoogleAuthRequestModel>
+    implements $GoogleAuthRequestModelCopyWith<$Res> {
+  _$GoogleAuthRequestModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = freezed,
+    Object? name = freezed,
+    Object? source = freezed,
+    Object? version = freezed,
+    Object? deviceId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deviceId: freezed == deviceId
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GoogleAuthRequestModelImplCopyWith<$Res>
+    implements $GoogleAuthRequestModelCopyWith<$Res> {
+  factory _$$GoogleAuthRequestModelImplCopyWith(
+          _$GoogleAuthRequestModelImpl value,
+          $Res Function(_$GoogleAuthRequestModelImpl) then) =
+      __$$GoogleAuthRequestModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? email,
+      String? name,
+      String? source,
+      String? version,
+      String? deviceId});
+}
+
+/// @nodoc
+class __$$GoogleAuthRequestModelImplCopyWithImpl<$Res>
+    extends _$GoogleAuthRequestModelCopyWithImpl<$Res,
+        _$GoogleAuthRequestModelImpl>
+    implements _$$GoogleAuthRequestModelImplCopyWith<$Res> {
+  __$$GoogleAuthRequestModelImplCopyWithImpl(
+      _$GoogleAuthRequestModelImpl _value,
+      $Res Function(_$GoogleAuthRequestModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = freezed,
+    Object? name = freezed,
+    Object? source = freezed,
+    Object? version = freezed,
+    Object? deviceId = freezed,
+  }) {
+    return _then(_$GoogleAuthRequestModelImpl(
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
+      version: freezed == version
+          ? _value.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as String?,
+      deviceId: freezed == deviceId
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GoogleAuthRequestModelImpl implements _GoogleAuthRequestModel {
+  const _$GoogleAuthRequestModelImpl(
+      {required this.email,
+      required this.name,
+      required this.source,
+      required this.version,
+      required this.deviceId});
+
+  factory _$GoogleAuthRequestModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GoogleAuthRequestModelImplFromJson(json);
+
+  @override
+  final String? email;
+  @override
+  final String? name;
+  @override
+  final String? source;
+  @override
+  final String? version;
+  @override
+  final String? deviceId;
+
+  @override
+  String toString() {
+    return 'GoogleAuthRequestModel(email: $email, name: $name, source: $source, version: $version, deviceId: $deviceId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GoogleAuthRequestModelImpl &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.deviceId, deviceId) ||
+                other.deviceId == deviceId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, email, name, source, version, deviceId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GoogleAuthRequestModelImplCopyWith<_$GoogleAuthRequestModelImpl>
+      get copyWith => __$$GoogleAuthRequestModelImplCopyWithImpl<
+          _$GoogleAuthRequestModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GoogleAuthRequestModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GoogleAuthRequestModel implements GoogleAuthRequestModel {
+  const factory _GoogleAuthRequestModel(
+      {required final String? email,
+      required final String? name,
+      required final String? source,
+      required final String? version,
+      required final String? deviceId}) = _$GoogleAuthRequestModelImpl;
+
+  factory _GoogleAuthRequestModel.fromJson(Map<String, dynamic> json) =
+      _$GoogleAuthRequestModelImpl.fromJson;
+
+  @override
+  String? get email;
+  @override
+  String? get name;
+  @override
+  String? get source;
+  @override
+  String? get version;
+  @override
+  String? get deviceId;
+  @override
+  @JsonKey(ignore: true)
+  _$$GoogleAuthRequestModelImplCopyWith<_$GoogleAuthRequestModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 RegisterUserRequestModel _$RegisterUserRequestModelFromJson(
     Map<String, dynamic> json) {
   return _RegisterUserRequestModel.fromJson(json);
@@ -763,7 +991,7 @@ mixin _$RegisterUserRequestModel {
   String? get mobile => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  int? get age => throw _privateConstructorUsedError;
+  String? get dob => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -784,7 +1012,7 @@ abstract class $RegisterUserRequestModelCopyWith<$Res> {
       String? mobile,
       String? name,
       String? email,
-      int? age,
+      String? dob,
       String? gender});
 }
 
@@ -807,7 +1035,7 @@ class _$RegisterUserRequestModelCopyWithImpl<$Res,
     Object? mobile = freezed,
     Object? name = freezed,
     Object? email = freezed,
-    Object? age = freezed,
+    Object? dob = freezed,
     Object? gender = freezed,
   }) {
     return _then(_value.copyWith(
@@ -831,10 +1059,10 @@ class _$RegisterUserRequestModelCopyWithImpl<$Res,
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as String?,
       gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -858,7 +1086,7 @@ abstract class _$$RegisterUserRequestModelImplCopyWith<$Res>
       String? mobile,
       String? name,
       String? email,
-      int? age,
+      String? dob,
       String? gender});
 }
 
@@ -880,7 +1108,7 @@ class __$$RegisterUserRequestModelImplCopyWithImpl<$Res>
     Object? mobile = freezed,
     Object? name = freezed,
     Object? email = freezed,
-    Object? age = freezed,
+    Object? dob = freezed,
     Object? gender = freezed,
   }) {
     return _then(_$RegisterUserRequestModelImpl(
@@ -904,10 +1132,10 @@ class __$$RegisterUserRequestModelImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      age: freezed == age
-          ? _value.age
-          : age // ignore: cast_nullable_to_non_nullable
-              as int?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
+              as String?,
       gender: freezed == gender
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
@@ -925,7 +1153,7 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
       this.mobile,
       this.name,
       this.email,
-      this.age,
+      this.dob,
       this.gender});
 
   factory _$RegisterUserRequestModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -942,13 +1170,13 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
   @override
   final String? email;
   @override
-  final int? age;
+  final String? dob;
   @override
   final String? gender;
 
   @override
   String toString() {
-    return 'RegisterUserRequestModel(registerByMobile: $registerByMobile, image: $image, mobile: $mobile, name: $name, email: $email, age: $age, gender: $gender)';
+    return 'RegisterUserRequestModel(registerByMobile: $registerByMobile, image: $image, mobile: $mobile, name: $name, email: $email, dob: $dob, gender: $gender)';
   }
 
   @override
@@ -962,14 +1190,14 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
             (identical(other.mobile, mobile) || other.mobile == mobile) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.age, age) || other.age == age) &&
+            (identical(other.dob, dob) || other.dob == dob) &&
             (identical(other.gender, gender) || other.gender == gender));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, registerByMobile, image, mobile, name, email, age, gender);
+      runtimeType, registerByMobile, image, mobile, name, email, dob, gender);
 
   @JsonKey(ignore: true)
   @override
@@ -993,7 +1221,7 @@ abstract class _RegisterUserRequestModel implements RegisterUserRequestModel {
       final String? mobile,
       final String? name,
       final String? email,
-      final int? age,
+      final String? dob,
       final String? gender}) = _$RegisterUserRequestModelImpl;
 
   factory _RegisterUserRequestModel.fromJson(Map<String, dynamic> json) =
@@ -1010,7 +1238,7 @@ abstract class _RegisterUserRequestModel implements RegisterUserRequestModel {
   @override
   String? get email;
   @override
-  int? get age;
+  String? get dob;
   @override
   String? get gender;
   @override

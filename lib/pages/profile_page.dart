@@ -1,7 +1,11 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:pg_hostel/components/helper_bottom_sheet.dart';
+import 'package:pg_hostel/pages/coupons_page.dart';
+import 'package:pg_hostel/pages/register_user_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
 
@@ -122,53 +126,198 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(height: 50),
-                          GestureDetector(
-                            onTap: (){
-
-                            },
-                            child: Stack(
-                              alignment: Alignment.bottomRight,
-                              children: [
-                                CircleAvatar(
-                                  radius: 50, // Adjust the radius as needed
-                                  backgroundImage: NetworkImage(userModel?.profilePic ?? 'https://i.stack.imgur.com/l60Hf.png'),
-                                  backgroundColor: Colors.grey, // You can set a background color for the avatar
+                        Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: CustomColors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Profile",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: CustomColors.textColor,
+                                  fontSize: 22,
                                 ),
-                                Container(width: 30,height: 30,decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.primary),child: Center(child: Icon(Icons.edit,color: CustomColors.white)),)
-                              ],
-                            ),
+                              ),
+                              SizedBox(height: 20),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => RegisterUserPage(userModel: userModel));
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 30,
+                                        backgroundImage: NetworkImage(
+                                          userModel?.profilePic ??
+                                              'https://i.stack.imgur.com/l60Hf.png',
+                                        ),
+                                        backgroundColor: Colors.grey,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      userModel?.name ?? "",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: CustomColors.textColor,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      userModel?.email ?? "",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: CustomColors.textColor,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      "${userModel?.mobile ?? 0}",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: CustomColors.textColor,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    IntrinsicWidth(
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            (userModel?.gender ?? "") == "Male"
+                                                ? Icons.male
+                                                : (userModel?.gender ?? "") == "Female"
+                                                ? Icons.female
+                                                : Icons.transgender,
+                                            color: CustomColors.darkGray,
+                                            size: 15,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            userModel?.gender ?? "",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: CustomColors.darkGray,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Icon(Icons.cake_outlined,
+                                              color: CustomColors.darkGray, size: 15),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            userModel?.dob ?? "",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: CustomColors.darkGray,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    InkWell(
+                                      onTap: () {
+                                        Get.to(() => RegisterUserPage(userModel: userModel));
+                                      },
+                                      child: IntrinsicWidth(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20),
+                                            border: Border.all(width: 0.5,color: CustomColors.darkGray),
+                                            color: CustomColors.white.withOpacity(0.3),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 12, vertical: 6),
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.mode_edit_outline_outlined,color: CustomColors.textColor,size: 15),
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                child: Text(
+                                                  "Edit Profile",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: CustomColors.textColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 10),
-                          Text(userModel?.name ?? "",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: CustomColors.textColor)),
-                          Text(userModel?.name ?? "",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: CustomColors.darkGray)),
-                          Text("${userModel?.mobile ?? 000}",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: CustomColors.darkGray)),
-                          SizedBox(height: 50),
+                        ),
+                      ),
+                          const SizedBox(height: 50),
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Container(
+                              decoration: AppStyles.categoryBg3,
+                              child:Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    ProfileMenu(title: "Helps", image: "assets/images/help.png", onTapped: (){
 
-                          ProfileMenu(title: "Helps", image: "assets/images/help.png", onTapped: (){
-
-                          }),
-                          const Divider(),
-                          ProfileMenu(title: "Coupons", image: "assets/images/couponv.png", onTapped: (){
-
-                          }),
-                          const Divider(),
-                          Obx(() => logOuting.value == true ? CustomProgressBar() :
-                          ProfileMenu(title: "Log Out", image: "assets/images/log_out.png", onTapped: () {
-                               logOutConfirmationDialog(userModel);
-                            }),
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    ProfileMenu(title: "Coupons", image: "assets/images/couponv.png", onTapped: (){
+                                      Get.to(() => CouponsPage());
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    Obx(() => logOuting.value == true ? CustomProgressBar() :
+                                    ProfileMenu(title: "Log Out", image: "assets/images/log_out_icon.png",logOutMenu: true, onTapped: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true, // allows full height scroll
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                        ),
+                                        builder: (context) {
+                                          return HelperBottomSheet(assetImage: "assets/images/log_out.png",title: "Are you sure you want to log out?",message: "You will need to sign in again to access your account.",btn1Txt: "NO",btn1Click: (){
+                                            Get.back();
+                                          },btn2Txt: "Yes",btn2Click: ()async {
+                                            Get.back();
+                                            logOuting.value = true;
+                                            preferenceManager.clearAll();
+                                            logOuting.value = false;
+                                            Get.offAll(() =>  MobileVerificationPage());
+                                          });
+                                        },
+                                      );
+                                      // logOutConfirmationDialog(userModel);
+                                    }),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           SizedBox(height: 100)
                         ],

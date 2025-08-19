@@ -1,17 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:pg_hostel/pages/mobile_verification_page.dart';
+import 'package:pg_hostel/pages/onboarding_screens.dart';
+import 'package:pg_hostel/pages/register_user_page.dart';
 import 'package:pg_hostel/pages/splash_screen.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
+
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  // //
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  //
   // await FireBaseNotification().initNotifications();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -41,7 +47,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: CustomColors.primary),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: SplashScreen(),
     );
   }
 

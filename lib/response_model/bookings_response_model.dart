@@ -28,11 +28,26 @@ class ConfirmBookingResponseModel with _$ConfirmBookingResponseModel{
 }
 
 
+@Freezed()
+class GuestDetailsModel with _$GuestDetailsModel{
+  const factory GuestDetailsModel({
+    String? name,
+    int? mobile,
+    String? aadharImage,
+    String? aadharNumber,
+    String? gender,
+    String? dob
+  }) = _GuestDetailsModel;
+
+  factory GuestDetailsModel.fromJson(Map<String, dynamic> json) => _$GuestDetailsModelFromJson(json);
+}
+
 
 @Freezed()
 class HostelRoomBookingDataModel with _$HostelRoomBookingDataModel {
   const factory HostelRoomBookingDataModel({
     int? amount,
+    int? discount,
     List<AmountDetailsModel>? paymentDetailLogs,
     BookingModel? bookingResponse
   }) = _HostelRoomBookingDataModel;
@@ -51,6 +66,28 @@ class AmountDetailsModel with _$AmountDetailsModel {
 }
 
 @Freezed()
+class FetchBookingsResponseModel with _$FetchBookingsResponseModel{
+  const factory FetchBookingsResponseModel({
+    int? status,
+    String? message,
+    List<BookingModel>? data
+  }) = _FetchBookingsResponseModel;
+
+  factory FetchBookingsResponseModel.fromJson(Map<String, dynamic> json) => _$FetchBookingsResponseModelFromJson(json);
+}
+
+@Freezed()
+class FetchBookingDetailsResponseModel with _$FetchBookingDetailsResponseModel{
+  const factory FetchBookingDetailsResponseModel({
+    int? status,
+    String? message,
+    BookingModel? data
+  }) = _FetchBookingDetailsResponseModel;
+
+  factory FetchBookingDetailsResponseModel.fromJson(Map<String, dynamic> json) => _$FetchBookingDetailsResponseModelFromJson(json);
+}
+
+@Freezed()
 class BookingModel with _$BookingModel {
   const factory BookingModel({
     dynamic userId,
@@ -62,10 +99,38 @@ class BookingModel with _$BookingModel {
     String? paymentStatus,
     DateTime? checkInDate,
     DateTime? checkOutDate,
-    int? guestCount
+    int? guestCount,
+    int? total,
+    int? discount
   }) = _BookingModel;
 
   factory BookingModel.fromJson(Map<String, dynamic> json) => _$BookingModelFromJson(json);
+}
+
+
+@Freezed()
+class FetchCouponsResponseModel with _$FetchCouponsResponseModel{
+  const factory FetchCouponsResponseModel({
+    int? status,
+    String? message,
+    List<CouponDataModel>? data
+  }) = _FetchCouponsResponseModel;
+
+  factory FetchCouponsResponseModel.fromJson(Map<String, dynamic> json) => _$FetchCouponsResponseModelFromJson(json);
+}
+
+@Freezed()
+class CouponDataModel with _$CouponDataModel{
+  const factory CouponDataModel({
+    @JsonKey(name:'_id') String? id,
+    String? createdBy,
+    DateTime? expiryDate,
+    String? code,
+    int? orderValue,
+    int? discount
+  }) = _CouponDataModel;
+
+  factory CouponDataModel.fromJson(Map<String, dynamic> json) => _$CouponDataModelFromJson(json);
 }
 
 

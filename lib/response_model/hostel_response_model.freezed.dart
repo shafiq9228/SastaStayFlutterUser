@@ -432,6 +432,7 @@ mixin _$HostelModel {
   int? get totalIncome => throw _privateConstructorUsedError;
   int? get totalVotes => throw _privateConstructorUsedError;
   dynamic get rating => throw _privateConstructorUsedError;
+  bool? get isFavorite => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -467,7 +468,8 @@ abstract class $HostelModelCopyWith<$Res> {
       int? monthlyIncome,
       int? totalIncome,
       int? totalVotes,
-      dynamic rating});
+      dynamic rating,
+      bool? isFavorite});
 
   $RoomModelCopyWith<$Res>? get room;
   $LocationModelCopyWith<$Res>? get location;
@@ -508,6 +510,7 @@ class _$HostelModelCopyWithImpl<$Res, $Val extends HostelModel>
     Object? totalIncome = freezed,
     Object? totalVotes = freezed,
     Object? rating = freezed,
+    Object? isFavorite = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -598,6 +601,10 @@ class _$HostelModelCopyWithImpl<$Res, $Val extends HostelModel>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      isFavorite: freezed == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -656,7 +663,8 @@ abstract class _$$HostelModelImplCopyWith<$Res>
       int? monthlyIncome,
       int? totalIncome,
       int? totalVotes,
-      dynamic rating});
+      dynamic rating,
+      bool? isFavorite});
 
   @override
   $RoomModelCopyWith<$Res>? get room;
@@ -697,6 +705,7 @@ class __$$HostelModelImplCopyWithImpl<$Res>
     Object? totalIncome = freezed,
     Object? totalVotes = freezed,
     Object? rating = freezed,
+    Object? isFavorite = freezed,
   }) {
     return _then(_$HostelModelImpl(
       id: freezed == id
@@ -787,6 +796,10 @@ class __$$HostelModelImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      isFavorite: freezed == isFavorite
+          ? _value.isFavorite
+          : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -816,7 +829,8 @@ class _$HostelModelImpl implements _HostelModel {
       this.monthlyIncome,
       this.totalIncome,
       this.totalVotes,
-      this.rating})
+      this.rating,
+      this.isFavorite})
       : _rejectedFields = rejectedFields,
         _amenities = amenities,
         _rooms = rooms,
@@ -911,10 +925,12 @@ class _$HostelModelImpl implements _HostelModel {
   final int? totalVotes;
   @override
   final dynamic rating;
+  @override
+  final bool? isFavorite;
 
   @override
   String toString() {
-    return 'HostelModel(id: $id, approvalStatus: $approvalStatus, rejectedFields: $rejectedFields, reason: $reason, hostelImage: $hostelImage, hostelLicence: $hostelLicence, hostelName: $hostelName, aboutHostel: $aboutHostel, gstIn: $gstIn, hostelType: $hostelType, amenities: $amenities, amenitiesMore: $amenitiesMore, room: $room, rooms: $rooms, roomsMore: $roomsMore, rules: $rules, images: $images, location: $location, monthlyIncome: $monthlyIncome, totalIncome: $totalIncome, totalVotes: $totalVotes, rating: $rating)';
+    return 'HostelModel(id: $id, approvalStatus: $approvalStatus, rejectedFields: $rejectedFields, reason: $reason, hostelImage: $hostelImage, hostelLicence: $hostelLicence, hostelName: $hostelName, aboutHostel: $aboutHostel, gstIn: $gstIn, hostelType: $hostelType, amenities: $amenities, amenitiesMore: $amenitiesMore, room: $room, rooms: $rooms, roomsMore: $roomsMore, rules: $rules, images: $images, location: $location, monthlyIncome: $monthlyIncome, totalIncome: $totalIncome, totalVotes: $totalVotes, rating: $rating, isFavorite: $isFavorite)';
   }
 
   @override
@@ -957,7 +973,9 @@ class _$HostelModelImpl implements _HostelModel {
                 other.totalIncome == totalIncome) &&
             (identical(other.totalVotes, totalVotes) ||
                 other.totalVotes == totalVotes) &&
-            const DeepCollectionEquality().equals(other.rating, rating));
+            const DeepCollectionEquality().equals(other.rating, rating) &&
+            (identical(other.isFavorite, isFavorite) ||
+                other.isFavorite == isFavorite));
   }
 
   @JsonKey(ignore: true)
@@ -985,7 +1003,8 @@ class _$HostelModelImpl implements _HostelModel {
         monthlyIncome,
         totalIncome,
         totalVotes,
-        const DeepCollectionEquality().hash(rating)
+        const DeepCollectionEquality().hash(rating),
+        isFavorite
       ]);
 
   @JsonKey(ignore: true)
@@ -1025,7 +1044,8 @@ abstract class _HostelModel implements HostelModel {
       final int? monthlyIncome,
       final int? totalIncome,
       final int? totalVotes,
-      final dynamic rating}) = _$HostelModelImpl;
+      final dynamic rating,
+      final bool? isFavorite}) = _$HostelModelImpl;
 
   factory _HostelModel.fromJson(Map<String, dynamic> json) =
       _$HostelModelImpl.fromJson;
@@ -1075,6 +1095,8 @@ abstract class _HostelModel implements HostelModel {
   int? get totalVotes;
   @override
   dynamic get rating;
+  @override
+  bool? get isFavorite;
   @override
   @JsonKey(ignore: true)
   _$$HostelModelImplCopyWith<_$HostelModelImpl> get copyWith =>

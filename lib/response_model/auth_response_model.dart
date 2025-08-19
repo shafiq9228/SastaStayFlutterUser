@@ -19,6 +19,20 @@ class PaginationModel<T>{
   });
 }
 
+class OnBoardingDataModel<T>{
+  String image;
+  String title;
+  String message;
+
+  OnBoardingDataModel({
+    required this.image,
+    required this.title,
+    required this.message
+  });
+}
+
+
+
 @Freezed()
 class ValidateVersionResponseModel with _$ValidateVersionResponseModel{
   const factory ValidateVersionResponseModel({
@@ -106,6 +120,8 @@ class UserModel with _$UserModel{
     int? mobile,
     String? name,
     String? email,
+    String? gender,
+    String? dob,
     String? profilePic,
     int? otp,
     String? source,

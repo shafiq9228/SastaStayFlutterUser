@@ -28,7 +28,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController emailIdController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
+  final TextEditingController dobController = TextEditingController();
   RxBool registerByMobile = true.obs;
 
   String? selectedGender;
@@ -56,7 +56,11 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           mobileController.text = (widget.userModel?.mobile ?? 0).toString();
           emailIdController.text = widget.userModel?.email ?? "";
           nameController.text = widget.userModel?.name ?? "";
+          dobController.text = widget.userModel?.dob ?? "";
           authViewModel.profilePic.value = widget.userModel?.image ?? "";
+          setState(() {
+            selectedGender = widget.userModel?.gender ?? "Male";
+          });
         }
       },
       child: Scaffold(
@@ -65,17 +69,17 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              widget.userModel != null ? SecondaryHeadingComponent(buttonTxt: "VERIFY DETAILS",buttonClick:(){
+              widget.userModel != null ? SecondaryHeadingComponent(buttonTxt: "Enter Your Details",buttonClick:(){
                 Get.close(1);
               }) : Container(
                   color: CustomColors.white,child: Column(children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: SizedBox(width:200,child: Text("REGISTER",textAlign: TextAlign.start,style: TextStyle(color: CustomColors.primary,fontWeight: FontWeight.w600,fontSize: 22),)),
+                  child: SizedBox(width:200,child: Text("Enter Your Details",textAlign: TextAlign.start,style: TextStyle(color: CustomColors.primary,fontWeight: FontWeight.w600,fontSize: 22),)),
                 ),
                 Container(width: double.infinity,height: 1,color: CustomColors.primary,),
               ])),
-              const SizedBox(height:30),
+              const SizedBox(height:20),
               Expanded(child: SingleChildScrollView(child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -182,39 +186,79 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical:10),
-                      child: Text("Enter Your Age",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      "Select Date of Birth",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: CustomColors.textColor,
+                      ),
                     ),
-                    Container(
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now().subtract(Duration(days: 3650)), // 10 years back
+                        firstDate: DateTime(1900), // min year
+                        lastDate: DateTime.now(), // max year = today
+                        builder: (context, child) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: CustomColors.primary, // header background color
+                                onPrimary: Colors.white, // header text color
+                                onSurface: CustomColors.textColor, // body text color
+                              ),
+                              textButtonTheme: TextButtonThemeData(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: CustomColors.primary, // button text color
+                                ),
+                              ),
+                            ),
+                            child: child!,
+                          );
+                        },
+                      );
+
+                      if (pickedDate != null) {
+                        setState(() {
+                          dobController.text = "${pickedDate.day}-${pickedDate.month}-${pickedDate.year}";
+                        });
+                      }
+                    },
+                    child: Container(
                       width: double.infinity,
                       height: 50,
                       decoration: AppStyles.editTextBg,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: TextFormField(
-                            maxLength: 3,
-                            keyboardType: TextInputType.phone,
-                            controller: ageController,
+                        padding: const EdgeInsets.only(top:5),
+                        child: IgnorePointer(
+                          child: TextFormField(
+                            controller: dobController,
                             style: TextStyle(
-                                color:CustomColors.textColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16
+                              color: CustomColors.textColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
                             ),
                             decoration: InputDecoration(
-                              counterText: '',
-                              hintText: 'Enter Your Age',
-                              hintStyle: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w600),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white), // Default color
+                              hintText: 'Select Date of Birth',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: CustomColors.white, width: 2.0), // Focus color
-                              ),
-                            )
+                              border: InputBorder.none,
+                              suffixIcon: Icon(Icons.calendar_month_outlined, color: Colors.grey),
+                            ),
+                          ),
                         ),
                       ),
                     ),
+                  ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Text(
@@ -226,43 +270,44 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: double.infinity,
-                      height: 50,
-                      decoration: AppStyles.editTextBg,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: DropdownButtonFormField<String>(
-                          value: selectedGender,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          style: TextStyle(
-                            color: CustomColors.textColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                          hint: Text(
-                            'Select Your Gender',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: ['Male', 'Female', 'Other'].map((gender) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Container(
+                              decoration: AppStyles.categoryBg3,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Radio<String>(
+                                      value: gender,
+                                      groupValue: selectedGender,
+                                      activeColor: CustomColors.primary,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedGender = value;
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      gender,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: CustomColors.textColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                          items: ['Male', 'Female', 'Other'].map((gender) {
-                            return DropdownMenuItem(
-                              value: gender,
-                              child: Text(gender),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedGender = value;
-                            });
-                          },
-                        ),
+                          );
+                        }).toList(),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -275,7 +320,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                             Get.snackbar("Error","Please Select Gender",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
                             return;
                           }
-                          authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,age: int.tryParse(ageController.text ?? '0') ?? 0,gender: selectedGender));
+                          authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender));
                         },))
                     ),
                     const SizedBox(height: 50),

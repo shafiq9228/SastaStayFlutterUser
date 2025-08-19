@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import '../response_model/auth_response_model.dart';
 import '../utils/custom_colors.dart';
 
 class OnBoardingScreenComponent extends StatelessWidget {
-  final String image;
-  const OnBoardingScreenComponent({super.key,required this.image});
+  final OnBoardingDataModel onBoardingDataModel;
+  const OnBoardingScreenComponent({super.key,required this.onBoardingDataModel});
 
   @override
   Widget build(BuildContext context) {
@@ -13,26 +14,31 @@ class OnBoardingScreenComponent extends StatelessWidget {
         child:Container(
           color: Colors.white,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children:[
-              // Container(
-              //   width: double.infinity,
-              //   height: 50,
-              //   color: CustomColors.primary,
-              //   child: Center(
-              //     child: const Text(
-              //         style: TextStyle(
-              //           color: Colors.white,
-              //           fontSize: 30,
-              //           fontFamily: 'Inter',
-              //           fontWeight: FontWeight.w700,
-              //           fontStyle: FontStyle.italic,
-              //         ),
-              //         textAlign: TextAlign.center,
-              //         'Vlogcall'),
-              //   ),
-              // ),
-              Center(child: Image.asset(image,width: MediaQuery.sizeOf(context).width*0.8,height: MediaQuery.sizeOf(context).height*0.5,)),
-
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Sasta',
+                      style: TextStyle(color: CustomColors.textColor, fontSize: 20, fontWeight: FontWeight.w900),
+                    ),
+                    TextSpan(
+                      text: 'Stays',
+                      style: TextStyle(color: CustomColors.primary, fontSize: 20, fontWeight: FontWeight.w900),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(child: Image.asset(onBoardingDataModel.image)),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(onBoardingDataModel.title,style: TextStyle(color: CustomColors.textColor,fontWeight: FontWeight.w800,fontSize: 18),),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+                child: Text(onBoardingDataModel.message,style: TextStyle(color: CustomColors.darkGray,fontWeight: FontWeight.w600,fontSize: 14),),
+              )
             ],
           )
         )

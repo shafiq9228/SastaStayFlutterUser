@@ -11,7 +11,7 @@ class EmptyDataView extends StatelessWidget {
     return IntrinsicHeight(
       child: Column(
         children: [
-          SizedBox(height: 150,width: 150,child: Image.asset("assets/images/no_data_founded.png")),
+          SizedBox(height: 150,width: 150,child: Image.asset("assets/images/no_data_found.png")),
           const SizedBox(height: 30),
           Text(text,textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.textColor),)
         ],

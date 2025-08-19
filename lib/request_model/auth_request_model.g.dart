@@ -70,6 +70,26 @@ Map<String, dynamic> _$$VerifyOtpRequestModelImplToJson(
       'deviceId': instance.deviceId,
     };
 
+_$GoogleAuthRequestModelImpl _$$GoogleAuthRequestModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GoogleAuthRequestModelImpl(
+      email: json['email'] as String?,
+      name: json['name'] as String?,
+      source: json['source'] as String?,
+      version: json['version'] as String?,
+      deviceId: json['deviceId'] as String?,
+    );
+
+Map<String, dynamic> _$$GoogleAuthRequestModelImplToJson(
+        _$GoogleAuthRequestModelImpl instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'name': instance.name,
+      'source': instance.source,
+      'version': instance.version,
+      'deviceId': instance.deviceId,
+    };
+
 _$RegisterUserRequestModelImpl _$$RegisterUserRequestModelImplFromJson(
         Map<String, dynamic> json) =>
     _$RegisterUserRequestModelImpl(
@@ -78,7 +98,7 @@ _$RegisterUserRequestModelImpl _$$RegisterUserRequestModelImplFromJson(
       mobile: json['mobile'] as String?,
       name: json['name'] as String?,
       email: json['email'] as String?,
-      age: json['age'] as int?,
+      dob: json['dob'] as String?,
       gender: json['gender'] as String?,
     );
 
@@ -90,7 +110,7 @@ Map<String, dynamic> _$$RegisterUserRequestModelImplToJson(
       'mobile': instance.mobile,
       'name': instance.name,
       'email': instance.email,
-      'age': instance.age,
+      'dob': instance.dob,
       'gender': instance.gender,
     };
 

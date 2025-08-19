@@ -86,7 +86,7 @@ class _AmenitiesPageState extends State<AmenitiesPage> {
                                           return AmenityComponent(amenitiesModel: amentityModel);
                                         }),
                                     Obx(() => Visibility(
-                                        visible: hostelViewModel.fetchHostelsObserver.value.isLoading,
+                                        visible: hostelViewModel.fetchAmenitiesObserver.value.isLoading,
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: FadeShimmer(

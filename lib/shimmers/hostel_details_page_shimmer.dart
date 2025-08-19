@@ -68,6 +68,30 @@ class HostelDetailsPageShimmer extends StatelessWidget {
               baseColor:Colors.white,
             ),
             SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: SizedBox(
+                height: 40,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: FadeShimmer(
+                        height: 25,
+                        width: 80,
+                        radius: 30,
+                        millisecondsDelay: index*300,
+                        highlightColor: Colors.grey.shade200,
+                        baseColor:Colors.white,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
             SizedBox(
               height: 150,
               child: ListView.builder(

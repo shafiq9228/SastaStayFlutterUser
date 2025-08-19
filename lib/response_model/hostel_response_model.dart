@@ -52,7 +52,8 @@ class HostelModel with _$HostelModel{
     int? monthlyIncome,
     int? totalIncome,
     int? totalVotes,
-    dynamic rating
+    dynamic rating,
+    bool? isFavorite,
   }) = _HostelModel;
 
   factory HostelModel.fromJson(Map<String, dynamic> json) => _$HostelModelFromJson(json);

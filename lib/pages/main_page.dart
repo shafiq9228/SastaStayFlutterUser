@@ -7,6 +7,7 @@ import '../utils/custom_colors.dart';
 import 'package:get/get.dart';
 
 import '../utils/statefullwrapper.dart';
+import 'favourites_page.dart';
 import 'home_page.dart';
 
 
@@ -34,7 +35,7 @@ class _MainPageState extends State<MainPage> {
     _pages = [
       const HomePage(),
       const BookingsPage(),
-      const BookingsPage(),
+      const FavouritesPage(),
       const ProfilePage(),
     ];
     _pageController = PageController(initialPage: _selectedPageIndex);

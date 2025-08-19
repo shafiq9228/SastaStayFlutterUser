@@ -78,6 +78,7 @@ _$HostelModelImpl _$$HostelModelImplFromJson(Map<String, dynamic> json) =>
       totalIncome: json['totalIncome'] as int?,
       totalVotes: json['totalVotes'] as int?,
       rating: json['rating'],
+      isFavorite: json['isFavorite'] as bool?,
     );
 
 Map<String, dynamic> _$$HostelModelImplToJson(_$HostelModelImpl instance) =>
@@ -104,6 +105,7 @@ Map<String, dynamic> _$$HostelModelImplToJson(_$HostelModelImpl instance) =>
       'totalIncome': instance.totalIncome,
       'totalVotes': instance.totalVotes,
       'rating': instance.rating,
+      'isFavorite': instance.isFavorite,
     };
 
 _$FetchAmenitiesResponseModelImpl _$$FetchAmenitiesResponseModelImplFromJson(

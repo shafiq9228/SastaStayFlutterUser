@@ -3,8 +3,11 @@ import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 
 import '../pages/hostel_details_page.dart';
+import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 import 'package:get/get.dart';
+
+import '../view_models/hostel_view_model.dart';
 
 class HostelDetailsHorizontalComponent1 extends StatelessWidget {
   final HostelModel? hostelModel;
@@ -12,6 +15,9 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hostelViewModel = Get.put(HostelViewModel());
+
+
     return  InkWell(
       onTap: (){
         Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
@@ -28,11 +34,15 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
                 CustomNetworkImage(imageUrl: hostelModel?.hostelImage ?? 'https://images.squarespace-cdn.com/content/v1/5e72c8bfe21ad940ba788673/1620923464746-9P9CHDE3GWWYHK2WWALV/hostel-dorm-bedroom-two.jpg',width: 200,height: 100,fit: BoxFit.cover),
                 Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Container(
-                    width: 25,
-                    height: 25,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),
-                    child: Center(child: Icon(Icons.favorite,color: CustomColors.red,size: 14,)),
+                  child:  Obx(() => hostelViewModel.updateFavouritesObserver.value.maybeWhen(
+                      loading: (loadingId) => loadingId ==  hostelModel?.id ? const CircularProgressIndicator() : Container(width: 25,height: 25,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelModel?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 15,color: hostelModel?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                      orElse: () => InkWell(
+                        onTap: (){
+                          hostelViewModel.updateFavouriteStatus(hostelModel?.id ?? "",hostelModel?.isFavorite ?? false);
+                        },
+                        child: Container(width: 25,height: 25,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelModel?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 15,color: hostelModel?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                      )
+                  )
                   ),
                 )
               ],
@@ -64,7 +74,7 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
                       Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
                       Text("(${hostelModel?.totalVotes ?? ""})",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.darkGray)),
                     ],
-                  ) : Text("Currently Beds Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
+                  ) : Text("Currently Rooms Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
                 ],
               ),
             )

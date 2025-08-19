@@ -1,13 +1,16 @@
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:pg_hostel/api/api_result.dart';
 import 'package:pg_hostel/components/amenities_component.dart';
 import 'package:pg_hostel/components/custom_outlined_button.dart';
 import 'package:pg_hostel/components/empty_data_view.dart';
+import 'package:pg_hostel/components/error_text_component.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/components/rating_component.dart';
 import 'package:pg_hostel/components/read_more_text.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
+import 'package:pg_hostel/pages/checkout_page.dart';
 import 'package:pg_hostel/pages/hostel_images_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
@@ -49,6 +52,9 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
 
     return StatefulWrapper(
       onInit: (){
+        bookingViewModel.guestDetailsList.clear();
+        bookingViewModel.bookingRequestModelObserver.value = null;
+        bookingViewModel.checkHostelRoomAvailabilityObserver.value = ApiResult.init();
         hostelViewModel.fetchHostelDetails(PaginationRequestModel(page: 1,docId:widget.hostelId));
       },
       child: Scaffold(
@@ -322,7 +328,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             ),
                             const SizedBox(height: 10),
                           ],
-                        ) : SizedBox(),
+                        ) : const SizedBox(),
                         ),
                         Obx(() => bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
                             success: (response) {
@@ -346,11 +352,14 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                           scrollDirection: Axis.vertical,
                                           itemBuilder: (context,index){
                                             final hostelModel =  availabilityResponse?.paymentDetailLogs?[index];
-                                            return Row(
-                                              children: [
-                                                Expanded(child: Text(hostelModel?.message ?? "",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.darkGray,fontSize: 14))),
-                                                Text("₹${hostelModel?.amount}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.primary,fontSize: 14)),
-                                              ],
+                                            return Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 2),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(child: Text(hostelModel?.message ?? "",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.darkGray,fontSize: 14))),
+                                                  Text("₹${hostelModel?.amount}",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.primary,fontSize: 14)),
+                                                ],
+                                              ),
                                             );
                                           },itemCount: availabilityResponse?.paymentDetailLogs?.length ?? 0),
                                     ),
@@ -358,25 +367,22 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                   const SizedBox(height: 10),
                                   Row(
                                     children: [
-                                      Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18)),
-                                      Spacer(),
-                                      Text("₹${availabilityResponse?.amount}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
+                                      Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
+                                      Visibility(visible: (availabilityResponse?.discount ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.amount ?? 0) + (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                      decorationThickness: 2,
+                                          decorationColor: Colors.black))),
+                                      Text("₹${(availabilityResponse?.amount ?? 0) - (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
                                     ],
                                   ),
                                   const SizedBox(height: 10),
-                                  Obx(()=> bookingViewModel.confirmBookingObserver.value.maybeWhen(
-                                      loading: (loading) => CircularProgressIndicator(),
-                                      orElse: () => PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: (){
-                                         bookingViewModel.performConfirmBooking(bookingViewModel.bookingRequestModelObserver.value);
-                                  })),
-                                  ),
+                                  PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: (){
+                                      Get.to(() => CheckoutPage(hostelData: hostelData));
+                                  }),
                                   const SizedBox(height: 50),
                                 ],
                               );
                             },
-                            orElse: () => PrimaryButton(buttonTxt: "Select Room", buttonClick: (){
-                              Get.to(() => RoomsListPage(hostelId: hostelData?.id ?? ""));
-                            })))
+                            orElse: () => SizedBox()))
                       ],
                     ),
                   ),
@@ -388,7 +394,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
           child: EmptyDataView(text: "Something went wrong"),
         ))
         ),
-        // bottomNavigationBar: _buildBottomAppBar(),
+        bottomNavigationBar: _buildBottomAppBar(),
       ),
     );
   }
@@ -472,12 +478,12 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
         if ((amenitiesMore ?? 0) > 0) {
           displayList.add(
             AmenitiesModel(
-              image: "https://icon-library.com/images/add-icon-png/add-icon-png-0.jpg",
+              image: "https://firebasestorage.googleapis.com/v0/b/sastastay-1d420.firebasestorage.app/o/bannerImages%2F1755513864049.png?alt=media&token=b25f99c1-8dcc-44a7-a888-fc7bf4398426",
               name: "${amenitiesMore} More",
             ),
           );
         }
-        return GridView.builder(
+        return displayList.isEmpty ? ErrorTextComponent(text: "No Amenities Available") : GridView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -538,7 +544,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
     if ((roomsMore ?? 0) > 0) {
       displayList.add(
         RoomModel(
-          image: "https://icon-library.com/images/add-icon-png/add-icon-png-0.jpg",
+          image: "https://firebasestorage.googleapis.com/v0/b/sastastay-1d420.firebasestorage.app/o/bannerImages%2F1755513864049.png?alt=media&token=b25f99c1-8dcc-44a7-a888-fc7bf4398426",
           roomType: "$roomsMore More",
         ),
       );
@@ -546,7 +552,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
 
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: SizedBox(
+      child: displayList.isEmpty ? ErrorTextComponent(text: "Currently Rooms Are Not Available") : SizedBox(
         height: 180,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -566,45 +572,66 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
 
   Widget _buildBottomAppBar() {
     return BottomAppBar(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        height: 70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Starting from',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  '₹5,000/month',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              onPressed: () {
-                // Book now action
-              },
-              child: Text('Book Now'),
-            ),
-          ],
-        ),
-      ),
+      elevation: 6,
+      color: CustomColors.primary.withOpacity(0.1),
+      child: Obx(() =>
+        hostelViewModel.fetchHostelDetailsObserver.value.maybeWhen(
+          orElse: () => SizedBox(),
+          success: (responseData){
+            final hostelModel = (responseData as FetchHostelDetailsResponseModel).data;
+            return bookingViewModel.bookingRequestModelObserver.value == null ?
+            PrimaryButton(buttonTxt: "Select Room", buttonClick: (){
+              Get.to(() => RoomsListPage(hostelId: hostelModel?.id ?? ""));
+            }) :
+            Obx(() => bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
+                success: (response) {
+                  final availabilityResponse = (response as HostelRoomAvailabilityResponseModel).data;
+                  return Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    height: 70,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Total',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            Text(
+                              '₹${availabilityResponse?.amount ?? 0}',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: CustomColors.primary,
+                            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          onPressed: () {
+                            Get.to(() => CheckoutPage(hostelData: hostelModel));
+                          },
+                          child: Text('Confirm Booking',style: TextStyle(fontSize: 16,color: CustomColors.white)),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                orElse: () => PrimaryButton(buttonTxt: "Select Room", buttonClick: (){
+                  Get.to(() => RoomsListPage(hostelId: hostelModel?.id ?? ""));
+                })));
+          }
+        )
+      )
     );
   }
 

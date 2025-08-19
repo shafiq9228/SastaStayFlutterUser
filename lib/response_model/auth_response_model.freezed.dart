@@ -1307,6 +1307,8 @@ mixin _$UserModel {
   int? get mobile => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
+  String? get gender => throw _privateConstructorUsedError;
+  String? get dob => throw _privateConstructorUsedError;
   String? get profilePic => throw _privateConstructorUsedError;
   int? get otp => throw _privateConstructorUsedError;
   String? get source => throw _privateConstructorUsedError;
@@ -1331,6 +1333,8 @@ abstract class $UserModelCopyWith<$Res> {
       int? mobile,
       String? name,
       String? email,
+      String? gender,
+      String? dob,
       String? profilePic,
       int? otp,
       String? source,
@@ -1357,6 +1361,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? mobile = freezed,
     Object? name = freezed,
     Object? email = freezed,
+    Object? gender = freezed,
+    Object? dob = freezed,
     Object? profilePic = freezed,
     Object? otp = freezed,
     Object? source = freezed,
@@ -1384,6 +1390,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
               as String?,
       profilePic: freezed == profilePic
           ? _value.profilePic
@@ -1427,6 +1441,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
       int? mobile,
       String? name,
       String? email,
+      String? gender,
+      String? dob,
       String? profilePic,
       int? otp,
       String? source,
@@ -1451,6 +1467,8 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? mobile = freezed,
     Object? name = freezed,
     Object? email = freezed,
+    Object? gender = freezed,
+    Object? dob = freezed,
     Object? profilePic = freezed,
     Object? otp = freezed,
     Object? source = freezed,
@@ -1478,6 +1496,14 @@ class __$$UserModelImplCopyWithImpl<$Res>
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      gender: freezed == gender
+          ? _value.gender
+          : gender // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dob: freezed == dob
+          ? _value.dob
+          : dob // ignore: cast_nullable_to_non_nullable
               as String?,
       profilePic: freezed == profilePic
           ? _value.profilePic
@@ -1516,6 +1542,8 @@ class _$UserModelImpl implements _UserModel {
       this.mobile,
       this.name,
       this.email,
+      this.gender,
+      this.dob,
       this.profilePic,
       this.otp,
       this.source,
@@ -1538,6 +1566,10 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String? email;
   @override
+  final String? gender;
+  @override
+  final String? dob;
+  @override
   final String? profilePic;
   @override
   final int? otp;
@@ -1552,7 +1584,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked)';
+    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked)';
   }
 
   @override
@@ -1565,6 +1597,8 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.mobile, mobile) || other.mobile == mobile) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.dob, dob) || other.dob == dob) &&
             (identical(other.profilePic, profilePic) ||
                 other.profilePic == profilePic) &&
             (identical(other.otp, otp) || other.otp == otp) &&
@@ -1578,7 +1612,7 @@ class _$UserModelImpl implements _UserModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, image, mobile, name, email,
-      profilePic, otp, source, version, deviceId, blocked);
+      gender, dob, profilePic, otp, source, version, deviceId, blocked);
 
   @JsonKey(ignore: true)
   @override
@@ -1601,6 +1635,8 @@ abstract class _UserModel implements UserModel {
       final int? mobile,
       final String? name,
       final String? email,
+      final String? gender,
+      final String? dob,
       final String? profilePic,
       final int? otp,
       final String? source,
@@ -1622,6 +1658,10 @@ abstract class _UserModel implements UserModel {
   String? get name;
   @override
   String? get email;
+  @override
+  String? get gender;
+  @override
+  String? get dob;
   @override
   String? get profilePic;
   @override

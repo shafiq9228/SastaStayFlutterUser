@@ -14,6 +14,9 @@ _$BookingRequestModelImpl _$$BookingRequestModelImplFromJson(
           : RoomModel.fromJson(json['roomModel'] as Map<String, dynamic>),
       hostelId: json['hostelId'] as String?,
       roomId: json['roomId'] as String?,
+      guestDetailsList: (json['guestDetailsList'] as List<dynamic>?)
+          ?.map((e) => GuestDetailsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       checkInDate: json['checkInDate'] == null
           ? null
           : DateTime.parse(json['checkInDate'] as String),
@@ -29,6 +32,7 @@ Map<String, dynamic> _$$BookingRequestModelImplToJson(
       'roomModel': instance.roomModel,
       'hostelId': instance.hostelId,
       'roomId': instance.roomId,
+      'guestDetailsList': instance.guestDetailsList,
       'checkInDate': instance.checkInDate?.toIso8601String(),
       'checkOutDate': instance.checkOutDate?.toIso8601String(),
       'guestCount': instance.guestCount,

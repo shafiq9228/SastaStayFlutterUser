@@ -23,6 +23,8 @@ mixin _$BookingRequestModel {
   RoomModel? get roomModel => throw _privateConstructorUsedError;
   String? get hostelId => throw _privateConstructorUsedError;
   String? get roomId => throw _privateConstructorUsedError;
+  List<GuestDetailsModel>? get guestDetailsList =>
+      throw _privateConstructorUsedError;
   DateTime? get checkInDate => throw _privateConstructorUsedError;
   DateTime? get checkOutDate => throw _privateConstructorUsedError;
   int? get guestCount => throw _privateConstructorUsedError;
@@ -43,6 +45,7 @@ abstract class $BookingRequestModelCopyWith<$Res> {
       {RoomModel? roomModel,
       String? hostelId,
       String? roomId,
+      List<GuestDetailsModel>? guestDetailsList,
       DateTime? checkInDate,
       DateTime? checkOutDate,
       int? guestCount});
@@ -66,6 +69,7 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
     Object? roomModel = freezed,
     Object? hostelId = freezed,
     Object? roomId = freezed,
+    Object? guestDetailsList = freezed,
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
     Object? guestCount = freezed,
@@ -83,6 +87,10 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
               as String?,
+      guestDetailsList: freezed == guestDetailsList
+          ? _value.guestDetailsList
+          : guestDetailsList // ignore: cast_nullable_to_non_nullable
+              as List<GuestDetailsModel>?,
       checkInDate: freezed == checkInDate
           ? _value.checkInDate
           : checkInDate // ignore: cast_nullable_to_non_nullable
@@ -123,6 +131,7 @@ abstract class _$$BookingRequestModelImplCopyWith<$Res>
       {RoomModel? roomModel,
       String? hostelId,
       String? roomId,
+      List<GuestDetailsModel>? guestDetailsList,
       DateTime? checkInDate,
       DateTime? checkOutDate,
       int? guestCount});
@@ -145,6 +154,7 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
     Object? roomModel = freezed,
     Object? hostelId = freezed,
     Object? roomId = freezed,
+    Object? guestDetailsList = freezed,
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
     Object? guestCount = freezed,
@@ -162,6 +172,10 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
               as String?,
+      guestDetailsList: freezed == guestDetailsList
+          ? _value._guestDetailsList
+          : guestDetailsList // ignore: cast_nullable_to_non_nullable
+              as List<GuestDetailsModel>?,
       checkInDate: freezed == checkInDate
           ? _value.checkInDate
           : checkInDate // ignore: cast_nullable_to_non_nullable
@@ -185,9 +199,11 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
       {required this.roomModel,
       required this.hostelId,
       required this.roomId,
+      required final List<GuestDetailsModel>? guestDetailsList,
       required this.checkInDate,
       required this.checkOutDate,
-      required this.guestCount});
+      required this.guestCount})
+      : _guestDetailsList = guestDetailsList;
 
   factory _$BookingRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$BookingRequestModelImplFromJson(json);
@@ -198,6 +214,17 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
   final String? hostelId;
   @override
   final String? roomId;
+  final List<GuestDetailsModel>? _guestDetailsList;
+  @override
+  List<GuestDetailsModel>? get guestDetailsList {
+    final value = _guestDetailsList;
+    if (value == null) return null;
+    if (_guestDetailsList is EqualUnmodifiableListView)
+      return _guestDetailsList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final DateTime? checkInDate;
   @override
@@ -207,7 +234,7 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
 
   @override
   String toString() {
-    return 'BookingRequestModel(roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount)';
+    return 'BookingRequestModel(roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, guestDetailsList: $guestDetailsList, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount)';
   }
 
   @override
@@ -220,6 +247,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
             (identical(other.hostelId, hostelId) ||
                 other.hostelId == hostelId) &&
             (identical(other.roomId, roomId) || other.roomId == roomId) &&
+            const DeepCollectionEquality()
+                .equals(other._guestDetailsList, _guestDetailsList) &&
             (identical(other.checkInDate, checkInDate) ||
                 other.checkInDate == checkInDate) &&
             (identical(other.checkOutDate, checkOutDate) ||
@@ -230,8 +259,15 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, roomModel, hostelId, roomId,
-      checkInDate, checkOutDate, guestCount);
+  int get hashCode => Object.hash(
+      runtimeType,
+      roomModel,
+      hostelId,
+      roomId,
+      const DeepCollectionEquality().hash(_guestDetailsList),
+      checkInDate,
+      checkOutDate,
+      guestCount);
 
   @JsonKey(ignore: true)
   @override
@@ -253,6 +289,7 @@ abstract class _BookingRequestModel implements BookingRequestModel {
       {required final RoomModel? roomModel,
       required final String? hostelId,
       required final String? roomId,
+      required final List<GuestDetailsModel>? guestDetailsList,
       required final DateTime? checkInDate,
       required final DateTime? checkOutDate,
       required final int? guestCount}) = _$BookingRequestModelImpl;
@@ -266,6 +303,8 @@ abstract class _BookingRequestModel implements BookingRequestModel {
   String? get hostelId;
   @override
   String? get roomId;
+  @override
+  List<GuestDetailsModel>? get guestDetailsList;
   @override
   DateTime? get checkInDate;
   @override

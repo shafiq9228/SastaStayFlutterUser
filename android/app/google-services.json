@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "161030257652",
+    "project_id": "sastastay-1d420",
+    "storage_bucket": "sastastay-1d420.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161030257652:android:06b7496e37e4163b0557a1",
+        "android_client_info": {
+          "package_name": "com.example.pg_hostel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161030257652-hjpvmlhqe3sobegbiu370f4r9l7367j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5lweTY8XpatalR0knkkSHfXrVtJDJy4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161030257652-hjpvmlhqe3sobegbiu370f4r9l7367j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

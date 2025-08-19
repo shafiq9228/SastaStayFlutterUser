@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pg_hostel/pages/search_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
@@ -63,20 +64,25 @@ class HomePageComponent extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(width: double.infinity
-                    ,decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
-                      child:Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/images/search.png",width: 20,height: 20,color: CustomColors.gray),
-                            const SizedBox(width: 10),
-                            Text("Search by area,hostel or city",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: CustomColors.gray),),
-                          ],
-                        ),
-                      )),
+                InkWell(
+                  onTap: (){
+                    Get.to(() => const SearchPage());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Container(width: double.infinity
+                      ,decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
+                        child:Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
+                          child: Row(
+                            children: [
+                              Image.asset("assets/images/search.png",width: 20,height: 20,color: CustomColors.gray),
+                              const SizedBox(width: 10),
+                              Text("Search by area,hostel or city",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: CustomColors.gray),),
+                            ],
+                          ),
+                        )),
+                  ),
                 )
               ],
             ),

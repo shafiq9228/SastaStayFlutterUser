@@ -5,7 +5,7 @@ import 'package:pg_hostel/shimmers/room_details_shimmer.dart';
 
 import '../components/custom_progress_bar.dart';
 import '../components/empty_data_view.dart';
-import '../components/hostel_room_availability_dialog.dart';
+import '../components/hostel_room_availability_bottom_sheet.dart';
 import '../components/secondary_heading_component.dart';
 import '../request_model/auth_request_model.dart';
 import '../response_model/hostel_response_model.dart';
@@ -33,9 +33,15 @@ class _RoomsListPageState extends State<RoomsListPage> {
       onInit: (){
          _refreshData();
          if(widget.roomModel != null){
-           showDialog(
+           showModalBottomSheet(
              context: context,
-             builder: (context) => HostelRoomAvailabilityDialog(roomModel: widget.roomModel),
+             isScrollControlled: true, // allows full height scroll
+             shape: const RoundedRectangleBorder(
+               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+             ),
+             builder: (context) {
+               return HostelRoomAvailabilityBottomSheet(roomModel: widget.roomModel);
+             },
            );
          }
       },

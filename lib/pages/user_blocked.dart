@@ -28,7 +28,7 @@ class UserBlocked extends StatelessWidget {
                 )),
                 GestureDetector(
                   onTap: launchEmail,
-                  child:  Text("Please Contact admin for support \n kinzadminsuppport@gmail.com",textAlign: TextAlign.center,style: TextStyle(
+                  child:  Text("Please Contact admin for support \n sastastay@gmail.com",textAlign: TextAlign.center,style: TextStyle(
                       fontSize: 18,
                       color: CustomColors.primary,
                       fontWeight: FontWeight.w800,
@@ -44,7 +44,7 @@ class UserBlocked extends StatelessWidget {
     );
   }
 
-  final String email = 'kinz@gmail.com';
+  final String email = 'sastastay@gmail.com';
   final String subject = 'Blocked';
   final String body = '';
 
