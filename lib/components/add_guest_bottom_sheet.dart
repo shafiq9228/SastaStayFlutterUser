@@ -16,7 +16,8 @@ import '../utils/custom_colors.dart';
 
 
 class AddGuestBottomSheet extends StatefulWidget {
-  const AddGuestBottomSheet({super.key});
+  final GuestDetailsModel? guestDetailsModel;
+  const AddGuestBottomSheet({super.key, this.guestDetailsModel});
 
   @override
   State<AddGuestBottomSheet> createState() => _AddGuestBottomSheetState();
@@ -39,9 +40,22 @@ class _AddGuestBottomSheetState extends State<AddGuestBottomSheet> {
 
     return StatefulWrapper(
       onInit: (){
+        if(widget.guestDetailsModel != null){
+          nameController.text = widget.guestDetailsModel?.name ?? "";
+          mobileController.text = "${widget.guestDetailsModel?.mobile ?? ""}";
+          aadharNumberController.text = "${widget.guestDetailsModel?.aadharNumber ?? ""}";
+          authViewModel.aadharImage.value = widget.guestDetailsModel?.aadharImage ?? "";
+          dobController.text = widget.guestDetailsModel?.dob ?? "";
+          setState(() {
+            selectedGender = widget.guestDetailsModel?.gender ?? "Male";
+          });
+        }
+        else{
+          authViewModel.aadharImage.value = "";
+        }
       },
       child: Container(
-        decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),
+        decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30))),
         width: double.infinity,
         child: Padding(
           padding: EdgeInsets.only(
@@ -55,22 +69,17 @@ class _AddGuestBottomSheetState extends State<AddGuestBottomSheet> {
               mainAxisSize: MainAxisSize.min, // makes sheet wrap content
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
-                Text("Add Guest Details",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 20,color: CustomColors.textColor),),
+                Row(
+                  children: [
+                    Expanded(child: Text("Add Guest Details",textAlign: TextAlign.start,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 20,color: CustomColors.textColor),)),
+                    IconButton(onPressed: (){
+                      Get.back();
+                    }, icon: Icon(Icons.cancel,size: 30,color: CustomColors.primary,))
+                  ],
+                ),
+                SizedBox(height: 10),
                 CustomEditTextComponent(controller: nameController, title: "Enter You Name", hint: "Name"),
                 CustomEditTextComponent(controller: mobileController, title: "Enter You Mobile Number", hint: "Mobile Number",keyboardType: TextInputType.phone,maxLength: 10),
-                CustomEditTextComponent(controller: aadharNumberController, title: "Enter You Aadhar Number", hint: "Aadhar Number",keyboardType: TextInputType.phone,maxLength: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical:10),
-                  child: Text("Upload Aadhar Image",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
-                ),
-                Obx(() => SizedBox(
-                  child: authViewModel.aadharImage.value.isNotEmpty ?  UploadedViewComponent(fileType: "image", imageUrl: authViewModel.aadharImage.value, fileName: 'aadhar')  :
-                  UploadingViewComponent(uploadingText: "Upload Image", onClick: (){
-                    Get.to(() => const FilePickerPage(fileView: false,fileType: 'image', fileName: 'aadhar'));
-                  }),
-                ),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
@@ -195,15 +204,33 @@ class _AddGuestBottomSheetState extends State<AddGuestBottomSheet> {
                     ),
                   ),
                 ),
+                CustomEditTextComponent(controller: aadharNumberController, title: "Enter You Aadhar Number", hint: "Aadhar Number",keyboardType: TextInputType.phone,maxLength: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical:10),
+                  child: Text("Upload Aadhar Image",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
+                ),
+                Obx(() => SizedBox(
+                  child: authViewModel.aadharImage.value.isNotEmpty ?  UploadedViewComponent(fileType: "image", imageUrl: authViewModel.aadharImage.value, fileName: 'aadhar')  :
+                  UploadingViewComponent(uploadingText: "Upload Image", onClick: (){
+                    Get.to(() => const FilePickerPage(fileView: false,fileType: 'image', fileName: 'aadhar'));
+                  }),
+                ),
+                ),
                 const SizedBox(height: 10),
-                PrimaryButton(buttonTxt: "Add", buttonClick: (){
+                PrimaryButton(buttonTxt: widget.guestDetailsModel == null ? "Add" : "Update", buttonClick: (){
                   try{
                     if(aadharNumberController.text.trim().length != 12) throw "Invalid Aadhar Number";
                     final request = GuestDetailsModel(name: nameController.text,mobile: int.tryParse(mobileController.text),aadharNumber:aadharNumberController.text,aadharImage:authViewModel.aadharImage.value,gender: selectedGender,dob:dobController.text);
                     final String? validatorResponse = AuthUtils.validateRequestFields(['name','mobile','aadharNumber','aadharImage','gender','dob'], request.toJson());
                     if(validatorResponse != null) throw validatorResponse;
-                    bookingViewModel.guestDetailsList.add(request);
-                    bookingViewModel.guestDetailsList.refresh();
+                    if(widget.guestDetailsModel == null){
+                      bookingViewModel.guestDetailsList.add(request);
+                      bookingViewModel.guestDetailsList.refresh();
+                    }else{
+                      bookingViewModel.guestDetailsList.remove(widget.guestDetailsModel);
+                      bookingViewModel.guestDetailsList.add(request);
+                      bookingViewModel.guestDetailsList.refresh();
+                    }
                     Get.back();
                   }
                   catch(error){

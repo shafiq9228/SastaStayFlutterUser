@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +88,13 @@ class _CouponsPageState extends State<CouponsPage> {
                                             final couponModel = couponsList?[index];
                                             return CouponCodeComponent(couponModel:couponModel);
                                           }),
+                                      Visibility(
+                                        visible: (couponsList?.length ?? 0) < 5,
+                                        child: SizedBox(
+                                          height: max(0, (5 - (couponsList?.length ?? 0)) * 200),
+                                          width: double.infinity,
+                                        ),
+                                      ),
                                       Obx(() => Visibility(
                                           visible: hostelViewModel.fetchCouponsObserver.value.isLoading,
                                           child: Padding(

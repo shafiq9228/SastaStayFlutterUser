@@ -51,10 +51,6 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
                         child: Text("Flat  ₹${widget.couponModel?.discount ?? 0} Discount",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
                       ),
                       Text("Order above ₹${widget.couponModel?.orderValue ?? 0} and avail this offer",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text("Create By ${widget.couponModel?.createdBy == "admin" ? "Admin" : "You"}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
-                      ),
                     ],
                   ),
                 )

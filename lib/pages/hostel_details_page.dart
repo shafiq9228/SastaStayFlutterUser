@@ -12,6 +12,7 @@ import 'package:pg_hostel/components/read_more_text.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/pages/checkout_page.dart';
 import 'package:pg_hostel/pages/hostel_images_page.dart';
+import 'package:pg_hostel/pages/rating_reviews_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
@@ -69,6 +70,27 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                   expandedHeight: 250.0,
                   floating: false,
                   pinned: true,
+                  leading: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () => Get.back(),
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white, // Circle background color
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Center(child: Image.asset("assets/images/back_btn.png",width: 10,height: 10,)),
+                      ),
+                    ),
+                  ),
                   flexibleSpace: FlexibleSpaceBar(
                     background: Hero(
                       tag: hostelData?.id ?? "",
@@ -85,7 +107,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                           child: Visibility(
                             visible: hostelData?.images?.isNotEmpty == true,
                             child: Container(
-                              height: 50,
+                              height: 60,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -101,7 +123,6 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                   itemBuilder: (context, index) {
                                     final images = hostelData?.images ?? [];
                                     final imageUrl = images[index];
-
                                     // If last index and there are more than 5 images
                                     if (index == 4 && images.length > 5) {
                                       final remainingCount = images.length - 5;
@@ -136,15 +157,14 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                         ),
                                       );
                                     }
-
                                     // Normal image item
                                     return Padding(
                                       padding: const EdgeInsets.all(5),
                                       child: CustomNetworkImage(
                                         imageUrl: imageUrl,
                                         fit: BoxFit.cover,
-                                        width: 40,
-                                        height: 40,
+                                        width: 50,
+                                        height: 50,
                                       ),
                                     );
                                   },
@@ -171,11 +191,15 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                       child: Container(width:35,height:35,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(Icons.share,size: 20,))),
                     ),
                     const SizedBox(width: 10),
-                    InkWell(
-                      onTap: (){
-
-                      },
-                      child: Container(width: 35,height: 35,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(Icons.favorite_border,size: 20,))),
+                    Obx(() => hostelViewModel.updateFavouritesObserver.value.maybeWhen(
+                        loading: (loadingId) => loadingId ==  hostelData?.id ? const CircularProgressIndicator() : Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelData?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelData?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                        orElse: () => InkWell(
+                          onTap: (){
+                            hostelViewModel.updateFavouriteStatus(hostelData?.id ?? "",hostelData?.isFavorite ?? false);
+                          },
+                          child: Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelData?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelData?.isFavorite == true ? CustomColors.red : CustomColors.black))),
+                        )
+                    )
                     ),
                     const SizedBox(width: 10),
                   ],
@@ -281,9 +305,9 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                           ),
                         ),
                         SideHeadingComponent(title: "Ratings",viewVisible: true,viewClick: (){
-
+                           Get.to(() => RatingReviewsPage(hostelId: hostelData?.id ?? "", rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0));
                         }),
-                        const RatingComponent(),
+                        RatingComponent(rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0),
                         const SizedBox(height: 30),
                         Obx(() => bookingViewModel.bookingRequestModelObserver.value != null ? Column(
                           children: [
@@ -483,26 +507,23 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
             ),
           );
         }
-        return displayList.isEmpty ? ErrorTextComponent(text: "No Amenities Available") : GridView.builder(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 2.5,
-          ),
-          itemCount: displayList.length,
-          itemBuilder: (context, index) {
-            final amenityModel = displayList[index];
-            return AmenitiesComponent(amenitiesModel: amenityModel,view: 2);
-          },
+        return displayList.isEmpty ? ErrorTextComponent(text: "No Amenities Available") :
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: displayList.map((amenityModel) {
+            return AmenitiesComponent(
+              amenitiesModel: amenityModel,
+              view: 2,
+            );
+          }).toList(),
         );
       },
     );
   }
 
   Widget _buildRulesList(List<String> rules) {
-    return Container(
+    return rules.isNotEmpty ? Container(
       decoration: AppStyles.categoryBg4,
       child: Padding(
         padding: const EdgeInsets.all(10),
@@ -532,7 +553,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
           ).toList(),
         ),
       ),
-    );
+    ) : ErrorTextComponent(text: "No Rules Attached");
   }
 
   Widget _buildHostelRoomsList(HostelModel? hostelModel) {

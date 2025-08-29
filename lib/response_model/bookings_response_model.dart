@@ -49,6 +49,7 @@ class HostelRoomBookingDataModel with _$HostelRoomBookingDataModel {
     int? amount,
     int? discount,
     List<AmountDetailsModel>? paymentDetailLogs,
+    List<BookingModel>? onGoingBookings,
     BookingModel? bookingResponse
   }) = _HostelRoomBookingDataModel;
 
@@ -90,6 +91,7 @@ class FetchBookingDetailsResponseModel with _$FetchBookingDetailsResponseModel{
 @Freezed()
 class BookingModel with _$BookingModel {
   const factory BookingModel({
+    @JsonKey(name:'_id') String? id,
     dynamic userId,
     dynamic dealerId,
     dynamic hostelId,
@@ -101,7 +103,10 @@ class BookingModel with _$BookingModel {
     DateTime? checkOutDate,
     int? guestCount,
     int? total,
-    int? discount
+    int? discount,
+    List<GuestDetailsModel>? guestDetailsList,
+    List<AmountDetailsModel>? logs,
+    String? bookingStatus
   }) = _BookingModel;
 
   factory BookingModel.fromJson(Map<String, dynamic> json) => _$BookingModelFromJson(json);

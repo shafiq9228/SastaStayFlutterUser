@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
+import '../components/helper_bottom_sheet.dart';
 import '../request_model/auth_request_model.dart';
 import '../request_model/bookings_request_model.dart';
 import '../response_model/auth_response_model.dart';
@@ -23,12 +25,20 @@ class HostelViewModel extends GetxController{
   final fetchCouponsObserver =  PaginationModel(data: const ApiResult<FetchCouponsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
 
   final fetchHostelDetailsObserver = const ApiResult<FetchHostelDetailsResponseModel>.init().obs;
+
   final fetchFavouriteHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchSearchedHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchNearbyHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchPopularHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+
+
   final fetchAmenitiesObserver =  PaginationModel(data: const ApiResult<FetchAmenitiesResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchHostelRoomsObserver =  PaginationModel(data: const ApiResult<FetchHostelRoomsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
 
+  final fetchRatingAndReviewsObserver =  PaginationModel(data: const ApiResult<FetchRatingAndReviewsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+
+  final addRatingAndReviewObserver =  const ApiResult<PrimaryResponseModel>.init().obs;
 
   Future<void> fetchHostelDetails(PaginationRequestModel request) async {
     try{
@@ -51,8 +61,46 @@ class HostelViewModel extends GetxController{
     }
   }
 
+  Future<void> addRatingAndReview(RatingReviewRequestModel request,BuildContext context) async {
+    try{
+      addRatingAndReviewObserver.value = const ApiResult.loading("");
+      final String? validatorResponse = AuthUtils.validateRequestFields(['hostelId','rating','review'], request.toJson());
+      if(validatorResponse != null) throw validatorResponse;
+      final response = await apiProvider.post(EndPoints.addRatingAndReviews,request.toJson());
+      final body = response.body;
+      if(response.isOk && body !=null){
+        var responseData = PrimaryResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          Get.close(1);
+          addRatingAndReviewObserver.value = ApiResult.success(responseData);
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true, // allows full height scroll
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            ),
+            builder: (context) {
+              return HelperBottomSheet(assetImage: "assets/images/congratulations.png",title:"Thank You For Feedback",
+                  message: "Your Rating Submitted Successfully"
+                  ,btn1Txt: "Done", btn1Click: () {
+                Get.back();
+              });
+            },
+          );
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      addRatingAndReviewObserver.value = ApiResult.error(e.toString());
+    }
+  }
+
   Future<void> fetchHostels(PaginationRequestModel request,bool refresh) async {
-    final observer = request.type == "favourites" ? fetchFavouriteHostelsObserver : request.type == "search" ? fetchSearchedHostelsObserver :  fetchHostelsObserver;
+    final observer = request.type == "favourites" ? fetchFavouriteHostelsObserver : request.type == "search" ? fetchSearchedHostelsObserver : request.type == "nearby" ? fetchNearbyHostelsObserver : request.type == "popular" ? fetchPopularHostelsObserver : fetchHostelsObserver;
     try{
       if(refresh == true){
         observer.value = PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "");
@@ -163,6 +211,62 @@ class HostelViewModel extends GetxController{
     }
   }
 
+  Future<void> fetchRatingAndReviews(PaginationRequestModel request,bool refresh) async {
+    final observer = fetchRatingAndReviewsObserver;
+    try{
+      if(refresh == true){
+        observer.value = PaginationModel(data: const ApiResult<FetchRatingAndReviewsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "");
+      }
+
+      if (observer.value.isPaginationCompleted || observer.value.isLoading == true) return;
+
+      if(observer.value.page == 1){
+        observer.value.data.value = const ApiResult.loading("");
+      }
+      else{
+        observer.value.isLoading = true;
+        observer.refresh();
+      }
+
+      const maxListApiReturns = 20;
+      observer.refresh();
+
+      final String? validatorResponse = AuthUtils.validateRequestFields(['page'], request.toJson());
+      if(validatorResponse != null) throw validatorResponse;
+
+      final response = await apiProvider.post(EndPoints.fetchRatingAndReviews,request.toJson());
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = FetchRatingAndReviewsResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          observer.value.data.value.maybeWhen(success: (data) {
+            final oldList = (data as FetchRatingAndReviewsResponseModel?)?.data?.toList();
+            oldList?.addAll(responseData.data ?? List.empty());
+            observer.value.data.value = ApiResult.success(responseData.copyWith(data: oldList));
+          }, orElse: () {
+            observer.value.data.value = ApiResult.success(responseData);
+          });
+
+          observer.value.page = observer.value.page + 1;
+          if ((responseData.data?.length ?? 0) < maxListApiReturns) {
+            observer.value.isPaginationCompleted = true;
+          }
+          observer.value.isLoading = false;
+          observer.refresh();
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      observer.value.data.value = ApiResult.error(e.toString());
+      observer.value.isLoading = false;
+      observer.refresh();
+    }
+  }
+
   Future<void> fetchHostelRooms(PaginationRequestModel request,bool refresh) async {
     final observer = fetchHostelRoomsObserver;
     try{
@@ -191,6 +295,7 @@ class HostelViewModel extends GetxController{
       if(response.isOk && body !=null){
         final responseData = FetchHostelRoomsResponseModel.fromJson(body);
         if(responseData.status == 1){
+
           observer.value.data.value.maybeWhen(success: (data) {
             final oldList = (data as FetchHostelRoomsResponseModel?)?.data?.toList();
             oldList?.addAll(responseData.data ?? List.empty());
@@ -275,7 +380,6 @@ class HostelViewModel extends GetxController{
     }
   }
 
-
   Future<void> updateFavouriteStatus(String hostelId,bool isFavorite) async {
     try{
       updateFavouritesObserver.value = const ApiResult.loading("");
@@ -284,23 +388,32 @@ class HostelViewModel extends GetxController{
       if(response.isOk && body !=null){
         var responseData = PrimaryResponseModel.fromJson(body);
         if(responseData.status == 1){
-          final updatingObserverList = [fetchHostelsObserver,fetchFavouriteHostelsObserver];
+          final updatingObserverList = [fetchHostelsObserver,fetchFavouriteHostelsObserver,fetchNearbyHostelsObserver,fetchPopularHostelsObserver];
           for (var observer in updatingObserverList) {
             observer.value.data.value.whenOrNull(
                 success: (data){
-                  final responseData = (data as FetchHostelsResponseModel);
-                  final list = responseData.data?.toList() ?? List.empty();
+                  final observerData = (data as FetchHostelsResponseModel);
+                  final list = observerData.data?.toList() ?? List.empty();
                   final index = list.indexWhere((element) => element.id == hostelId);
                   if(index != -1){
                     final updatedUser = list[index].copyWith(isFavorite:!isFavorite);
                     list[index] = updatedUser;
-                    observer.value.data.value = ApiResult.success(responseData.copyWith(data: list));
+                    observer.value.data.value = ApiResult.success(observerData.copyWith(data: list));
                     observer.refresh();
                   }
                 });
           }
-
           updateFavouritesObserver.value = ApiResult.success(responseData);
+
+          fetchHostelDetailsObserver.value.whenOrNull(
+              success: (data) {
+                final observerData = (data as FetchHostelDetailsResponseModel);
+                final updatedData = observerData.data?.copyWith(isFavorite: !isFavorite);
+                fetchHostelDetailsObserver.value = ApiResult.success(observerData.copyWith(data: updatedData));
+                fetchHostelDetailsObserver.refresh();
+              }
+          );
+
           return;
         }
         throw "${responseData.message}";

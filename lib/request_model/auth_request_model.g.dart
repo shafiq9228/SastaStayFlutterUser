@@ -22,9 +22,12 @@ _$PaginationRequestModelImpl _$$PaginationRequestModelImplFromJson(
         Map<String, dynamic> json) =>
     _$PaginationRequestModelImpl(
       query: json['query'] as String?,
+      searchQuery: json['searchQuery'] as String?,
       type: json['type'] as String?,
       docId: json['docId'] as String?,
       hostelId: json['hostelId'] as String?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
       page: json['page'] as int?,
     );
 
@@ -32,9 +35,12 @@ Map<String, dynamic> _$$PaginationRequestModelImplToJson(
         _$PaginationRequestModelImpl instance) =>
     <String, dynamic>{
       'query': instance.query,
+      'searchQuery': instance.searchQuery,
       'type': instance.type,
       'docId': instance.docId,
       'hostelId': instance.hostelId,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
       'page': instance.page,
     };
 

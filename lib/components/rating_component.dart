@@ -3,13 +3,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 
 class RatingComponent extends StatefulWidget {
-  const RatingComponent({super.key});
+  final double? rating;
+  const RatingComponent({super.key, this.rating});
 
   @override
-  State<RatingComponent> createState() => _RatingConponentState();
+  State<RatingComponent> createState() => _RatingComponentState();
 }
 
-class _RatingConponentState extends State<RatingComponent> {
+class _RatingComponentState extends State<RatingComponent> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +20,7 @@ class _RatingConponentState extends State<RatingComponent> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -30,7 +31,7 @@ class _RatingConponentState extends State<RatingComponent> {
                   children: [
                     Text("Overall Rating",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18,color: CustomColors.primary)),
                     const SizedBox(height: 10),
-                    Text("4.0",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 35,color: CustomColors.textColor)),
+                    Text("${widget.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 35,color: CustomColors.textColor)),
                   ],
                 ),
               ),
@@ -38,18 +39,18 @@ class _RatingConponentState extends State<RatingComponent> {
             ],
           ),
           const SizedBox(height: 5),
-          RatingBar.builder(
-            initialRating: 3,
-            minRating: 1,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemSize: 20,
-            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-            itemBuilder: (context, _) => Image.asset("assets/images/star.png"),
-            onRatingUpdate: (rating) {
-
-            },
+          IgnorePointer(
+            child: RatingBar.builder(
+              initialRating: widget.rating ?? 0,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemSize: 20,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => Image.asset("assets/images/star.png"),
+              onRatingUpdate: (_) {}, // Won't be called
+            ),
           ),
           const SizedBox(height: 5),
           Text("Based On Overall Rating",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 12,color: CustomColors.darkGray)),

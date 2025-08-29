@@ -32,6 +32,8 @@ _$ValidateDataModelImpl _$$ValidateDataModelImplFromJson(
       userData: json['userData'] == null
           ? null
           : UserModel.fromJson(json['userData'] as Map<String, dynamic>),
+      banners:
+          (json['banners'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$ValidateDataModelImplToJson(
@@ -40,6 +42,7 @@ Map<String, dynamic> _$$ValidateDataModelImplToJson(
       'validVersion': instance.validVersion,
       'userBlocked': instance.userBlocked,
       'userData': instance.userData,
+      'banners': instance.banners,
     };
 
 _$PrimaryResponseModelImpl _$$PrimaryResponseModelImplFromJson(
@@ -137,6 +140,9 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       version: json['version'] as String?,
       deviceId: json['deviceId'] as String?,
       blocked: json['blocked'] as bool?,
+      favouriteHostels: json['favouriteHostels'],
+      onGoingBookings: json['onGoingBookings'],
+      upComingBookings: json['upComingBookings'],
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -154,4 +160,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'version': instance.version,
       'deviceId': instance.deviceId,
       'blocked': instance.blocked,
+      'favouriteHostels': instance.favouriteHostels,
+      'onGoingBookings': instance.onGoingBookings,
+      'upComingBookings': instance.upComingBookings,
     };

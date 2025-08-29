@@ -14,9 +14,6 @@ class RoomComponent2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final capacityCount = roomModel?.capacityCount ?? 0;
-    final occupiedCount = roomModel?.occupiedCount ?? 0;
-    final bannerText =   occupiedCount == capacityCount  ? "Occupied" : occupiedCount == 0 ? "Available" : "Partially Occupied";
     return  Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
       child: Container(
@@ -28,30 +25,7 @@ class RoomComponent2 extends StatelessWidget {
               SizedBox(
                 height: 150,
                 width: double.infinity,
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    CustomNetworkImage(imageUrl: roomModel?.image ?? 'https://i.pinimg.com/originals/5b/81/5f/5b815fa3c99fc946d20070770857e829.png',width: double.infinity,height: 150,fit: BoxFit.cover),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(200),
-                              color: CustomColors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal:10,vertical: 5),
-                              child: Text(bannerText,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Colors.green)),
-                            ),
-                          ),
-                          const Spacer()
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                child:CustomNetworkImage(imageUrl: roomModel?.image ?? 'https://i.pinimg.com/originals/5b/81/5f/5b815fa3c99fc946d20070770857e829.png',width: double.infinity,height: 150,fit: BoxFit.cover),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -82,20 +56,13 @@ class RoomComponent2 extends StatelessWidget {
                         Expanded(child: Text("${roomModel?.capacityCount ?? 0}",textAlign: TextAlign.right,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.black))),
                       ],
                     ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text("Guests Occupied : ",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.black)),
-                        Expanded(child: Text("${roomModel?.occupiedCount ?? 0}",textAlign: TextAlign.right,maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.black))),
-                      ],
-                    ),
                     const SizedBox(height: 10),
                     Row(
                       children: [
                         Text("₹${roomModel?.rent?.daily ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
                         Text("/Daily",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                         Spacer(),
-                        Text("+₹600 taxes and fee",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                        Text("",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -104,7 +71,7 @@ class RoomComponent2 extends StatelessWidget {
                         Text("₹${roomModel?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
                         Text("/Monthly",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                         Spacer(),
-                        Text("+₹600 taxes and fee",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                        Text("",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                       ],
                     ),
                     const SizedBox(height: 10),

@@ -20,6 +20,9 @@ class EndPoints{
 
   static const updateFavouriteStatus = "updateFavouriteStatus";
 
+  static const addRatingAndReviews = "addRatingAndReviews";
+  static const fetchRatingAndReviews = "fetchRatingAndReviews";
+
 
   static const checkHostelRoomAvailability = "checkHostelRoomAvailability";
   static const confirmBooking = "confirmBooking";

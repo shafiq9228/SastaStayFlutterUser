@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 
@@ -85,6 +87,13 @@ class _AmenitiesPageState extends State<AmenitiesPage> {
                                           final amentityModel = amenitieslList?[index];
                                           return AmenityComponent(amenitiesModel: amentityModel);
                                         }),
+                                        Visibility(
+                                          visible: (amenitieslList?.length ?? 0) < 10,
+                                          child: SizedBox(
+                                            height: max(0, (10 - (amenitieslList?.length ?? 0)) * 100),
+                                            width: double.infinity,
+                                          ),
+                                        ),
                                     Obx(() => Visibility(
                                         visible: hostelViewModel.fetchAmenitiesObserver.value.isLoading,
                                         child: Padding(

@@ -1,9 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:pg_hostel/pages/search_page.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
-
 import '../utils/custom_colors.dart';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 class TypeOfHostelComponent extends StatelessWidget {
   const TypeOfHostelComponent({super.key});
@@ -16,10 +18,15 @@ class TypeOfHostelComponent extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            OptionWidget("Co-Leaving", "assets/images/co_leaving.png", () {}),
-            OptionWidget("Boys", "assets/images/boys.png", () {}),
-            OptionWidget("Girls", "assets/images/girls.png", () {}),
-            OptionWidget("Couple", "assets/images/couple.png", () {}),
+            OptionWidget("Boys", "assets/images/boys.png", () {
+              Get.to(() => SearchPage(search: "Boys", type: 'Search'));
+            }),
+            OptionWidget("Girls", "assets/images/girls.png", () {
+              Get.to(() => SearchPage(search: "Girls", type: 'Search'));
+            }),
+            OptionWidget("Couple", "assets/images/couple.png", () {
+              Get.to(() => SearchPage(search: "Couple", type: 'Search'));
+            }),
           ],
         ),
       ),

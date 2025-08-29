@@ -18,7 +18,7 @@ class UserBlocked extends StatelessWidget {
           child: IntrinsicHeight(
             child: Column(
               children: [
-                Image.asset('assets/images/user_bloked.png',width: 250,height: 250,),
+                Image.asset('assets/images/user_bloked.png',width: 100,height: 100,),
                 const SizedBox(height: 30),
                 Text("You Have Blocked By Admin",textAlign: TextAlign.center,style: TextStyle(
                     fontSize: 18,
@@ -26,11 +26,12 @@ class UserBlocked extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                     fontStyle: FontStyle.normal
                 )),
+                SizedBox(height: 10),
                 GestureDetector(
                   onTap: launchEmail,
                   child:  Text("Please Contact admin for support \n sastastay@gmail.com",textAlign: TextAlign.center,style: TextStyle(
                       fontSize: 18,
-                      color: CustomColors.primary,
+                      color: CustomColors.textColor,
                       fontWeight: FontWeight.w800,
                       fontStyle: FontStyle.normal
                   )),

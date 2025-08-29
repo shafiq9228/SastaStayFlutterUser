@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
+import 'package:pg_hostel/api/api_result.dart';
 import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/components/custom_outlined_button.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/components/title_message_component.dart';
 import 'package:pg_hostel/request_model/bookings_request_model.dart';
+import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
@@ -70,6 +72,7 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
   void initState() {
     super.initState();
     if (widget.roomModel?.checkInDate != null && widget.roomModel?.checkOutDate != null) {
+      _guestCount = widget.roomModel?.guestCount ?? 0;
       _selectedDates.clear();
       DateTime current = widget.roomModel!.checkInDate!;
       DateTime end = widget.roomModel!.checkOutDate!;
@@ -158,32 +161,44 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                   height: 5,
                 ),
               ),
-              SizedBox(
-                height: 50,
-                child: Row(
-                  children: [
-                    Image.asset("assets/images/profile.png",width: 20,height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text('Guests', style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    child: Row(
+                      children: [
+                        Image.asset("assets/images/profile.png",width: 20,height: 20),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text('Guests', style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
+                        ),
+                        Spacer(),
+                        InkWell(
+                          onTap: _decrementGuests,
+                          child: Container(width: 30,height: 30,decoration: AppStyles.primaryCircleBg,child:Center(child: Icon(Icons.remove, color: Colors.white))),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text('$_guestCount', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700,color: CustomColors.textColor)),
+                        ),
+                        _guestCount < (widget.roomModel?.capacityCount ?? 0)
+                            ? InkWell(
+                          onTap: _incrementGuests,
+                          child: Container(width: 30,height: 30,decoration: AppStyles.primaryCircleBg,child:Center(child: Icon(Icons.add, color: Colors.white))),
+                        )
+                            : const SizedBox(width: 30)
+                      ],
                     ),
-                    Spacer(),
-                    InkWell(
-                      onTap: _decrementGuests,
-                      child: Container(width: 30,height: 30,decoration: AppStyles.primaryCircleBg,child:Center(child: Icon(Icons.remove, color: Colors.white))),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text('$_guestCount', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700,color: CustomColors.textColor)),
-                    ),
-                    _guestCount < (widget.roomModel?.capacityCount ?? 0)
-                        ? InkWell(
-                        onTap: _incrementGuests,
-                        child: Container(width: 30,height: 30,decoration: AppStyles.primaryCircleBg,child:Center(child: Icon(Icons.add, color: Colors.white))),
-                      )
-                        : const SizedBox(width: 30),
-                  ],
-                ),
+                  ),
+                  Obx(() =>
+                      bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
+                          success: (res) {
+                            final response  = (res as HostelRoomAvailabilityResponseModel);
+                            return response.status == 3 ? Text(response.message ?? "",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.red,fontSize: 12),) : SizedBox();
+                          },
+                          orElse: () => SizedBox()))
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -230,7 +245,13 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                 buttonClick: () => _selectDate(context),
               ) : Column(
                 children: [
-                  TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.formatDateToLong(_selectedDates.first)}" +" - " + "${AuthUtils.formatDateToLong(_selectedDates.last)}",),
+                  Row(
+                    children: [
+                      TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check In', message: "${AuthUtils.formatDateToLong(_selectedDates.first)}",),
+                      Expanded(child: Text("${_selectedDates.length} Nights",textAlign: TextAlign.center,style: TextStyle(fontSize: 12,color: CustomColors.textColor),)),
+                      TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check Out', message: "${AuthUtils.formatDateToLong(_selectedDates.last)}",),
+                    ],
+                  ),
                   CustomOutlinedButton(
                     buttonTxt: "Edit",
                     buttonClick: () => _selectDate(context),
@@ -243,6 +264,324 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                 child: Obx(() => bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
                   loading: (_) => const Center(
                       child: SizedBox(width: 30, height: 30, child: CircularProgressIndicator())),
+                  success: (data) {
+                    final availabilityResponse = (data as HostelRoomAvailabilityResponseModel);
+                    final onGoingBookings = availabilityResponse.data?.onGoingBookings ?? [];
+                    return onGoingBookings.isNotEmpty ?  (availabilityResponse.status == 2 ?  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Warning header with icon
+                        Container(
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.orange[50],
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.orange, width: 1),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.warning_amber_rounded, color: Colors.orange[700], size: 20),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Selected Dates Are Unavailable",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.orange[800],
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "Please select another room, this room is fully occupied",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.orange[700],
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          "Booked Slots",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "Try Alternate Of This Booking Dates",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: onGoingBookings.length,
+                          itemBuilder: (context, index) {
+                            final onGoingBookingDetails = onGoingBookings[index];
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 12),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50],
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.grey.withOpacity(0.5)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.person_outline, size: 16, color:  CustomColors.primary),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "Guests: ${onGoingBookingDetails.guestCount ?? 0}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: CustomColors.primary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.calendar_month_outlined, size: 16, color: CustomColors.primary),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "Check-In: ${AuthUtils.formatDateToLong(onGoingBookingDetails.checkInDate)}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: CustomColors
+                                            .primary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.calendar_month_outlined, size: 16, color: CustomColors.primary),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "Check-Out: ${AuthUtils.formatDateToLong(onGoingBookingDetails.checkOutDate)}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: CustomColors.primary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 16),
+                        PrimaryButton(buttonTxt: "Check Alternate Dates Availability", buttonClick: (){
+                          bookingViewModel.checkHostelRoomAvailabilityObserver.value = const ApiResult.init();
+                          setState(() {
+                            _selectedDates.clear();
+                          });
+                          _selectDate(context);
+                        }),
+                      ],
+                    ) :
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Warning header with icon
+                        Container(
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.orange[50],
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.orange, width: 1),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.warning_amber_rounded, color: Colors.orange[700], size: 20),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Selected Dates Are Unavailable For ${_guestCount} Guests ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.orange[800],
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      availabilityResponse.message ?? "",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.orange[700],
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16),
+
+                        // Booked slots section
+                        Text(
+                          "Booked Slots",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          "Try Alternate Of This Booking Dates Or Reduce Guest Count And Try Again",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: onGoingBookings.length,
+                          itemBuilder: (context, index) {
+                            final onGoingBookingDetails = onGoingBookings[index];
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 12),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50],
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.grey.withOpacity(0.5)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.person_outline, size: 16, color:  CustomColors.primary),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "Guests: ${onGoingBookingDetails.guestCount ?? 0}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: CustomColors.primary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.calendar_month_outlined, size: 16, color: CustomColors.primary),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "Check-In: ${AuthUtils.formatDateToLong(onGoingBookingDetails.checkInDate)}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: CustomColors
+                                                .primary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.calendar_month_outlined, size: 16, color: CustomColors.primary),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "Check-Out: ${AuthUtils.formatDateToLong(onGoingBookingDetails.checkOutDate)}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: CustomColors.primary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 16),
+                        PrimaryButton(buttonTxt: "Try Again", buttonClick: (){
+                          if (_selectedDates.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Please Select Dates')),
+                            );
+                            return;
+                          }
+                          bookingViewModel.checkHostelRoomAvailability(
+                            BookingRequestModel(
+                              roomModel: widget.roomModel,
+                              hostelId: widget.roomModel?.hostelId ?? "",
+                              roomId: widget.roomModel?.id ?? "",
+                              checkInDate: _selectedDates.first,
+                              checkOutDate: _selectedDates.last,
+                              guestCount: _guestCount,
+                              guestDetailsList: [],
+                            ),
+                          );
+                        }),
+                      ],
+                    )) : PrimaryButton(
+                      buttonTxt: "Let\'s go",
+                      buttonClick: () {
+                        if (_selectedDates.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Please Select Dates')),
+                          );
+                          return;
+                        }
+                        bookingViewModel.checkHostelRoomAvailability(
+                          BookingRequestModel(
+                            roomModel: widget.roomModel,
+                            hostelId: widget.roomModel?.hostelId ?? "",
+                            roomId: widget.roomModel?.id ?? "",
+                            checkInDate: _selectedDates.first,
+                            checkOutDate: _selectedDates.last,
+                            guestCount: _guestCount,
+                            guestDetailsList: [],
+                          ),
+                        );
+                      },
+                    );
+                  },
                   orElse: () => PrimaryButton(
                     buttonTxt: "Let\'s go",
                     buttonClick: () {

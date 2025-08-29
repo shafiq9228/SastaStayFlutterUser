@@ -10,7 +10,8 @@ class CustomEditTextComponent extends StatelessWidget {
   final TextInputType? keyboardType;
   final int? maxLength;
   final TextEditingController controller;
-  const CustomEditTextComponent({super.key,required this.controller, required this.title, required this.hint, this.keyboardType, this.maxLength});
+  final double? containerHeight;
+  const CustomEditTextComponent({super.key,required this.controller, required this.title, required this.hint, this.keyboardType, this.maxLength,this.containerHeight});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class CustomEditTextComponent extends StatelessWidget {
         ),
         Container(
           width: double.infinity,
-          height: 50,
+          height: containerHeight ?? 50,
           decoration: AppStyles.editTextBg,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),

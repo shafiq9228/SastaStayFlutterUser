@@ -170,9 +170,12 @@ PaginationRequestModel _$PaginationRequestModelFromJson(
 /// @nodoc
 mixin _$PaginationRequestModel {
   String? get query => throw _privateConstructorUsedError;
+  String? get searchQuery => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
   String? get docId => throw _privateConstructorUsedError;
   String? get hostelId => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
   int? get page => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -189,9 +192,12 @@ abstract class $PaginationRequestModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? query,
+      String? searchQuery,
       String? type,
       String? docId,
       String? hostelId,
+      double? latitude,
+      double? longitude,
       int? page});
 }
 
@@ -210,15 +216,22 @@ class _$PaginationRequestModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? query = freezed,
+    Object? searchQuery = freezed,
     Object? type = freezed,
     Object? docId = freezed,
     Object? hostelId = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
     Object? page = freezed,
   }) {
     return _then(_value.copyWith(
       query: freezed == query
           ? _value.query
           : query // ignore: cast_nullable_to_non_nullable
+              as String?,
+      searchQuery: freezed == searchQuery
+          ? _value.searchQuery
+          : searchQuery // ignore: cast_nullable_to_non_nullable
               as String?,
       type: freezed == type
           ? _value.type
@@ -232,6 +245,14 @@ class _$PaginationRequestModelCopyWithImpl<$Res,
           ? _value.hostelId
           : hostelId // ignore: cast_nullable_to_non_nullable
               as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
       page: freezed == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -251,9 +272,12 @@ abstract class _$$PaginationRequestModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? query,
+      String? searchQuery,
       String? type,
       String? docId,
       String? hostelId,
+      double? latitude,
+      double? longitude,
       int? page});
 }
 
@@ -271,15 +295,22 @@ class __$$PaginationRequestModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? query = freezed,
+    Object? searchQuery = freezed,
     Object? type = freezed,
     Object? docId = freezed,
     Object? hostelId = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
     Object? page = freezed,
   }) {
     return _then(_$PaginationRequestModelImpl(
       query: freezed == query
           ? _value.query
           : query // ignore: cast_nullable_to_non_nullable
+              as String?,
+      searchQuery: freezed == searchQuery
+          ? _value.searchQuery
+          : searchQuery // ignore: cast_nullable_to_non_nullable
               as String?,
       type: freezed == type
           ? _value.type
@@ -293,6 +324,14 @@ class __$$PaginationRequestModelImplCopyWithImpl<$Res>
           ? _value.hostelId
           : hostelId // ignore: cast_nullable_to_non_nullable
               as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
       page: freezed == page
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
@@ -305,7 +344,14 @@ class __$$PaginationRequestModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PaginationRequestModelImpl implements _PaginationRequestModel {
   const _$PaginationRequestModelImpl(
-      {this.query, this.type, this.docId, this.hostelId, required this.page});
+      {this.query,
+      this.searchQuery,
+      this.type,
+      this.docId,
+      this.hostelId,
+      this.latitude,
+      this.longitude,
+      required this.page});
 
   factory _$PaginationRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaginationRequestModelImplFromJson(json);
@@ -313,17 +359,23 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
   @override
   final String? query;
   @override
+  final String? searchQuery;
+  @override
   final String? type;
   @override
   final String? docId;
   @override
   final String? hostelId;
   @override
+  final double? latitude;
+  @override
+  final double? longitude;
+  @override
   final int? page;
 
   @override
   String toString() {
-    return 'PaginationRequestModel(query: $query, type: $type, docId: $docId, hostelId: $hostelId, page: $page)';
+    return 'PaginationRequestModel(query: $query, searchQuery: $searchQuery, type: $type, docId: $docId, hostelId: $hostelId, latitude: $latitude, longitude: $longitude, page: $page)';
   }
 
   @override
@@ -332,17 +384,23 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
         (other.runtimeType == runtimeType &&
             other is _$PaginationRequestModelImpl &&
             (identical(other.query, query) || other.query == query) &&
+            (identical(other.searchQuery, searchQuery) ||
+                other.searchQuery == searchQuery) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.docId, docId) || other.docId == docId) &&
             (identical(other.hostelId, hostelId) ||
                 other.hostelId == hostelId) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
             (identical(other.page, page) || other.page == page));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, query, type, docId, hostelId, page);
+  int get hashCode => Object.hash(runtimeType, query, searchQuery, type, docId,
+      hostelId, latitude, longitude, page);
 
   @JsonKey(ignore: true)
   @override
@@ -362,9 +420,12 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
 abstract class _PaginationRequestModel implements PaginationRequestModel {
   const factory _PaginationRequestModel(
       {final String? query,
+      final String? searchQuery,
       final String? type,
       final String? docId,
       final String? hostelId,
+      final double? latitude,
+      final double? longitude,
       required final int? page}) = _$PaginationRequestModelImpl;
 
   factory _PaginationRequestModel.fromJson(Map<String, dynamic> json) =
@@ -373,11 +434,17 @@ abstract class _PaginationRequestModel implements PaginationRequestModel {
   @override
   String? get query;
   @override
+  String? get searchQuery;
+  @override
   String? get type;
   @override
   String? get docId;
   @override
   String? get hostelId;
+  @override
+  double? get latitude;
+  @override
+  double? get longitude;
   @override
   int? get page;
   @override

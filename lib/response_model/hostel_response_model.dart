@@ -72,6 +72,29 @@ class FetchAmenitiesResponseModel with _$FetchAmenitiesResponseModel{
 }
 
 @Freezed()
+class FetchRatingAndReviewsResponseModel with _$FetchRatingAndReviewsResponseModel{
+  const factory FetchRatingAndReviewsResponseModel({
+    int? status,
+    String? message,
+    List<RatingAndReviewModel>? data
+  }) = _FetchRatingAndReviewsResponseModel;
+
+  factory FetchRatingAndReviewsResponseModel.fromJson(Map<String, dynamic> json) => _$FetchRatingAndReviewsResponseModelFromJson(json);
+}
+
+@Freezed()
+class RatingAndReviewModel with _$RatingAndReviewModel{
+  const factory RatingAndReviewModel({
+    dynamic userId,
+    dynamic hostelId,
+    dynamic rating,
+    String? review
+  }) = _RatingAndReviewModel;
+
+  factory RatingAndReviewModel.fromJson(Map<String, dynamic> json) => _$RatingAndReviewModelFromJson(json);
+}
+
+@Freezed()
 class FetchHostelRoomsResponseModel with _$FetchHostelRoomsResponseModel{
   const factory FetchHostelRoomsResponseModel({
     int? status,

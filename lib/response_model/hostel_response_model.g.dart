@@ -126,6 +126,44 @@ Map<String, dynamic> _$$FetchAmenitiesResponseModelImplToJson(
       'data': instance.data,
     };
 
+_$FetchRatingAndReviewsResponseModelImpl
+    _$$FetchRatingAndReviewsResponseModelImplFromJson(
+            Map<String, dynamic> json) =>
+        _$FetchRatingAndReviewsResponseModelImpl(
+          status: json['status'] as int?,
+          message: json['message'] as String?,
+          data: (json['data'] as List<dynamic>?)
+              ?.map((e) =>
+                  RatingAndReviewModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$FetchRatingAndReviewsResponseModelImplToJson(
+        _$FetchRatingAndReviewsResponseModelImpl instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+_$RatingAndReviewModelImpl _$$RatingAndReviewModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RatingAndReviewModelImpl(
+      userId: json['userId'],
+      hostelId: json['hostelId'],
+      rating: json['rating'],
+      review: json['review'] as String?,
+    );
+
+Map<String, dynamic> _$$RatingAndReviewModelImplToJson(
+        _$RatingAndReviewModelImpl instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'hostelId': instance.hostelId,
+      'rating': instance.rating,
+      'review': instance.review,
+    };
+
 _$FetchHostelRoomsResponseModelImpl
     _$$FetchHostelRoomsResponseModelImplFromJson(Map<String, dynamic> json) =>
         _$FetchHostelRoomsResponseModelImpl(

@@ -316,3 +316,182 @@ abstract class _BookingRequestModel implements BookingRequestModel {
   _$$BookingRequestModelImplCopyWith<_$BookingRequestModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+RatingReviewRequestModel _$RatingReviewRequestModelFromJson(
+    Map<String, dynamic> json) {
+  return _RatingReviewRequestModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RatingReviewRequestModel {
+  String? get hostelId => throw _privateConstructorUsedError;
+  String? get review => throw _privateConstructorUsedError;
+  double? get rating => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RatingReviewRequestModelCopyWith<RatingReviewRequestModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RatingReviewRequestModelCopyWith<$Res> {
+  factory $RatingReviewRequestModelCopyWith(RatingReviewRequestModel value,
+          $Res Function(RatingReviewRequestModel) then) =
+      _$RatingReviewRequestModelCopyWithImpl<$Res, RatingReviewRequestModel>;
+  @useResult
+  $Res call({String? hostelId, String? review, double? rating});
+}
+
+/// @nodoc
+class _$RatingReviewRequestModelCopyWithImpl<$Res,
+        $Val extends RatingReviewRequestModel>
+    implements $RatingReviewRequestModelCopyWith<$Res> {
+  _$RatingReviewRequestModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hostelId = freezed,
+    Object? review = freezed,
+    Object? rating = freezed,
+  }) {
+    return _then(_value.copyWith(
+      hostelId: freezed == hostelId
+          ? _value.hostelId
+          : hostelId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      review: freezed == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RatingReviewRequestModelImplCopyWith<$Res>
+    implements $RatingReviewRequestModelCopyWith<$Res> {
+  factory _$$RatingReviewRequestModelImplCopyWith(
+          _$RatingReviewRequestModelImpl value,
+          $Res Function(_$RatingReviewRequestModelImpl) then) =
+      __$$RatingReviewRequestModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? hostelId, String? review, double? rating});
+}
+
+/// @nodoc
+class __$$RatingReviewRequestModelImplCopyWithImpl<$Res>
+    extends _$RatingReviewRequestModelCopyWithImpl<$Res,
+        _$RatingReviewRequestModelImpl>
+    implements _$$RatingReviewRequestModelImplCopyWith<$Res> {
+  __$$RatingReviewRequestModelImplCopyWithImpl(
+      _$RatingReviewRequestModelImpl _value,
+      $Res Function(_$RatingReviewRequestModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hostelId = freezed,
+    Object? review = freezed,
+    Object? rating = freezed,
+  }) {
+    return _then(_$RatingReviewRequestModelImpl(
+      hostelId: freezed == hostelId
+          ? _value.hostelId
+          : hostelId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      review: freezed == review
+          ? _value.review
+          : review // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RatingReviewRequestModelImpl implements _RatingReviewRequestModel {
+  const _$RatingReviewRequestModelImpl(
+      {required this.hostelId, required this.review, required this.rating});
+
+  factory _$RatingReviewRequestModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RatingReviewRequestModelImplFromJson(json);
+
+  @override
+  final String? hostelId;
+  @override
+  final String? review;
+  @override
+  final double? rating;
+
+  @override
+  String toString() {
+    return 'RatingReviewRequestModel(hostelId: $hostelId, review: $review, rating: $rating)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RatingReviewRequestModelImpl &&
+            (identical(other.hostelId, hostelId) ||
+                other.hostelId == hostelId) &&
+            (identical(other.review, review) || other.review == review) &&
+            (identical(other.rating, rating) || other.rating == rating));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, hostelId, review, rating);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RatingReviewRequestModelImplCopyWith<_$RatingReviewRequestModelImpl>
+      get copyWith => __$$RatingReviewRequestModelImplCopyWithImpl<
+          _$RatingReviewRequestModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RatingReviewRequestModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RatingReviewRequestModel implements RatingReviewRequestModel {
+  const factory _RatingReviewRequestModel(
+      {required final String? hostelId,
+      required final String? review,
+      required final double? rating}) = _$RatingReviewRequestModelImpl;
+
+  factory _RatingReviewRequestModel.fromJson(Map<String, dynamic> json) =
+      _$RatingReviewRequestModelImpl.fromJson;
+
+  @override
+  String? get hostelId;
+  @override
+  String? get review;
+  @override
+  double? get rating;
+  @override
+  @JsonKey(ignore: true)
+  _$$RatingReviewRequestModelImplCopyWith<_$RatingReviewRequestModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

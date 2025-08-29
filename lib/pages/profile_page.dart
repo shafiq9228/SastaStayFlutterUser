@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:pg_hostel/components/helper_bottom_sheet.dart';
+import 'package:pg_hostel/components/icon_title_message_component.dart';
 import 'package:pg_hostel/pages/coupons_page.dart';
 import 'package:pg_hostel/pages/register_user_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
@@ -15,6 +16,7 @@ import '../components/custom_progress_bar.dart';
 import '../components/empty_data_view.dart';
 import '../components/profile_menu.dart';
 import '../utils/app_styles.dart';
+import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/preference_manager.dart';
 import '../view_models/auth_view_model.dart';
@@ -32,6 +34,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final authViewModel = Get.put(AuthViewModel());
   RxBool logOuting = false.obs;
   RxString customerSupportNumber = "".obs;
+  RxString version = "".obs;
+
 
 
   void logOutConfirmationDialog(UserModel? userModel){
@@ -266,6 +270,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ),
                                         ),
                                       ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Saved",message: "${userModel?.favouriteHostels ?? 0}"),
+                                        Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                        IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Ongoing",message: "${userModel?.onGoingBookings ?? 0}"),
+                                        Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                        IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Upcoming",message: "${userModel?.upComingBookings ?? 0}")
+                                      ],
                                     )
                                   ],
                                 ),
@@ -274,7 +289,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                       ),
-                          const SizedBox(height: 50),
+                          const SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.all(15),
                             child: Container(
@@ -319,6 +334,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                           ),
+                          Obx(()=> Text("V ${version.value ?? ""}",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: CustomColors.textColor)),
+                          ),
                           SizedBox(height: 100)
                         ],
                       ),
@@ -335,5 +356,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _refreshData() async{
     authViewModel.fetchUserDetails(true);
+    version.value = await AuthUtils.getAppVersion() ?? "";
   }
 }

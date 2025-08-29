@@ -20,9 +20,12 @@ class ValidateVersionRequestModel with _$ValidateVersionRequestModel{
 class PaginationRequestModel with _$PaginationRequestModel{
   const factory PaginationRequestModel({
     String? query,
+    String? searchQuery,
     String? type,
     String? docId,
     String? hostelId,
+    double? latitude,
+    double? longitude,
     required int? page
   }) = _PaginationRequestModel;
 

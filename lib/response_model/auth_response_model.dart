@@ -49,7 +49,8 @@ class ValidateDataModel with _$ValidateDataModel{
   const factory ValidateDataModel({
     bool? validVersion,
     bool? userBlocked,
-    UserModel? userData
+    UserModel? userData,
+    List<String>? banners
   }) = _ValidateDataModel;
 
   factory ValidateDataModel.fromJson(Map<String, dynamic> json) => _$ValidateDataModelFromJson(json);
@@ -127,7 +128,10 @@ class UserModel with _$UserModel{
     String? source,
     String? version,
     String? deviceId,
-    bool? blocked
+    bool? blocked,
+    dynamic favouriteHostels,
+    dynamic onGoingBookings,
+    dynamic upComingBookings
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

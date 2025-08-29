@@ -1,4 +1,5 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/components/add_guest_bottom_sheet.dart';
@@ -7,6 +8,7 @@ import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/components/error_text_component.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
+import 'package:pg_hostel/pages/terms_and_condition_page.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
@@ -26,6 +28,7 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    RxBool termsAndCondition = false.obs;
     final bookingViewModel = Get.put(BookingViewModel());
     return Scaffold(
       backgroundColor: CustomColors.white,
@@ -119,7 +122,20 @@ class CheckoutPage extends StatelessWidget {
                                   scrollDirection: Axis.vertical,
                                   itemBuilder: (context,index){
                                     final guestDetailsModel = bookingViewModel.guestDetailsList[index];
-                                    return AddGuestItem(guestDetailsModel:guestDetailsModel,index: index);
+                                    return InkWell(
+                                      onTap: (){
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true, // allows full height scroll
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                          ),
+                                          builder: (context) {
+                                            return AddGuestBottomSheet(guestDetailsModel:guestDetailsModel);
+                                          },
+                                        );
+                                      },
+                                        child: AddGuestItem(guestDetailsModel:guestDetailsModel,index: index));
                                   },itemCount: bookingViewModel.guestDetailsList.length),
                               SizedBox(height: 10),
                               Visibility(visible: bookingViewModel.guestDetailsList.length < (bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0),child:
@@ -209,14 +225,91 @@ class CheckoutPage extends StatelessWidget {
                                 const SizedBox(height: 10),
                                 Obx(()=> bookingViewModel.confirmBookingObserver.value.maybeWhen(
                                     loading: (loading) => CircularProgressIndicator(),
-                                    orElse: () => PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: (){
-                                      if(bookingViewModel.guestDetailsList.length < (bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0)){
-                                        Get.snackbar("Error","Please Provide Guest Details",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
-                                        return;
-                                      }
-                                      final newRequest = bookingViewModel.bookingRequestModelObserver.value?.copyWith(guestDetailsList:bookingViewModel.guestDetailsList);
-                                      bookingViewModel.performConfirmBooking(newRequest);
-                                    })),
+                                    orElse: () => (bookingViewModel.guestDetailsList.length < (bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0)) ?
+                                        PrimaryButton(buttonTxt: "Add Guest Details", buttonClick: (){
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true, // allows full height scroll
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                            ),
+                                            builder: (context) {
+                                              return const AddGuestBottomSheet();
+                                            },
+                                          );
+                                        })
+                                        :
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: 'Note : ',
+                                                style: TextStyle(color: CustomColors.textColor, fontSize: 12, fontWeight: FontWeight.w500),
+                                              ),
+                                              TextSpan(
+                                                text: 'Transfer requests are allowed only after a 7-day stay at the current hostel',
+                                                style: TextStyle(color: CustomColors.darkGray, fontSize: 12, fontWeight: FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 20),
+                                          child: Container(
+                                            decoration: AppStyles.categoryBg5,
+                                            child: Row(
+                                              children: [
+                                                Checkbox(value: termsAndCondition.value , onChanged: (value){
+                                                  termsAndCondition.value = value ?? false;
+                                                }),
+                                                Expanded(
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: 'I agree to the',
+                                                          style: TextStyle(color: CustomColors.textColor, fontSize: 12, fontWeight: FontWeight.w500),
+                                                        ),
+                                                        TextSpan(
+                                                          recognizer: TapGestureRecognizer()
+                                                            ..onTap = () {
+                                                              Get.to(() => TermsAndConditionsPage());
+                                                            },
+                                                          text: 'Terms And Condition,',
+                                                          style: TextStyle(color: CustomColors.primary, fontSize: 12, fontWeight: FontWeight.w500),
+                                                        ),
+                                                        TextSpan(
+                                                          onEnter: (value){
+                                                            Get.to(() => TermsAndConditionsPage());
+                                                          },
+                                                          text: 'Cancellation Policy,',
+                                                          style: TextStyle(color: CustomColors.primary, fontSize: 12, fontWeight: FontWeight.w500),
+                                                        ),
+                                                        TextSpan(
+                                                          text: 'before completing my booking',
+                                                          style: TextStyle(color: CustomColors.textColor, fontSize: 12, fontWeight: FontWeight.w500),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: (){
+                                          if(termsAndCondition.value == false){
+                                            Get.snackbar("Error","Please Agree The Terms And Conditions",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+                                             return;
+                                          }
+                                          final newRequest = bookingViewModel.bookingRequestModelObserver.value?.copyWith(guestDetailsList:bookingViewModel.guestDetailsList);
+                                          bookingViewModel.performConfirmBooking(newRequest);
+                                        }),
+                                      ],
+                                    )),
                                 ),
                                 const SizedBox(height: 50),
                               ],

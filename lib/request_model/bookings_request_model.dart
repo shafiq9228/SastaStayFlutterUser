@@ -23,3 +23,15 @@ class BookingRequestModel with _$BookingRequestModel{
   factory BookingRequestModel.fromJson(Map<String, dynamic> json) => _$BookingRequestModelFromJson(json);
 }
 
+
+@Freezed()
+class RatingReviewRequestModel with _$RatingReviewRequestModel{
+  const factory RatingReviewRequestModel({
+    required String? hostelId,
+    required String? review,
+    required double? rating
+  }) = _RatingReviewRequestModel;
+
+  factory RatingReviewRequestModel.fromJson(Map<String, dynamic> json) => _$RatingReviewRequestModelFromJson(json);
+}
+

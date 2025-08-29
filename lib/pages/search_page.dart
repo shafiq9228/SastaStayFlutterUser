@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/components/hostel_details_component.dart';
+import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/shimmers/hostel_details_shimmer.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
 import '../api/api_result.dart';
@@ -16,16 +19,19 @@ import '../utils/statefullwrapper.dart';
 
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final String? search;
+  final String type;
+  const SearchPage({super.key, this.search, required this.type});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final authViewModel = Get.put(AuthViewModel());
   final hostelViewModel = Get.put(HostelViewModel());
+  final TextEditingController searchController = TextEditingController();
   RxString searchQuery = "".obs;
-  final TextEditingController searchEditController = TextEditingController();
   Timer? _debounce;
 
   @override
@@ -39,13 +45,19 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: CustomColors.white,
       body: StatefulWrapper(
-        onInit: _refreshData,
+        onInit: (){
+          if(widget.search != null){
+            searchQuery.value = widget.search ?? "";
+            searchController.text = widget.search ?? "";
+            _onSearchChanged();
+          }
+        },
         child: SafeArea(
             top:true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
+                widget.type?.toLowerCase() == "search" ? Padding(
                   padding: const EdgeInsets.all(15),
                   child: SizedBox(
                     height: 50,
@@ -72,10 +84,10 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
-                                      controller: searchEditController,
+                                    controller: searchController,
                                       onChanged: (query){
                                         searchQuery.value = query;
-                                        _onSearchChanged(query);
+                                        _onSearchChanged();
                                       },
                                       style: TextStyle(
                                           color:CustomColors.textColor,
@@ -97,6 +109,7 @@ class _SearchPageState extends State<SearchPage> {
                                       loading: (_) => SizedBox(height: 10,width: 10,child: Center(child: CircularProgressIndicator(color:CustomColors.textColor,strokeWidth: 2))),
                                       orElse: () => GestureDetector(
                                           onTap: (){
+                                            searchController.clear();
                                             searchQuery.value = "";
                                             _refreshData();
                                           },
@@ -108,22 +121,8 @@ class _SearchPageState extends State<SearchPage> {
                       ],
                     ),
                   ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.all(20),
-                //   child: Container(width: double.infinity
-                //       ,decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
-                //       child:Padding(
-                //         padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
-                //         child: Row(
-                //           children: [
-                //             Image.asset("assets/images/search.png",width: 20,height: 20,color: CustomColors.gray),
-                //             const SizedBox(width: 10),
-                //             Text("Search by area,hostel or city",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: CustomColors.gray),),
-                //           ],
-                //         ),
-                //       )),
-                // ),
+                ) :
+                SecondaryHeadingComponent(buttonTxt: "${widget.type} Hostels"),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () => _refreshData(),
@@ -131,7 +130,8 @@ class _SearchPageState extends State<SearchPage> {
                       width: double.infinity,
                       height: double.infinity,
                       child: Obx(() {
-                        return hostelViewModel.fetchSearchedHostelsObserver.value.data.value.maybeWhen(
+                        final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
+                        return observer.value.data.value.maybeWhen(
                             loading: (loading) => ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -152,7 +152,12 @@ class _SearchPageState extends State<SearchPage> {
                                 },
                                 child: SingleChildScrollView(
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical:10,horizontal: 20),
+                                        child: Text("Hostels (${hostelList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 22)),
+                                      ),
                                       ListView.builder(
                                           shrinkWrap: true,
                                           physics: const NeverScrollableScrollPhysics(),
@@ -161,8 +166,15 @@ class _SearchPageState extends State<SearchPage> {
                                             final hostelModel = hostelList?[index];
                                             return HostelDetailsComponent(hostelModel: hostelModel);
                                           }),
+                                      Visibility(
+                                        visible: (hostelList?.length ?? 0) < 10,
+                                        child: SizedBox(
+                                          height: max(0, (10 - (hostelList?.length ?? 0)) * 200),
+                                          width: double.infinity,
+                                        ),
+                                      ),
                                       Obx(() => Visibility(
-                                          visible: hostelViewModel.fetchSearchedHostelsObserver.value.isLoading,
+                                          visible: observer.value.isLoading,
                                           child: HostelDetailsShimmer(index: 1)),
                                       )
                                     ],
@@ -181,22 +193,21 @@ class _SearchPageState extends State<SearchPage> {
       ),);
   }
 
-  void _onSearchChanged(String query) {
+  void _onSearchChanged() {
     hostelViewModel.fetchSearchedHostelsObserver.value.data.value = const ApiResult.loading("");
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
-      searchQuery.value = query;;
       _refreshData();
     });
   }
 
   Future<void> _refreshData() async{
-    hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type: "search",query:searchQuery.value),true);
+    hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:widget.type?.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),true);
   }
 
   Future<void> _addData() async {
-    final observer = hostelViewModel.fetchSearchedHostelsObserver;
+    final observer = widget.type?.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
     if(observer.value.isPaginationCompleted || observer.value.isLoading ) return;
-    hostelViewModel.fetchHostels(PaginationRequestModel(page: observer.value.page,type: "search",query:searchQuery.value),false);
+    hostelViewModel.fetchHostels(PaginationRequestModel(page: observer.value.page,type:widget.type?.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),false);
   }
 }

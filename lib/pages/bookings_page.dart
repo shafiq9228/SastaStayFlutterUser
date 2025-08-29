@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/components/booking_details_component.dart';
 import 'package:pg_hostel/request_model/auth_request_model.dart';
@@ -53,7 +55,7 @@ class _BookingsPageState extends State<BookingsPage> {
                         return GestureDetector(
                           onTap: (){
                             filterType.value = heading;
-                            _refreshData();
+                            _onTabTap();
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -62,7 +64,7 @@ class _BookingsPageState extends State<BookingsPage> {
                                 child: Center(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                                    child: Text(heading ?? '',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.textColor),),
+                                    child: Text("${heading ?? ''} (${getListCount(heading)})",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.textColor),),
                                   ),
                                 ),
                               ),
@@ -80,7 +82,8 @@ class _BookingsPageState extends State<BookingsPage> {
                       width: double.infinity,
                       height: double.infinity,
                       child: Obx(() {
-                        return bookingsViewModel.fetchBookingsObserver.value.data.value.maybeWhen(
+                        final observer = getCurrentObserver();
+                        return observer.value.data.value.maybeWhen(
                             loading: (loading) => ListView.builder(
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
@@ -110,8 +113,15 @@ class _BookingsPageState extends State<BookingsPage> {
                                             final bookingModel = bookingsList?[index];
                                             return BookingDetailsComponent(bookingModel:bookingModel);
                                           }),
+                                        Visibility(
+                                          visible: (bookingsList?.length ?? 0) < 5,
+                                          child: SizedBox(
+                                            height: max(0, (5 - (bookingsList?.length ?? 0)) * 200),
+                                            width: double.infinity,
+                                          ),
+                                        ),
                                       Obx(() => Visibility(
-                                          visible: bookingsViewModel.fetchBookingsObserver.value.isLoading,
+                                          visible: observer.value.isLoading,
                                           child: BookingDetailsShimmer(index: 1)),
                                       )
                                     ],
@@ -119,7 +129,7 @@ class _BookingsPageState extends State<BookingsPage> {
                                 ),
                               );
                             },
-                            orElse: () => SizedBox(width: double.infinity,height: double.infinity,child: const Center(child: EmptyDataView(text: "No Coupons Found"))));
+                            orElse: () => SizedBox(width: double.infinity,height: double.infinity,child: const Center(child: EmptyDataView(text: "No Bookings Found"))));
                       }
                       ),
                     ),
@@ -130,13 +140,44 @@ class _BookingsPageState extends State<BookingsPage> {
       ),);
   }
 
+  Future<void> _onTabTap() async{
+    _refreshData();
+  }
+
   Future<void> _refreshData() async{
     bookingsViewModel.fetchBookings(PaginationRequestModel(page: 1,query:filterType.value),true);
   }
 
   Future<void> _addData() async {
-    final observer = bookingsViewModel.fetchBookingsObserver;
+    final observer = getCurrentObserver();
     if(observer.value.isPaginationCompleted || observer.value.isLoading ) return;
     bookingsViewModel.fetchBookings(PaginationRequestModel(page: observer.value.page,query:filterType.value),false);
   }
+
+  getCurrentObserver() {
+    switch (filterType.value) {
+      case "Ongoing":
+        return bookingsViewModel.fetchOngoingBookingsObserver;
+      case "Upcoming":
+        return bookingsViewModel.fetchUpComingBookingsObserver;
+      case "Past":
+        return bookingsViewModel.fetchPastBookingsObserver;
+      default:
+        return bookingsViewModel.fetchAllBookingsObserver;
+    }
+  }
+
+  getListCount(String type) {
+    switch (type) {
+      case "Ongoing":
+        return bookingsViewModel.fetchOngoingBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);
+      case "Upcoming":
+        return bookingsViewModel.fetchUpComingBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);;
+      case "Past":
+        return bookingsViewModel.fetchPastBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);;
+      default:
+        return bookingsViewModel.fetchAllBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);;
+    }
+  }
+
 }

@@ -71,10 +71,12 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
                       Text("/Mo",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.darkGray)),
                       Spacer(),
                       Image.asset("assets/images/star.png",width: 15,height: 15),
+                      SizedBox(width: 5),
                       Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
                       Text("(${hostelModel?.totalVotes ?? ""})",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.darkGray)),
+                      SizedBox(width: 5),
                     ],
-                  ) : Text("Currently Rooms Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.red))
+                  ) : Text("Currently Rooms Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12,color: CustomColors.red))
                 ],
               ),
             )

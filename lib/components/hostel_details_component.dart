@@ -113,7 +113,10 @@ class HostelDetailsComponent extends StatelessWidget {
                         children: [
                           Expanded(child: Text(hostelModel?.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20,color: CustomColors.black))),
                           Image.asset("assets/images/star.png",width: 18,height: 18),
-                          Text("${hostelModel?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text("${hostelModel?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
+                          ),
                         ],
                       ),
                       Padding(
@@ -145,7 +148,7 @@ class HostelDetailsComponent extends StatelessWidget {
                               Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
                               Text("/mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                               Spacer(),
-                              Text("+₹600 taxes and fee",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                              Text("",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                             ],
                           ),
                           SizedBox(height: 10),

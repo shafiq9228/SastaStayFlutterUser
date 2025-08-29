@@ -1,10 +1,10 @@
 import 'package:get/get.dart';
+import 'package:pg_hostel/pages/booking_details_page.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
-import '../pages/booking_success_page.dart';
 import '../request_model/auth_request_model.dart';
 import '../request_model/bookings_request_model.dart';
 import '../response_model/auth_response_model.dart';
@@ -27,8 +27,13 @@ class BookingViewModel extends GetxController{
   final checkHostelRoomAvailabilityObserver = const ApiResult<HostelRoomAvailabilityResponseModel>.init().obs;
   final confirmBookingObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
   final updateBookingStatusObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
-  final fetchBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
 
+  final fetchAllBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchOngoingBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchUpComingBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchPastBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+
+  final fetchBookingDetailsObserver = const ApiResult<FetchBookingDetailsResponseModel>.init().obs;
 
   RxList<GuestDetailsModel> guestDetailsList = <GuestDetailsModel>[].obs;
 
@@ -45,6 +50,10 @@ class BookingViewModel extends GetxController{
           Get.close(2);
           final updatedRequest = request.copyWith(roomModel: request.roomModel?.copyWith(checkInDate: request.checkInDate,checkOutDate: request.checkOutDate,guestCount: request.guestCount));
           bookingRequestModelObserver.value = updatedRequest;
+          checkHostelRoomAvailabilityObserver.value = ApiResult.success(responseData);
+          return;
+        }
+        else if(responseData.status == 2 || responseData.status == 3){
           checkHostelRoomAvailabilityObserver.value = ApiResult.success(responseData);
           return;
         }
@@ -107,7 +116,7 @@ class BookingViewModel extends GetxController{
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
         if(responseData.status == 1){
-          Get.to(() => BookingSuccessPage(hostelName: '', checkInDate: responseData.data?.bookingResponse?.checkInDate, checkOutDate: responseData.data?.bookingResponse?.checkOutDate, totalPrice: 5000.0, roomType: 'Triple Sharing', numberOfGuests: null, bookingId:responseData.data?.bookingResponse?.orderId));
+          Get.to(() => BookingDetailsPage(orderId: orderId ?? "",fromPaymentScreen:true));
           updateBookingStatusObserver.value = ApiResult.success(responseData);
           confirmBookingObserver.value = ApiResult.success(responseData);
           return;
@@ -126,7 +135,7 @@ class BookingViewModel extends GetxController{
 
 
   Future<void> fetchBookings(PaginationRequestModel request,bool refresh) async {
-    final observer = fetchBookingsObserver;
+    final observer = request.query == "Ongoing" ? fetchOngoingBookingsObserver : request.query == "Upcoming" ? fetchUpComingBookingsObserver : request.query == "Past" ? fetchPastBookingsObserver : fetchAllBookingsObserver;
     try{
       if(refresh == true){
         observer.value = PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "");
@@ -181,6 +190,26 @@ class BookingViewModel extends GetxController{
     }
   }
 
-
+  Future<void> fetchBookingDetails(String orderId) async{
+    try{
+      fetchBookingDetailsObserver.value = const ApiResult.loading("");
+      final response = await apiProvider.post(EndPoints.fetchBookingDetails,{"orderId":orderId});
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = FetchBookingDetailsResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          fetchBookingDetailsObserver.value = ApiResult.success(responseData);
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      print(e.toString());
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      fetchBookingDetailsObserver.value = ApiResult.error(e.toString());
+    }
+  }
 
 }

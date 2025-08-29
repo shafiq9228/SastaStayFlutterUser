@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 
@@ -66,7 +68,12 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                 },
                                 child: SingleChildScrollView(
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical:10,horizontal: 20),
+                                        child: Text("Hostels (${hostelsList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 22)),
+                                      ),
                                       ListView.builder(
                                           shrinkWrap: true,
                                           physics: NeverScrollableScrollPhysics(),
@@ -75,6 +82,13 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                             final hostelModel =  hostelsList?[index];
                                             return HostelDetailsComponent(hostelModel:hostelModel);
                                           },itemCount: hostelsList?.length ?? 0),
+                                      Visibility(
+                                        visible: (hostelsList?.length ?? 0) < 5,
+                                        child: SizedBox(
+                                          height: max(0, (5 - (hostelsList?.length ?? 0)) * 200),
+                                          width: double.infinity,
+                                        ),
+                                      ),
                                       Obx(() => Visibility(
                                           visible: hostelViewModel.fetchFavouriteHostelsObserver.value.isLoading,
                                           child: HostelDetailsShimmer(index: 0)),

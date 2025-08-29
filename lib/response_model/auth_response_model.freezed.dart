@@ -225,6 +225,7 @@ mixin _$ValidateDataModel {
   bool? get validVersion => throw _privateConstructorUsedError;
   bool? get userBlocked => throw _privateConstructorUsedError;
   UserModel? get userData => throw _privateConstructorUsedError;
+  List<String>? get banners => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -238,7 +239,11 @@ abstract class $ValidateDataModelCopyWith<$Res> {
           ValidateDataModel value, $Res Function(ValidateDataModel) then) =
       _$ValidateDataModelCopyWithImpl<$Res, ValidateDataModel>;
   @useResult
-  $Res call({bool? validVersion, bool? userBlocked, UserModel? userData});
+  $Res call(
+      {bool? validVersion,
+      bool? userBlocked,
+      UserModel? userData,
+      List<String>? banners});
 
   $UserModelCopyWith<$Res>? get userData;
 }
@@ -259,6 +264,7 @@ class _$ValidateDataModelCopyWithImpl<$Res, $Val extends ValidateDataModel>
     Object? validVersion = freezed,
     Object? userBlocked = freezed,
     Object? userData = freezed,
+    Object? banners = freezed,
   }) {
     return _then(_value.copyWith(
       validVersion: freezed == validVersion
@@ -273,6 +279,10 @@ class _$ValidateDataModelCopyWithImpl<$Res, $Val extends ValidateDataModel>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      banners: freezed == banners
+          ? _value.banners
+          : banners // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 
@@ -297,7 +307,11 @@ abstract class _$$ValidateDataModelImplCopyWith<$Res>
       __$$ValidateDataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool? validVersion, bool? userBlocked, UserModel? userData});
+  $Res call(
+      {bool? validVersion,
+      bool? userBlocked,
+      UserModel? userData,
+      List<String>? banners});
 
   @override
   $UserModelCopyWith<$Res>? get userData;
@@ -317,6 +331,7 @@ class __$$ValidateDataModelImplCopyWithImpl<$Res>
     Object? validVersion = freezed,
     Object? userBlocked = freezed,
     Object? userData = freezed,
+    Object? banners = freezed,
   }) {
     return _then(_$ValidateDataModelImpl(
       validVersion: freezed == validVersion
@@ -331,6 +346,10 @@ class __$$ValidateDataModelImplCopyWithImpl<$Res>
           ? _value.userData
           : userData // ignore: cast_nullable_to_non_nullable
               as UserModel?,
+      banners: freezed == banners
+          ? _value._banners
+          : banners // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -339,7 +358,11 @@ class __$$ValidateDataModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ValidateDataModelImpl implements _ValidateDataModel {
   const _$ValidateDataModelImpl(
-      {this.validVersion, this.userBlocked, this.userData});
+      {this.validVersion,
+      this.userBlocked,
+      this.userData,
+      final List<String>? banners})
+      : _banners = banners;
 
   factory _$ValidateDataModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ValidateDataModelImplFromJson(json);
@@ -350,10 +373,19 @@ class _$ValidateDataModelImpl implements _ValidateDataModel {
   final bool? userBlocked;
   @override
   final UserModel? userData;
+  final List<String>? _banners;
+  @override
+  List<String>? get banners {
+    final value = _banners;
+    if (value == null) return null;
+    if (_banners is EqualUnmodifiableListView) return _banners;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'ValidateDataModel(validVersion: $validVersion, userBlocked: $userBlocked, userData: $userData)';
+    return 'ValidateDataModel(validVersion: $validVersion, userBlocked: $userBlocked, userData: $userData, banners: $banners)';
   }
 
   @override
@@ -366,13 +398,14 @@ class _$ValidateDataModelImpl implements _ValidateDataModel {
             (identical(other.userBlocked, userBlocked) ||
                 other.userBlocked == userBlocked) &&
             (identical(other.userData, userData) ||
-                other.userData == userData));
+                other.userData == userData) &&
+            const DeepCollectionEquality().equals(other._banners, _banners));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, validVersion, userBlocked, userData);
+  int get hashCode => Object.hash(runtimeType, validVersion, userBlocked,
+      userData, const DeepCollectionEquality().hash(_banners));
 
   @JsonKey(ignore: true)
   @override
@@ -393,7 +426,8 @@ abstract class _ValidateDataModel implements ValidateDataModel {
   const factory _ValidateDataModel(
       {final bool? validVersion,
       final bool? userBlocked,
-      final UserModel? userData}) = _$ValidateDataModelImpl;
+      final UserModel? userData,
+      final List<String>? banners}) = _$ValidateDataModelImpl;
 
   factory _ValidateDataModel.fromJson(Map<String, dynamic> json) =
       _$ValidateDataModelImpl.fromJson;
@@ -404,6 +438,8 @@ abstract class _ValidateDataModel implements ValidateDataModel {
   bool? get userBlocked;
   @override
   UserModel? get userData;
+  @override
+  List<String>? get banners;
   @override
   @JsonKey(ignore: true)
   _$$ValidateDataModelImplCopyWith<_$ValidateDataModelImpl> get copyWith =>
@@ -1315,6 +1351,9 @@ mixin _$UserModel {
   String? get version => throw _privateConstructorUsedError;
   String? get deviceId => throw _privateConstructorUsedError;
   bool? get blocked => throw _privateConstructorUsedError;
+  dynamic get favouriteHostels => throw _privateConstructorUsedError;
+  dynamic get onGoingBookings => throw _privateConstructorUsedError;
+  dynamic get upComingBookings => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1340,7 +1379,10 @@ abstract class $UserModelCopyWith<$Res> {
       String? source,
       String? version,
       String? deviceId,
-      bool? blocked});
+      bool? blocked,
+      dynamic favouriteHostels,
+      dynamic onGoingBookings,
+      dynamic upComingBookings});
 }
 
 /// @nodoc
@@ -1369,6 +1411,9 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? version = freezed,
     Object? deviceId = freezed,
     Object? blocked = freezed,
+    Object? favouriteHostels = freezed,
+    Object? onGoingBookings = freezed,
+    Object? upComingBookings = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -1423,6 +1468,18 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
               as bool?,
+      favouriteHostels: freezed == favouriteHostels
+          ? _value.favouriteHostels
+          : favouriteHostels // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      onGoingBookings: freezed == onGoingBookings
+          ? _value.onGoingBookings
+          : onGoingBookings // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      upComingBookings: freezed == upComingBookings
+          ? _value.upComingBookings
+          : upComingBookings // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -1448,7 +1505,10 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? source,
       String? version,
       String? deviceId,
-      bool? blocked});
+      bool? blocked,
+      dynamic favouriteHostels,
+      dynamic onGoingBookings,
+      dynamic upComingBookings});
 }
 
 /// @nodoc
@@ -1475,6 +1535,9 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? version = freezed,
     Object? deviceId = freezed,
     Object? blocked = freezed,
+    Object? favouriteHostels = freezed,
+    Object? onGoingBookings = freezed,
+    Object? upComingBookings = freezed,
   }) {
     return _then(_$UserModelImpl(
       id: freezed == id
@@ -1529,6 +1592,18 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.blocked
           : blocked // ignore: cast_nullable_to_non_nullable
               as bool?,
+      favouriteHostels: freezed == favouriteHostels
+          ? _value.favouriteHostels
+          : favouriteHostels // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      onGoingBookings: freezed == onGoingBookings
+          ? _value.onGoingBookings
+          : onGoingBookings // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      upComingBookings: freezed == upComingBookings
+          ? _value.upComingBookings
+          : upComingBookings // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ));
   }
 }
@@ -1549,7 +1624,10 @@ class _$UserModelImpl implements _UserModel {
       this.source,
       this.version,
       this.deviceId,
-      this.blocked});
+      this.blocked,
+      this.favouriteHostels,
+      this.onGoingBookings,
+      this.upComingBookings});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -1581,10 +1659,16 @@ class _$UserModelImpl implements _UserModel {
   final String? deviceId;
   @override
   final bool? blocked;
+  @override
+  final dynamic favouriteHostels;
+  @override
+  final dynamic onGoingBookings;
+  @override
+  final dynamic upComingBookings;
 
   @override
   String toString() {
-    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked)';
+    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings)';
   }
 
   @override
@@ -1606,13 +1690,35 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.version, version) || other.version == version) &&
             (identical(other.deviceId, deviceId) ||
                 other.deviceId == deviceId) &&
-            (identical(other.blocked, blocked) || other.blocked == blocked));
+            (identical(other.blocked, blocked) || other.blocked == blocked) &&
+            const DeepCollectionEquality()
+                .equals(other.favouriteHostels, favouriteHostels) &&
+            const DeepCollectionEquality()
+                .equals(other.onGoingBookings, onGoingBookings) &&
+            const DeepCollectionEquality()
+                .equals(other.upComingBookings, upComingBookings));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, image, mobile, name, email,
-      gender, dob, profilePic, otp, source, version, deviceId, blocked);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      image,
+      mobile,
+      name,
+      email,
+      gender,
+      dob,
+      profilePic,
+      otp,
+      source,
+      version,
+      deviceId,
+      blocked,
+      const DeepCollectionEquality().hash(favouriteHostels),
+      const DeepCollectionEquality().hash(onGoingBookings),
+      const DeepCollectionEquality().hash(upComingBookings));
 
   @JsonKey(ignore: true)
   @override
@@ -1642,7 +1748,10 @@ abstract class _UserModel implements UserModel {
       final String? source,
       final String? version,
       final String? deviceId,
-      final bool? blocked}) = _$UserModelImpl;
+      final bool? blocked,
+      final dynamic favouriteHostels,
+      final dynamic onGoingBookings,
+      final dynamic upComingBookings}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -1674,6 +1783,12 @@ abstract class _UserModel implements UserModel {
   String? get deviceId;
   @override
   bool? get blocked;
+  @override
+  dynamic get favouriteHostels;
+  @override
+  dynamic get onGoingBookings;
+  @override
+  dynamic get upComingBookings;
   @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>

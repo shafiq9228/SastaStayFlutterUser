@@ -66,7 +66,7 @@ class HomePageComponent extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: (){
-                    Get.to(() => const SearchPage());
+                    Get.to(() => const SearchPage(type: 'Search'));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(20),
