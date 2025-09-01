@@ -7,6 +7,7 @@ import 'package:pg_hostel/components/add_guest_item.dart';
 import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/components/error_text_component.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
+import 'package:pg_hostel/pages/coupons_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
 import 'package:pg_hostel/pages/terms_and_condition_page.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
@@ -178,6 +179,93 @@ class CheckoutPage extends StatelessWidget {
                       ) : const SizedBox(),
                       ),
                       ErrorTextComponent(assetImage: "assets/images/aadhar.png",text: "Carry your Aadhaar card to ensure smooth check-in."),
+                      const SizedBox(height: 10),
+                      Obx(() {
+                        return bookingViewModel.selectedCoupon.value != null ? InkWell(
+                          onTap: (){
+                            Get.to(() => const CouponsPage(selecting: true));
+                          },
+                          child: Container(
+                            decoration: AppStyles.editTextBg,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.local_offer,size: 15,color: CustomColors.primary),
+                                      SizedBox(width: 5),
+                                      Text(
+                                          '${bookingViewModel.selectedCoupon.value?.code ?? ""} ',
+                                          style:  TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                              color: CustomColors.textColor)),
+                                      Text(
+                                          ' Coupon applied',
+                                          style:  TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: CustomColors.textColor)),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text('View all offers',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                          decoration: TextDecoration.underline,
+                                          color: CustomColors.primary))
+                                ],
+                              ),
+                            ),
+                          ),
+                        ) :
+                        InkWell(
+                          onTap: (){
+                            Get.to(() => const CouponsPage(selecting: true));
+                          },
+                          child: Container(
+                            decoration: AppStyles.editTextBg,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.local_offer_outlined,size: 15,color: CustomColors.textColor),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                        child: Text(
+                                            'Apply Coupon',
+                                            style:  TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 18,
+                                                color: CustomColors.textColor)),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text('View all offers',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                          decoration: TextDecoration.underline,
+                                          color: CustomColors.primary))
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      ),
+                      const SizedBox(height: 10),
                       Obx(() => bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
                           success: (response) {
                             final availabilityResponse = (response as HostelRoomAvailabilityResponseModel).data;
@@ -216,9 +304,10 @@ class CheckoutPage extends StatelessWidget {
                                 Row(
                                   children: [
                                     Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                    Visibility(visible: (availabilityResponse?.discount ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.amount ?? 0) + (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                    Visibility(visible: (availabilityResponse?.discount ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.amount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
                                       decorationThickness: 2,
                                       decorationColor: Colors.black))),
+                                    SizedBox(width: 5),
                                     Text("₹${(availabilityResponse?.amount ?? 0) - (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
                                   ],
                                 ),

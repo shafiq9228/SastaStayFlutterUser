@@ -19,7 +19,8 @@ import '../utils/statefullwrapper.dart';
 
 
 class CouponsPage extends StatefulWidget {
-  const CouponsPage({super.key});
+  final bool selecting;
+  const CouponsPage({super.key, required this.selecting});
 
   @override
   State<CouponsPage> createState() => _CouponsPageState();
@@ -86,7 +87,8 @@ class _CouponsPageState extends State<CouponsPage> {
                                           itemCount: couponsList?.length ?? 0,
                                           itemBuilder: (context, index) {
                                             final couponModel = couponsList?[index];
-                                            return CouponCodeComponent(couponModel:couponModel);
+                                            return CouponCodeComponent(couponModel:couponModel, selecting: widget.selecting
+                                            );
                                           }),
                                       Visibility(
                                         visible: (couponsList?.length ?? 0) < 5,

@@ -106,6 +106,12 @@ _$RegisterUserRequestModelImpl _$$RegisterUserRequestModelImplFromJson(
       email: json['email'] as String?,
       dob: json['dob'] as String?,
       gender: json['gender'] as String?,
+      address: json['address'] == null
+          ? null
+          : LocationModel.fromJson(json['address'] as Map<String, dynamic>),
+      kycDocuments: (json['kycDocuments'] as List<dynamic>?)
+          ?.map((e) => DocumentDataModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$RegisterUserRequestModelImplToJson(
@@ -118,6 +124,8 @@ Map<String, dynamic> _$$RegisterUserRequestModelImplToJson(
       'email': instance.email,
       'dob': instance.dob,
       'gender': instance.gender,
+      'address': instance.address,
+      'kycDocuments': instance.kycDocuments,
     };
 
 _$LocationModelImpl _$$LocationModelImplFromJson(Map<String, dynamic> json) =>

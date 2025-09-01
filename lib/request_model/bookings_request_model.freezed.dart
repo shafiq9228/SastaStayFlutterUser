@@ -23,6 +23,7 @@ mixin _$BookingRequestModel {
   RoomModel? get roomModel => throw _privateConstructorUsedError;
   String? get hostelId => throw _privateConstructorUsedError;
   String? get roomId => throw _privateConstructorUsedError;
+  String? get couponId => throw _privateConstructorUsedError;
   List<GuestDetailsModel>? get guestDetailsList =>
       throw _privateConstructorUsedError;
   DateTime? get checkInDate => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $BookingRequestModelCopyWith<$Res> {
       {RoomModel? roomModel,
       String? hostelId,
       String? roomId,
+      String? couponId,
       List<GuestDetailsModel>? guestDetailsList,
       DateTime? checkInDate,
       DateTime? checkOutDate,
@@ -69,6 +71,7 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
     Object? roomModel = freezed,
     Object? hostelId = freezed,
     Object? roomId = freezed,
+    Object? couponId = freezed,
     Object? guestDetailsList = freezed,
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
@@ -86,6 +89,10 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
       roomId: freezed == roomId
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      couponId: freezed == couponId
+          ? _value.couponId
+          : couponId // ignore: cast_nullable_to_non_nullable
               as String?,
       guestDetailsList: freezed == guestDetailsList
           ? _value.guestDetailsList
@@ -131,6 +138,7 @@ abstract class _$$BookingRequestModelImplCopyWith<$Res>
       {RoomModel? roomModel,
       String? hostelId,
       String? roomId,
+      String? couponId,
       List<GuestDetailsModel>? guestDetailsList,
       DateTime? checkInDate,
       DateTime? checkOutDate,
@@ -154,6 +162,7 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
     Object? roomModel = freezed,
     Object? hostelId = freezed,
     Object? roomId = freezed,
+    Object? couponId = freezed,
     Object? guestDetailsList = freezed,
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
@@ -171,6 +180,10 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
       roomId: freezed == roomId
           ? _value.roomId
           : roomId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      couponId: freezed == couponId
+          ? _value.couponId
+          : couponId // ignore: cast_nullable_to_non_nullable
               as String?,
       guestDetailsList: freezed == guestDetailsList
           ? _value._guestDetailsList
@@ -199,6 +212,7 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
       {required this.roomModel,
       required this.hostelId,
       required this.roomId,
+      required this.couponId,
       required final List<GuestDetailsModel>? guestDetailsList,
       required this.checkInDate,
       required this.checkOutDate,
@@ -214,6 +228,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
   final String? hostelId;
   @override
   final String? roomId;
+  @override
+  final String? couponId;
   final List<GuestDetailsModel>? _guestDetailsList;
   @override
   List<GuestDetailsModel>? get guestDetailsList {
@@ -234,7 +250,7 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
 
   @override
   String toString() {
-    return 'BookingRequestModel(roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, guestDetailsList: $guestDetailsList, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount)';
+    return 'BookingRequestModel(roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, couponId: $couponId, guestDetailsList: $guestDetailsList, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount)';
   }
 
   @override
@@ -247,6 +263,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
             (identical(other.hostelId, hostelId) ||
                 other.hostelId == hostelId) &&
             (identical(other.roomId, roomId) || other.roomId == roomId) &&
+            (identical(other.couponId, couponId) ||
+                other.couponId == couponId) &&
             const DeepCollectionEquality()
                 .equals(other._guestDetailsList, _guestDetailsList) &&
             (identical(other.checkInDate, checkInDate) ||
@@ -264,6 +282,7 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
       roomModel,
       hostelId,
       roomId,
+      couponId,
       const DeepCollectionEquality().hash(_guestDetailsList),
       checkInDate,
       checkOutDate,
@@ -289,6 +308,7 @@ abstract class _BookingRequestModel implements BookingRequestModel {
       {required final RoomModel? roomModel,
       required final String? hostelId,
       required final String? roomId,
+      required final String? couponId,
       required final List<GuestDetailsModel>? guestDetailsList,
       required final DateTime? checkInDate,
       required final DateTime? checkOutDate,
@@ -303,6 +323,8 @@ abstract class _BookingRequestModel implements BookingRequestModel {
   String? get hostelId;
   @override
   String? get roomId;
+  @override
+  String? get couponId;
   @override
   List<GuestDetailsModel>? get guestDetailsList;
   @override

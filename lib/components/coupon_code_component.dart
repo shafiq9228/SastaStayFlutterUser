@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/view_models/booking_view_model.dart';
 import '../response_model/bookings_response_model.dart';
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
@@ -8,7 +9,8 @@ import '../utils/custom_colors.dart';
 
 class CouponCodeComponent extends StatefulWidget {
   final CouponDataModel? couponModel;
-  const CouponCodeComponent({super.key, required this.couponModel});
+  final bool selecting;
+  const CouponCodeComponent({super.key, required this.couponModel, required this.selecting});
 
   @override
   State<CouponCodeComponent> createState() => _CouponCodeComponentState();
@@ -20,6 +22,7 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
 
   @override
   Widget build(BuildContext context) {
+    final bookingViewModel = Get.put(BookingViewModel());
 
     final containerStyle = widget.couponModel?.expiryDate?.isAfter(today) == true ?
         AppStyles.googleContainerStyle
@@ -29,7 +32,18 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
       onTap: (){
         if(widget.couponModel?.expiryDate?.isAfter(today) != true){
           Get.snackbar("Error","Coupon Has Expired",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+          return;
         }
+        if(widget.selecting == false) return;
+
+        if(bookingViewModel.selectedCoupon.value == null){
+          bookingViewModel.selectedCoupon.value = widget.couponModel;
+        }
+        else{
+          bookingViewModel.selectedCoupon.value = null;
+        }
+        bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,false);
+
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
@@ -51,6 +65,8 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
                         child: Text("Flat  ₹${widget.couponModel?.discount ?? 0} Discount",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
                       ),
                       Text("Order above ₹${widget.couponModel?.orderValue ?? 0} and avail this offer",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
+                      SizedBox(height: 5),
+                      Text(bookingViewModel.selectedCoupon.value == widget.couponModel ? "Remove" : "Apply",style: TextStyle(fontWeight: FontWeight.w600,color: bookingViewModel.selectedCoupon.value == widget.couponModel  ? CustomColors.red :CustomColors.primary,decoration: TextDecoration.underline,fontSize: 14),),
                     ],
                   ),
                 )

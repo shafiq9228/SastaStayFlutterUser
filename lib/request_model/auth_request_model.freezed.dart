@@ -1060,6 +1060,9 @@ mixin _$RegisterUserRequestModel {
   String? get email => throw _privateConstructorUsedError;
   String? get dob => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
+  LocationModel? get address => throw _privateConstructorUsedError;
+  List<DocumentDataModel>? get kycDocuments =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1080,7 +1083,11 @@ abstract class $RegisterUserRequestModelCopyWith<$Res> {
       String? name,
       String? email,
       String? dob,
-      String? gender});
+      String? gender,
+      LocationModel? address,
+      List<DocumentDataModel>? kycDocuments});
+
+  $LocationModelCopyWith<$Res>? get address;
 }
 
 /// @nodoc
@@ -1104,6 +1111,8 @@ class _$RegisterUserRequestModelCopyWithImpl<$Res,
     Object? email = freezed,
     Object? dob = freezed,
     Object? gender = freezed,
+    Object? address = freezed,
+    Object? kycDocuments = freezed,
   }) {
     return _then(_value.copyWith(
       registerByMobile: freezed == registerByMobile
@@ -1134,7 +1143,27 @@ class _$RegisterUserRequestModelCopyWithImpl<$Res,
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as LocationModel?,
+      kycDocuments: freezed == kycDocuments
+          ? _value.kycDocuments
+          : kycDocuments // ignore: cast_nullable_to_non_nullable
+              as List<DocumentDataModel>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocationModelCopyWith<$Res>? get address {
+    if (_value.address == null) {
+      return null;
+    }
+
+    return $LocationModelCopyWith<$Res>(_value.address!, (value) {
+      return _then(_value.copyWith(address: value) as $Val);
+    });
   }
 }
 
@@ -1154,7 +1183,12 @@ abstract class _$$RegisterUserRequestModelImplCopyWith<$Res>
       String? name,
       String? email,
       String? dob,
-      String? gender});
+      String? gender,
+      LocationModel? address,
+      List<DocumentDataModel>? kycDocuments});
+
+  @override
+  $LocationModelCopyWith<$Res>? get address;
 }
 
 /// @nodoc
@@ -1177,6 +1211,8 @@ class __$$RegisterUserRequestModelImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? dob = freezed,
     Object? gender = freezed,
+    Object? address = freezed,
+    Object? kycDocuments = freezed,
   }) {
     return _then(_$RegisterUserRequestModelImpl(
       registerByMobile: freezed == registerByMobile
@@ -1207,6 +1243,14 @@ class __$$RegisterUserRequestModelImplCopyWithImpl<$Res>
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as LocationModel?,
+      kycDocuments: freezed == kycDocuments
+          ? _value._kycDocuments
+          : kycDocuments // ignore: cast_nullable_to_non_nullable
+              as List<DocumentDataModel>?,
     ));
   }
 }
@@ -1221,7 +1265,10 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
       this.name,
       this.email,
       this.dob,
-      this.gender});
+      this.gender,
+      this.address,
+      final List<DocumentDataModel>? kycDocuments})
+      : _kycDocuments = kycDocuments;
 
   factory _$RegisterUserRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RegisterUserRequestModelImplFromJson(json);
@@ -1240,10 +1287,21 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
   final String? dob;
   @override
   final String? gender;
+  @override
+  final LocationModel? address;
+  final List<DocumentDataModel>? _kycDocuments;
+  @override
+  List<DocumentDataModel>? get kycDocuments {
+    final value = _kycDocuments;
+    if (value == null) return null;
+    if (_kycDocuments is EqualUnmodifiableListView) return _kycDocuments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'RegisterUserRequestModel(registerByMobile: $registerByMobile, image: $image, mobile: $mobile, name: $name, email: $email, dob: $dob, gender: $gender)';
+    return 'RegisterUserRequestModel(registerByMobile: $registerByMobile, image: $image, mobile: $mobile, name: $name, email: $email, dob: $dob, gender: $gender, address: $address, kycDocuments: $kycDocuments)';
   }
 
   @override
@@ -1258,13 +1316,25 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.dob, dob) || other.dob == dob) &&
-            (identical(other.gender, gender) || other.gender == gender));
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.address, address) || other.address == address) &&
+            const DeepCollectionEquality()
+                .equals(other._kycDocuments, _kycDocuments));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, registerByMobile, image, mobile, name, email, dob, gender);
+      runtimeType,
+      registerByMobile,
+      image,
+      mobile,
+      name,
+      email,
+      dob,
+      gender,
+      address,
+      const DeepCollectionEquality().hash(_kycDocuments));
 
   @JsonKey(ignore: true)
   @override
@@ -1283,13 +1353,16 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
 
 abstract class _RegisterUserRequestModel implements RegisterUserRequestModel {
   const factory _RegisterUserRequestModel(
-      {final bool? registerByMobile,
-      final String? image,
-      final String? mobile,
-      final String? name,
-      final String? email,
-      final String? dob,
-      final String? gender}) = _$RegisterUserRequestModelImpl;
+          {final bool? registerByMobile,
+          final String? image,
+          final String? mobile,
+          final String? name,
+          final String? email,
+          final String? dob,
+          final String? gender,
+          final LocationModel? address,
+          final List<DocumentDataModel>? kycDocuments}) =
+      _$RegisterUserRequestModelImpl;
 
   factory _RegisterUserRequestModel.fromJson(Map<String, dynamic> json) =
       _$RegisterUserRequestModelImpl.fromJson;
@@ -1308,6 +1381,10 @@ abstract class _RegisterUserRequestModel implements RegisterUserRequestModel {
   String? get dob;
   @override
   String? get gender;
+  @override
+  LocationModel? get address;
+  @override
+  List<DocumentDataModel>? get kycDocuments;
   @override
   @JsonKey(ignore: true)
   _$$RegisterUserRequestModelImplCopyWith<_$RegisterUserRequestModelImpl>

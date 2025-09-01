@@ -6,6 +6,7 @@ import 'package:pg_hostel/components/hostel_details_horizontal_component1.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/components/side_heading_component.dart';
 import 'package:pg_hostel/pages/filter_page.dart';
+import 'package:pg_hostel/pages/hostels_map_view.dart';
 import 'package:pg_hostel/pages/search_page.dart';
 import 'package:pg_hostel/request_model/auth_request_model.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
@@ -39,11 +40,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return  StatefulWrapper(
       onInit: () async {
-        authViewModel.fetchUserDetails(false);
         hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:"popular"), true);
         hostelViewModel.fetchHostels(PaginationRequestModel(page: 1), true);
-        await authViewModel.fetchCurrentLocation();
-        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type: "nearby",latitude:authViewModel.locationObserver.value?.latitude,longitude:authViewModel.locationObserver.value?.longitude), true);
+        await authViewModel.fetchUserDetails(false);
+        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type: "nearby",latitude:authViewModel.locationDetails.value?.latitude,longitude:authViewModel.locationDetails.value?.longitude), true);
       },
       child: Scaffold(
         backgroundColor: CustomColors.white,
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(width: 10),
                     InkWell(
                       onTap:(){
-
+                        Get.to(() => HostelsMapView());
                       },
                       child: Container(
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.darkGray)),

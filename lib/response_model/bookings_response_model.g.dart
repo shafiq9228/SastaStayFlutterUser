@@ -171,6 +171,9 @@ _$BookingModelImpl _$$BookingModelImplFromJson(Map<String, dynamic> json) =>
           ?.map((e) => AmountDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       bookingStatus: json['bookingStatus'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$BookingModelImplToJson(_$BookingModelImpl instance) =>
@@ -191,6 +194,7 @@ Map<String, dynamic> _$$BookingModelImplToJson(_$BookingModelImpl instance) =>
       'guestDetailsList': instance.guestDetailsList,
       'logs': instance.logs,
       'bookingStatus': instance.bookingStatus,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 _$FetchCouponsResponseModelImpl _$$FetchCouponsResponseModelImplFromJson(

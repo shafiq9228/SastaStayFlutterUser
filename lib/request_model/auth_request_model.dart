@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:pg_hostel/response_model/auth_response_model.dart';
 
 import '../response_model/address_response_model.dart';
 
@@ -78,7 +80,9 @@ class RegisterUserRequestModel with _$RegisterUserRequestModel{
     String? name,
     String? email,
     String? dob,
-    String? gender
+    String? gender,
+    LocationModel? address,
+    List<DocumentDataModel>? kycDocuments
   }) = _RegisterUserRequestModel;
 
   factory RegisterUserRequestModel.fromJson(Map<String, dynamic> json) => _$RegisterUserRequestModelFromJson(json);

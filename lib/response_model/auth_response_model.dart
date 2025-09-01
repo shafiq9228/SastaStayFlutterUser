@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pg_hostel/request_model/auth_request_model.dart';
 
 part 'auth_response_model.freezed.dart';
 part 'auth_response_model.g.dart';
@@ -131,8 +132,22 @@ class UserModel with _$UserModel{
     bool? blocked,
     dynamic favouriteHostels,
     dynamic onGoingBookings,
-    dynamic upComingBookings
+    dynamic upComingBookings,
+    LocationModel? address,
+    List<DocumentDataModel>? kycDocuments
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+}
+
+@Freezed()
+class DocumentDataModel with _$DocumentDataModel{
+  const factory DocumentDataModel({
+    required String? documentType,
+    required String? documentStatus,
+    required String? uploadedUrl,
+    required String? errorTxt
+  }) = _DocumentDataModel;
+
+  factory DocumentDataModel.fromJson(Map<String, dynamic> json) => _$DocumentDataModelFromJson(json);
 }

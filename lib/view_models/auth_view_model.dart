@@ -49,22 +49,43 @@ class AuthViewModel extends GetxController{
 
   RxString userId = "".obs;
 
-  Rx<Position?> locationObserver = Rx<Position?>(null);
+  Rx<Position?> locationPosition = Rx<Position?>(null);
   Rx<LocationModel?> locationDetails = Rx<LocationModel?>(null);
 
+  RxList<DocumentDataModel> kysDocuments = [
+    DocumentDataModel(
+      documentType: "aadhar",
+      documentStatus: "pending",
+      uploadedUrl: "",
+      errorTxt: '',
+    ),
+    DocumentDataModel(
+      documentType: "pan",
+      documentStatus: "pending",
+      uploadedUrl: "",
+      errorTxt: '',
+    ),
+    DocumentDataModel(
+      documentType: "selfie",
+      documentStatus: "pending",
+      uploadedUrl: "",
+      errorTxt: '',
+    )
+  ].obs;
+
   Future<Position?> fetchCurrentLocation() async {
-    if (locationObserver.value == null) {
+    if (locationPosition.value == null) {
       await Geolocator.requestPermission();
       LocationPermission locationPermission =
       await Geolocator.checkPermission();
       if (locationPermission == LocationPermission.denied) return null;
       final position = await Geolocator.getCurrentPosition();
       final geoAddress = await GeoUtil().getApiAddress(position.latitude, position.longitude);
-      locationObserver.value = position;
+      locationPosition.value = position;
       locationDetails.value = geoAddress;
       return position;
     } else {
-      return locationObserver.value;
+      return locationPosition.value;
     }
   }
 
@@ -99,8 +120,18 @@ class AuthViewModel extends GetxController{
         final jsonData = UploadFileResponseModel.fromJson(json);
         if (jsonData.status == 1) {
           uploadFileObserver.value = ApiResult.success(jsonData);
-          if(type == "aadhar"){
+          if(type == "guestDoc"){
             aadharImage.value =  jsonData.data ?? "";
+          }
+          else if(type == "aadhar" || type == "pan" || type == "selfie"){
+            final existingKycList = kysDocuments.toList() ?? List.empty();
+            final index = existingKycList.indexWhere((element) => element.documentType == type);
+            if(index != -1){
+              final updatedKycList = existingKycList[index].copyWith(uploadedUrl: jsonData.data ?? "",documentStatus: "pending");
+              existingKycList[index] = updatedKycList;
+              kysDocuments.value = existingKycList;
+              kysDocuments.refresh();
+            }
           }
           else{
             uploadedImage.value = jsonData.data ?? "";
@@ -272,12 +303,23 @@ class AuthViewModel extends GetxController{
           fetchUserDetailsObserver.value = ApiResult.success(responseData);
           userId.value = responseData.data?.id ?? "";
           profilePic.value = responseData.data?.image ?? "";
+          if(responseData.data?.kycDocuments?.length == 3){
+            kysDocuments.value = responseData.data?.kycDocuments ?? [];
+          }
+
+          if(responseData.data?.address != null){
+            locationDetails.value = responseData.data?.address;
+          }else{
+            await fetchCurrentLocation();
+          }
+
           if((responseData.data?.email ?? "").isEmpty == true || responseData.data?.mobile.toString().isEmpty == true || responseData.data?.mobile.toString().length != 10 || (responseData.data?.name ?? "").isEmpty){
             Get.offAll(() => const  RegisterUserPage());
           }
           else if((responseData.data?.blocked  ??  false ) == true){
             Get.offAll(() => const UserBlocked());
           }
+
           // await FirebaseMessaging.instance.subscribeToTopic(responseData.data?.id ?? "");
           // await FirebaseMessaging.instance.subscribeToTopic("all");
           // await FirebaseMessaging.instance.subscribeToTopic("user");
@@ -297,10 +339,10 @@ class AuthViewModel extends GetxController{
   Future<void> registerUser(RegisterUserRequestModel request) async {
     try{
       registerUserResponseObserver.value = const ApiResult.loading("");
-      final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','dob','gender'], request.toJson());
+      final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','dob','gender','address'], request.toJson());
       if(validatorResponse != null) throw validatorResponse;
-      // final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','landmark','pinCode','latitude','longitude'], request.location!.toJson());
-      // if(locationValidation != null) throw locationValidation;
+      final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','landMark','pinCode','latitude','longitude'], request.address!.toJson());
+      if(locationValidation != null) throw locationValidation;
       final response = await apiProvider.post(EndPoints.registerUser,request.toJson());
       final body = response.body;
       if(response.isOk && body != null){

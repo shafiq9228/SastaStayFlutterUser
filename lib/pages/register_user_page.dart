@@ -12,6 +12,7 @@ import '../utils/custom_colors.dart';
 import '../utils/preference_manager.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/auth_view_model.dart';
+import 'location_picker_page.dart';
 import 'mobile_verification_page.dart';
 
 class RegisterUserPage extends StatefulWidget {
@@ -58,6 +59,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           nameController.text = widget.userModel?.name ?? "";
           dobController.text = widget.userModel?.dob ?? "";
           authViewModel.profilePic.value = widget.userModel?.image ?? "";
+          authViewModel.locationDetails.value = widget.userModel?.address ?? authViewModel.locationDetails.value;
+          authViewModel.kysDocuments.value = widget.userModel?.kycDocuments ?? authViewModel.kysDocuments.value;
           setState(() {
             selectedGender = widget.userModel?.gender ?? "Male";
           });
@@ -311,6 +314,25 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical:10),
+                      child: Text("Address",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
+                    ),
+                    Obx(()=> GestureDetector(
+                        onTap: (){
+                          Get.to(() =>  LocationPickerPage());
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          decoration: AppStyles.editTextBg,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                            child: Text(authViewModel.locationDetails.value?.address1 ?? "Enter Address",style:  const TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w600),),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     Text(widget.userModel != null ? "Email And Mobile Can\'t Be Edited" : "${registerByMobile.value == true ? "Mobile" : "Email"} Can\'t Be Edited",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.secondary,fontSize: 12),),
                     const SizedBox(height: 20),
                     Obx(() => authViewModel.registerUserResponseObserver.value.maybeWhen(
@@ -320,7 +342,8 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                             Get.snackbar("Error","Please Select Gender",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
                             return;
                           }
-                          authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender));
+                          print(authViewModel.locationDetails.value);
+                          authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender,address: authViewModel.locationDetails.value,kycDocuments: authViewModel.kysDocuments));
                         },))
                     ),
                     const SizedBox(height: 50),

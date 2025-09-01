@@ -194,7 +194,8 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _onSearchChanged() {
-    hostelViewModel.fetchSearchedHostelsObserver.value.data.value = const ApiResult.loading("");
+    final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
+    observer.value.data.value = const ApiResult.loading("");
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
       _refreshData();
@@ -206,7 +207,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> _addData() async {
-    final observer = widget.type?.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
+    final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
     if(observer.value.isPaginationCompleted || observer.value.isLoading ) return;
     hostelViewModel.fetchHostels(PaginationRequestModel(page: observer.value.page,type:widget.type?.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),false);
   }

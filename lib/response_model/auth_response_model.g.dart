@@ -143,6 +143,12 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       favouriteHostels: json['favouriteHostels'],
       onGoingBookings: json['onGoingBookings'],
       upComingBookings: json['upComingBookings'],
+      address: json['address'] == null
+          ? null
+          : LocationModel.fromJson(json['address'] as Map<String, dynamic>),
+      kycDocuments: (json['kycDocuments'] as List<dynamic>?)
+          ?.map((e) => DocumentDataModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -163,4 +169,24 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'favouriteHostels': instance.favouriteHostels,
       'onGoingBookings': instance.onGoingBookings,
       'upComingBookings': instance.upComingBookings,
+      'address': instance.address,
+      'kycDocuments': instance.kycDocuments,
+    };
+
+_$DocumentDataModelImpl _$$DocumentDataModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DocumentDataModelImpl(
+      documentType: json['documentType'] as String?,
+      documentStatus: json['documentStatus'] as String?,
+      uploadedUrl: json['uploadedUrl'] as String?,
+      errorTxt: json['errorTxt'] as String?,
+    );
+
+Map<String, dynamic> _$$DocumentDataModelImplToJson(
+        _$DocumentDataModelImpl instance) =>
+    <String, dynamic>{
+      'documentType': instance.documentType,
+      'documentStatus': instance.documentStatus,
+      'uploadedUrl': instance.uploadedUrl,
+      'errorTxt': instance.errorTxt,
     };

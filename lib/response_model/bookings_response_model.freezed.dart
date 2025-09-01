@@ -1511,6 +1511,7 @@ mixin _$BookingModel {
       throw _privateConstructorUsedError;
   List<AmountDetailsModel>? get logs => throw _privateConstructorUsedError;
   String? get bookingStatus => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1540,7 +1541,8 @@ abstract class $BookingModelCopyWith<$Res> {
       int? discount,
       List<GuestDetailsModel>? guestDetailsList,
       List<AmountDetailsModel>? logs,
-      String? bookingStatus});
+      String? bookingStatus,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -1572,6 +1574,7 @@ class _$BookingModelCopyWithImpl<$Res, $Val extends BookingModel>
     Object? guestDetailsList = freezed,
     Object? logs = freezed,
     Object? bookingStatus = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -1638,6 +1641,10 @@ class _$BookingModelCopyWithImpl<$Res, $Val extends BookingModel>
           ? _value.bookingStatus
           : bookingStatus // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -1666,7 +1673,8 @@ abstract class _$$BookingModelImplCopyWith<$Res>
       int? discount,
       List<GuestDetailsModel>? guestDetailsList,
       List<AmountDetailsModel>? logs,
-      String? bookingStatus});
+      String? bookingStatus,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -1696,6 +1704,7 @@ class __$$BookingModelImplCopyWithImpl<$Res>
     Object? guestDetailsList = freezed,
     Object? logs = freezed,
     Object? bookingStatus = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(_$BookingModelImpl(
       id: freezed == id
@@ -1762,6 +1771,10 @@ class __$$BookingModelImplCopyWithImpl<$Res>
           ? _value.bookingStatus
           : bookingStatus // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -1785,7 +1798,8 @@ class _$BookingModelImpl implements _BookingModel {
       this.discount,
       final List<GuestDetailsModel>? guestDetailsList,
       final List<AmountDetailsModel>? logs,
-      this.bookingStatus})
+      this.bookingStatus,
+      this.createdAt})
       : _guestDetailsList = guestDetailsList,
         _logs = logs;
 
@@ -1842,10 +1856,12 @@ class _$BookingModelImpl implements _BookingModel {
 
   @override
   final String? bookingStatus;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'BookingModel(id: $id, userId: $userId, dealerId: $dealerId, hostelId: $hostelId, roomId: $roomId, orderId: $orderId, paymentId: $paymentId, paymentStatus: $paymentStatus, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, total: $total, discount: $discount, guestDetailsList: $guestDetailsList, logs: $logs, bookingStatus: $bookingStatus)';
+    return 'BookingModel(id: $id, userId: $userId, dealerId: $dealerId, hostelId: $hostelId, roomId: $roomId, orderId: $orderId, paymentId: $paymentId, paymentStatus: $paymentStatus, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, total: $total, discount: $discount, guestDetailsList: $guestDetailsList, logs: $logs, bookingStatus: $bookingStatus, createdAt: $createdAt)';
   }
 
   @override
@@ -1876,7 +1892,9 @@ class _$BookingModelImpl implements _BookingModel {
                 .equals(other._guestDetailsList, _guestDetailsList) &&
             const DeepCollectionEquality().equals(other._logs, _logs) &&
             (identical(other.bookingStatus, bookingStatus) ||
-                other.bookingStatus == bookingStatus));
+                other.bookingStatus == bookingStatus) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
@@ -1898,7 +1916,8 @@ class _$BookingModelImpl implements _BookingModel {
       discount,
       const DeepCollectionEquality().hash(_guestDetailsList),
       const DeepCollectionEquality().hash(_logs),
-      bookingStatus);
+      bookingStatus,
+      createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -1931,7 +1950,8 @@ abstract class _BookingModel implements BookingModel {
       final int? discount,
       final List<GuestDetailsModel>? guestDetailsList,
       final List<AmountDetailsModel>? logs,
-      final String? bookingStatus}) = _$BookingModelImpl;
+      final String? bookingStatus,
+      final DateTime? createdAt}) = _$BookingModelImpl;
 
   factory _BookingModel.fromJson(Map<String, dynamic> json) =
       _$BookingModelImpl.fromJson;
@@ -1969,6 +1989,8 @@ abstract class _BookingModel implements BookingModel {
   List<AmountDetailsModel>? get logs;
   @override
   String? get bookingStatus;
+  @override
+  DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$BookingModelImplCopyWith<_$BookingModelImpl> get copyWith =>

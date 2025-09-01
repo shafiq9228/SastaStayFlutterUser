@@ -106,7 +106,8 @@ class BookingModel with _$BookingModel {
     int? discount,
     List<GuestDetailsModel>? guestDetailsList,
     List<AmountDetailsModel>? logs,
-    String? bookingStatus
+    String? bookingStatus,
+    DateTime? createdAt
   }) = _BookingModel;
 
   factory BookingModel.fromJson(Map<String, dynamic> json) => _$BookingModelFromJson(json);

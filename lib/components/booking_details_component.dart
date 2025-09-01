@@ -35,6 +35,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
           child:Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -66,10 +67,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
                                 ],
                               ),
                             ),
-                            Container(decoration: BoxDecoration(gradient: LinearGradient(
-                              colors: [CustomColors.primary.withOpacity(0.2), CustomColors.white],
-                              transform: GradientRotation(0.1), // rotates the gradient (in radians)
-                            ),borderRadius: BorderRadius.circular(10)),child: Padding(
+                            Container(decoration: AppStyles.gradient,child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                               child: Text("${AuthUtils.formatDateToLong(widget.bookingModel?.checkInDate)} To ${AuthUtils.formatDateToLong(widget.bookingModel?.checkOutDate)}",style: TextStyle(color: CustomColors.primary,fontSize: 12,fontWeight: FontWeight.w400)),
                             ))
@@ -123,7 +121,10 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
                       ) : Text(widget.bookingModel?.paymentStatus ?? '',style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.orange)),
                     )
                   ],
-                )
+                ),
+                SizedBox(height: 5),
+                Text("Booked On : ${AuthUtils.formatDateToLong(widget.bookingModel?.createdAt)}",style: TextStyle(color: CustomColors.textColor,fontSize: 12,fontWeight: FontWeight.w400)),
+                SizedBox(height: 10),
               ],
             ),
           ),

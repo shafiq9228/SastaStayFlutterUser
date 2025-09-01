@@ -1354,6 +1354,9 @@ mixin _$UserModel {
   dynamic get favouriteHostels => throw _privateConstructorUsedError;
   dynamic get onGoingBookings => throw _privateConstructorUsedError;
   dynamic get upComingBookings => throw _privateConstructorUsedError;
+  LocationModel? get address => throw _privateConstructorUsedError;
+  List<DocumentDataModel>? get kycDocuments =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1382,7 +1385,11 @@ abstract class $UserModelCopyWith<$Res> {
       bool? blocked,
       dynamic favouriteHostels,
       dynamic onGoingBookings,
-      dynamic upComingBookings});
+      dynamic upComingBookings,
+      LocationModel? address,
+      List<DocumentDataModel>? kycDocuments});
+
+  $LocationModelCopyWith<$Res>? get address;
 }
 
 /// @nodoc
@@ -1414,6 +1421,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? favouriteHostels = freezed,
     Object? onGoingBookings = freezed,
     Object? upComingBookings = freezed,
+    Object? address = freezed,
+    Object? kycDocuments = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -1480,7 +1489,27 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.upComingBookings
           : upComingBookings // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as LocationModel?,
+      kycDocuments: freezed == kycDocuments
+          ? _value.kycDocuments
+          : kycDocuments // ignore: cast_nullable_to_non_nullable
+              as List<DocumentDataModel>?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LocationModelCopyWith<$Res>? get address {
+    if (_value.address == null) {
+      return null;
+    }
+
+    return $LocationModelCopyWith<$Res>(_value.address!, (value) {
+      return _then(_value.copyWith(address: value) as $Val);
+    });
   }
 }
 
@@ -1508,7 +1537,12 @@ abstract class _$$UserModelImplCopyWith<$Res>
       bool? blocked,
       dynamic favouriteHostels,
       dynamic onGoingBookings,
-      dynamic upComingBookings});
+      dynamic upComingBookings,
+      LocationModel? address,
+      List<DocumentDataModel>? kycDocuments});
+
+  @override
+  $LocationModelCopyWith<$Res>? get address;
 }
 
 /// @nodoc
@@ -1538,6 +1572,8 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? favouriteHostels = freezed,
     Object? onGoingBookings = freezed,
     Object? upComingBookings = freezed,
+    Object? address = freezed,
+    Object? kycDocuments = freezed,
   }) {
     return _then(_$UserModelImpl(
       id: freezed == id
@@ -1604,6 +1640,14 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.upComingBookings
           : upComingBookings // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as LocationModel?,
+      kycDocuments: freezed == kycDocuments
+          ? _value._kycDocuments
+          : kycDocuments // ignore: cast_nullable_to_non_nullable
+              as List<DocumentDataModel>?,
     ));
   }
 }
@@ -1627,7 +1671,10 @@ class _$UserModelImpl implements _UserModel {
       this.blocked,
       this.favouriteHostels,
       this.onGoingBookings,
-      this.upComingBookings});
+      this.upComingBookings,
+      this.address,
+      final List<DocumentDataModel>? kycDocuments})
+      : _kycDocuments = kycDocuments;
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -1665,10 +1712,21 @@ class _$UserModelImpl implements _UserModel {
   final dynamic onGoingBookings;
   @override
   final dynamic upComingBookings;
+  @override
+  final LocationModel? address;
+  final List<DocumentDataModel>? _kycDocuments;
+  @override
+  List<DocumentDataModel>? get kycDocuments {
+    final value = _kycDocuments;
+    if (value == null) return null;
+    if (_kycDocuments is EqualUnmodifiableListView) return _kycDocuments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings)';
+    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings, address: $address, kycDocuments: $kycDocuments)';
   }
 
   @override
@@ -1696,7 +1754,10 @@ class _$UserModelImpl implements _UserModel {
             const DeepCollectionEquality()
                 .equals(other.onGoingBookings, onGoingBookings) &&
             const DeepCollectionEquality()
-                .equals(other.upComingBookings, upComingBookings));
+                .equals(other.upComingBookings, upComingBookings) &&
+            (identical(other.address, address) || other.address == address) &&
+            const DeepCollectionEquality()
+                .equals(other._kycDocuments, _kycDocuments));
   }
 
   @JsonKey(ignore: true)
@@ -1718,7 +1779,9 @@ class _$UserModelImpl implements _UserModel {
       blocked,
       const DeepCollectionEquality().hash(favouriteHostels),
       const DeepCollectionEquality().hash(onGoingBookings),
-      const DeepCollectionEquality().hash(upComingBookings));
+      const DeepCollectionEquality().hash(upComingBookings),
+      address,
+      const DeepCollectionEquality().hash(_kycDocuments));
 
   @JsonKey(ignore: true)
   @override
@@ -1751,7 +1814,9 @@ abstract class _UserModel implements UserModel {
       final bool? blocked,
       final dynamic favouriteHostels,
       final dynamic onGoingBookings,
-      final dynamic upComingBookings}) = _$UserModelImpl;
+      final dynamic upComingBookings,
+      final LocationModel? address,
+      final List<DocumentDataModel>? kycDocuments}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -1790,7 +1855,217 @@ abstract class _UserModel implements UserModel {
   @override
   dynamic get upComingBookings;
   @override
+  LocationModel? get address;
+  @override
+  List<DocumentDataModel>? get kycDocuments;
+  @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DocumentDataModel _$DocumentDataModelFromJson(Map<String, dynamic> json) {
+  return _DocumentDataModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DocumentDataModel {
+  String? get documentType => throw _privateConstructorUsedError;
+  String? get documentStatus => throw _privateConstructorUsedError;
+  String? get uploadedUrl => throw _privateConstructorUsedError;
+  String? get errorTxt => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $DocumentDataModelCopyWith<DocumentDataModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DocumentDataModelCopyWith<$Res> {
+  factory $DocumentDataModelCopyWith(
+          DocumentDataModel value, $Res Function(DocumentDataModel) then) =
+      _$DocumentDataModelCopyWithImpl<$Res, DocumentDataModel>;
+  @useResult
+  $Res call(
+      {String? documentType,
+      String? documentStatus,
+      String? uploadedUrl,
+      String? errorTxt});
+}
+
+/// @nodoc
+class _$DocumentDataModelCopyWithImpl<$Res, $Val extends DocumentDataModel>
+    implements $DocumentDataModelCopyWith<$Res> {
+  _$DocumentDataModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? documentType = freezed,
+    Object? documentStatus = freezed,
+    Object? uploadedUrl = freezed,
+    Object? errorTxt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      documentType: freezed == documentType
+          ? _value.documentType
+          : documentType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      documentStatus: freezed == documentStatus
+          ? _value.documentStatus
+          : documentStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+      uploadedUrl: freezed == uploadedUrl
+          ? _value.uploadedUrl
+          : uploadedUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      errorTxt: freezed == errorTxt
+          ? _value.errorTxt
+          : errorTxt // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DocumentDataModelImplCopyWith<$Res>
+    implements $DocumentDataModelCopyWith<$Res> {
+  factory _$$DocumentDataModelImplCopyWith(_$DocumentDataModelImpl value,
+          $Res Function(_$DocumentDataModelImpl) then) =
+      __$$DocumentDataModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? documentType,
+      String? documentStatus,
+      String? uploadedUrl,
+      String? errorTxt});
+}
+
+/// @nodoc
+class __$$DocumentDataModelImplCopyWithImpl<$Res>
+    extends _$DocumentDataModelCopyWithImpl<$Res, _$DocumentDataModelImpl>
+    implements _$$DocumentDataModelImplCopyWith<$Res> {
+  __$$DocumentDataModelImplCopyWithImpl(_$DocumentDataModelImpl _value,
+      $Res Function(_$DocumentDataModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? documentType = freezed,
+    Object? documentStatus = freezed,
+    Object? uploadedUrl = freezed,
+    Object? errorTxt = freezed,
+  }) {
+    return _then(_$DocumentDataModelImpl(
+      documentType: freezed == documentType
+          ? _value.documentType
+          : documentType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      documentStatus: freezed == documentStatus
+          ? _value.documentStatus
+          : documentStatus // ignore: cast_nullable_to_non_nullable
+              as String?,
+      uploadedUrl: freezed == uploadedUrl
+          ? _value.uploadedUrl
+          : uploadedUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      errorTxt: freezed == errorTxt
+          ? _value.errorTxt
+          : errorTxt // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DocumentDataModelImpl implements _DocumentDataModel {
+  const _$DocumentDataModelImpl(
+      {required this.documentType,
+      required this.documentStatus,
+      required this.uploadedUrl,
+      required this.errorTxt});
+
+  factory _$DocumentDataModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DocumentDataModelImplFromJson(json);
+
+  @override
+  final String? documentType;
+  @override
+  final String? documentStatus;
+  @override
+  final String? uploadedUrl;
+  @override
+  final String? errorTxt;
+
+  @override
+  String toString() {
+    return 'DocumentDataModel(documentType: $documentType, documentStatus: $documentStatus, uploadedUrl: $uploadedUrl, errorTxt: $errorTxt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DocumentDataModelImpl &&
+            (identical(other.documentType, documentType) ||
+                other.documentType == documentType) &&
+            (identical(other.documentStatus, documentStatus) ||
+                other.documentStatus == documentStatus) &&
+            (identical(other.uploadedUrl, uploadedUrl) ||
+                other.uploadedUrl == uploadedUrl) &&
+            (identical(other.errorTxt, errorTxt) ||
+                other.errorTxt == errorTxt));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, documentType, documentStatus, uploadedUrl, errorTxt);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DocumentDataModelImplCopyWith<_$DocumentDataModelImpl> get copyWith =>
+      __$$DocumentDataModelImplCopyWithImpl<_$DocumentDataModelImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DocumentDataModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DocumentDataModel implements DocumentDataModel {
+  const factory _DocumentDataModel(
+      {required final String? documentType,
+      required final String? documentStatus,
+      required final String? uploadedUrl,
+      required final String? errorTxt}) = _$DocumentDataModelImpl;
+
+  factory _DocumentDataModel.fromJson(Map<String, dynamic> json) =
+      _$DocumentDataModelImpl.fromJson;
+
+  @override
+  String? get documentType;
+  @override
+  String? get documentStatus;
+  @override
+  String? get uploadedUrl;
+  @override
+  String? get errorTxt;
+  @override
+  @JsonKey(ignore: true)
+  _$$DocumentDataModelImplCopyWith<_$DocumentDataModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

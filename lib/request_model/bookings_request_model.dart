@@ -14,6 +14,7 @@ class BookingRequestModel with _$BookingRequestModel{
     required RoomModel? roomModel,
     required String? hostelId,
     required String? roomId,
+    required String? couponId,
     required List<GuestDetailsModel>? guestDetailsList,
     required DateTime? checkInDate,
     required DateTime? checkOutDate,

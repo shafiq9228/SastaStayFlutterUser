@@ -25,7 +25,7 @@ class HostelDetailsHorizontalComponent2 extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
           width: 220,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

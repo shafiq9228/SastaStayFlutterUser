@@ -14,7 +14,7 @@ class HostelDetailsHorizontalShimmer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
+        decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.circular(8),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
         width: view == 1 ? 200 : 240,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

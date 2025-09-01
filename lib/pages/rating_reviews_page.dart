@@ -44,21 +44,6 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                   Get.back();
                 }),
                 RatingComponent(rating: widget.rating),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: CustomOutlinedButton(buttonTxt: "Submit Your Rating", buttonClick: (){
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true, // allows full height scroll
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                      ),
-                      builder: (context) {
-                        return  RatingAndReviewBottomSheet(hostelId: widget.hostelId ?? '');
-                      },
-                    );
-                  }),
-                ),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),

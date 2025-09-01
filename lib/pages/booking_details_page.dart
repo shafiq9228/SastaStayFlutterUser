@@ -14,6 +14,7 @@ import '../components/custom_outlined_button.dart';
 import '../components/empty_data_view.dart';
 import '../components/error_text_component.dart';
 import '../components/primary_button.dart';
+import '../components/rating_and_review_bottom_sheet.dart';
 import '../components/rating_component.dart';
 import '../components/read_more_text.dart';
 import '../components/room_component_1.dart';
@@ -125,7 +126,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
-                              CustomNetworkImage(imageUrl: hostelData?.hostelImage ??"",width: double.infinity,height: 300,fit: BoxFit.cover,),
+                              CustomNetworkImage(imageUrl: hostelData.hostelImage ??"",width: double.infinity,height: 300,fit: BoxFit.cover,),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                                 child: Visibility(
@@ -273,7 +274,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      hostelData?.hostelName ?? 'Hostel',
+                                      hostelData.hostelName ?? 'Hostel',
                                       style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.w600,
@@ -283,7 +284,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                   Image.asset("assets/images/star.png",width: 18,height: 18),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                                    child: Text("${hostelData?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black,decoration: TextDecoration.underline)),
+                                    child: Text("${hostelData.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black,decoration: TextDecoration.underline)),
                                   ),
                                 ],
                               ),
@@ -292,7 +293,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 child: Row(
                                   children: [
                                     Image.asset("assets/images/location.png",width: 10,height: 10,color: CustomColors.textColor),
-                                    Expanded(child: Text(hostelData?.location?.address1 ?? "",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.textColor))),
+                                    Expanded(child: Text(hostelData.location?.address1 ?? "",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.textColor))),
                                     Text("${hostelData?.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
                                   ],
                                 ),
@@ -397,9 +398,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           Row(
                             children: [
                               Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                              Visibility(visible: (bookingDataModel?.discount ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.total ?? 0) + (bookingDataModel?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                              Visibility(visible: (bookingDataModel?.discount ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.total ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
                                   decorationThickness: 2,
                                   decorationColor: Colors.black))),
+                              SizedBox(width: 5),
                               Text("₹${(bookingDataModel?.total ?? 0) - (bookingDataModel?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
                             ],
                           ),
@@ -439,11 +441,23 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           const SideHeadingComponent(title: "Rules",viewVisible: false),
                           _buildRulesList(hostelData.rules ?? []),
                           const SizedBox(height: 30),
+                          if((bookingDataModel?.bookingStatus ?? "") == "Ongoing") PrimaryButton(buttonTxt: "Rate Hostel", buttonClick: (){
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true, // allows full height scroll
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                              ),
+                              builder: (context) {
+                                return  RatingAndReviewBottomSheet(hostelId: hostelData.id ?? '');
+                              },
+                            );
+                          })
                         ],
                       ),
                     ),
                   ),
-                ],
+                ]
               );
             },
             orElse: () => Center(

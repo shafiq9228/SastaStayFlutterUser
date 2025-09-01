@@ -555,7 +555,8 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                               checkOutDate: _selectedDates.last,
                               guestCount: _guestCount,
                               guestDetailsList: [],
-                            ),
+                              couponId: '',
+                            ),true
                           );
                         }),
                       ],
@@ -577,7 +578,8 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                             checkOutDate: _selectedDates.last,
                             guestCount: _guestCount,
                             guestDetailsList: [],
-                          ),
+                            couponId: '',
+                          ),true
                         );
                       },
                     );
@@ -600,7 +602,8 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                           checkOutDate: _selectedDates.last,
                           guestCount: _guestCount,
                           guestDetailsList: [],
-                        ),
+                          couponId: ''
+                        ),true
                       );
                     },
                   ),

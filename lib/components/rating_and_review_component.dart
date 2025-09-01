@@ -23,7 +23,7 @@ class RatingAndReviewComponent extends StatelessWidget {
             Row(
               children: [
                 CircleAvatar(
-                  radius: 30,
+                  radius: 20,
                   backgroundImage: NetworkImage(
                     userModel.profilePic ??
                         'https://i.stack.imgur.com/l60Hf.png',
@@ -35,8 +35,8 @@ class RatingAndReviewComponent extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(userModel.name ?? "",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700,color: CustomColors.textColor),),
-                      SizedBox(height: 10),
+                      Text(userModel.name ?? "",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: CustomColors.textColor),),
+                      SizedBox(height: 5),
                       IgnorePointer(
                           child: RatingBar.builder(
                             initialRating: double.tryParse((ratingAndReviewModel?.rating ?? "0").toString()) ?? 0,

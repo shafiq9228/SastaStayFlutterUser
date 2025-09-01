@@ -6,6 +6,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:pg_hostel/components/helper_bottom_sheet.dart';
 import 'package:pg_hostel/components/icon_title_message_component.dart';
 import 'package:pg_hostel/pages/coupons_page.dart';
+import 'package:pg_hostel/pages/help_support_page.dart';
+import 'package:pg_hostel/pages/kyc_page.dart';
 import 'package:pg_hostel/pages/register_user_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
@@ -299,11 +301,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: Column(
                                   children: [
                                     ProfileMenu(title: "Helps", image: "assets/images/help.png", onTapped: (){
-
+                                       Get.to(() => const HelpSupportPage());
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                     ProfileMenu(title: "Kyc Verification", image: "assets/images/help.png", onTapped: (){
+                                         Get.to(() => KycPage(userModel: userModel));
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Coupons", image: "assets/images/couponv.png", onTapped: (){
-                                      Get.to(() => CouponsPage());
+                                      Get.to(() => CouponsPage(selecting: false));
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     Obx(() => logOuting.value == true ? CustomProgressBar() :

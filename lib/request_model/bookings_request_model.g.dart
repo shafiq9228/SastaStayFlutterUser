@@ -14,6 +14,7 @@ _$BookingRequestModelImpl _$$BookingRequestModelImplFromJson(
           : RoomModel.fromJson(json['roomModel'] as Map<String, dynamic>),
       hostelId: json['hostelId'] as String?,
       roomId: json['roomId'] as String?,
+      couponId: json['couponId'] as String?,
       guestDetailsList: (json['guestDetailsList'] as List<dynamic>?)
           ?.map((e) => GuestDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -32,6 +33,7 @@ Map<String, dynamic> _$$BookingRequestModelImplToJson(
       'roomModel': instance.roomModel,
       'hostelId': instance.hostelId,
       'roomId': instance.roomId,
+      'couponId': instance.couponId,
       'guestDetailsList': instance.guestDetailsList,
       'checkInDate': instance.checkInDate?.toIso8601String(),
       'checkOutDate': instance.checkOutDate?.toIso8601String(),

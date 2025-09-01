@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
 import 'package:pg_hostel/pages/booking_details_page.dart';
+import 'package:pg_hostel/view_models/hostel_view_model.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
+import '../pages/checkout_page.dart';
 import '../request_model/auth_request_model.dart';
 import '../request_model/bookings_request_model.dart';
 import '../response_model/auth_response_model.dart';
@@ -19,6 +21,7 @@ class BookingViewModel extends GetxController{
 
   final apiProvider = Get.put(ApiProvider());
   final preferenceManager = Get.put(PreferenceManager());
+  final hostelViewModel = Get.put(HostelViewModel());
   final Razorpay razorpay = Razorpay();
 
 
@@ -36,20 +39,38 @@ class BookingViewModel extends GetxController{
   final fetchBookingDetailsObserver = const ApiResult<FetchBookingDetailsResponseModel>.init().obs;
 
   RxList<GuestDetailsModel> guestDetailsList = <GuestDetailsModel>[].obs;
+  Rx<CouponDataModel?> selectedCoupon = Rx<CouponDataModel?>(null);
 
 
-  Future<void> checkHostelRoomAvailability(BookingRequestModel request) async {
+  Future<void> checkHostelRoomAvailability(BookingRequestModel? request,bool navigate) async {
     try{
       checkHostelRoomAvailabilityObserver.value = const ApiResult.loading("");
-      print(request.toJson());
-      final response = await apiProvider.post(EndPoints.checkHostelRoomAvailability,request.toJson());
+
+      final newRequest = request?.copyWith(couponId: selectedCoupon.value?.id ?? "");
+      final response = await apiProvider.post(EndPoints.checkHostelRoomAvailability,newRequest?.toJson());
       final body = response.body;
+
       if(response.isOk && body !=null){
         var responseData = HostelRoomAvailabilityResponseModel.fromJson(body);
         if(responseData.status == 1){
-          Get.close(2);
-          final updatedRequest = request.copyWith(roomModel: request.roomModel?.copyWith(checkInDate: request.checkInDate,checkOutDate: request.checkOutDate,guestCount: request.guestCount));
+          final updatedRequest = request?.copyWith(roomModel: request.roomModel?.copyWith(checkInDate: request.checkInDate,checkOutDate: request.checkOutDate,guestCount: request.guestCount));
           bookingRequestModelObserver.value = updatedRequest;
+
+          if(navigate == true){
+            hostelViewModel.fetchHostelDetailsObserver.value.maybeWhen(
+                success: (data){
+                  final hostelData = (data as FetchHostelDetailsResponseModel).data;
+                  Get.close(2);
+                  Get.to(() => CheckoutPage(hostelData: hostelData));
+                },
+                orElse: (){
+                  Get.close(2);
+                }
+            );
+          }
+          else{
+            Get.close(1);
+          }
           checkHostelRoomAvailabilityObserver.value = ApiResult.success(responseData);
           return;
         }
