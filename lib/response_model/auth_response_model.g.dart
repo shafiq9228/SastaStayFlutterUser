@@ -143,6 +143,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       favouriteHostels: json['favouriteHostels'],
       onGoingBookings: json['onGoingBookings'],
       upComingBookings: json['upComingBookings'],
+      wallet: json['wallet'],
       address: json['address'] == null
           ? null
           : LocationModel.fromJson(json['address'] as Map<String, dynamic>),
@@ -169,6 +170,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'favouriteHostels': instance.favouriteHostels,
       'onGoingBookings': instance.onGoingBookings,
       'upComingBookings': instance.upComingBookings,
+      'wallet': instance.wallet,
       'address': instance.address,
       'kycDocuments': instance.kycDocuments,
     };
@@ -189,4 +191,39 @@ Map<String, dynamic> _$$DocumentDataModelImplToJson(
       'documentStatus': instance.documentStatus,
       'uploadedUrl': instance.uploadedUrl,
       'errorTxt': instance.errorTxt,
+    };
+
+_$FetchNotificationsResponseModelImpl
+    _$$FetchNotificationsResponseModelImplFromJson(Map<String, dynamic> json) =>
+        _$FetchNotificationsResponseModelImpl(
+          status: json['status'] as int?,
+          message: json['message'] as String?,
+          data: (json['data'] as List<dynamic>?)
+              ?.map(
+                  (e) => NotificationModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$FetchNotificationsResponseModelImplToJson(
+        _$FetchNotificationsResponseModelImpl instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+_$NotificationModelImpl _$$NotificationModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$NotificationModelImpl(
+      topic: json['topic'] as String?,
+      title: json['title'] as String?,
+      body: json['body'] as String?,
+    );
+
+Map<String, dynamic> _$$NotificationModelImplToJson(
+        _$NotificationModelImpl instance) =>
+    <String, dynamic>{
+      'topic': instance.topic,
+      'title': instance.title,
+      'body': instance.body,
     };

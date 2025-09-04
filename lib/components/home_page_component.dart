@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pg_hostel/pages/notifications_page.dart';
 import 'package:pg_hostel/pages/search_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
@@ -34,13 +35,18 @@ class HomePageComponent extends StatelessWidget {
                   ),
                   Image.asset("assets/images/bottom_line.png",width: 10,height: 10,color: CustomColors.white),
                   const SizedBox(width:20),
-                  Container(
-                      decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(500),color: CustomColors.white.withOpacity(0.3))
-                      ,child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset("assets/images/bell.png",width: 20,height: 20,color: CustomColors.white,),
-                      ))
+                  InkWell(
+                    onTap: (){
+                      Get.to(() => const NotificationsPage());
+                    },
+                    child: Container(
+                        decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(500),color: CustomColors.white.withOpacity(0.3))
+                        ,child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Image.asset("assets/images/bell.png",width: 20,height: 20,color: CustomColors.white,),
+                        )),
+                  )
                 ],),
                 const SizedBox(height: 10),
                 Obx(()=> Text(authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (data) => "Hi, ${(data as FetchUserDetailsResponseModel).data?.name ?? ""} 👋",orElse: () => ""),style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 18))),

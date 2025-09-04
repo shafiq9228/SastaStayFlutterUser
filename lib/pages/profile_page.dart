@@ -165,8 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: CircleAvatar(
                                         radius: 30,
                                         backgroundImage: NetworkImage(
-                                          userModel?.profilePic ??
-                                              'https://i.stack.imgur.com/l60Hf.png',
+                                          userModel?.profilePic?.isEmpty == true ? 'https://i.stack.imgur.com/l60Hf.png' : userModel?.profilePic ?? "https://i.stack.imgur.com/l60Hf.png",
                                         ),
                                         backgroundColor: Colors.grey,
                                       ),
@@ -277,11 +276,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Saved",message: "${userModel?.favouriteHostels ?? 0}"),
+                                        IconTitleMessageComponent(assetImage: "assets/images/bookmark.png",title: "Saved",message: "${userModel?.favouriteHostels ?? 0}"),
                                         Container(width: 0.5,height: 50,color: CustomColors.darkGray),
                                         IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Ongoing",message: "${userModel?.onGoingBookings ?? 0}"),
                                         Container(width: 0.5,height: 50,color: CustomColors.darkGray),
-                                        IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Upcoming",message: "${userModel?.upComingBookings ?? 0}")
+                                        IconTitleMessageComponent(assetImage: "assets/images/wallet.png",title: "Wallet",message: "${userModel?.wallet ?? 0}")
                                       ],
                                     )
                                   ],
@@ -304,10 +303,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                        Get.to(() => const HelpSupportPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
-                                     ProfileMenu(title: "Kyc Verification", image: "assets/images/help.png", onTapped: (){
-                                         Get.to(() => KycPage(userModel: userModel));
-                                    }),
-                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    Obx(() => Visibility(
+                                         visible: (authViewModel.kysDocuments ?? []).any((edir) =>  edir.documentStatus == "pending") == true,
+                                         child: Column(
+                                           crossAxisAlignment: CrossAxisAlignment.start,
+                                           children: [
+                                             ProfileMenu(title: "Kyc Verification", image: "assets/images/kyc.png", onTapped: (){
+                                               Get.to(() => KycPage(userModel: userModel));
+                                             }),
+                                             DottedLine(dashColor: CustomColors.darkGray),
+                                           ],
+                                         ),
+                                       ),
+                                    ),
                                     ProfileMenu(title: "Coupons", image: "assets/images/couponv.png", onTapped: (){
                                       Get.to(() => CouponsPage(selecting: false));
                                     }),

@@ -25,7 +25,7 @@ class BookingsPage extends StatefulWidget {
 
 class _BookingsPageState extends State<BookingsPage> {
   final bookingsViewModel = Get.put(BookingViewModel());
-  final displayList = ["All","Ongoing","Upcoming","Past"];
+  final displayList = ["All","Ongoing","Upcoming","Past","Cancelled"];
   RxString filterType = "All".obs;
 
   @override
@@ -162,6 +162,8 @@ class _BookingsPageState extends State<BookingsPage> {
         return bookingsViewModel.fetchUpComingBookingsObserver;
       case "Past":
         return bookingsViewModel.fetchPastBookingsObserver;
+      case "Cancelled":
+        return bookingsViewModel.fetchCancelledBookingsObserver;
       default:
         return bookingsViewModel.fetchAllBookingsObserver;
     }
@@ -172,11 +174,13 @@ class _BookingsPageState extends State<BookingsPage> {
       case "Ongoing":
         return bookingsViewModel.fetchOngoingBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);
       case "Upcoming":
-        return bookingsViewModel.fetchUpComingBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);;
+        return bookingsViewModel.fetchUpComingBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);
       case "Past":
-        return bookingsViewModel.fetchPastBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);;
+        return bookingsViewModel.fetchPastBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);
+      case "Cancelled":
+        return bookingsViewModel.fetchCancelledBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);
       default:
-        return bookingsViewModel.fetchAllBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);;
+        return bookingsViewModel.fetchAllBookingsObserver.value.data.value.maybeWhen(success:(data) => (data as FetchBookingsResponseModel).data?.length ?? 0,orElse: () => 0);
     }
   }
 

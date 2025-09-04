@@ -23,6 +23,7 @@ class HostelViewModel extends GetxController{
   final updateFavouritesObserver = const ApiResult<PrimaryResponseModel>.init().obs;
 
   final fetchCouponsObserver =  PaginationModel(data: const ApiResult<FetchCouponsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchNotificationsObserver =  PaginationModel(data: const ApiResult<FetchNotificationsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
 
   final fetchHostelDetailsObserver = const ApiResult<FetchHostelDetailsResponseModel>.init().obs;
 
@@ -354,6 +355,62 @@ class HostelViewModel extends GetxController{
         if(responseData.status == 1){
           observer.value.data.value.maybeWhen(success: (data) {
             final oldList = (data as FetchCouponsResponseModel?)?.data?.toList();
+            oldList?.addAll(responseData.data ?? List.empty());
+            observer.value.data.value = ApiResult.success(responseData.copyWith(data: oldList));
+          }, orElse: () {
+            observer.value.data.value = ApiResult.success(responseData);
+          });
+
+          observer.value.page = observer.value.page + 1;
+          if ((responseData.data?.length ?? 0) < maxListApiReturns) {
+            observer.value.isPaginationCompleted = true;
+          }
+          observer.value.isLoading = false;
+          observer.refresh();
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      observer.value.data.value = ApiResult.error(e.toString());
+      observer.value.isLoading = false;
+      observer.refresh();
+    }
+  }
+
+  Future<void> fetchNotifications(PaginationRequestModel request,bool refresh) async {
+    final observer = fetchNotificationsObserver;
+    try{
+      if(refresh == true){
+        observer.value = PaginationModel(data: const ApiResult<FetchNotificationsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "");
+      }
+
+      if (observer.value.isPaginationCompleted || observer.value.isLoading == true) return;
+
+      if(observer.value.page == 1){
+        observer.value.data.value = const ApiResult.loading("");
+      }
+      else{
+        observer.value.isLoading = true;
+        observer.refresh();
+      }
+
+      const maxListApiReturns = 20;
+      observer.refresh();
+
+      final String? validatorResponse = AuthUtils.validateRequestFields(['page'], request.toJson());
+      if(validatorResponse != null) throw validatorResponse;
+
+      final response = await apiProvider.post(EndPoints.fetchNotifications,request.toJson());
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = FetchNotificationsResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          observer.value.data.value.maybeWhen(success: (data) {
+            final oldList = (data as FetchNotificationsResponseModel)?.data?.toList();
             oldList?.addAll(responseData.data ?? List.empty());
             observer.value.data.value = ApiResult.success(responseData.copyWith(data: oldList));
           }, orElse: () {

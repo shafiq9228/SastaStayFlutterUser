@@ -16,9 +16,11 @@ class EndPoints{
 
   static const fetchAmenities = "fetchAmenities";
   static const fetchCoupons = "fetchCoupons";
+  static const fetchNotifications = "fetchNotifications";
   static const fetchHostelRooms = "fetchHostelRooms";
 
   static const updateFavouriteStatus = "updateFavouriteStatus";
+  static const cancelBooking = "cancelBooking";
 
   static const addRatingAndReviews = "addRatingAndReviews";
   static const fetchRatingAndReviews = "fetchRatingAndReviews";

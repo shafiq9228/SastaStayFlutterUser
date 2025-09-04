@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image/image.dart' as img;
 
 import 'package:geolocator/geolocator.dart';
@@ -304,7 +305,7 @@ class AuthViewModel extends GetxController{
           userId.value = responseData.data?.id ?? "";
           profilePic.value = responseData.data?.image ?? "";
           if(responseData.data?.kycDocuments?.length == 3){
-            kysDocuments.value = responseData.data?.kycDocuments ?? [];
+            kysDocuments.value = responseData.data?.kycDocuments ?? kysDocuments;
           }
 
           if(responseData.data?.address != null){
@@ -320,10 +321,9 @@ class AuthViewModel extends GetxController{
             Get.offAll(() => const UserBlocked());
           }
 
-          // await FirebaseMessaging.instance.subscribeToTopic(responseData.data?.id ?? "");
-          // await FirebaseMessaging.instance.subscribeToTopic("all");
-          // await FirebaseMessaging.instance.subscribeToTopic("user");
-          // final fcmToken = await FirebaseMessaging.instance.getToken();
+          await FirebaseMessaging.instance.subscribeToTopic(responseData.data?.id ?? "");
+          await FirebaseMessaging.instance.subscribeToTopic("all");
+          await FirebaseMessaging.instance.subscribeToTopic("users");
           return;
         }
         throw "${responseData.message}";
@@ -339,7 +339,7 @@ class AuthViewModel extends GetxController{
   Future<void> registerUser(RegisterUserRequestModel request) async {
     try{
       registerUserResponseObserver.value = const ApiResult.loading("");
-      final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','dob','gender','address'], request.toJson());
+      final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','dob','gender','address','kycDocuments'], request.toJson());
       if(validatorResponse != null) throw validatorResponse;
       final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','landMark','pinCode','latitude','longitude'], request.address!.toJson());
       if(locationValidation != null) throw locationValidation;

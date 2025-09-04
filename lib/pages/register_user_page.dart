@@ -60,7 +60,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           dobController.text = widget.userModel?.dob ?? "";
           authViewModel.profilePic.value = widget.userModel?.image ?? "";
           authViewModel.locationDetails.value = widget.userModel?.address ?? authViewModel.locationDetails.value;
-          authViewModel.kysDocuments.value = widget.userModel?.kycDocuments ?? authViewModel.kysDocuments.value;
+          authViewModel.kysDocuments.value = widget.userModel?.kycDocuments ?? authViewModel.kysDocuments.toList();
           setState(() {
             selectedGender = widget.userModel?.gender ?? "Male";
           });

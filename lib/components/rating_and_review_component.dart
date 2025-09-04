@@ -25,8 +25,7 @@ class RatingAndReviewComponent extends StatelessWidget {
                 CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(
-                    userModel.profilePic ??
-                        'https://i.stack.imgur.com/l60Hf.png',
+                    userModel.profilePic?.isEmpty == true ? 'https://i.stack.imgur.com/l60Hf.png' : userModel?.profilePic ?? "https://i.stack.imgur.com/l60Hf.png",
                   ),
                   backgroundColor: Colors.grey,
                 ),

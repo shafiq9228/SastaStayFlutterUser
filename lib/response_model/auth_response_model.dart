@@ -133,6 +133,7 @@ class UserModel with _$UserModel{
     dynamic favouriteHostels,
     dynamic onGoingBookings,
     dynamic upComingBookings,
+    dynamic wallet,
     LocationModel? address,
     List<DocumentDataModel>? kycDocuments
   }) = _UserModel;
@@ -151,3 +152,27 @@ class DocumentDataModel with _$DocumentDataModel{
 
   factory DocumentDataModel.fromJson(Map<String, dynamic> json) => _$DocumentDataModelFromJson(json);
 }
+
+@Freezed()
+class FetchNotificationsResponseModel with _$FetchNotificationsResponseModel{
+  const factory FetchNotificationsResponseModel({
+    int? status,
+    String? message,
+    List<NotificationModel>? data
+  }) = _FetchNotificationsResponseModel;
+
+  factory FetchNotificationsResponseModel.fromJson(Map<String, dynamic> json) => _$FetchNotificationsResponseModelFromJson(json);
+}
+
+@Freezed()
+class NotificationModel with _$NotificationModel{
+  const factory NotificationModel({
+    String? topic,
+    String? title,
+    String? body
+  }) = _NotificationModel;
+
+  factory NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);
+}
+
+

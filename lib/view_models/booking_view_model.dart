@@ -30,11 +30,14 @@ class BookingViewModel extends GetxController{
   final checkHostelRoomAvailabilityObserver = const ApiResult<HostelRoomAvailabilityResponseModel>.init().obs;
   final confirmBookingObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
   final updateBookingStatusObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
+  final cancelBookingStatusObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
+
 
   final fetchAllBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchOngoingBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchUpComingBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchPastBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchCancelledBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
 
   final fetchBookingDetailsObserver = const ApiResult<FetchBookingDetailsResponseModel>.init().obs;
 
@@ -92,8 +95,9 @@ class BookingViewModel extends GetxController{
     try{
       if(request == null) throw "Invalid Booking Request";
       razorpay.clear();
+      final newRequest = request.copyWith(couponId: selectedCoupon.value?.id ?? "");
       confirmBookingObserver.value = const ApiResult.loading("");
-      final response = await apiProvider.post(EndPoints.confirmBooking,request?.toJson());
+      final response = await apiProvider.post(EndPoints.confirmBooking,newRequest.toJson());
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
@@ -137,6 +141,8 @@ class BookingViewModel extends GetxController{
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
         if(responseData.status == 1){
+          guestDetailsList.clear();
+          bookingRequestModelObserver.value = null;
           Get.to(() => BookingDetailsPage(orderId: orderId ?? "",fromPaymentScreen:true));
           updateBookingStatusObserver.value = ApiResult.success(responseData);
           confirmBookingObserver.value = ApiResult.success(responseData);
@@ -155,8 +161,32 @@ class BookingViewModel extends GetxController{
   }
 
 
+  Future<void> performCancelBooking(String? orderId) async{
+    try{
+      cancelBookingStatusObserver.value = const ApiResult.loading("");
+      final response = await apiProvider.post(EndPoints.cancelBooking,{"orderId":orderId});
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = ConfirmBookingResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          Get.snackbar("Success","Booking Cancelled Successfully.Your Amount Refund Back To Your Wallet",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+          fetchBookingDetails(orderId ?? "");
+          cancelBookingStatusObserver.value = ApiResult.success(responseData);
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      cancelBookingStatusObserver.value = ApiResult.error(e.toString());
+    }
+  }
+
+
   Future<void> fetchBookings(PaginationRequestModel request,bool refresh) async {
-    final observer = request.query == "Ongoing" ? fetchOngoingBookingsObserver : request.query == "Upcoming" ? fetchUpComingBookingsObserver : request.query == "Past" ? fetchPastBookingsObserver : fetchAllBookingsObserver;
+    final observer = request.query == "Ongoing" ? fetchOngoingBookingsObserver : request.query == "Upcoming" ? fetchUpComingBookingsObserver : request.query == "Past" ? fetchPastBookingsObserver : request.query == "Cancelled" ? fetchCancelledBookingsObserver :fetchAllBookingsObserver;
     try{
       if(refresh == true){
         observer.value = PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "");
