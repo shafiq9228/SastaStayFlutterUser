@@ -28,10 +28,25 @@ class PaginationRequestModel with _$PaginationRequestModel{
     String? hostelId,
     double? latitude,
     double? longitude,
-    required int? page
+    required int? page,
+    FilterRequestModel? filterRequest
   }) = _PaginationRequestModel;
 
   factory PaginationRequestModel.fromJson(Map<String, dynamic> json) => _$PaginationRequestModelFromJson(json);
+}
+
+@Freezed()
+class FilterRequestModel with _$FilterRequestModel{
+  const factory FilterRequestModel({
+    List<String>? locations,
+    List<String>? hostelTypes,
+    List<String>? roomTypes,
+    String? bookingType,
+    double? startPrice,
+    double? endPrice
+  }) = _FilterRequestModel;
+
+  factory FilterRequestModel.fromJson(Map<String, dynamic> json) => _$FilterRequestModelFromJson(json);
 }
 
 @Freezed()
@@ -82,6 +97,7 @@ class RegisterUserRequestModel with _$RegisterUserRequestModel{
     String? dob,
     String? gender,
     LocationModel? address,
+    String? referralCode,
     List<DocumentDataModel>? kycDocuments
   }) = _RegisterUserRequestModel;
 

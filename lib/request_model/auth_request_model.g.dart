@@ -29,6 +29,10 @@ _$PaginationRequestModelImpl _$$PaginationRequestModelImplFromJson(
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
       page: json['page'] as int?,
+      filterRequest: json['filterRequest'] == null
+          ? null
+          : FilterRequestModel.fromJson(
+              json['filterRequest'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$PaginationRequestModelImplToJson(
@@ -42,6 +46,35 @@ Map<String, dynamic> _$$PaginationRequestModelImplToJson(
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'page': instance.page,
+      'filterRequest': instance.filterRequest,
+    };
+
+_$FilterRequestModelImpl _$$FilterRequestModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FilterRequestModelImpl(
+      locations: (json['locations'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      hostelTypes: (json['hostelTypes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      roomTypes: (json['roomTypes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      bookingType: json['bookingType'] as String?,
+      startPrice: (json['startPrice'] as num?)?.toDouble(),
+      endPrice: (json['endPrice'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$FilterRequestModelImplToJson(
+        _$FilterRequestModelImpl instance) =>
+    <String, dynamic>{
+      'locations': instance.locations,
+      'hostelTypes': instance.hostelTypes,
+      'roomTypes': instance.roomTypes,
+      'bookingType': instance.bookingType,
+      'startPrice': instance.startPrice,
+      'endPrice': instance.endPrice,
     };
 
 _$SendOtpRequestModelImpl _$$SendOtpRequestModelImplFromJson(
@@ -109,6 +142,7 @@ _$RegisterUserRequestModelImpl _$$RegisterUserRequestModelImplFromJson(
       address: json['address'] == null
           ? null
           : LocationModel.fromJson(json['address'] as Map<String, dynamic>),
+      referralCode: json['referralCode'] as String?,
       kycDocuments: (json['kycDocuments'] as List<dynamic>?)
           ?.map((e) => DocumentDataModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -125,6 +159,7 @@ Map<String, dynamic> _$$RegisterUserRequestModelImplToJson(
       'dob': instance.dob,
       'gender': instance.gender,
       'address': instance.address,
+      'referralCode': instance.referralCode,
       'kycDocuments': instance.kycDocuments,
     };
 

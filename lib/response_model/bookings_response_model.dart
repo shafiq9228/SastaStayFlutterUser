@@ -50,10 +50,43 @@ class HostelRoomBookingDataModel with _$HostelRoomBookingDataModel {
     int? discount,
     List<AmountDetailsModel>? paymentDetailLogs,
     List<BookingModel>? onGoingBookings,
-    BookingModel? bookingResponse
+    BookingModel? bookingResponse,
+    TransactionDataModel? transactionResponse
   }) = _HostelRoomBookingDataModel;
 
   factory HostelRoomBookingDataModel.fromJson(Map<String, dynamic> json) => _$HostelRoomBookingDataModelFromJson(json);
+}
+
+
+@Freezed()
+class FetchTransactionsResponseModel with _$FetchTransactionsResponseModel {
+  const factory FetchTransactionsResponseModel({
+    int? status,
+    String? message,
+    List<TransactionDataModel>? data
+  }) = _FetchTransactionsResponseModel;
+
+  factory FetchTransactionsResponseModel.fromJson(Map<String, dynamic> json) => _$FetchTransactionsResponseModelFromJson(json);
+}
+
+@Freezed()
+class TransactionDataModel with _$TransactionDataModel {
+  const factory TransactionDataModel({
+    @JsonKey(name:'_id') String? id,
+    String? userTitle,
+    String? transactionType,
+    String? paymentStatus,
+    dynamic userId,
+    dynamic dealerId,
+    dynamic bookingId,
+    String? orderId,
+    String? paymentId,
+    int? amount,
+    List<AmountDetailsModel>? logs,
+    DateTime? createdAt
+  }) = _TransactionDataModel;
+
+  factory TransactionDataModel.fromJson(Map<String, dynamic> json) => _$TransactionDataModelFromJson(json);
 }
 
 @Freezed()

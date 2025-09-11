@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/pages/search_page.dart';
+import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
+import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
 import '../components/type_of_hostel_component.dart';
 
@@ -15,6 +17,9 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
+
+  final hostelViewModel = Get.put(HostelViewModel());
+
 
   final  areaType = [
     "Ameerpet",
@@ -32,6 +37,7 @@ class _FilterPageState extends State<FilterPage> {
   ];
 
   bool showAllAreas = false;
+
 
   final  roomType = [
     "Single",
@@ -52,13 +58,18 @@ class _FilterPageState extends State<FilterPage> {
     "Suite Room"
   ];
 
+  final bookingTypeList = ["Daily","Monthly"];
+
   bool showAllRooms = false;
+
+
 
 
   @override
   Widget build(BuildContext context) {
     final displayList = showAllRooms ? roomType : roomType.take(5).toList();
     final displayAreaList = showAllAreas ? areaType : areaType.take(5).toList();
+
 
     return Scaffold(
       backgroundColor: CustomColors.white,
@@ -67,23 +78,29 @@ class _FilterPageState extends State<FilterPage> {
         child: Stack(children: [
           Column(
             children: [
-              SecondaryHeadingComponent(buttonTxt: "Filter"),
+              const SecondaryHeadingComponent(buttonTxt: "Filter"),
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SectionTitle(title: "Popular localities in Hyderabad"),
+                      const SectionTitle(title: "Popular localities in Hyderabad"),
                       Wrap(
                           spacing: 8,
                           children: [
                             ...displayAreaList.map((item) {
                               return InkWell(
                                 onTap: (){
-                                  Get.to(() => SearchPage(type: "Search",search: item));
-                                },
-                                  child: CustomChip(label: item));
+                                  if(hostelViewModel.filterLocations.contains(item)){
+                                    hostelViewModel.filterLocations.remove(item);
+                                  }
+                                  else{
+                                    hostelViewModel.filterLocations.add(item);
+                                  }
+                                  // Get.to(() => SearchPage(type: "Search",search: item));
+                                }, child: Obx(() => CustomChip(label: item,isSelected:hostelViewModel.filterLocations.contains(item)))
+                              );
                             }),
                             GestureDetector(
                               onTap: () {
@@ -96,19 +113,26 @@ class _FilterPageState extends State<FilterPage> {
                           ]
                       ),
                       const SizedBox(height: 16),
-                      SectionTitle(title: "Type of hostels"),
-                      const TypeOfHostelComponent(),
+                      const SectionTitle(title: "Type of hostels"),
+                      const TypeOfHostelComponent(filter:true),
                       const SizedBox(height: 16),
-                      SectionTitle(title: "Types of Beds"),
+                      const SectionTitle(title: "Types of Beds"),
                       Wrap(
                         spacing: 8,
                         children: [
                           ...displayList.map((item) {
                             return InkWell(
                                 onTap: (){
-                                  Get.to(() => SearchPage(type: "Search",search: item));
-                                },
-                                child: CustomChip(label: item));}),
+                                  if(hostelViewModel.filterRoomTypes.contains(item)){
+                                    hostelViewModel.filterRoomTypes.remove(item);
+                                  }
+                                  else{
+                                    hostelViewModel.filterRoomTypes.add(item);
+                                  }
+                                  // Get.to(() => SearchPage(type: "Search",search: item));
+                                }, child: Obx(() => CustomChip(label: item,isSelected:hostelViewModel.filterRoomTypes.contains(item)))
+                            );
+                          }),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -120,25 +144,20 @@ class _FilterPageState extends State<FilterPage> {
                         ]
                       ),
                       const SizedBox(height: 16),
-                      // SectionTitle(title: "Bed Price"),
-                      // RangeSliderWidget(min: 1000, max: 20000),
-                      // const SizedBox(height: 16),
-                      // SectionTitle(title: "Hostel Facilities"),
-                      // Wrap(
-                      //   spacing: 8,
-                      //   children: [
-                      //     FacilityChip(icon: Icons.wifi, label: "Wi-Fi"),
-                      //     FacilityChip(
-                      //         icon: Icons.local_drink, label: "Water Purifier"),
-                      //     FacilityChip(
-                      //         icon: Icons.security,
-                      //         label: "24x7 Security",
-                      //         isSelected: true),
-                      //     FacilityChip(
-                      //         icon: Icons.local_laundry_service, label: "Laundry"),
-                      //     CustomChip(label: "+7 More"),
-                      //   ],
-                      // ),
+                      const SectionTitle(title: "Booking Type"),
+                      Wrap(
+                        spacing: 8,
+                        children: bookingTypeList.map((item) {
+                             return InkWell(
+                                onTap: (){
+                                  hostelViewModel.bookingType.value = item;
+                                }, child: Obx(() => CustomChip(label: item,isSelected:hostelViewModel.bookingType.value == item))
+                            );}).toList()
+                      ),
+                      const SectionTitle(title: "Bed Price"),
+                      const SizedBox(height: 16),
+                      const RangeSliderWidget(min: 1000, max: 20000),
+                      const SizedBox(height: 16),
                       // const SizedBox(height: 16),
                       // SectionTitle(title: "Room Facilities"),
                       // Wrap(
@@ -158,14 +177,44 @@ class _FilterPageState extends State<FilterPage> {
               ),
             ],
           ),
-          // Align(
-          //     alignment: Alignment.bottomCenter,
-          //     child: Container(
-          //         color: Colors.white,
-          //         child: Padding(
-          //           padding: const EdgeInsets.only(bottom: 12),
-          //           child: BottomButtons(),
-          //         ))),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                color: CustomColors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          onTap: (){
+                            hostelViewModel.filterLocations.clear();
+                            hostelViewModel.filterHostelTypes.clear();
+                            hostelViewModel.filterRoomTypes.clear();
+                            hostelViewModel.rangeValue.value = const RangeValues(0.0, 20000.0);
+                          },
+                          child: Container(
+                            height: 50,
+                              decoration: AppStyles.categoryBg6,
+                              child:Center(child: Text("Clear Filter",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 16),),)),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: InkWell(
+                          onTap: (){
+                            Get.to(() => const SearchPage(type: "Filter"));
+                          },
+                          child: Container(
+                              height: 50,
+                              decoration: AppStyles.primaryBackground,
+                              child:Center(child: Text("Apply Filter",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 16),),)),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )),
         ]),
       ),
     );
@@ -192,8 +241,8 @@ class SectionTitle extends StatelessWidget {
 /// Custom Rounded Chip
 class CustomChip extends StatelessWidget {
   final String label;
-  final bool isSelected;
-  const CustomChip({super.key, required this.label, this.isSelected = false});
+  final bool? isSelected;
+  const CustomChip({super.key, required this.label, this.isSelected = null});
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +250,7 @@ class CustomChip extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8, top: 8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
+        decoration: isSelected == null ? AppStyles.categoryBg3 : isSelected ==  true ? AppStyles.selectedCategoryBg : BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
@@ -258,62 +307,66 @@ class RangeSliderWidget extends StatefulWidget {
 }
 
 class _RangeSliderWidgetState extends State<RangeSliderWidget> {
-  RangeValues values = const RangeValues(2000, 15000);
+  final hostelViewModel = Get.put(HostelViewModel());
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Min",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 16)),
-                  Container(
-                    height: 30,
-                    width: double.infinity,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
-                    child: Center(child: Text("₹${values.start.toInt()}",style: TextStyle(fontSize: 16,color: CustomColors.textColor,fontWeight: FontWeight.w700),)),
-                  )
-                ],
+    return Obx(() =>
+        Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Min",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 16)),
+                    Container(
+                      height: 30,
+                      width: double.infinity,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
+                      child: Center(child: Text("₹${hostelViewModel.rangeValue.value.start.toInt()}",style: TextStyle(fontSize: 16,color: CustomColors.textColor,fontWeight: FontWeight.w700),)),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(" "),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Max",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 16)),
-                  Container(
-                    height: 30,
-                    width: double.infinity,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
-                    child: Center(child: Text("₹${values.end.toInt()}",style: TextStyle(fontSize: 16,color: CustomColors.textColor,fontWeight: FontWeight.w700),)),
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(" "),
               ),
-            )
-          ],
-        ),
-        RangeSlider(
-          values: values,
-          min: widget.min,
-          max: widget.max,
-          divisions: 20,
-          activeColor: Colors.deepPurple,
-          labels: RangeLabels(
-            "₹${values.start.toInt()}",
-            "₹${values.end.toInt()}",
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Max",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 16)),
+                    Container(
+                      height: 30,
+                      width: double.infinity,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
+                      child: Center(child: Text("₹${hostelViewModel.rangeValue.value.end.toInt()}",style: TextStyle(fontSize: 16,color: CustomColors.textColor,fontWeight: FontWeight.w700),)),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
-          onChanged: (val) => setState(() => values = val),
-        ),
-        Text("₹${values.start.toInt()} - ₹${values.end.toInt()}"),
-      ],
+          RangeSlider(
+            values: hostelViewModel.rangeValue.value,
+            min: 0.0,
+            max: 20000.0,
+            divisions: 20,
+            activeColor: Colors.deepPurple,
+            labels: RangeLabels(
+              "₹${hostelViewModel.rangeValue.value.start.toInt()}",
+              "₹${hostelViewModel.rangeValue.value.end.toInt()}",
+            ),
+            onChanged: (val) {
+              hostelViewModel.rangeValue.value =  val;
+            },
+          ),
+          Text("₹${hostelViewModel.rangeValue.value.start.toInt()} - ₹${hostelViewModel.rangeValue.value.end.toInt()}"),
+        ],
+      ),
     );
   }
 }

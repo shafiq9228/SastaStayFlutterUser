@@ -1356,6 +1356,8 @@ mixin _$UserModel {
   dynamic get upComingBookings => throw _privateConstructorUsedError;
   dynamic get wallet => throw _privateConstructorUsedError;
   LocationModel? get address => throw _privateConstructorUsedError;
+  String? get referralCode => throw _privateConstructorUsedError;
+  List<String>? get referrals => throw _privateConstructorUsedError;
   List<DocumentDataModel>? get kycDocuments =>
       throw _privateConstructorUsedError;
 
@@ -1389,6 +1391,8 @@ abstract class $UserModelCopyWith<$Res> {
       dynamic upComingBookings,
       dynamic wallet,
       LocationModel? address,
+      String? referralCode,
+      List<String>? referrals,
       List<DocumentDataModel>? kycDocuments});
 
   $LocationModelCopyWith<$Res>? get address;
@@ -1425,6 +1429,8 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? upComingBookings = freezed,
     Object? wallet = freezed,
     Object? address = freezed,
+    Object? referralCode = freezed,
+    Object? referrals = freezed,
     Object? kycDocuments = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1500,6 +1506,14 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as LocationModel?,
+      referralCode: freezed == referralCode
+          ? _value.referralCode
+          : referralCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      referrals: freezed == referrals
+          ? _value.referrals
+          : referrals // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       kycDocuments: freezed == kycDocuments
           ? _value.kycDocuments
           : kycDocuments // ignore: cast_nullable_to_non_nullable
@@ -1547,6 +1561,8 @@ abstract class _$$UserModelImplCopyWith<$Res>
       dynamic upComingBookings,
       dynamic wallet,
       LocationModel? address,
+      String? referralCode,
+      List<String>? referrals,
       List<DocumentDataModel>? kycDocuments});
 
   @override
@@ -1582,6 +1598,8 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? upComingBookings = freezed,
     Object? wallet = freezed,
     Object? address = freezed,
+    Object? referralCode = freezed,
+    Object? referrals = freezed,
     Object? kycDocuments = freezed,
   }) {
     return _then(_$UserModelImpl(
@@ -1657,6 +1675,14 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as LocationModel?,
+      referralCode: freezed == referralCode
+          ? _value.referralCode
+          : referralCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      referrals: freezed == referrals
+          ? _value._referrals
+          : referrals // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       kycDocuments: freezed == kycDocuments
           ? _value._kycDocuments
           : kycDocuments // ignore: cast_nullable_to_non_nullable
@@ -1687,8 +1713,11 @@ class _$UserModelImpl implements _UserModel {
       this.upComingBookings,
       this.wallet,
       this.address,
+      this.referralCode,
+      final List<String>? referrals,
       final List<DocumentDataModel>? kycDocuments})
-      : _kycDocuments = kycDocuments;
+      : _referrals = referrals,
+        _kycDocuments = kycDocuments;
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -1730,6 +1759,18 @@ class _$UserModelImpl implements _UserModel {
   final dynamic wallet;
   @override
   final LocationModel? address;
+  @override
+  final String? referralCode;
+  final List<String>? _referrals;
+  @override
+  List<String>? get referrals {
+    final value = _referrals;
+    if (value == null) return null;
+    if (_referrals is EqualUnmodifiableListView) return _referrals;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   final List<DocumentDataModel>? _kycDocuments;
   @override
   List<DocumentDataModel>? get kycDocuments {
@@ -1742,7 +1783,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings, wallet: $wallet, address: $address, kycDocuments: $kycDocuments)';
+    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings, wallet: $wallet, address: $address, referralCode: $referralCode, referrals: $referrals, kycDocuments: $kycDocuments)';
   }
 
   @override
@@ -1773,6 +1814,10 @@ class _$UserModelImpl implements _UserModel {
                 .equals(other.upComingBookings, upComingBookings) &&
             const DeepCollectionEquality().equals(other.wallet, wallet) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.referralCode, referralCode) ||
+                other.referralCode == referralCode) &&
+            const DeepCollectionEquality()
+                .equals(other._referrals, _referrals) &&
             const DeepCollectionEquality()
                 .equals(other._kycDocuments, _kycDocuments));
   }
@@ -1799,6 +1844,8 @@ class _$UserModelImpl implements _UserModel {
         const DeepCollectionEquality().hash(upComingBookings),
         const DeepCollectionEquality().hash(wallet),
         address,
+        referralCode,
+        const DeepCollectionEquality().hash(_referrals),
         const DeepCollectionEquality().hash(_kycDocuments)
       ]);
 
@@ -1836,6 +1883,8 @@ abstract class _UserModel implements UserModel {
       final dynamic upComingBookings,
       final dynamic wallet,
       final LocationModel? address,
+      final String? referralCode,
+      final List<String>? referrals,
       final List<DocumentDataModel>? kycDocuments}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
@@ -1878,6 +1927,10 @@ abstract class _UserModel implements UserModel {
   dynamic get wallet;
   @override
   LocationModel? get address;
+  @override
+  String? get referralCode;
+  @override
+  List<String>? get referrals;
   @override
   List<DocumentDataModel>? get kycDocuments;
   @override

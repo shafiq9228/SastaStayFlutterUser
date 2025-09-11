@@ -16,6 +16,7 @@ import '../components/empty_data_view.dart';
 import '../request_model/auth_request_model.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
+import 'filter_page.dart';
 
 
 class SearchPage extends StatefulWidget {
@@ -51,13 +52,16 @@ class _SearchPageState extends State<SearchPage> {
             searchController.text = widget.search ?? "";
             _onSearchChanged();
           }
+          else if(widget.type == "Filter"){
+            _onSearchChanged();
+          }
         },
         child: SafeArea(
             top:true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                widget.type?.toLowerCase() == "search" ? Padding(
+                widget.type.toLowerCase() == "search" ? Padding(
                   padding: const EdgeInsets.all(15),
                   child: SizedBox(
                     height: 50,
@@ -105,7 +109,11 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(right: 20),
-                                  child: Obx(() => searchQuery.value.isEmpty ? const SizedBox() : hostelViewModel.fetchSearchedHostelsObserver.value.data.value.maybeWhen(
+                                  child: Obx(() => searchQuery.value.isEmpty ? GestureDetector(
+                                      onTap: (){
+                                        Get.off(() => FilterPage());
+                                      },
+                                      child: SizedBox(height: 20,width: 20,child: Center(child: Image.asset("assets/images/filter.png")))) : hostelViewModel.fetchSearchedHostelsObserver.value.data.value.maybeWhen(
                                       loading: (_) => SizedBox(height: 10,width: 10,child: Center(child: CircularProgressIndicator(color:CustomColors.textColor,strokeWidth: 2))),
                                       orElse: () => GestureDetector(
                                           onTap: (){
@@ -130,7 +138,7 @@ class _SearchPageState extends State<SearchPage> {
                       width: double.infinity,
                       height: double.infinity,
                       child: Obx(() {
-                        final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
+                        final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver  : widget.type.toLowerCase() == "filter" ? hostelViewModel.fetchFilterHostelsObserver  : hostelViewModel.fetchHostelsObserver;
                         return observer.value.data.value.maybeWhen(
                             loading: (loading) => ListView.builder(
                                 shrinkWrap: true,
@@ -194,7 +202,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _onSearchChanged() {
-    final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
+    final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : widget.type.toLowerCase() == "filter" ? hostelViewModel.fetchFilterHostelsObserver  : hostelViewModel.fetchHostelsObserver;
     observer.value.data.value = const ApiResult.loading("");
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
@@ -203,12 +211,12 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> _refreshData() async{
-    hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:widget.type?.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),true);
+    hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:widget.type.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),true);
   }
 
   Future<void> _addData() async {
-    final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type?.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : hostelViewModel.fetchHostelsObserver;
+    final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : widget.type.toLowerCase() == "filter" ? hostelViewModel.fetchFilterHostelsObserver : hostelViewModel.fetchHostelsObserver;
     if(observer.value.isPaginationCompleted || observer.value.isLoading ) return;
-    hostelViewModel.fetchHostels(PaginationRequestModel(page: observer.value.page,type:widget.type?.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),false);
+    hostelViewModel.fetchHostels(PaginationRequestModel(page: observer.value.page,type:widget.type.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),false);
   }
 }

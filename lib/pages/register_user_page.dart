@@ -30,6 +30,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
   final TextEditingController emailIdController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dobController = TextEditingController();
+  final TextEditingController referralCodeController = TextEditingController();
   RxBool registerByMobile = true.obs;
 
   String? selectedGender;
@@ -320,7 +321,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                     ),
                     Obx(()=> GestureDetector(
                         onTap: (){
-                          Get.to(() =>  LocationPickerPage());
+                          Get.to(() =>  const LocationPickerPage());
                         },
                         child: Container(
                           width: double.infinity,
@@ -332,6 +333,43 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                         ),
                       ),
                     ),
+                     Visibility(
+                       visible: widget.userModel == null,
+                       child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical:10),
+                        child: Text("Referral Code (Optional)",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
+                                           ),
+                     ),
+                     Visibility(
+                       visible: widget.userModel == null,
+                       child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: AppStyles.editTextBg,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: TextFormField(
+                              controller: referralCodeController,
+                              style: TextStyle(
+                                  color:CustomColors.textColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16
+                              ),
+                              decoration: InputDecoration(
+                                counterText: '',
+                                hintText: 'Enter Referrral Code',
+                                hintStyle: TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w600),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white), // Default color
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: CustomColors.white, width: 2.0), // Focus color
+                                ),
+                              )
+                          ),
+                        ),
+                                           ),
+                     ),
                     const SizedBox(height: 20),
                     Text(widget.userModel != null ? "Email And Mobile Can\'t Be Edited" : "${registerByMobile.value == true ? "Mobile" : "Email"} Can\'t Be Edited",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.secondary,fontSize: 12),),
                     const SizedBox(height: 20),
@@ -343,7 +381,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                             return;
                           }
                           print(authViewModel.locationDetails.value);
-                          authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender,address: authViewModel.locationDetails.value,kycDocuments: authViewModel.kysDocuments));
+                          authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender,address: authViewModel.locationDetails.value,referralCode: referralCodeController.text,kycDocuments: authViewModel.kysDocuments));
                         },))
                     ),
                     const SizedBox(height: 50),

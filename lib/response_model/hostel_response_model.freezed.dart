@@ -426,7 +426,7 @@ mixin _$HostelModel {
   List<RoomModel>? get rooms => throw _privateConstructorUsedError;
   int? get roomsMore => throw _privateConstructorUsedError;
   List<String>? get rules => throw _privateConstructorUsedError;
-  List<String>? get images => throw _privateConstructorUsedError;
+  List<ImageDataModel>? get images => throw _privateConstructorUsedError;
   LocationModel? get location => throw _privateConstructorUsedError;
   int? get monthlyIncome => throw _privateConstructorUsedError;
   int? get totalIncome => throw _privateConstructorUsedError;
@@ -463,7 +463,7 @@ abstract class $HostelModelCopyWith<$Res> {
       List<RoomModel>? rooms,
       int? roomsMore,
       List<String>? rules,
-      List<String>? images,
+      List<ImageDataModel>? images,
       LocationModel? location,
       int? monthlyIncome,
       int? totalIncome,
@@ -580,7 +580,7 @@ class _$HostelModelCopyWithImpl<$Res, $Val extends HostelModel>
       images: freezed == images
           ? _value.images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<ImageDataModel>?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -658,7 +658,7 @@ abstract class _$$HostelModelImplCopyWith<$Res>
       List<RoomModel>? rooms,
       int? roomsMore,
       List<String>? rules,
-      List<String>? images,
+      List<ImageDataModel>? images,
       LocationModel? location,
       int? monthlyIncome,
       int? totalIncome,
@@ -775,7 +775,7 @@ class __$$HostelModelImplCopyWithImpl<$Res>
       images: freezed == images
           ? _value._images
           : images // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<ImageDataModel>?,
       location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
@@ -824,7 +824,7 @@ class _$HostelModelImpl implements _HostelModel {
       final List<RoomModel>? rooms,
       this.roomsMore,
       final List<String>? rules,
-      final List<String>? images,
+      final List<ImageDataModel>? images,
       this.location,
       this.monthlyIncome,
       this.totalIncome,
@@ -905,9 +905,9 @@ class _$HostelModelImpl implements _HostelModel {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<String>? _images;
+  final List<ImageDataModel>? _images;
   @override
-  List<String>? get images {
+  List<ImageDataModel>? get images {
     final value = _images;
     if (value == null) return null;
     if (_images is EqualUnmodifiableListView) return _images;
@@ -1039,7 +1039,7 @@ abstract class _HostelModel implements HostelModel {
       final List<RoomModel>? rooms,
       final int? roomsMore,
       final List<String>? rules,
-      final List<String>? images,
+      final List<ImageDataModel>? images,
       final LocationModel? location,
       final int? monthlyIncome,
       final int? totalIncome,
@@ -1084,7 +1084,7 @@ abstract class _HostelModel implements HostelModel {
   @override
   List<String>? get rules;
   @override
-  List<String>? get images;
+  List<ImageDataModel>? get images;
   @override
   LocationModel? get location;
   @override
@@ -1100,6 +1100,171 @@ abstract class _HostelModel implements HostelModel {
   @override
   @JsonKey(ignore: true)
   _$$HostelModelImplCopyWith<_$HostelModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ImageDataModel _$ImageDataModelFromJson(Map<String, dynamic> json) {
+  return _ImageDataModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ImageDataModel {
+  String? get imagesType => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ImageDataModelCopyWith<ImageDataModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ImageDataModelCopyWith<$Res> {
+  factory $ImageDataModelCopyWith(
+          ImageDataModel value, $Res Function(ImageDataModel) then) =
+      _$ImageDataModelCopyWithImpl<$Res, ImageDataModel>;
+  @useResult
+  $Res call({String? imagesType, List<String>? images});
+}
+
+/// @nodoc
+class _$ImageDataModelCopyWithImpl<$Res, $Val extends ImageDataModel>
+    implements $ImageDataModelCopyWith<$Res> {
+  _$ImageDataModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? imagesType = freezed,
+    Object? images = freezed,
+  }) {
+    return _then(_value.copyWith(
+      imagesType: freezed == imagesType
+          ? _value.imagesType
+          : imagesType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      images: freezed == images
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ImageDataModelImplCopyWith<$Res>
+    implements $ImageDataModelCopyWith<$Res> {
+  factory _$$ImageDataModelImplCopyWith(_$ImageDataModelImpl value,
+          $Res Function(_$ImageDataModelImpl) then) =
+      __$$ImageDataModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? imagesType, List<String>? images});
+}
+
+/// @nodoc
+class __$$ImageDataModelImplCopyWithImpl<$Res>
+    extends _$ImageDataModelCopyWithImpl<$Res, _$ImageDataModelImpl>
+    implements _$$ImageDataModelImplCopyWith<$Res> {
+  __$$ImageDataModelImplCopyWithImpl(
+      _$ImageDataModelImpl _value, $Res Function(_$ImageDataModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? imagesType = freezed,
+    Object? images = freezed,
+  }) {
+    return _then(_$ImageDataModelImpl(
+      imagesType: freezed == imagesType
+          ? _value.imagesType
+          : imagesType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      images: freezed == images
+          ? _value._images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ImageDataModelImpl implements _ImageDataModel {
+  const _$ImageDataModelImpl({this.imagesType, final List<String>? images})
+      : _images = images;
+
+  factory _$ImageDataModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ImageDataModelImplFromJson(json);
+
+  @override
+  final String? imagesType;
+  final List<String>? _images;
+  @override
+  List<String>? get images {
+    final value = _images;
+    if (value == null) return null;
+    if (_images is EqualUnmodifiableListView) return _images;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ImageDataModel(imagesType: $imagesType, images: $images)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImageDataModelImpl &&
+            (identical(other.imagesType, imagesType) ||
+                other.imagesType == imagesType) &&
+            const DeepCollectionEquality().equals(other._images, _images));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, imagesType, const DeepCollectionEquality().hash(_images));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImageDataModelImplCopyWith<_$ImageDataModelImpl> get copyWith =>
+      __$$ImageDataModelImplCopyWithImpl<_$ImageDataModelImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ImageDataModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ImageDataModel implements ImageDataModel {
+  const factory _ImageDataModel(
+      {final String? imagesType,
+      final List<String>? images}) = _$ImageDataModelImpl;
+
+  factory _ImageDataModel.fromJson(Map<String, dynamic> json) =
+      _$ImageDataModelImpl.fromJson;
+
+  @override
+  String? get imagesType;
+  @override
+  List<String>? get images;
+  @override
+  @JsonKey(ignore: true)
+  _$$ImageDataModelImplCopyWith<_$ImageDataModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2683,5 +2848,159 @@ abstract class _RentModel implements RentModel {
   @override
   @JsonKey(ignore: true)
   _$$RentModelImplCopyWith<_$RentModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TitleMessageModel _$TitleMessageModelFromJson(Map<String, dynamic> json) {
+  return _TitleMessageModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TitleMessageModel {
+  String? get image => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TitleMessageModelCopyWith<TitleMessageModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TitleMessageModelCopyWith<$Res> {
+  factory $TitleMessageModelCopyWith(
+          TitleMessageModel value, $Res Function(TitleMessageModel) then) =
+      _$TitleMessageModelCopyWithImpl<$Res, TitleMessageModel>;
+  @useResult
+  $Res call({String? image, String? message});
+}
+
+/// @nodoc
+class _$TitleMessageModelCopyWithImpl<$Res, $Val extends TitleMessageModel>
+    implements $TitleMessageModelCopyWith<$Res> {
+  _$TitleMessageModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? image = freezed,
+    Object? message = freezed,
+  }) {
+    return _then(_value.copyWith(
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TitleMessageModelImplCopyWith<$Res>
+    implements $TitleMessageModelCopyWith<$Res> {
+  factory _$$TitleMessageModelImplCopyWith(_$TitleMessageModelImpl value,
+          $Res Function(_$TitleMessageModelImpl) then) =
+      __$$TitleMessageModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? image, String? message});
+}
+
+/// @nodoc
+class __$$TitleMessageModelImplCopyWithImpl<$Res>
+    extends _$TitleMessageModelCopyWithImpl<$Res, _$TitleMessageModelImpl>
+    implements _$$TitleMessageModelImplCopyWith<$Res> {
+  __$$TitleMessageModelImplCopyWithImpl(_$TitleMessageModelImpl _value,
+      $Res Function(_$TitleMessageModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? image = freezed,
+    Object? message = freezed,
+  }) {
+    return _then(_$TitleMessageModelImpl(
+      image: freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as String?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TitleMessageModelImpl implements _TitleMessageModel {
+  const _$TitleMessageModelImpl({this.image, this.message});
+
+  factory _$TitleMessageModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TitleMessageModelImplFromJson(json);
+
+  @override
+  final String? image;
+  @override
+  final String? message;
+
+  @override
+  String toString() {
+    return 'TitleMessageModel(image: $image, message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TitleMessageModelImpl &&
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, image, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TitleMessageModelImplCopyWith<_$TitleMessageModelImpl> get copyWith =>
+      __$$TitleMessageModelImplCopyWithImpl<_$TitleMessageModelImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TitleMessageModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TitleMessageModel implements TitleMessageModel {
+  const factory _TitleMessageModel(
+      {final String? image, final String? message}) = _$TitleMessageModelImpl;
+
+  factory _TitleMessageModel.fromJson(Map<String, dynamic> json) =
+      _$TitleMessageModelImpl.fromJson;
+
+  @override
+  String? get image;
+  @override
+  String? get message;
+  @override
+  @JsonKey(ignore: true)
+  _$$TitleMessageModelImplCopyWith<_$TitleMessageModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

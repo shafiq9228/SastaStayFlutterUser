@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                       loading:(data) => Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: SizedBox(
-                          height: 240,
+                          height: 250,
                           width: double.infinity,
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 20),
                               child: SizedBox(
-                                height: 240,
+                                height: 250,
                                 width: double.infinity,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                     loading:(data) =>  Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: SizedBox(
-                        height: 250,
+                        height: 280,
                         width: double.infinity,
                         child: ListView.builder(
                             scrollDirection: Axis.horizontal,
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: SizedBox(
-                              height: 250,
+                              height: 280,
                               width: double.infinity,
                               child: ListView.builder(
                                   scrollDirection: Axis.horizontal,

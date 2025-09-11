@@ -32,4 +32,10 @@ class EndPoints{
   static const fetchBookings = "fetchBookings";
   static const fetchBookingDetails = "fetchBookingDetails";
 
+  static const fetchMapLocation = "fetchMapLocation";
+  static const fetchTransactions = "fetchTransactions";
+
+  static const addAmountToWallet = "addAmountToWallet";
+  static const updateDepositStatus = "updateDepositStatus";
+
 }

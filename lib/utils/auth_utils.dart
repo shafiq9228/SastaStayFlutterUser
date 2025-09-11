@@ -20,6 +20,11 @@ class AuthUtils {
     return DateFormat("MMM d yyyy").format(date);
   }
 
+  static String formatDatetime(DateTime? date) {
+    if(date == null) return "";
+    return DateFormat("dd MMMM yyyy, hh:mm a").format(date);
+  }
+
   static void navigateFromPageName(String? page){
     switch(page){
       case "mainPage": Get.offAll(() =>  const MainPage());

@@ -74,7 +74,7 @@ class HostelDetailsHorizontalComponent2 extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text( hostelModel?.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 22,color: CustomColors.black)),
+                      Text(hostelModel?.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: CustomColors.black)),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: Row(

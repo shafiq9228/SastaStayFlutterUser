@@ -66,7 +66,7 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
                       ),
                       Text("Order above ₹${widget.couponModel?.orderValue ?? 0} and avail this offer",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
                       SizedBox(height: 5),
-                      Text(bookingViewModel.selectedCoupon.value == widget.couponModel ? "Remove" : "Apply",style: TextStyle(fontWeight: FontWeight.w600,color: bookingViewModel.selectedCoupon.value == widget.couponModel  ? CustomColors.red :CustomColors.primary,decoration: TextDecoration.underline,fontSize: 14),),
+                      Visibility(visible:widget.selecting == true,child: Text(bookingViewModel.selectedCoupon.value == widget.couponModel ? "Remove" : "Apply",style: TextStyle(fontWeight: FontWeight.w600,color: bookingViewModel.selectedCoupon.value == widget.couponModel  ? CustomColors.red :CustomColors.primary,decoration: TextDecoration.underline,fontSize: 14),)),
                     ],
                   ),
                 )

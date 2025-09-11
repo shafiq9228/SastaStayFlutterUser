@@ -8,7 +8,10 @@ import 'package:pg_hostel/components/icon_title_message_component.dart';
 import 'package:pg_hostel/pages/coupons_page.dart';
 import 'package:pg_hostel/pages/help_support_page.dart';
 import 'package:pg_hostel/pages/kyc_page.dart';
+import 'package:pg_hostel/pages/refer_and_earn_page.dart';
 import 'package:pg_hostel/pages/register_user_page.dart';
+import 'package:pg_hostel/pages/transactions_page.dart';
+import 'package:pg_hostel/pages/wallet_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
 
@@ -280,7 +283,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         Container(width: 0.5,height: 50,color: CustomColors.darkGray),
                                         IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Ongoing",message: "${userModel?.onGoingBookings ?? 0}"),
                                         Container(width: 0.5,height: 50,color: CustomColors.darkGray),
-                                        IconTitleMessageComponent(assetImage: "assets/images/wallet.png",title: "Wallet",message: "${userModel?.wallet ?? 0}")
+                                        IconTitleMessageComponent(assetImage: "assets/images/wallet.png",title: "Wallet",message: "${userModel?.wallet ?? 0}",onClick: (){
+                                          Get.to(() => const WalletPage());
+                                        })
                                       ],
                                     )
                                   ],
@@ -316,6 +321,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                          ),
                                        ),
                                     ),
+                                    ProfileMenu(title: "Transaction History", image: "assets/images/wallet.png", onTapped: (){
+                                      Get.to(() => TransactionsPage());
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    ProfileMenu(title: "Add Money", image: "assets/images/wallet.png", onTapped: (){
+                                      Get.to(() => const WalletPage());
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    ProfileMenu(title: "Refer And Earn", image: "assets/images/refer_and_earn_1.png", onTapped: (){
+                                      Get.to(() => const ReferAndEarnPage());
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Coupons", image: "assets/images/couponv.png", onTapped: (){
                                       Get.to(() => CouponsPage(selecting: false));
                                     }),

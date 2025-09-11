@@ -69,8 +69,9 @@ _$HostelModelImpl _$$HostelModelImplFromJson(Map<String, dynamic> json) =>
       roomsMore: json['roomsMore'] as int?,
       rules:
           (json['rules'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      images:
-          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      images: (json['images'] as List<dynamic>?)
+          ?.map((e) => ImageDataModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       location: json['location'] == null
           ? null
           : LocationModel.fromJson(json['location'] as Map<String, dynamic>),
@@ -106,6 +107,20 @@ Map<String, dynamic> _$$HostelModelImplToJson(_$HostelModelImpl instance) =>
       'totalVotes': instance.totalVotes,
       'rating': instance.rating,
       'isFavorite': instance.isFavorite,
+    };
+
+_$ImageDataModelImpl _$$ImageDataModelImplFromJson(Map<String, dynamic> json) =>
+    _$ImageDataModelImpl(
+      imagesType: json['imagesType'] as String?,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$$ImageDataModelImplToJson(
+        _$ImageDataModelImpl instance) =>
+    <String, dynamic>{
+      'imagesType': instance.imagesType,
+      'images': instance.images,
     };
 
 _$FetchAmenitiesResponseModelImpl _$$FetchAmenitiesResponseModelImplFromJson(
@@ -253,4 +268,18 @@ Map<String, dynamic> _$$RentModelImplToJson(_$RentModelImpl instance) =>
       '_id': instance.id,
       'daily': instance.daily,
       'monthly': instance.monthly,
+    };
+
+_$TitleMessageModelImpl _$$TitleMessageModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TitleMessageModelImpl(
+      image: json['image'] as String?,
+      message: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$$TitleMessageModelImplToJson(
+        _$TitleMessageModelImpl instance) =>
+    <String, dynamic>{
+      'image': instance.image,
+      'message': instance.message,
     };

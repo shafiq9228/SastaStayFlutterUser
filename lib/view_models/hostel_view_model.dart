@@ -32,6 +32,7 @@ class HostelViewModel extends GetxController{
   final fetchHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchNearbyHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchPopularHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final fetchFilterHostelsObserver =  PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
 
 
   final fetchAmenitiesObserver =  PaginationModel(data: const ApiResult<FetchAmenitiesResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
@@ -40,6 +41,17 @@ class HostelViewModel extends GetxController{
   final fetchRatingAndReviewsObserver =  PaginationModel(data: const ApiResult<FetchRatingAndReviewsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
 
   final addRatingAndReviewObserver =  const ApiResult<PrimaryResponseModel>.init().obs;
+
+  RxList<String> filterLocations = <String>[].obs;
+  RxList<String> filterHostelTypes = <String>[].obs;
+  RxList<String> filterRoomTypes = <String>[].obs;
+  RxString bookingType = "Daily".obs;
+  Rx<RangeValues> rangeValue =  RangeValues(0.0, 20000.0).obs;
+
+
+  final fetchMapLocationsObserver = const ApiResult<FetchHostelsResponseModel>.init().obs;
+
+
 
   Future<void> fetchHostelDetails(PaginationRequestModel request) async {
     try{
@@ -59,6 +71,27 @@ class HostelViewModel extends GetxController{
     catch(e){
       Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
       fetchHostelDetailsObserver.value = ApiResult.error(e.toString());
+    }
+  }
+
+  Future<void> fetchMapLocations(PaginationRequestModel request) async {
+    try{
+      fetchMapLocationsObserver.value = const ApiResult.loading("");
+      final response = await apiProvider.post(EndPoints.fetchMapLocation,request.toJson());
+      final body = response.body;
+      if(response.isOk && body !=null){
+        var responseData = FetchHostelsResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          fetchMapLocationsObserver.value = ApiResult.success(responseData);
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      fetchMapLocationsObserver.value = ApiResult.error(e.toString());
     }
   }
 
@@ -101,8 +134,9 @@ class HostelViewModel extends GetxController{
   }
 
   Future<void> fetchHostels(PaginationRequestModel request,bool refresh) async {
-    final observer = request.type == "favourites" ? fetchFavouriteHostelsObserver : request.type == "search" ? fetchSearchedHostelsObserver : request.type == "nearby" ? fetchNearbyHostelsObserver : request.type == "popular" ? fetchPopularHostelsObserver : fetchHostelsObserver;
+    final observer = request.type == "favourites" ? fetchFavouriteHostelsObserver : request.type == "search" ? fetchSearchedHostelsObserver : request.type == "nearby" ? fetchNearbyHostelsObserver : request.type == "popular" ? fetchPopularHostelsObserver : request.type == "filter" ? fetchFilterHostelsObserver : fetchHostelsObserver;
     try{
+      final newRequest = request.copyWith(filterRequest: FilterRequestModel(locations: filterLocations,hostelTypes: filterHostelTypes,roomTypes: filterRoomTypes,bookingType: bookingType.value,startPrice: rangeValue.value.start,endPrice: rangeValue.value.end));
       if(refresh == true){
         observer.value = PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "");
       }
@@ -120,10 +154,10 @@ class HostelViewModel extends GetxController{
       const maxListApiReturns = 10;
       observer.refresh();
 
-      final String? validatorResponse = AuthUtils.validateRequestFields(['page'], request.toJson());
+      final String? validatorResponse = AuthUtils.validateRequestFields(['page'], newRequest.toJson());
       if(validatorResponse != null) throw validatorResponse;
 
-      final response = await apiProvider.post(EndPoints.fetchHostels,request.toJson());
+      final response = await apiProvider.post(EndPoints.fetchHostels,newRequest.toJson());
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = FetchHostelsResponseModel.fromJson(body);
@@ -445,7 +479,7 @@ class HostelViewModel extends GetxController{
       if(response.isOk && body !=null){
         var responseData = PrimaryResponseModel.fromJson(body);
         if(responseData.status == 1){
-          final updatingObserverList = [fetchHostelsObserver,fetchFavouriteHostelsObserver,fetchNearbyHostelsObserver,fetchPopularHostelsObserver];
+          final updatingObserverList = [fetchHostelsObserver,fetchSearchedHostelsObserver,fetchFilterHostelsObserver,fetchFavouriteHostelsObserver,fetchNearbyHostelsObserver,fetchPopularHostelsObserver];
           for (var observer in updatingObserverList) {
             observer.value.data.value.whenOrNull(
                 success: (data){

@@ -47,7 +47,7 @@ class HostelModel with _$HostelModel{
     List<RoomModel>? rooms,
     int? roomsMore,
     List<String>? rules,
-    List<String>? images,
+    List<ImageDataModel>? images,
     LocationModel? location,
     int? monthlyIncome,
     int? totalIncome,
@@ -59,6 +59,16 @@ class HostelModel with _$HostelModel{
   factory HostelModel.fromJson(Map<String, dynamic> json) => _$HostelModelFromJson(json);
 }
 
+
+@Freezed()
+class ImageDataModel with _$ImageDataModel{
+  const factory ImageDataModel({
+    String? imagesType,
+    List<String>? images
+  }) = _ImageDataModel;
+
+  factory ImageDataModel.fromJson(Map<String, dynamic> json) => _$ImageDataModelFromJson(json);
+}
 
 @Freezed()
 class FetchAmenitiesResponseModel with _$FetchAmenitiesResponseModel{
@@ -147,4 +157,14 @@ class RentModel with _$RentModel{
   }) = _RentModel;
 
   factory RentModel.fromJson(Map<String, dynamic> json) => _$RentModelFromJson(json);
+}
+
+@Freezed()
+class TitleMessageModel with _$TitleMessageModel{
+  const factory TitleMessageModel({
+    String? image,
+    String? message
+  }) = _TitleMessageModel;
+
+  factory TitleMessageModel.fromJson(Map<String, dynamic> json) => _$TitleMessageModelFromJson(json);
 }

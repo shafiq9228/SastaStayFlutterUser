@@ -82,6 +82,10 @@ _$HostelRoomBookingDataModelImpl _$$HostelRoomBookingDataModelImplFromJson(
           ? null
           : BookingModel.fromJson(
               json['bookingResponse'] as Map<String, dynamic>),
+      transactionResponse: json['transactionResponse'] == null
+          ? null
+          : TransactionDataModel.fromJson(
+              json['transactionResponse'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$HostelRoomBookingDataModelImplToJson(
@@ -92,6 +96,64 @@ Map<String, dynamic> _$$HostelRoomBookingDataModelImplToJson(
       'paymentDetailLogs': instance.paymentDetailLogs,
       'onGoingBookings': instance.onGoingBookings,
       'bookingResponse': instance.bookingResponse,
+      'transactionResponse': instance.transactionResponse,
+    };
+
+_$FetchTransactionsResponseModelImpl
+    _$$FetchTransactionsResponseModelImplFromJson(Map<String, dynamic> json) =>
+        _$FetchTransactionsResponseModelImpl(
+          status: json['status'] as int?,
+          message: json['message'] as String?,
+          data: (json['data'] as List<dynamic>?)
+              ?.map((e) =>
+                  TransactionDataModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$FetchTransactionsResponseModelImplToJson(
+        _$FetchTransactionsResponseModelImpl instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+_$TransactionDataModelImpl _$$TransactionDataModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TransactionDataModelImpl(
+      id: json['_id'] as String?,
+      userTitle: json['userTitle'] as String?,
+      transactionType: json['transactionType'] as String?,
+      paymentStatus: json['paymentStatus'] as String?,
+      userId: json['userId'],
+      dealerId: json['dealerId'],
+      bookingId: json['bookingId'],
+      orderId: json['orderId'] as String?,
+      paymentId: json['paymentId'] as String?,
+      amount: json['amount'] as int?,
+      logs: (json['logs'] as List<dynamic>?)
+          ?.map((e) => AmountDetailsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$$TransactionDataModelImplToJson(
+        _$TransactionDataModelImpl instance) =>
+    <String, dynamic>{
+      '_id': instance.id,
+      'userTitle': instance.userTitle,
+      'transactionType': instance.transactionType,
+      'paymentStatus': instance.paymentStatus,
+      'userId': instance.userId,
+      'dealerId': instance.dealerId,
+      'bookingId': instance.bookingId,
+      'orderId': instance.orderId,
+      'paymentId': instance.paymentId,
+      'amount': instance.amount,
+      'logs': instance.logs,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 _$AmountDetailsModelImpl _$$AmountDetailsModelImplFromJson(

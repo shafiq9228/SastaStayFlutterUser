@@ -147,6 +147,10 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       address: json['address'] == null
           ? null
           : LocationModel.fromJson(json['address'] as Map<String, dynamic>),
+      referralCode: json['referralCode'] as String?,
+      referrals: (json['referrals'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       kycDocuments: (json['kycDocuments'] as List<dynamic>?)
           ?.map((e) => DocumentDataModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -172,6 +176,8 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'upComingBookings': instance.upComingBookings,
       'wallet': instance.wallet,
       'address': instance.address,
+      'referralCode': instance.referralCode,
+      'referrals': instance.referrals,
       'kycDocuments': instance.kycDocuments,
     };
 

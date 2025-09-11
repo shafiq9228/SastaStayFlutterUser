@@ -12,6 +12,7 @@ import 'package:pg_hostel/components/read_more_text.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/pages/checkout_page.dart';
 import 'package:pg_hostel/pages/hostel_images_page.dart';
+import 'package:pg_hostel/pages/hostels_map_view.dart';
 import 'package:pg_hostel/pages/rating_reviews_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
@@ -96,7 +97,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                       tag: hostelData?.id ?? "",
                       child: InkWell(
                         onTap: (){
-                          Get.to(() => HostelImagesPage(imageUrls: hostelData?.images ?? []));
+                          Get.to(() => HostelImagesPage(imageDataList: hostelData?.images ?? []));
                         },
                         child: Stack(
                           alignment: Alignment.bottomCenter,
@@ -117,11 +118,11 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: (hostelData?.images?.length ?? 0) > 5
+                                  itemCount: (hostelData?.images?.first.images?.length ?? 0) > 5
                                       ? 5
-                                      : hostelData?.images?.length ?? 0,
+                                      : hostelData?.images?.first.images?.length ?? 0,
                                   itemBuilder: (context, index) {
-                                    final images = hostelData?.images ?? [];
+                                    final images = hostelData?.images?.first.images ?? [];
                                     final imageUrl = images[index];
                                     // If last index and there are more than 5 images
                                     if (index == 4 && images.length > 5) {
@@ -475,7 +476,8 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
         ),
         SizedBox(height: 10),
         CustomOutlinedButton(buttonTxt: "Open In Google Maps", buttonClick: (){
-          _openGoogleMaps(location?.latitude ?? 0.00,location?.longitude ?? 0.00);
+          Get.to(() => HostelsMapView(hostelId: widget.hostelId));
+          // _openGoogleMaps(location?.latitude ?? 0.00,location?.longitude ?? 0.00);
         }),
         SizedBox(height: 10),
       ],

@@ -177,6 +177,7 @@ mixin _$PaginationRequestModel {
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
   int? get page => throw _privateConstructorUsedError;
+  FilterRequestModel? get filterRequest => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -198,7 +199,10 @@ abstract class $PaginationRequestModelCopyWith<$Res> {
       String? hostelId,
       double? latitude,
       double? longitude,
-      int? page});
+      int? page,
+      FilterRequestModel? filterRequest});
+
+  $FilterRequestModelCopyWith<$Res>? get filterRequest;
 }
 
 /// @nodoc
@@ -223,6 +227,7 @@ class _$PaginationRequestModelCopyWithImpl<$Res,
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? page = freezed,
+    Object? filterRequest = freezed,
   }) {
     return _then(_value.copyWith(
       query: freezed == query
@@ -257,7 +262,23 @@ class _$PaginationRequestModelCopyWithImpl<$Res,
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int?,
+      filterRequest: freezed == filterRequest
+          ? _value.filterRequest
+          : filterRequest // ignore: cast_nullable_to_non_nullable
+              as FilterRequestModel?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FilterRequestModelCopyWith<$Res>? get filterRequest {
+    if (_value.filterRequest == null) {
+      return null;
+    }
+
+    return $FilterRequestModelCopyWith<$Res>(_value.filterRequest!, (value) {
+      return _then(_value.copyWith(filterRequest: value) as $Val);
+    });
   }
 }
 
@@ -278,7 +299,11 @@ abstract class _$$PaginationRequestModelImplCopyWith<$Res>
       String? hostelId,
       double? latitude,
       double? longitude,
-      int? page});
+      int? page,
+      FilterRequestModel? filterRequest});
+
+  @override
+  $FilterRequestModelCopyWith<$Res>? get filterRequest;
 }
 
 /// @nodoc
@@ -302,6 +327,7 @@ class __$$PaginationRequestModelImplCopyWithImpl<$Res>
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? page = freezed,
+    Object? filterRequest = freezed,
   }) {
     return _then(_$PaginationRequestModelImpl(
       query: freezed == query
@@ -336,6 +362,10 @@ class __$$PaginationRequestModelImplCopyWithImpl<$Res>
           ? _value.page
           : page // ignore: cast_nullable_to_non_nullable
               as int?,
+      filterRequest: freezed == filterRequest
+          ? _value.filterRequest
+          : filterRequest // ignore: cast_nullable_to_non_nullable
+              as FilterRequestModel?,
     ));
   }
 }
@@ -351,7 +381,8 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
       this.hostelId,
       this.latitude,
       this.longitude,
-      required this.page});
+      required this.page,
+      this.filterRequest});
 
   factory _$PaginationRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaginationRequestModelImplFromJson(json);
@@ -372,10 +403,12 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
   final double? longitude;
   @override
   final int? page;
+  @override
+  final FilterRequestModel? filterRequest;
 
   @override
   String toString() {
-    return 'PaginationRequestModel(query: $query, searchQuery: $searchQuery, type: $type, docId: $docId, hostelId: $hostelId, latitude: $latitude, longitude: $longitude, page: $page)';
+    return 'PaginationRequestModel(query: $query, searchQuery: $searchQuery, type: $type, docId: $docId, hostelId: $hostelId, latitude: $latitude, longitude: $longitude, page: $page, filterRequest: $filterRequest)';
   }
 
   @override
@@ -394,13 +427,15 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
-            (identical(other.page, page) || other.page == page));
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.filterRequest, filterRequest) ||
+                other.filterRequest == filterRequest));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, query, searchQuery, type, docId,
-      hostelId, latitude, longitude, page);
+      hostelId, latitude, longitude, page, filterRequest);
 
   @JsonKey(ignore: true)
   @override
@@ -426,7 +461,8 @@ abstract class _PaginationRequestModel implements PaginationRequestModel {
       final String? hostelId,
       final double? latitude,
       final double? longitude,
-      required final int? page}) = _$PaginationRequestModelImpl;
+      required final int? page,
+      final FilterRequestModel? filterRequest}) = _$PaginationRequestModelImpl;
 
   factory _PaginationRequestModel.fromJson(Map<String, dynamic> json) =
       _$PaginationRequestModelImpl.fromJson;
@@ -448,9 +484,292 @@ abstract class _PaginationRequestModel implements PaginationRequestModel {
   @override
   int? get page;
   @override
+  FilterRequestModel? get filterRequest;
+  @override
   @JsonKey(ignore: true)
   _$$PaginationRequestModelImplCopyWith<_$PaginationRequestModelImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+FilterRequestModel _$FilterRequestModelFromJson(Map<String, dynamic> json) {
+  return _FilterRequestModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FilterRequestModel {
+  List<String>? get locations => throw _privateConstructorUsedError;
+  List<String>? get hostelTypes => throw _privateConstructorUsedError;
+  List<String>? get roomTypes => throw _privateConstructorUsedError;
+  String? get bookingType => throw _privateConstructorUsedError;
+  double? get startPrice => throw _privateConstructorUsedError;
+  double? get endPrice => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FilterRequestModelCopyWith<FilterRequestModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FilterRequestModelCopyWith<$Res> {
+  factory $FilterRequestModelCopyWith(
+          FilterRequestModel value, $Res Function(FilterRequestModel) then) =
+      _$FilterRequestModelCopyWithImpl<$Res, FilterRequestModel>;
+  @useResult
+  $Res call(
+      {List<String>? locations,
+      List<String>? hostelTypes,
+      List<String>? roomTypes,
+      String? bookingType,
+      double? startPrice,
+      double? endPrice});
+}
+
+/// @nodoc
+class _$FilterRequestModelCopyWithImpl<$Res, $Val extends FilterRequestModel>
+    implements $FilterRequestModelCopyWith<$Res> {
+  _$FilterRequestModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? locations = freezed,
+    Object? hostelTypes = freezed,
+    Object? roomTypes = freezed,
+    Object? bookingType = freezed,
+    Object? startPrice = freezed,
+    Object? endPrice = freezed,
+  }) {
+    return _then(_value.copyWith(
+      locations: freezed == locations
+          ? _value.locations
+          : locations // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      hostelTypes: freezed == hostelTypes
+          ? _value.hostelTypes
+          : hostelTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      roomTypes: freezed == roomTypes
+          ? _value.roomTypes
+          : roomTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      bookingType: freezed == bookingType
+          ? _value.bookingType
+          : bookingType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startPrice: freezed == startPrice
+          ? _value.startPrice
+          : startPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      endPrice: freezed == endPrice
+          ? _value.endPrice
+          : endPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FilterRequestModelImplCopyWith<$Res>
+    implements $FilterRequestModelCopyWith<$Res> {
+  factory _$$FilterRequestModelImplCopyWith(_$FilterRequestModelImpl value,
+          $Res Function(_$FilterRequestModelImpl) then) =
+      __$$FilterRequestModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<String>? locations,
+      List<String>? hostelTypes,
+      List<String>? roomTypes,
+      String? bookingType,
+      double? startPrice,
+      double? endPrice});
+}
+
+/// @nodoc
+class __$$FilterRequestModelImplCopyWithImpl<$Res>
+    extends _$FilterRequestModelCopyWithImpl<$Res, _$FilterRequestModelImpl>
+    implements _$$FilterRequestModelImplCopyWith<$Res> {
+  __$$FilterRequestModelImplCopyWithImpl(_$FilterRequestModelImpl _value,
+      $Res Function(_$FilterRequestModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? locations = freezed,
+    Object? hostelTypes = freezed,
+    Object? roomTypes = freezed,
+    Object? bookingType = freezed,
+    Object? startPrice = freezed,
+    Object? endPrice = freezed,
+  }) {
+    return _then(_$FilterRequestModelImpl(
+      locations: freezed == locations
+          ? _value._locations
+          : locations // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      hostelTypes: freezed == hostelTypes
+          ? _value._hostelTypes
+          : hostelTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      roomTypes: freezed == roomTypes
+          ? _value._roomTypes
+          : roomTypes // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      bookingType: freezed == bookingType
+          ? _value.bookingType
+          : bookingType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startPrice: freezed == startPrice
+          ? _value.startPrice
+          : startPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      endPrice: freezed == endPrice
+          ? _value.endPrice
+          : endPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FilterRequestModelImpl implements _FilterRequestModel {
+  const _$FilterRequestModelImpl(
+      {final List<String>? locations,
+      final List<String>? hostelTypes,
+      final List<String>? roomTypes,
+      this.bookingType,
+      this.startPrice,
+      this.endPrice})
+      : _locations = locations,
+        _hostelTypes = hostelTypes,
+        _roomTypes = roomTypes;
+
+  factory _$FilterRequestModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FilterRequestModelImplFromJson(json);
+
+  final List<String>? _locations;
+  @override
+  List<String>? get locations {
+    final value = _locations;
+    if (value == null) return null;
+    if (_locations is EqualUnmodifiableListView) return _locations;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _hostelTypes;
+  @override
+  List<String>? get hostelTypes {
+    final value = _hostelTypes;
+    if (value == null) return null;
+    if (_hostelTypes is EqualUnmodifiableListView) return _hostelTypes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _roomTypes;
+  @override
+  List<String>? get roomTypes {
+    final value = _roomTypes;
+    if (value == null) return null;
+    if (_roomTypes is EqualUnmodifiableListView) return _roomTypes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final String? bookingType;
+  @override
+  final double? startPrice;
+  @override
+  final double? endPrice;
+
+  @override
+  String toString() {
+    return 'FilterRequestModel(locations: $locations, hostelTypes: $hostelTypes, roomTypes: $roomTypes, bookingType: $bookingType, startPrice: $startPrice, endPrice: $endPrice)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FilterRequestModelImpl &&
+            const DeepCollectionEquality()
+                .equals(other._locations, _locations) &&
+            const DeepCollectionEquality()
+                .equals(other._hostelTypes, _hostelTypes) &&
+            const DeepCollectionEquality()
+                .equals(other._roomTypes, _roomTypes) &&
+            (identical(other.bookingType, bookingType) ||
+                other.bookingType == bookingType) &&
+            (identical(other.startPrice, startPrice) ||
+                other.startPrice == startPrice) &&
+            (identical(other.endPrice, endPrice) ||
+                other.endPrice == endPrice));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_locations),
+      const DeepCollectionEquality().hash(_hostelTypes),
+      const DeepCollectionEquality().hash(_roomTypes),
+      bookingType,
+      startPrice,
+      endPrice);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FilterRequestModelImplCopyWith<_$FilterRequestModelImpl> get copyWith =>
+      __$$FilterRequestModelImplCopyWithImpl<_$FilterRequestModelImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FilterRequestModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FilterRequestModel implements FilterRequestModel {
+  const factory _FilterRequestModel(
+      {final List<String>? locations,
+      final List<String>? hostelTypes,
+      final List<String>? roomTypes,
+      final String? bookingType,
+      final double? startPrice,
+      final double? endPrice}) = _$FilterRequestModelImpl;
+
+  factory _FilterRequestModel.fromJson(Map<String, dynamic> json) =
+      _$FilterRequestModelImpl.fromJson;
+
+  @override
+  List<String>? get locations;
+  @override
+  List<String>? get hostelTypes;
+  @override
+  List<String>? get roomTypes;
+  @override
+  String? get bookingType;
+  @override
+  double? get startPrice;
+  @override
+  double? get endPrice;
+  @override
+  @JsonKey(ignore: true)
+  _$$FilterRequestModelImplCopyWith<_$FilterRequestModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 SendOtpRequestModel _$SendOtpRequestModelFromJson(Map<String, dynamic> json) {
@@ -1061,6 +1380,7 @@ mixin _$RegisterUserRequestModel {
   String? get dob => throw _privateConstructorUsedError;
   String? get gender => throw _privateConstructorUsedError;
   LocationModel? get address => throw _privateConstructorUsedError;
+  String? get referralCode => throw _privateConstructorUsedError;
   List<DocumentDataModel>? get kycDocuments =>
       throw _privateConstructorUsedError;
 
@@ -1085,6 +1405,7 @@ abstract class $RegisterUserRequestModelCopyWith<$Res> {
       String? dob,
       String? gender,
       LocationModel? address,
+      String? referralCode,
       List<DocumentDataModel>? kycDocuments});
 
   $LocationModelCopyWith<$Res>? get address;
@@ -1112,6 +1433,7 @@ class _$RegisterUserRequestModelCopyWithImpl<$Res,
     Object? dob = freezed,
     Object? gender = freezed,
     Object? address = freezed,
+    Object? referralCode = freezed,
     Object? kycDocuments = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1147,6 +1469,10 @@ class _$RegisterUserRequestModelCopyWithImpl<$Res,
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as LocationModel?,
+      referralCode: freezed == referralCode
+          ? _value.referralCode
+          : referralCode // ignore: cast_nullable_to_non_nullable
+              as String?,
       kycDocuments: freezed == kycDocuments
           ? _value.kycDocuments
           : kycDocuments // ignore: cast_nullable_to_non_nullable
@@ -1185,6 +1511,7 @@ abstract class _$$RegisterUserRequestModelImplCopyWith<$Res>
       String? dob,
       String? gender,
       LocationModel? address,
+      String? referralCode,
       List<DocumentDataModel>? kycDocuments});
 
   @override
@@ -1212,6 +1539,7 @@ class __$$RegisterUserRequestModelImplCopyWithImpl<$Res>
     Object? dob = freezed,
     Object? gender = freezed,
     Object? address = freezed,
+    Object? referralCode = freezed,
     Object? kycDocuments = freezed,
   }) {
     return _then(_$RegisterUserRequestModelImpl(
@@ -1247,6 +1575,10 @@ class __$$RegisterUserRequestModelImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as LocationModel?,
+      referralCode: freezed == referralCode
+          ? _value.referralCode
+          : referralCode // ignore: cast_nullable_to_non_nullable
+              as String?,
       kycDocuments: freezed == kycDocuments
           ? _value._kycDocuments
           : kycDocuments // ignore: cast_nullable_to_non_nullable
@@ -1267,6 +1599,7 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
       this.dob,
       this.gender,
       this.address,
+      this.referralCode,
       final List<DocumentDataModel>? kycDocuments})
       : _kycDocuments = kycDocuments;
 
@@ -1289,6 +1622,8 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
   final String? gender;
   @override
   final LocationModel? address;
+  @override
+  final String? referralCode;
   final List<DocumentDataModel>? _kycDocuments;
   @override
   List<DocumentDataModel>? get kycDocuments {
@@ -1301,7 +1636,7 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
 
   @override
   String toString() {
-    return 'RegisterUserRequestModel(registerByMobile: $registerByMobile, image: $image, mobile: $mobile, name: $name, email: $email, dob: $dob, gender: $gender, address: $address, kycDocuments: $kycDocuments)';
+    return 'RegisterUserRequestModel(registerByMobile: $registerByMobile, image: $image, mobile: $mobile, name: $name, email: $email, dob: $dob, gender: $gender, address: $address, referralCode: $referralCode, kycDocuments: $kycDocuments)';
   }
 
   @override
@@ -1318,6 +1653,8 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
             (identical(other.dob, dob) || other.dob == dob) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.referralCode, referralCode) ||
+                other.referralCode == referralCode) &&
             const DeepCollectionEquality()
                 .equals(other._kycDocuments, _kycDocuments));
   }
@@ -1334,6 +1671,7 @@ class _$RegisterUserRequestModelImpl implements _RegisterUserRequestModel {
       dob,
       gender,
       address,
+      referralCode,
       const DeepCollectionEquality().hash(_kycDocuments));
 
   @JsonKey(ignore: true)
@@ -1361,6 +1699,7 @@ abstract class _RegisterUserRequestModel implements RegisterUserRequestModel {
           final String? dob,
           final String? gender,
           final LocationModel? address,
+          final String? referralCode,
           final List<DocumentDataModel>? kycDocuments}) =
       _$RegisterUserRequestModelImpl;
 
@@ -1383,6 +1722,8 @@ abstract class _RegisterUserRequestModel implements RegisterUserRequestModel {
   String? get gender;
   @override
   LocationModel? get address;
+  @override
+  String? get referralCode;
   @override
   List<DocumentDataModel>? get kycDocuments;
   @override

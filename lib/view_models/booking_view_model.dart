@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/pages/booking_details_page.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
@@ -6,6 +7,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
+import '../components/helper_bottom_sheet.dart';
 import '../pages/checkout_page.dart';
 import '../request_model/auth_request_model.dart';
 import '../request_model/bookings_request_model.dart';
@@ -38,6 +40,7 @@ class BookingViewModel extends GetxController{
   final fetchUpComingBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchPastBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchCancelledBookingsObserver =  PaginationModel(data: const ApiResult<FetchBookingsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+
 
   final fetchBookingDetailsObserver = const ApiResult<FetchBookingDetailsResponseModel>.init().obs;
 
@@ -101,9 +104,7 @@ class BookingViewModel extends GetxController{
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
-        print(responseData.toJson());
         if(responseData.status == 1){
-          print("Order Id 1: ${responseData.data?.bookingResponse?.orderId ?? ""}");
           var options = {
             'key': ConfigKeys.razorPayId,
             'order_id': responseData.data?.bookingResponse?.orderId ?? "",
@@ -121,6 +122,11 @@ class BookingViewModel extends GetxController{
           });
           razorpay.open(options);
           // placeOrderObserver.value = ApiResult.success(responseData);
+          return;
+        }
+        else if(responseData.status == 2){
+          confirmBookingObserver.value = ApiResult.success(responseData);
+          await updateOrderPaymentStatus(responseData.data?.bookingResponse?.orderId ?? "");
           return;
         }
         throw "${responseData.message}";
@@ -183,6 +189,7 @@ class BookingViewModel extends GetxController{
       cancelBookingStatusObserver.value = ApiResult.error(e.toString());
     }
   }
+
 
 
   Future<void> fetchBookings(PaginationRequestModel request,bool refresh) async {

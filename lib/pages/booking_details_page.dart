@@ -2,6 +2,7 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
+import 'package:pg_hostel/components/static_refer_and_earn_component.dart';
 import 'package:pg_hostel/pages/main_page.dart';
 import 'package:pg_hostel/pages/rating_reviews_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
@@ -138,7 +139,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                               tag: hostelData.id ?? "",
                               child: InkWell(
                                 onTap: (){
-                                  Get.to(() => HostelImagesPage(imageUrls: hostelData.images ?? []));
+                                  Get.to(() => HostelImagesPage(imageDataList: hostelData.images ?? [],));
                                 },
                                 child: Stack(
                                   alignment: Alignment.bottomCenter,
@@ -159,11 +160,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                             padding: const EdgeInsets.symmetric(horizontal: 10),
                                             child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: (hostelData.images?.length ?? 0) > 5
+                                              itemCount: (hostelData.images?.first.images?.length ?? 0) > 5
                                                   ? 5
                                                   : hostelData.images?.length ?? 0,
                                               itemBuilder: (context, index) {
-                                                final images = hostelData.images ?? [];
+                                                final images = hostelData.images?.first.images ?? [];
                                                 final imageUrl = images[index];
                                                 // If last index and there are more than 5 images
                                                 if (index == 4 && images.length > 5) {
@@ -311,11 +312,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                         children: [
                                           Image.asset("assets/images/location.png",width: 10,height: 10,color: CustomColors.textColor),
                                           Expanded(child: Text(hostelData.location?.address1 ?? "",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.textColor))),
-                                          Text("${hostelData?.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
+                                          Text("${hostelData.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
                                         ],
                                       ),
                                     ),
-                                    ReadMoreText(text:  hostelData?.aboutHostel ?? 'No description available'),
+                                    ReadMoreText(text:  hostelData.aboutHostel ?? 'No description available'),
                                   ],
                                 ),
                                 // Chip(
@@ -457,6 +458,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 ),
                                 const SideHeadingComponent(title: "Rules",viewVisible: false),
                                 _buildRulesList(hostelData.rules ?? []),
+                                const SizedBox(height: 30),
+                                Visibility(
+                                    visible: widget.fromPaymentScreen ==  true,
+                                    child: const StaticReferAndEarnComponent()),
                                 const SizedBox(height: 30),
                                 ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
                                 SizedBox(

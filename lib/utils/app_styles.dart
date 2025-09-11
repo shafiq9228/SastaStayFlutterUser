@@ -21,6 +21,12 @@ class AppStyles {
           )
       );
 
+
+  static  final  primaryBackground = BoxDecoration(
+      color: CustomColors.primary
+      ,borderRadius: BorderRadius.circular(15)
+  );
+
       static  final  categoryBg1 = BoxDecoration(
           color: const  Color(0xFFF5D4D4).withOpacity(0.2)
           ,borderRadius: BorderRadius.circular(15),
@@ -66,6 +72,15 @@ class AppStyles {
               color: const Color(0xFFD7D1D1)
           )
       );
+
+  static  final  categoryBg6 = BoxDecoration(
+      color: const Color(0xFFFFFFFF).withOpacity(0.2)
+      ,borderRadius: BorderRadius.circular(15),
+      border: Border.all(
+          width: 0.5,
+          color: const Color(0xFFD7D1D1)
+      )
+  );
 
 
       static  final  whiteCircleBg = BoxDecoration(

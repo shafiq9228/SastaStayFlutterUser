@@ -135,6 +135,8 @@ class UserModel with _$UserModel{
     dynamic upComingBookings,
     dynamic wallet,
     LocationModel? address,
+    String? referralCode,
+    List<String>? referrals,
     List<DocumentDataModel>? kycDocuments
   }) = _UserModel;
 
