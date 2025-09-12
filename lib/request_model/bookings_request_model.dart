@@ -18,7 +18,8 @@ class BookingRequestModel with _$BookingRequestModel{
     required List<GuestDetailsModel>? guestDetailsList,
     required DateTime? checkInDate,
     required DateTime? checkOutDate,
-    required int? guestCount
+    required int? guestCount,
+    required bool? useWalletBalance
   }) = _BookingRequestModel;
 
   factory BookingRequestModel.fromJson(Map<String, dynamic> json) => _$BookingRequestModelFromJson(json);

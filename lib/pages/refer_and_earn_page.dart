@@ -70,9 +70,20 @@ class _ReferAndEarnPageState extends State<ReferAndEarnPage> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ReferAndEarnComponent(count:(authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referrals) ?? []).length,outOff: 3),
                       const SizedBox(height: 50),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("Referral Code : ${referCode}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 18)),
+                      ),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("Referral Earnings : ₹${(authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referralEarnings) ?? 0)}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 18)),
+                      ),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: SizedBox(

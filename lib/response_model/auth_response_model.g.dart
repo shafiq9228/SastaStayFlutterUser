@@ -151,6 +151,7 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       referrals: (json['referrals'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      referralEarnings: json['referralEarnings'] as int?,
       kycDocuments: (json['kycDocuments'] as List<dynamic>?)
           ?.map((e) => DocumentDataModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -178,6 +179,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'address': instance.address,
       'referralCode': instance.referralCode,
       'referrals': instance.referrals,
+      'referralEarnings': instance.referralEarnings,
       'kycDocuments': instance.kycDocuments,
     };
 

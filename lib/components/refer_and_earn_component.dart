@@ -31,7 +31,7 @@ class ReferAndEarnComponent extends StatelessWidget {
                 children: [
                   Text("Invite 3 Friends & Get",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.white,fontSize: 18)),
                   const SizedBox(height: 10),
-                  Text("Earn ₹30 off – Refer 2 friends & save!",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 16)),
+                  Text("Earn ₹30 off – Refer 3 friends & save!",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 16)),
                   const SizedBox(height: 10),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,8 +43,8 @@ class ReferAndEarnComponent extends StatelessWidget {
                             Row(
                               children: [
                                 Text("Invites Send",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 12)),
+                                Spacer(),
                                 Text("${count}/${outOff}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 12)),
-
                               ],
                             ),
                             ClipRRect(

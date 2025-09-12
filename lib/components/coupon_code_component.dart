@@ -29,7 +29,7 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
         : AppStyles.outOfStockContainerStyle;
 
     return GestureDetector(
-      onTap: (){
+      onTap: () async {
         if(widget.couponModel?.expiryDate?.isAfter(today) != true){
           Get.snackbar("Error","Coupon Has Expired",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
           return;
@@ -42,8 +42,7 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
         else{
           bookingViewModel.selectedCoupon.value = null;
         }
-        bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,false);
-
+        await bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,1);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),

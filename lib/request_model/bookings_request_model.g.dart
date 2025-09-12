@@ -25,6 +25,7 @@ _$BookingRequestModelImpl _$$BookingRequestModelImplFromJson(
           ? null
           : DateTime.parse(json['checkOutDate'] as String),
       guestCount: json['guestCount'] as int?,
+      useWalletBalance: json['useWalletBalance'] as bool?,
     );
 
 Map<String, dynamic> _$$BookingRequestModelImplToJson(
@@ -38,6 +39,7 @@ Map<String, dynamic> _$$BookingRequestModelImplToJson(
       'checkInDate': instance.checkInDate?.toIso8601String(),
       'checkOutDate': instance.checkOutDate?.toIso8601String(),
       'guestCount': instance.guestCount,
+      'useWalletBalance': instance.useWalletBalance,
     };
 
 _$RatingReviewRequestModelImpl _$$RatingReviewRequestModelImplFromJson(

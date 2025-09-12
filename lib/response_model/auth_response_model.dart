@@ -137,6 +137,7 @@ class UserModel with _$UserModel{
     LocationModel? address,
     String? referralCode,
     List<String>? referrals,
+    int? referralEarnings,
     List<DocumentDataModel>? kycDocuments
   }) = _UserModel;
 

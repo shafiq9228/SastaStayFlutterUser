@@ -46,13 +46,15 @@ class BookingViewModel extends GetxController{
 
   RxList<GuestDetailsModel> guestDetailsList = <GuestDetailsModel>[].obs;
   Rx<CouponDataModel?> selectedCoupon = Rx<CouponDataModel?>(null);
+  RxBool userWalletBalance = false.obs;
 
 
-  Future<void> checkHostelRoomAvailability(BookingRequestModel? request,bool navigate) async {
+
+  Future<void> checkHostelRoomAvailability(BookingRequestModel? request,int navigate) async {
     try{
       checkHostelRoomAvailabilityObserver.value = const ApiResult.loading("");
 
-      final newRequest = request?.copyWith(couponId: selectedCoupon.value?.id ?? "");
+      final newRequest = request?.copyWith(couponId: selectedCoupon.value?.id ?? "",useWalletBalance:userWalletBalance.value);
       final response = await apiProvider.post(EndPoints.checkHostelRoomAvailability,newRequest?.toJson());
       final body = response.body;
 
@@ -62,7 +64,7 @@ class BookingViewModel extends GetxController{
           final updatedRequest = request?.copyWith(roomModel: request.roomModel?.copyWith(checkInDate: request.checkInDate,checkOutDate: request.checkOutDate,guestCount: request.guestCount));
           bookingRequestModelObserver.value = updatedRequest;
 
-          if(navigate == true){
+          if(navigate == 2){
             hostelViewModel.fetchHostelDetailsObserver.value.maybeWhen(
                 success: (data){
                   final hostelData = (data as FetchHostelDetailsResponseModel).data;
@@ -74,7 +76,7 @@ class BookingViewModel extends GetxController{
                 }
             );
           }
-          else{
+          else if(navigate == 1){
             Get.close(1);
           }
           checkHostelRoomAvailabilityObserver.value = ApiResult.success(responseData);
@@ -89,6 +91,7 @@ class BookingViewModel extends GetxController{
       throw "Response Body Null";
     }
     catch(e){
+      selectedCoupon.value = null;
       Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
       checkHostelRoomAvailabilityObserver.value = ApiResult.error(e.toString());
     }
@@ -98,7 +101,7 @@ class BookingViewModel extends GetxController{
     try{
       if(request == null) throw "Invalid Booking Request";
       razorpay.clear();
-      final newRequest = request.copyWith(couponId: selectedCoupon.value?.id ?? "");
+      final newRequest = request.copyWith(couponId: selectedCoupon.value?.id ?? "",useWalletBalance:userWalletBalance.value);
       confirmBookingObserver.value = const ApiResult.loading("");
       final response = await apiProvider.post(EndPoints.confirmBooking,newRequest.toJson());
       final body = response.body;
@@ -115,7 +118,7 @@ class BookingViewModel extends GetxController{
           options['prefill'] = {'contact': UserModel.fromJson(responseData.data?.bookingResponse?.userId).mobile, 'email': UserModel.fromJson(responseData.data?.bookingResponse?.userId).email};
           razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) async {
             confirmBookingObserver.value = ApiResult.success(responseData);
-            await updateOrderPaymentStatus(responseData.data?.bookingResponse?.orderId ?? "");
+            await updateOrderPaymentStatus(responseData.data?.bookingResponse?.id ?? "");
           });
           razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (razorPayResponse){
             confirmBookingObserver.value = ApiResult.error(razorPayResponse.message?.replaceAll("undefined", "Payment Aborted. Please try again") ?? "");
@@ -126,7 +129,7 @@ class BookingViewModel extends GetxController{
         }
         else if(responseData.status == 2){
           confirmBookingObserver.value = ApiResult.success(responseData);
-          await updateOrderPaymentStatus(responseData.data?.bookingResponse?.orderId ?? "");
+          await updateOrderPaymentStatus(responseData.data?.bookingResponse?.id ?? "");
           return;
         }
         throw "${responseData.message}";
@@ -139,17 +142,17 @@ class BookingViewModel extends GetxController{
     }
   }
 
-  Future<void> updateOrderPaymentStatus(String? orderId) async{
+  Future<void> updateOrderPaymentStatus(String? bookingId) async{
     try{
       updateBookingStatusObserver.value = const ApiResult.loading("");
-      final response = await apiProvider.post(EndPoints.updateBookingStatus,{"orderId":orderId});
+      final response = await apiProvider.post(EndPoints.updateBookingStatus,{"bookingId":bookingId});
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
         if(responseData.status == 1){
           guestDetailsList.clear();
           bookingRequestModelObserver.value = null;
-          Get.to(() => BookingDetailsPage(orderId: orderId ?? "",fromPaymentScreen:true));
+          Get.to(() => BookingDetailsPage(bookingId: bookingId ?? "",fromPaymentScreen:true));
           updateBookingStatusObserver.value = ApiResult.success(responseData);
           confirmBookingObserver.value = ApiResult.success(responseData);
           return;
@@ -167,16 +170,16 @@ class BookingViewModel extends GetxController{
   }
 
 
-  Future<void> performCancelBooking(String? orderId) async{
+  Future<void> performCancelBooking(String? bookingId) async{
     try{
       cancelBookingStatusObserver.value = const ApiResult.loading("");
-      final response = await apiProvider.post(EndPoints.cancelBooking,{"orderId":orderId});
+      final response = await apiProvider.post(EndPoints.cancelBooking,{"bookingId":bookingId});
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
         if(responseData.status == 1){
           Get.snackbar("Success","Booking Cancelled Successfully.Your Amount Refund Back To Your Wallet",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
-          fetchBookingDetails(orderId ?? "");
+          fetchBookingDetails(bookingId ?? "");
           cancelBookingStatusObserver.value = ApiResult.success(responseData);
           return;
         }
@@ -248,10 +251,10 @@ class BookingViewModel extends GetxController{
     }
   }
 
-  Future<void> fetchBookingDetails(String orderId) async{
+  Future<void> fetchBookingDetails(String bookingId) async{
     try{
       fetchBookingDetailsObserver.value = const ApiResult.loading("");
-      final response = await apiProvider.post(EndPoints.fetchBookingDetails,{"orderId":orderId});
+      final response = await apiProvider.post(EndPoints.fetchBookingDetails,{"bookingId":bookingId});
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = FetchBookingDetailsResponseModel.fromJson(body);

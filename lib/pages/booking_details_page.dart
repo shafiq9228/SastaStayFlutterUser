@@ -40,9 +40,9 @@ import 'hostel_images_page.dart';
 
 
 class BookingDetailsPage extends StatefulWidget {
-  final String orderId;
+  final String bookingId;
   final bool? fromPaymentScreen;
-  const BookingDetailsPage({super.key, required this.orderId, this.fromPaymentScreen});
+  const BookingDetailsPage({super.key, required this.bookingId, this.fromPaymentScreen});
 
   @override
   State<BookingDetailsPage> createState() => _BookingDetailsPageState();
@@ -56,7 +56,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
 
     return StatefulWrapper(
       onInit: (){
-        bookingViewModel.fetchBookingDetails(widget.orderId ?? "");
+        bookingViewModel.fetchBookingDetails(widget.bookingId ?? "");
       },
       child: WillPopScope(
         onWillPop: ()async {
@@ -107,6 +107,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                           ),
                           title: Text("Your Booking Is Confirmed!",style: TextStyle(fontSize: 18,color: CustomColors.textColor,fontWeight: FontWeight.w800),),
                           actions: [
+
                           ],
                         )
                             :SliverAppBar(
@@ -416,11 +417,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 Row(
                                   children: [
                                     Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                    Visibility(visible: (bookingDataModel?.discount ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.total ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                    Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)  != 0 ,child: Text("₹${(bookingDataModel?.amount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
                                         decorationThickness: 2,
                                         decorationColor: Colors.black))),
-                                    SizedBox(width: 5),
-                                    Text("₹${(bookingDataModel?.total ?? 0) - (bookingDataModel?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
+                                    const SizedBox(width: 5),
+                                    Text("₹${(bookingDataModel?.total ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
                                   ],
                                 ),
                                 const SizedBox(height: 10),
@@ -459,9 +460,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 const SideHeadingComponent(title: "Rules",viewVisible: false),
                                 _buildRulesList(hostelData.rules ?? []),
                                 const SizedBox(height: 30),
-                                Visibility(
-                                    visible: widget.fromPaymentScreen ==  true,
-                                    child: const StaticReferAndEarnComponent()),
+                                const StaticReferAndEarnComponent(),
                                 const SizedBox(height: 30),
                                 ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
                                 SizedBox(
@@ -478,7 +477,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                             ),
                                             child: TextButton(
                                               onPressed: (){
-                                                cancelBooking(widget.orderId);
+                                                cancelBooking(widget.bookingId);
                                               },
                                               child: Text(
                                                 "Cancel Booking",
@@ -518,7 +517,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 )
                                     : ((bookingDataModel?.bookingStatus ?? "") == "Upcoming") ?
                                 CustomOutlinedButton(buttonTxt: "Cancel Booking", buttonClick: (){
-                                  cancelBooking(widget.orderId);
+                                  cancelBooking(widget.bookingId);
                                 }) : ((bookingDataModel?.bookingStatus ?? "") == "Canceled") ?
                                 SizedBox(
                                   height: 50,
@@ -784,7 +783,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     );
   }
 
-  void cancelBooking(String orderId){
+  void cancelBooking(String bookingId){
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // allows full height scroll
@@ -796,7 +795,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           Get.back();
         },btn2Txt: "Yes",btn2Click: ()async {
           Get.back();
-          bookingViewModel.performCancelBooking(orderId);
+          bookingViewModel.performCancelBooking(bookingId);
         });
       },
     );

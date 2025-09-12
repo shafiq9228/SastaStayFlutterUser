@@ -393,10 +393,11 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                   Row(
                                     children: [
                                       Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                      Visibility(visible: (availabilityResponse?.discount ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.amount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
-                                      decorationThickness: 2,
+                                      Visibility(visible: (availabilityResponse?.discount ?? 0) +  (availabilityResponse?.walletDeduction ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.amount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                          decorationThickness: 2,
                                           decorationColor: Colors.black))),
-                                      Text("₹${(availabilityResponse?.amount ?? 0) - (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
+                                      const SizedBox(width: 5),
+                                      Text("₹${(availabilityResponse?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
                                     ],
                                   ),
                                   const SizedBox(height: 10),

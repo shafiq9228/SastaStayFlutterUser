@@ -29,6 +29,7 @@ mixin _$BookingRequestModel {
   DateTime? get checkInDate => throw _privateConstructorUsedError;
   DateTime? get checkOutDate => throw _privateConstructorUsedError;
   int? get guestCount => throw _privateConstructorUsedError;
+  bool? get useWalletBalance => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +51,8 @@ abstract class $BookingRequestModelCopyWith<$Res> {
       List<GuestDetailsModel>? guestDetailsList,
       DateTime? checkInDate,
       DateTime? checkOutDate,
-      int? guestCount});
+      int? guestCount,
+      bool? useWalletBalance});
 
   $RoomModelCopyWith<$Res>? get roomModel;
 }
@@ -76,6 +78,7 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
     Object? guestCount = freezed,
+    Object? useWalletBalance = freezed,
   }) {
     return _then(_value.copyWith(
       roomModel: freezed == roomModel
@@ -110,6 +113,10 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
           ? _value.guestCount
           : guestCount // ignore: cast_nullable_to_non_nullable
               as int?,
+      useWalletBalance: freezed == useWalletBalance
+          ? _value.useWalletBalance
+          : useWalletBalance // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -142,7 +149,8 @@ abstract class _$$BookingRequestModelImplCopyWith<$Res>
       List<GuestDetailsModel>? guestDetailsList,
       DateTime? checkInDate,
       DateTime? checkOutDate,
-      int? guestCount});
+      int? guestCount,
+      bool? useWalletBalance});
 
   @override
   $RoomModelCopyWith<$Res>? get roomModel;
@@ -167,6 +175,7 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
     Object? guestCount = freezed,
+    Object? useWalletBalance = freezed,
   }) {
     return _then(_$BookingRequestModelImpl(
       roomModel: freezed == roomModel
@@ -201,6 +210,10 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
           ? _value.guestCount
           : guestCount // ignore: cast_nullable_to_non_nullable
               as int?,
+      useWalletBalance: freezed == useWalletBalance
+          ? _value.useWalletBalance
+          : useWalletBalance // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -216,7 +229,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
       required final List<GuestDetailsModel>? guestDetailsList,
       required this.checkInDate,
       required this.checkOutDate,
-      required this.guestCount})
+      required this.guestCount,
+      required this.useWalletBalance})
       : _guestDetailsList = guestDetailsList;
 
   factory _$BookingRequestModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -247,10 +261,12 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
   final DateTime? checkOutDate;
   @override
   final int? guestCount;
+  @override
+  final bool? useWalletBalance;
 
   @override
   String toString() {
-    return 'BookingRequestModel(roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, couponId: $couponId, guestDetailsList: $guestDetailsList, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount)';
+    return 'BookingRequestModel(roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, couponId: $couponId, guestDetailsList: $guestDetailsList, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, useWalletBalance: $useWalletBalance)';
   }
 
   @override
@@ -272,7 +288,9 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
             (identical(other.checkOutDate, checkOutDate) ||
                 other.checkOutDate == checkOutDate) &&
             (identical(other.guestCount, guestCount) ||
-                other.guestCount == guestCount));
+                other.guestCount == guestCount) &&
+            (identical(other.useWalletBalance, useWalletBalance) ||
+                other.useWalletBalance == useWalletBalance));
   }
 
   @JsonKey(ignore: true)
@@ -286,7 +304,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
       const DeepCollectionEquality().hash(_guestDetailsList),
       checkInDate,
       checkOutDate,
-      guestCount);
+      guestCount,
+      useWalletBalance);
 
   @JsonKey(ignore: true)
   @override
@@ -312,7 +331,8 @@ abstract class _BookingRequestModel implements BookingRequestModel {
       required final List<GuestDetailsModel>? guestDetailsList,
       required final DateTime? checkInDate,
       required final DateTime? checkOutDate,
-      required final int? guestCount}) = _$BookingRequestModelImpl;
+      required final int? guestCount,
+      required final bool? useWalletBalance}) = _$BookingRequestModelImpl;
 
   factory _BookingRequestModel.fromJson(Map<String, dynamic> json) =
       _$BookingRequestModelImpl.fromJson;
@@ -333,6 +353,8 @@ abstract class _BookingRequestModel implements BookingRequestModel {
   DateTime? get checkOutDate;
   @override
   int? get guestCount;
+  @override
+  bool? get useWalletBalance;
   @override
   @JsonKey(ignore: true)
   _$$BookingRequestModelImplCopyWith<_$BookingRequestModelImpl> get copyWith =>

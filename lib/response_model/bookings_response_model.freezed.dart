@@ -673,6 +673,8 @@ HostelRoomBookingDataModel _$HostelRoomBookingDataModelFromJson(
 mixin _$HostelRoomBookingDataModel {
   int? get amount => throw _privateConstructorUsedError;
   int? get discount => throw _privateConstructorUsedError;
+  int? get walletDeduction => throw _privateConstructorUsedError;
+  int? get subTotal => throw _privateConstructorUsedError;
   List<AmountDetailsModel>? get paymentDetailLogs =>
       throw _privateConstructorUsedError;
   List<BookingModel>? get onGoingBookings => throw _privateConstructorUsedError;
@@ -696,6 +698,8 @@ abstract class $HostelRoomBookingDataModelCopyWith<$Res> {
   $Res call(
       {int? amount,
       int? discount,
+      int? walletDeduction,
+      int? subTotal,
       List<AmountDetailsModel>? paymentDetailLogs,
       List<BookingModel>? onGoingBookings,
       BookingModel? bookingResponse,
@@ -721,6 +725,8 @@ class _$HostelRoomBookingDataModelCopyWithImpl<$Res,
   $Res call({
     Object? amount = freezed,
     Object? discount = freezed,
+    Object? walletDeduction = freezed,
+    Object? subTotal = freezed,
     Object? paymentDetailLogs = freezed,
     Object? onGoingBookings = freezed,
     Object? bookingResponse = freezed,
@@ -734,6 +740,14 @@ class _$HostelRoomBookingDataModelCopyWithImpl<$Res,
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      walletDeduction: freezed == walletDeduction
+          ? _value.walletDeduction
+          : walletDeduction // ignore: cast_nullable_to_non_nullable
+              as int?,
+      subTotal: freezed == subTotal
+          ? _value.subTotal
+          : subTotal // ignore: cast_nullable_to_non_nullable
               as int?,
       paymentDetailLogs: freezed == paymentDetailLogs
           ? _value.paymentDetailLogs
@@ -792,6 +806,8 @@ abstract class _$$HostelRoomBookingDataModelImplCopyWith<$Res>
   $Res call(
       {int? amount,
       int? discount,
+      int? walletDeduction,
+      int? subTotal,
       List<AmountDetailsModel>? paymentDetailLogs,
       List<BookingModel>? onGoingBookings,
       BookingModel? bookingResponse,
@@ -818,6 +834,8 @@ class __$$HostelRoomBookingDataModelImplCopyWithImpl<$Res>
   $Res call({
     Object? amount = freezed,
     Object? discount = freezed,
+    Object? walletDeduction = freezed,
+    Object? subTotal = freezed,
     Object? paymentDetailLogs = freezed,
     Object? onGoingBookings = freezed,
     Object? bookingResponse = freezed,
@@ -831,6 +849,14 @@ class __$$HostelRoomBookingDataModelImplCopyWithImpl<$Res>
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      walletDeduction: freezed == walletDeduction
+          ? _value.walletDeduction
+          : walletDeduction // ignore: cast_nullable_to_non_nullable
+              as int?,
+      subTotal: freezed == subTotal
+          ? _value.subTotal
+          : subTotal // ignore: cast_nullable_to_non_nullable
               as int?,
       paymentDetailLogs: freezed == paymentDetailLogs
           ? _value._paymentDetailLogs
@@ -858,6 +884,8 @@ class _$HostelRoomBookingDataModelImpl implements _HostelRoomBookingDataModel {
   const _$HostelRoomBookingDataModelImpl(
       {this.amount,
       this.discount,
+      this.walletDeduction,
+      this.subTotal,
       final List<AmountDetailsModel>? paymentDetailLogs,
       final List<BookingModel>? onGoingBookings,
       this.bookingResponse,
@@ -873,6 +901,10 @@ class _$HostelRoomBookingDataModelImpl implements _HostelRoomBookingDataModel {
   final int? amount;
   @override
   final int? discount;
+  @override
+  final int? walletDeduction;
+  @override
+  final int? subTotal;
   final List<AmountDetailsModel>? _paymentDetailLogs;
   @override
   List<AmountDetailsModel>? get paymentDetailLogs {
@@ -901,7 +933,7 @@ class _$HostelRoomBookingDataModelImpl implements _HostelRoomBookingDataModel {
 
   @override
   String toString() {
-    return 'HostelRoomBookingDataModel(amount: $amount, discount: $discount, paymentDetailLogs: $paymentDetailLogs, onGoingBookings: $onGoingBookings, bookingResponse: $bookingResponse, transactionResponse: $transactionResponse)';
+    return 'HostelRoomBookingDataModel(amount: $amount, discount: $discount, walletDeduction: $walletDeduction, subTotal: $subTotal, paymentDetailLogs: $paymentDetailLogs, onGoingBookings: $onGoingBookings, bookingResponse: $bookingResponse, transactionResponse: $transactionResponse)';
   }
 
   @override
@@ -912,6 +944,10 @@ class _$HostelRoomBookingDataModelImpl implements _HostelRoomBookingDataModel {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.discount, discount) ||
                 other.discount == discount) &&
+            (identical(other.walletDeduction, walletDeduction) ||
+                other.walletDeduction == walletDeduction) &&
+            (identical(other.subTotal, subTotal) ||
+                other.subTotal == subTotal) &&
             const DeepCollectionEquality()
                 .equals(other._paymentDetailLogs, _paymentDetailLogs) &&
             const DeepCollectionEquality()
@@ -928,6 +964,8 @@ class _$HostelRoomBookingDataModelImpl implements _HostelRoomBookingDataModel {
       runtimeType,
       amount,
       discount,
+      walletDeduction,
+      subTotal,
       const DeepCollectionEquality().hash(_paymentDetailLogs),
       const DeepCollectionEquality().hash(_onGoingBookings),
       bookingResponse,
@@ -953,6 +991,8 @@ abstract class _HostelRoomBookingDataModel
   const factory _HostelRoomBookingDataModel(
           {final int? amount,
           final int? discount,
+          final int? walletDeduction,
+          final int? subTotal,
           final List<AmountDetailsModel>? paymentDetailLogs,
           final List<BookingModel>? onGoingBookings,
           final BookingModel? bookingResponse,
@@ -966,6 +1006,10 @@ abstract class _HostelRoomBookingDataModel
   int? get amount;
   @override
   int? get discount;
+  @override
+  int? get walletDeduction;
+  @override
+  int? get subTotal;
   @override
   List<AmountDetailsModel>? get paymentDetailLogs;
   @override
@@ -2133,8 +2177,10 @@ mixin _$BookingModel {
   DateTime? get checkInDate => throw _privateConstructorUsedError;
   DateTime? get checkOutDate => throw _privateConstructorUsedError;
   int? get guestCount => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  int? get amount => throw _privateConstructorUsedError;
   int? get discount => throw _privateConstructorUsedError;
+  int? get walletDeduction => throw _privateConstructorUsedError;
+  int? get total => throw _privateConstructorUsedError;
   List<GuestDetailsModel>? get guestDetailsList =>
       throw _privateConstructorUsedError;
   List<AmountDetailsModel>? get logs => throw _privateConstructorUsedError;
@@ -2165,8 +2211,10 @@ abstract class $BookingModelCopyWith<$Res> {
       DateTime? checkInDate,
       DateTime? checkOutDate,
       int? guestCount,
-      int? total,
+      int? amount,
       int? discount,
+      int? walletDeduction,
+      int? total,
       List<GuestDetailsModel>? guestDetailsList,
       List<AmountDetailsModel>? logs,
       String? bookingStatus,
@@ -2197,8 +2245,10 @@ class _$BookingModelCopyWithImpl<$Res, $Val extends BookingModel>
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
     Object? guestCount = freezed,
-    Object? total = freezed,
+    Object? amount = freezed,
     Object? discount = freezed,
+    Object? walletDeduction = freezed,
+    Object? total = freezed,
     Object? guestDetailsList = freezed,
     Object? logs = freezed,
     Object? bookingStatus = freezed,
@@ -2249,13 +2299,21 @@ class _$BookingModelCopyWithImpl<$Res, $Val extends BookingModel>
           ? _value.guestCount
           : guestCount // ignore: cast_nullable_to_non_nullable
               as int?,
-      total: freezed == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
               as int?,
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      walletDeduction: freezed == walletDeduction
+          ? _value.walletDeduction
+          : walletDeduction // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int?,
       guestDetailsList: freezed == guestDetailsList
           ? _value.guestDetailsList
@@ -2297,8 +2355,10 @@ abstract class _$$BookingModelImplCopyWith<$Res>
       DateTime? checkInDate,
       DateTime? checkOutDate,
       int? guestCount,
-      int? total,
+      int? amount,
       int? discount,
+      int? walletDeduction,
+      int? total,
       List<GuestDetailsModel>? guestDetailsList,
       List<AmountDetailsModel>? logs,
       String? bookingStatus,
@@ -2327,8 +2387,10 @@ class __$$BookingModelImplCopyWithImpl<$Res>
     Object? checkInDate = freezed,
     Object? checkOutDate = freezed,
     Object? guestCount = freezed,
-    Object? total = freezed,
+    Object? amount = freezed,
     Object? discount = freezed,
+    Object? walletDeduction = freezed,
+    Object? total = freezed,
     Object? guestDetailsList = freezed,
     Object? logs = freezed,
     Object? bookingStatus = freezed,
@@ -2379,13 +2441,21 @@ class __$$BookingModelImplCopyWithImpl<$Res>
           ? _value.guestCount
           : guestCount // ignore: cast_nullable_to_non_nullable
               as int?,
-      total: freezed == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
               as int?,
       discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      walletDeduction: freezed == walletDeduction
+          ? _value.walletDeduction
+          : walletDeduction // ignore: cast_nullable_to_non_nullable
+              as int?,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
               as int?,
       guestDetailsList: freezed == guestDetailsList
           ? _value._guestDetailsList
@@ -2422,8 +2492,10 @@ class _$BookingModelImpl implements _BookingModel {
       this.checkInDate,
       this.checkOutDate,
       this.guestCount,
-      this.total,
+      this.amount,
       this.discount,
+      this.walletDeduction,
+      this.total,
       final List<GuestDetailsModel>? guestDetailsList,
       final List<AmountDetailsModel>? logs,
       this.bookingStatus,
@@ -2458,9 +2530,13 @@ class _$BookingModelImpl implements _BookingModel {
   @override
   final int? guestCount;
   @override
-  final int? total;
+  final int? amount;
   @override
   final int? discount;
+  @override
+  final int? walletDeduction;
+  @override
+  final int? total;
   final List<GuestDetailsModel>? _guestDetailsList;
   @override
   List<GuestDetailsModel>? get guestDetailsList {
@@ -2489,7 +2565,7 @@ class _$BookingModelImpl implements _BookingModel {
 
   @override
   String toString() {
-    return 'BookingModel(id: $id, userId: $userId, dealerId: $dealerId, hostelId: $hostelId, roomId: $roomId, orderId: $orderId, paymentId: $paymentId, paymentStatus: $paymentStatus, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, total: $total, discount: $discount, guestDetailsList: $guestDetailsList, logs: $logs, bookingStatus: $bookingStatus, createdAt: $createdAt)';
+    return 'BookingModel(id: $id, userId: $userId, dealerId: $dealerId, hostelId: $hostelId, roomId: $roomId, orderId: $orderId, paymentId: $paymentId, paymentStatus: $paymentStatus, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, amount: $amount, discount: $discount, walletDeduction: $walletDeduction, total: $total, guestDetailsList: $guestDetailsList, logs: $logs, bookingStatus: $bookingStatus, createdAt: $createdAt)';
   }
 
   @override
@@ -2513,9 +2589,12 @@ class _$BookingModelImpl implements _BookingModel {
                 other.checkOutDate == checkOutDate) &&
             (identical(other.guestCount, guestCount) ||
                 other.guestCount == guestCount) &&
-            (identical(other.total, total) || other.total == total) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.discount, discount) ||
                 other.discount == discount) &&
+            (identical(other.walletDeduction, walletDeduction) ||
+                other.walletDeduction == walletDeduction) &&
+            (identical(other.total, total) || other.total == total) &&
             const DeepCollectionEquality()
                 .equals(other._guestDetailsList, _guestDetailsList) &&
             const DeepCollectionEquality().equals(other._logs, _logs) &&
@@ -2527,25 +2606,28 @@ class _$BookingModelImpl implements _BookingModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      const DeepCollectionEquality().hash(userId),
-      const DeepCollectionEquality().hash(dealerId),
-      const DeepCollectionEquality().hash(hostelId),
-      const DeepCollectionEquality().hash(roomId),
-      orderId,
-      paymentId,
-      paymentStatus,
-      checkInDate,
-      checkOutDate,
-      guestCount,
-      total,
-      discount,
-      const DeepCollectionEquality().hash(_guestDetailsList),
-      const DeepCollectionEquality().hash(_logs),
-      bookingStatus,
-      createdAt);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        const DeepCollectionEquality().hash(userId),
+        const DeepCollectionEquality().hash(dealerId),
+        const DeepCollectionEquality().hash(hostelId),
+        const DeepCollectionEquality().hash(roomId),
+        orderId,
+        paymentId,
+        paymentStatus,
+        checkInDate,
+        checkOutDate,
+        guestCount,
+        amount,
+        discount,
+        walletDeduction,
+        total,
+        const DeepCollectionEquality().hash(_guestDetailsList),
+        const DeepCollectionEquality().hash(_logs),
+        bookingStatus,
+        createdAt
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -2574,8 +2656,10 @@ abstract class _BookingModel implements BookingModel {
       final DateTime? checkInDate,
       final DateTime? checkOutDate,
       final int? guestCount,
-      final int? total,
+      final int? amount,
       final int? discount,
+      final int? walletDeduction,
+      final int? total,
       final List<GuestDetailsModel>? guestDetailsList,
       final List<AmountDetailsModel>? logs,
       final String? bookingStatus,
@@ -2608,9 +2692,13 @@ abstract class _BookingModel implements BookingModel {
   @override
   int? get guestCount;
   @override
-  int? get total;
+  int? get amount;
   @override
   int? get discount;
+  @override
+  int? get walletDeduction;
+  @override
+  int? get total;
   @override
   List<GuestDetailsModel>? get guestDetailsList;
   @override

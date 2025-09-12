@@ -72,6 +72,8 @@ _$HostelRoomBookingDataModelImpl _$$HostelRoomBookingDataModelImplFromJson(
     _$HostelRoomBookingDataModelImpl(
       amount: json['amount'] as int?,
       discount: json['discount'] as int?,
+      walletDeduction: json['walletDeduction'] as int?,
+      subTotal: json['subTotal'] as int?,
       paymentDetailLogs: (json['paymentDetailLogs'] as List<dynamic>?)
           ?.map((e) => AmountDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -93,6 +95,8 @@ Map<String, dynamic> _$$HostelRoomBookingDataModelImplToJson(
     <String, dynamic>{
       'amount': instance.amount,
       'discount': instance.discount,
+      'walletDeduction': instance.walletDeduction,
+      'subTotal': instance.subTotal,
       'paymentDetailLogs': instance.paymentDetailLogs,
       'onGoingBookings': instance.onGoingBookings,
       'bookingResponse': instance.bookingResponse,
@@ -224,8 +228,10 @@ _$BookingModelImpl _$$BookingModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['checkOutDate'] as String),
       guestCount: json['guestCount'] as int?,
-      total: json['total'] as int?,
+      amount: json['amount'] as int?,
       discount: json['discount'] as int?,
+      walletDeduction: json['walletDeduction'] as int?,
+      total: json['total'] as int?,
       guestDetailsList: (json['guestDetailsList'] as List<dynamic>?)
           ?.map((e) => GuestDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -251,8 +257,10 @@ Map<String, dynamic> _$$BookingModelImplToJson(_$BookingModelImpl instance) =>
       'checkInDate': instance.checkInDate?.toIso8601String(),
       'checkOutDate': instance.checkOutDate?.toIso8601String(),
       'guestCount': instance.guestCount,
-      'total': instance.total,
+      'amount': instance.amount,
       'discount': instance.discount,
+      'walletDeduction': instance.walletDeduction,
+      'total': instance.total,
       'guestDetailsList': instance.guestDetailsList,
       'logs': instance.logs,
       'bookingStatus': instance.bookingStatus,
