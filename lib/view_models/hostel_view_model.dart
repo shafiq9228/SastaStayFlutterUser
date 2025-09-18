@@ -24,6 +24,7 @@ class HostelViewModel extends GetxController{
 
   final fetchCouponsObserver =  PaginationModel(data: const ApiResult<FetchCouponsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
   final fetchNotificationsObserver =  PaginationModel(data: const ApiResult<FetchNotificationsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
+  final deleteNotificationObserver =   const ApiResult<PrimaryResponseModel>.init().obs;
 
   final fetchHostelDetailsObserver = const ApiResult<FetchHostelDetailsResponseModel>.init().obs;
 
@@ -468,6 +469,35 @@ class HostelViewModel extends GetxController{
       observer.value.data.value = ApiResult.error(e.toString());
       observer.value.isLoading = false;
       observer.refresh();
+    }
+  }
+
+  Future<void> deleteNotification(String? notificationId) async {
+    try{
+      if(notificationId == null || notificationId.trim().isEmpty) throw "couponId Is Required";
+      deleteNotificationObserver.value = ApiResult.loading(notificationId);
+      final response = await apiProvider.post(EndPoints.deleteNotification,{"notificationId":notificationId});
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = PrimaryResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          fetchNotificationsObserver.value.data.value.whenOrNull(success: (responseData){
+            var userResponse = (responseData as FetchNotificationsResponseModel);
+            final coupons = userResponse.data?.toList() ?? List.empty();
+            coupons.removeWhere((notification) => notification.id == notificationId);
+            userResponse = userResponse.copyWith(data:coupons);
+            fetchNotificationsObserver.value.data.value = ApiResult.success(userResponse);
+          });
+          deleteNotificationObserver.value = ApiResult.success(responseData);
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      deleteNotificationObserver.value = ApiResult.error(e.toString());
     }
   }
 

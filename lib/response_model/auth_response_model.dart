@@ -170,9 +170,12 @@ class FetchNotificationsResponseModel with _$FetchNotificationsResponseModel{
 @Freezed()
 class NotificationModel with _$NotificationModel{
   const factory NotificationModel({
+    @JsonKey(name: '_id') String? id,
     String? topic,
     String? title,
-    String? body
+    String? body,
+    String? image,
+    DateTime? createdAt
   }) = _NotificationModel;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);

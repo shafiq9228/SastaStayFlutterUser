@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 
 import '../pages/hostel_details_page.dart';
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 import 'package:get/get.dart';
 
+import '../utils/geo_util.dart';
 import '../view_models/hostel_view_model.dart';
 
 class HostelDetailsHorizontalComponent1 extends StatelessWidget {
@@ -16,6 +18,7 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hostelViewModel = Get.put(HostelViewModel());
+    final authViewModel = Get.put(AuthViewModel());
 
 
     return  InkWell(
@@ -66,6 +69,8 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
                             Image.asset("assets/images/location.png",width: 15,height: 15,color: CustomColors.darkGray),
                             const SizedBox(width: 2),
                             Expanded(child: Text(hostelModel?.location?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                            const SizedBox(width: 2),
+                            Text(GeoUtil().getDistanceFromLatLonInKm(hostelModel?.location?.latitude ?? 0.00,hostelModel?.location?.longitude?? 0.00,authViewModel.locationDetails.value?.latitude ?? 0.00,authViewModel.locationDetails.value?.longitude ?? 0.00),maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                           ],
                         ),
                       ),

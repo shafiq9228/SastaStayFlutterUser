@@ -40,7 +40,6 @@ class CheckoutPage extends StatelessWidget {
       backgroundColor: CustomColors.white,
       body: StatefulWrapper(
         onInit: (){
-
         },
         onStart: (){
           bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,0);
@@ -51,7 +50,7 @@ class CheckoutPage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    SecondaryHeadingComponent(buttonTxt: "Checkout"),
+                    const SecondaryHeadingComponent(buttonTxt: "Checkout"),
                     Expanded(child: SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -197,7 +196,7 @@ class CheckoutPage extends StatelessWidget {
                             Obx(() {
                               return bookingViewModel.selectedCoupon.value != null ? InkWell(
                                 onTap: (){
-                                  Get.to(() => const CouponsPage(selecting: true));
+                                  Get.to(() =>  CouponsPage(selecting: true,hostelId: hostelData?.id ?? ""));
                                 },
                                 child: Container(
                                   decoration: AppStyles.editTextBg,
@@ -211,7 +210,7 @@ class CheckoutPage extends StatelessWidget {
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
                                             Icon(Icons.local_offer,size: 15,color: CustomColors.primary),
-                                            SizedBox(width: 5),
+                                            const SizedBox(width: 5),
                                             Text(
                                                 '${bookingViewModel.selectedCoupon.value?.code ?? ""} ',
                                                 style:  TextStyle(
@@ -240,7 +239,7 @@ class CheckoutPage extends StatelessWidget {
                               ) :
                               InkWell(
                                 onTap: (){
-                                  Get.to(() => const CouponsPage(selecting: true));
+                                  Get.to(() => CouponsPage(selecting: true,hostelId: hostelData?.id ?? ""));
                                 },
                                 child: Container(
                                   decoration: AppStyles.editTextBg,
@@ -495,6 +494,7 @@ class CheckoutPage extends StatelessWidget {
                   ],
                 ),
                 Obx(()=> bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(loading: (loading) => Container(width:double.infinity,height:double.infinity,color: CustomColors.black.withOpacity(0.4),child: Center(child: CircularProgressIndicator(color: CustomColors.white)),),orElse: () => SizedBox())),
+                Obx(()=> bookingViewModel.updateBookingStatusObserver.value.maybeWhen(loading: (loading) => Container(width:double.infinity,height:double.infinity,color: CustomColors.black.withOpacity(0.4),child: Center(child: CircularProgressIndicator(color: CustomColors.white)),),orElse: () => SizedBox())),
               ],
             )),
       ),

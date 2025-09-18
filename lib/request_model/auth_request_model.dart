@@ -29,7 +29,8 @@ class PaginationRequestModel with _$PaginationRequestModel{
     double? latitude,
     double? longitude,
     required int? page,
-    FilterRequestModel? filterRequest
+    FilterRequestModel? filterRequest,
+    String? sort
   }) = _PaginationRequestModel;
 
   factory PaginationRequestModel.fromJson(Map<String, dynamic> json) => _$PaginationRequestModelFromJson(json);

@@ -40,9 +40,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return  StatefulWrapper(
       onInit: () async {
-        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:"popular"), true);
-        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1), true);
         await authViewModel.fetchUserDetails(false);
+        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:"popular",latitude:authViewModel.locationDetails.value?.latitude,longitude:authViewModel.locationDetails.value?.longitude), true);
+        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,latitude:authViewModel.locationDetails.value?.latitude,longitude:authViewModel.locationDetails.value?.longitude), true);
         hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type: "nearby",latitude:authViewModel.locationDetails.value?.latitude,longitude:authViewModel.locationDetails.value?.longitude), true);
       },
       child: Scaffold(

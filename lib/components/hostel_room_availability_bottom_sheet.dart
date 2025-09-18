@@ -33,6 +33,7 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
   final List<DateTime> _selectedDates = [];
 
   Future<void> _selectDate(BuildContext context) async {
+    bookingViewModel.checkHostelRoomAvailabilityObserver.value = ApiResult.init();
     final DateTimeRange? picked = await showDateRangePicker(
       context: context,
       firstDate: DateTime.now(),

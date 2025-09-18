@@ -33,6 +33,7 @@ _$PaginationRequestModelImpl _$$PaginationRequestModelImplFromJson(
           ? null
           : FilterRequestModel.fromJson(
               json['filterRequest'] as Map<String, dynamic>),
+      sort: json['sort'] as String?,
     );
 
 Map<String, dynamic> _$$PaginationRequestModelImplToJson(
@@ -47,6 +48,7 @@ Map<String, dynamic> _$$PaginationRequestModelImplToJson(
       'longitude': instance.longitude,
       'page': instance.page,
       'filterRequest': instance.filterRequest,
+      'sort': instance.sort,
     };
 
 _$FilterRequestModelImpl _$$FilterRequestModelImplFromJson(

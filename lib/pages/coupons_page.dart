@@ -19,8 +19,9 @@ import '../utils/statefullwrapper.dart';
 
 
 class CouponsPage extends StatefulWidget {
+  final String? hostelId;
   final bool selecting;
-  const CouponsPage({super.key, required this.selecting});
+  const CouponsPage({super.key, required this.selecting, this.hostelId});
 
   @override
   State<CouponsPage> createState() => _CouponsPageState();
@@ -87,8 +88,7 @@ class _CouponsPageState extends State<CouponsPage> {
                                           itemCount: couponsList?.length ?? 0,
                                           itemBuilder: (context, index) {
                                             final couponModel = couponsList?[index];
-                                            return CouponCodeComponent(couponModel:couponModel, selecting: widget.selecting
-                                            );
+                                            return CouponCodeComponent(couponModel:couponModel, selecting: widget.selecting);
                                           }),
                                       Visibility(
                                         visible: (couponsList?.length ?? 0) < 5,
@@ -128,12 +128,12 @@ class _CouponsPageState extends State<CouponsPage> {
   }
 
   Future<void> _refreshData() async{
-    hostelViewModel.fetchCoupons(PaginationRequestModel(page: 1),true);
+    hostelViewModel.fetchCoupons(PaginationRequestModel(hostelId: widget.hostelId,page: 1),true);
   }
 
   Future<void> _addData() async {
     final observer = hostelViewModel.fetchCouponsObserver;
     if(observer.value.isPaginationCompleted || observer.value.isLoading ) return;
-    hostelViewModel.fetchCoupons(PaginationRequestModel(page: observer.value.page),false);
+    hostelViewModel.fetchCoupons(PaginationRequestModel(hostelId: widget.hostelId,page: observer.value.page),false);
   }
 }

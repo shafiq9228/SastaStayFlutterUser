@@ -17,6 +17,7 @@ class EndPoints{
   static const fetchAmenities = "fetchAmenities";
   static const fetchCoupons = "fetchCoupons";
   static const fetchNotifications = "fetchNotifications";
+  static const deleteNotification = "deleteNotification";
   static const fetchHostelRooms = "fetchHostelRooms";
 
   static const updateFavouriteStatus = "updateFavouriteStatus";

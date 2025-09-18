@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/utils/app_styles.dart';
 
 import '../response_model/hostel_response_model.dart';
 import '../utils/custom_colors.dart';
 
 class SortByBottomSheet extends StatefulWidget {
-  const SortByBottomSheet({super.key});
+  final Function(String type) onClick;
+  const SortByBottomSheet({super.key, required this.onClick});
 
   @override
   State<SortByBottomSheet> createState() => _SortByBottomSheetState();
 }
 
 class _SortByBottomSheetState extends State<SortByBottomSheet> {
-  final sortList  = [AmenitiesModel(id:"popular",image: "",name: "Most Popular"),
-    AmenitiesModel(id:"nearby",image: "",name: "Nearest First"),
-    AmenitiesModel(id:"rating",image: "",name: "Guest Ratings"),
-    AmenitiesModel(id:"ltPrice",image: "",name: "Price - Low to High"),
-    AmenitiesModel(id:"gtPrice",image: "",name: "Price - High to Low"),
+  final sortList  = [
+    // const AmenitiesModel(id:"popular",image: "assets/images/popularity.png",name: "Most Popular"),
+    // const AmenitiesModel(id:"nearby",image: "assets/images/pin_to_pin_loation.png",name: "Nearest First"),
+    const AmenitiesModel(id:"rating",image: "assets/images/rating_sort.png",name: "Guest Ratings"),
+    const AmenitiesModel(id:"gtPrice",image: "assets/images/price_low_to_high.png",name: "Price - Low to High"),
+    const AmenitiesModel(id:"ltPrice",image: "assets/images/price_high_to_low.png",name: "Price - High to Low"),
   ];
 
   @override
@@ -45,14 +48,32 @@ class _SortByBottomSheetState extends State<SortByBottomSheet> {
                 ],
               ),
               Container(width: double.infinity,height: 2,color: CustomColors.darkGray,),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context,index){
-                    final hostelModel =  sortList[index];
-                    return const SizedBox();
+                    final sortModel =  sortList[index];
+                    return InkWell(
+                        onTap: () {
+                          widget.onClick(sortModel.id ?? "");},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          children: [
+                            Container(decoration: AppStyles.lightBlueCircleBg,child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Image.asset(sortModel.image ?? "",width: 20,height: 20),
+                            )),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(sortModel.name ?? "",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: CustomColors.textColor),),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
                   },itemCount: sortList.length ?? 0),
               SizedBox(height: 20),
             ],

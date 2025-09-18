@@ -102,6 +102,16 @@ class AppStyles {
       )
   );
 
+
+  static  final  lightBlueCircleBg = BoxDecoration(
+      color: const Color(0xFFB7DFF5).withOpacity(0.2)
+      ,borderRadius: BorderRadius.circular(500),
+      border: Border.all(
+          width: 0.5,
+          color: const Color(0xFFD7D1D1)
+      )
+  );
+
     static  final  googleContainerStyle = BoxDecoration(
         color: Colors.white
         ,borderRadius: BorderRadius.circular(15),

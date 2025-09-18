@@ -74,6 +74,28 @@ class AuthViewModel extends GetxController{
     )
   ].obs;
 
+  List<DocumentDataModel> initialKycDocuments = [
+    DocumentDataModel(
+      documentType: "aadhar",
+      documentStatus: "pending",
+      uploadedUrl: "",
+      errorTxt: '',
+    ),
+    DocumentDataModel(
+      documentType: "pan",
+      documentStatus: "pending",
+      uploadedUrl: "",
+      errorTxt: '',
+    ),
+    DocumentDataModel(
+      documentType: "selfie",
+      documentStatus: "pending",
+      uploadedUrl: "",
+      errorTxt: '',
+    )
+  ];
+
+
   Future<Position?> fetchCurrentLocation() async {
     if (locationPosition.value == null) {
       await Geolocator.requestPermission();
@@ -304,8 +326,9 @@ class AuthViewModel extends GetxController{
           fetchUserDetailsObserver.value = ApiResult.success(responseData);
           userId.value = responseData.data?.id ?? "";
           profilePic.value = responseData.data?.image ?? "";
+
           if(responseData.data?.kycDocuments?.length == 3){
-            kysDocuments.value = responseData.data?.kycDocuments ?? kysDocuments;
+            kysDocuments.value = responseData.data?.kycDocuments ?? initialKycDocuments;
           }
 
           if(responseData.data?.address != null){

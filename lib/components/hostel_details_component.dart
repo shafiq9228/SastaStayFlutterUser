@@ -3,10 +3,12 @@ import 'package:pg_hostel/components/amenities_component.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/pages/hostel_details_page.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
+import '../utils/geo_util.dart';
 import 'custom_network_image.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +20,8 @@ class HostelDetailsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hostelViewModel = Get.put(HostelViewModel()); 
+    final hostelViewModel = Get.put(HostelViewModel());
+    final authViewModel = Get.put(AuthViewModel());
    
     return  InkWell(
       onTap: (){
@@ -125,7 +128,16 @@ class HostelDetailsComponent extends StatelessWidget {
                           children: [
                             Image.asset("assets/images/location.png",width: 10,height: 10,color: CustomColors.darkGray),
                             Expanded(child: Text(hostelModel?.location?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                            const SizedBox(width: 5),
                             Text("${hostelModel?.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Row(
+                          children: [
+                            Expanded(child: Text(GeoUtil().getDistanceFromLatLonInKm(hostelModel?.location?.latitude ?? 0.00,hostelModel?.location?.longitude?? 0.00,authViewModel.locationDetails.value?.latitude ?? 0.00,authViewModel.locationDetails.value?.longitude ?? 0.00),maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
                           ],
                         ),
                       ),

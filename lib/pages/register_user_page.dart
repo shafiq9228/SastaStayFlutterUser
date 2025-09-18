@@ -61,7 +61,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
           dobController.text = widget.userModel?.dob ?? "";
           authViewModel.profilePic.value = widget.userModel?.image ?? "";
           authViewModel.locationDetails.value = widget.userModel?.address ?? authViewModel.locationDetails.value;
-          authViewModel.kysDocuments.value = widget.userModel?.kycDocuments ?? authViewModel.kysDocuments.toList();
+          authViewModel.kysDocuments.value = widget.userModel?.kycDocuments ?? authViewModel.initialKycDocuments.toList();
           setState(() {
             selectedGender = widget.userModel?.gender ?? "Male";
           });
@@ -380,7 +380,6 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                             Get.snackbar("Error","Please Select Gender",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
                             return;
                           }
-                          print(authViewModel.locationDetails.value);
                           authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender,address: authViewModel.locationDetails.value,referralCode: referralCodeController.text,kycDocuments: authViewModel.kysDocuments));
                         },))
                     ),

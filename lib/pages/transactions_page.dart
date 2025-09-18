@@ -10,6 +10,7 @@ import 'package:pg_hostel/view_models/booking_view_model.dart';
 import '../components/empty_data_view.dart';
 import '../components/secondary_heading_component.dart';
 import '../request_model/auth_request_model.dart';
+import '../shimmers/booking_details_shimmer.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/transaction_view_model.dart';
@@ -50,17 +51,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (context,index){
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 3),
-                                    child: FadeShimmer(
-                                      height: 50,
-                                      width: double.infinity,
-                                      radius: 20,
-                                      millisecondsDelay: index*300,
-                                      highlightColor: Colors.grey.shade200,
-                                      baseColor:Colors.white,
-                                    ),
-                                  );
+                                  return BookingDetailsShimmer(index: index);
                                 },itemCount: 10),
                             success: (data){
                               final responseData = (data as FetchTransactionsResponseModel).data;
@@ -93,17 +84,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                       ),
                                       Obx(() => Visibility(
                                           visible: transactionViewModel.fetchTransactionsObserver.value.isLoading,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: FadeShimmer(
-                                              height: 50,
-                                              width: double.infinity,
-                                              radius: 20,
-                                              millisecondsDelay: 300,
-                                              highlightColor: Colors.grey.shade200,
-                                              baseColor:Colors.white,
-                                            ),
-                                          )),
+                                          child: BookingDetailsShimmer(index: 1)),
                                       )
                                     ],
                                   ),

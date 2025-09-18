@@ -223,15 +223,23 @@ Map<String, dynamic> _$$FetchNotificationsResponseModelImplToJson(
 _$NotificationModelImpl _$$NotificationModelImplFromJson(
         Map<String, dynamic> json) =>
     _$NotificationModelImpl(
+      id: json['_id'] as String?,
       topic: json['topic'] as String?,
       title: json['title'] as String?,
       body: json['body'] as String?,
+      image: json['image'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$NotificationModelImplToJson(
         _$NotificationModelImpl instance) =>
     <String, dynamic>{
+      '_id': instance.id,
       'topic': instance.topic,
       'title': instance.title,
       'body': instance.body,
+      'image': instance.image,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };

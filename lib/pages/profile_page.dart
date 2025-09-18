@@ -82,6 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ElevatedButton(
                         onPressed: () async {
                           Get.back();
+                          authViewModel.kysDocuments.value  =  authViewModel.initialKycDocuments;
                           logOuting.value = true;
                           preferenceManager.clearAll();
                           logOuting.value = false;

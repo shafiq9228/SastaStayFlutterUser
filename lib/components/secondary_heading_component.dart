@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,8 +28,7 @@ class SecondaryHeadingComponent extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 20,top: 10,bottom: 10),
               child: SizedBox(width:200,child: Text(buttonTxt,textAlign: TextAlign.start,style: TextStyle(color: CustomColors.textColor,fontWeight: FontWeight.w700,fontSize: 22),)),
-            ),
-            Flexible(child: SizedBox()),
+            )
           ],
         ));
   }

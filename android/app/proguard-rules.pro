@@ -20,3 +20,9 @@
 -dontwarn com.google.android.apps.nbu.paisa.inapp.client.api.WalletUtils
 -dontwarn proguard.annotation.Keep
 -dontwarn proguard.annotation.KeepClassMembers
+
+-keep class me.carda.awesome_notifications.** { *; }
+-dontwarn me.carda.awesome_notifications.**
+
+-keep class com.google.j2objc.annotations.** { *; }
+-dontwarn com.google.j2objc.annotations.**

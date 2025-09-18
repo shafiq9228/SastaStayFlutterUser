@@ -82,14 +82,34 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                   child: Column(
                                     children: [
                                       ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: const NeverScrollableScrollPhysics(),
-                                          itemCount: notificationList?.length ?? 0,
-                                          itemBuilder: (context, index) {
-                                            final notificationModel = notificationList?[index];
-                                            return NotificationComponent(notificationModel:notificationModel
-                                            );
-                                          }),
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: notificationList?.length ?? 0,
+                                        itemBuilder: (context, index) {
+                                          final notificationModel = notificationList?[index];
+
+                                          return Dismissible(
+                                            key: Key(notificationModel?.id.toString() ?? index.toString()), // unique key
+                                            direction: DismissDirection.endToStart, // swipe from right to left
+                                            background: Container(
+                                              alignment: Alignment.centerRight,
+                                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                                              color: Colors.red,
+                                              child: const Icon(Icons.delete, color: Colors.white),
+                                            ),
+                                            onDismissed: (direction) async {
+                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                const SnackBar(content: Text("Notification deleted")),
+                                              );
+                                              await hostelViewModel.deleteNotification(notificationModel?.id);
+                                            },
+                                            child: NotificationComponent(
+                                              notificationModel: notificationModel,
+                                              hostelViewModel: hostelViewModel,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                       Visibility(
                                         visible: (notificationList?.length ?? 0) < 5,
                                         child: SizedBox(

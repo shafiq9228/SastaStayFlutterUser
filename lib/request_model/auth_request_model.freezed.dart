@@ -178,6 +178,7 @@ mixin _$PaginationRequestModel {
   double? get longitude => throw _privateConstructorUsedError;
   int? get page => throw _privateConstructorUsedError;
   FilterRequestModel? get filterRequest => throw _privateConstructorUsedError;
+  String? get sort => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -200,7 +201,8 @@ abstract class $PaginationRequestModelCopyWith<$Res> {
       double? latitude,
       double? longitude,
       int? page,
-      FilterRequestModel? filterRequest});
+      FilterRequestModel? filterRequest,
+      String? sort});
 
   $FilterRequestModelCopyWith<$Res>? get filterRequest;
 }
@@ -228,6 +230,7 @@ class _$PaginationRequestModelCopyWithImpl<$Res,
     Object? longitude = freezed,
     Object? page = freezed,
     Object? filterRequest = freezed,
+    Object? sort = freezed,
   }) {
     return _then(_value.copyWith(
       query: freezed == query
@@ -266,6 +269,10 @@ class _$PaginationRequestModelCopyWithImpl<$Res,
           ? _value.filterRequest
           : filterRequest // ignore: cast_nullable_to_non_nullable
               as FilterRequestModel?,
+      sort: freezed == sort
+          ? _value.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -300,7 +307,8 @@ abstract class _$$PaginationRequestModelImplCopyWith<$Res>
       double? latitude,
       double? longitude,
       int? page,
-      FilterRequestModel? filterRequest});
+      FilterRequestModel? filterRequest,
+      String? sort});
 
   @override
   $FilterRequestModelCopyWith<$Res>? get filterRequest;
@@ -328,6 +336,7 @@ class __$$PaginationRequestModelImplCopyWithImpl<$Res>
     Object? longitude = freezed,
     Object? page = freezed,
     Object? filterRequest = freezed,
+    Object? sort = freezed,
   }) {
     return _then(_$PaginationRequestModelImpl(
       query: freezed == query
@@ -366,6 +375,10 @@ class __$$PaginationRequestModelImplCopyWithImpl<$Res>
           ? _value.filterRequest
           : filterRequest // ignore: cast_nullable_to_non_nullable
               as FilterRequestModel?,
+      sort: freezed == sort
+          ? _value.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -382,7 +395,8 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
       this.latitude,
       this.longitude,
       required this.page,
-      this.filterRequest});
+      this.filterRequest,
+      this.sort});
 
   factory _$PaginationRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaginationRequestModelImplFromJson(json);
@@ -405,10 +419,12 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
   final int? page;
   @override
   final FilterRequestModel? filterRequest;
+  @override
+  final String? sort;
 
   @override
   String toString() {
-    return 'PaginationRequestModel(query: $query, searchQuery: $searchQuery, type: $type, docId: $docId, hostelId: $hostelId, latitude: $latitude, longitude: $longitude, page: $page, filterRequest: $filterRequest)';
+    return 'PaginationRequestModel(query: $query, searchQuery: $searchQuery, type: $type, docId: $docId, hostelId: $hostelId, latitude: $latitude, longitude: $longitude, page: $page, filterRequest: $filterRequest, sort: $sort)';
   }
 
   @override
@@ -429,13 +445,14 @@ class _$PaginationRequestModelImpl implements _PaginationRequestModel {
                 other.longitude == longitude) &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.filterRequest, filterRequest) ||
-                other.filterRequest == filterRequest));
+                other.filterRequest == filterRequest) &&
+            (identical(other.sort, sort) || other.sort == sort));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, query, searchQuery, type, docId,
-      hostelId, latitude, longitude, page, filterRequest);
+      hostelId, latitude, longitude, page, filterRequest, sort);
 
   @JsonKey(ignore: true)
   @override
@@ -462,7 +479,8 @@ abstract class _PaginationRequestModel implements PaginationRequestModel {
       final double? latitude,
       final double? longitude,
       required final int? page,
-      final FilterRequestModel? filterRequest}) = _$PaginationRequestModelImpl;
+      final FilterRequestModel? filterRequest,
+      final String? sort}) = _$PaginationRequestModelImpl;
 
   factory _PaginationRequestModel.fromJson(Map<String, dynamic> json) =
       _$PaginationRequestModelImpl.fromJson;
@@ -485,6 +503,8 @@ abstract class _PaginationRequestModel implements PaginationRequestModel {
   int? get page;
   @override
   FilterRequestModel? get filterRequest;
+  @override
+  String? get sort;
   @override
   @JsonKey(ignore: true)
   _$$PaginationRequestModelImplCopyWith<_$PaginationRequestModelImpl>

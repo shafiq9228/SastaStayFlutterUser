@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:pg_hostel/pages/splash_screen.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/firebase_notification.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import 'firebase_options.dart';
 
@@ -17,6 +18,9 @@ Future<void> main() async {
   );
   //
   await FireBaseNotification().initNotifications();
+
+  // String signature = await SmsAutoFill().getAppSignature;
+  // print("📩 App Signature: $signature");
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: CustomColors.primary,
@@ -36,7 +40,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Chatting',
+      title: 'Pg Hostel',
       debugShowCheckedModeBanner: false,
       popGesture: true,
       defaultTransition: Transition.rightToLeft,

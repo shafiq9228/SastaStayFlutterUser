@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/components/hostel_details_component.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
+import 'package:pg_hostel/components/sort_by_bottom_sheet.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/shimmers/hostel_details_shimmer.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
@@ -111,7 +112,7 @@ class _SearchPageState extends State<SearchPage> {
                                   padding: const EdgeInsets.only(right: 20),
                                   child: Obx(() => searchQuery.value.isEmpty ? GestureDetector(
                                       onTap: (){
-                                        Get.off(() => FilterPage());
+                                        Get.off(() => const FilterPage());
                                       },
                                       child: SizedBox(height: 20,width: 20,child: Center(child: Image.asset("assets/images/filter.png")))) : hostelViewModel.fetchSearchedHostelsObserver.value.data.value.maybeWhen(
                                       loading: (_) => SizedBox(height: 10,width: 10,child: Center(child: CircularProgressIndicator(color:CustomColors.textColor,strokeWidth: 2))),
@@ -119,7 +120,7 @@ class _SearchPageState extends State<SearchPage> {
                                           onTap: (){
                                             searchController.clear();
                                             searchQuery.value = "";
-                                            _refreshData();
+                                            _refreshData("");
                                           },
                                           child: SizedBox(height: 20,width: 20,child: Center(child: Icon(Icons.cancel_outlined,color:CustomColors.textColor)))))),
                                 )
@@ -130,10 +131,10 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ) :
-                SecondaryHeadingComponent(buttonTxt: "${widget.type} Hostels"),
+                SecondaryHeadingComponent(buttonTxt: "${widget.type} Hostels",),
                 Expanded(
                   child: RefreshIndicator(
-                    onRefresh: () => _refreshData(),
+                    onRefresh: () => _refreshData(""),
                     child: SizedBox(
                       width: double.infinity,
                       height: double.infinity,
@@ -163,8 +164,46 @@ class _SearchPageState extends State<SearchPage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(vertical:10,horizontal: 20),
-                                        child: Text("Hostels (${hostelList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 22)),
+                                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                                        child: Row(
+                                          children: [
+                                            Expanded(child: Text("Hostels (${hostelList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 22))),
+                                            Visibility(
+                                              visible: widget.type.toLowerCase() == "filter",
+                                              child: InkWell(
+                                                onTap:(){
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    isScrollControlled: true,
+                                                    shape: const RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                                    ),
+                                                    builder: (context) {
+                                                      return  SortByBottomSheet(onClick: (id){
+                                                         Get.back();
+                                                        _refreshData(id);
+                                                      },);
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  decoration: AppStyles.categoryBg3,
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                                                    child: Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.all(5),
+                                                          child: Image.asset("assets/images/sort.png",width: 20,height: 20),
+                                                        ),
+                                                        Text("Sort",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
+                                                      ],
+                                                    ),
+                                                  ),),
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       ListView.builder(
                                           shrinkWrap: true,
@@ -206,12 +245,12 @@ class _SearchPageState extends State<SearchPage> {
     observer.value.data.value = const ApiResult.loading("");
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 1000), () {
-      _refreshData();
+      _refreshData("");
     });
   }
 
-  Future<void> _refreshData() async{
-    hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:widget.type.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude),true);
+  Future<void> _refreshData(String sort) async{
+    hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:widget.type.toLowerCase(),query:searchQuery.value,latitude: authViewModel.locationDetails.value?.latitude,longitude: authViewModel.locationDetails.value?.longitude,sort:sort),true);
   }
 
   Future<void> _addData() async {
