@@ -100,7 +100,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Amount Paid",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: CustomColors.darkGray)),
-                          Text("${widget.bookingModel?.total ?? 0}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.textColor)),
+                          Text("${widget.bookingModel?.subTotal ?? 0}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.textColor)),
                         ],
                       ),
                     ),

@@ -118,13 +118,21 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: (hostelData?.images?.first.images?.length ?? 0) > 5
+                                  itemCount: (hostelData?.images?.isNotEmpty == true)
+                                      ? ((hostelData!.images!.first.images?.length ?? 0) > 5
                                       ? 5
-                                      : hostelData?.images?.first.images?.length ?? 0,
+                                      : hostelData.images!.first.images?.length ?? 0)
+                                      : 0,
                                   itemBuilder: (context, index) {
-                                    final images = hostelData?.images?.first.images ?? [];
+                                    final images = hostelData?.images?.isNotEmpty == true
+                                        ? hostelData!.images!.first.images ?? []
+                                        : [];
+
+                                    if (images.isEmpty) return const SizedBox.shrink();
+
                                     final imageUrl = images[index];
-                                    // If last index and there are more than 5 images
+
+                                    // If last index and more than 5 images
                                     if (index == 4 && images.length > 5) {
                                       final remainingCount = images.length - 5;
                                       return Padding(
@@ -158,6 +166,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                         ),
                                       );
                                     }
+
                                     // Normal image item
                                     return Padding(
                                       padding: const EdgeInsets.all(5),
@@ -393,7 +402,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                   Row(
                                     children: [
                                       Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                      Visibility(visible: (availabilityResponse?.discount ?? 0) +  (availabilityResponse?.walletDeduction ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.amount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                      Visibility(visible: (availabilityResponse?.discount ?? 0) +  (availabilityResponse?.walletDeduction ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.subTotal ?? 0) + (availabilityResponse?.walletDeduction ?? 0) + (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
                                           decorationThickness: 2,
                                           decorationColor: Colors.black))),
                                       const SizedBox(width: 5),

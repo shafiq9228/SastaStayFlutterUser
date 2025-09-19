@@ -417,11 +417,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 Row(
                                   children: [
                                     Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                    Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)  != 0 ,child: Text("₹${(bookingDataModel?.amount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                    Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
                                         decorationThickness: 2,
                                         decorationColor: Colors.black))),
                                     const SizedBox(width: 5),
-                                    Text("₹${(bookingDataModel?.total ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
+                                    Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
                                   ],
                                 ),
                                 const SizedBox(height: 10),
@@ -461,6 +461,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 _buildRulesList(hostelData.rules ?? []),
                                 const SizedBox(height: 30),
                                 const StaticReferAndEarnComponent(),
+                                const SizedBox(height: 30),
+                                InkWell(
+                                  onTap: (){
+                                    openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
+                                  },
+                                    child: const ErrorTextComponent(assetImage: "assets/images/chat.png",text: "Have Queries? Here to help")),
                                 const SizedBox(height: 30),
                                 ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
                                 SizedBox(
@@ -649,6 +655,21 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
         ),
       ),
     );
+  }
+
+  Future<void> openWhatsAppChat({
+    required String phoneNumber, // in international format without '+'
+    String message = '',
+  }) async {
+    final Uri whatsappUri = Uri.parse(
+      "https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}",
+    );
+
+    if (await canLaunchUrl(whatsappUri)) {
+      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch WhatsApp';
+    }
   }
 
   Widget _buildLocationInfo(LocationModel? location) {

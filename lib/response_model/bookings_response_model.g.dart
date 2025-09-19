@@ -231,7 +231,7 @@ _$BookingModelImpl _$$BookingModelImplFromJson(Map<String, dynamic> json) =>
       amount: json['amount'] as int?,
       discount: json['discount'] as int?,
       walletDeduction: json['walletDeduction'] as int?,
-      total: json['total'] as int?,
+      subTotal: json['subTotal'] as int?,
       guestDetailsList: (json['guestDetailsList'] as List<dynamic>?)
           ?.map((e) => GuestDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -260,7 +260,7 @@ Map<String, dynamic> _$$BookingModelImplToJson(_$BookingModelImpl instance) =>
       'amount': instance.amount,
       'discount': instance.discount,
       'walletDeduction': instance.walletDeduction,
-      'total': instance.total,
+      'subTotal': instance.subTotal,
       'guestDetailsList': instance.guestDetailsList,
       'logs': instance.logs,
       'bookingStatus': instance.bookingStatus,

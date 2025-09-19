@@ -2180,7 +2180,7 @@ mixin _$BookingModel {
   int? get amount => throw _privateConstructorUsedError;
   int? get discount => throw _privateConstructorUsedError;
   int? get walletDeduction => throw _privateConstructorUsedError;
-  int? get total => throw _privateConstructorUsedError;
+  int? get subTotal => throw _privateConstructorUsedError;
   List<GuestDetailsModel>? get guestDetailsList =>
       throw _privateConstructorUsedError;
   List<AmountDetailsModel>? get logs => throw _privateConstructorUsedError;
@@ -2214,7 +2214,7 @@ abstract class $BookingModelCopyWith<$Res> {
       int? amount,
       int? discount,
       int? walletDeduction,
-      int? total,
+      int? subTotal,
       List<GuestDetailsModel>? guestDetailsList,
       List<AmountDetailsModel>? logs,
       String? bookingStatus,
@@ -2248,7 +2248,7 @@ class _$BookingModelCopyWithImpl<$Res, $Val extends BookingModel>
     Object? amount = freezed,
     Object? discount = freezed,
     Object? walletDeduction = freezed,
-    Object? total = freezed,
+    Object? subTotal = freezed,
     Object? guestDetailsList = freezed,
     Object? logs = freezed,
     Object? bookingStatus = freezed,
@@ -2311,9 +2311,9 @@ class _$BookingModelCopyWithImpl<$Res, $Val extends BookingModel>
           ? _value.walletDeduction
           : walletDeduction // ignore: cast_nullable_to_non_nullable
               as int?,
-      total: freezed == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
+      subTotal: freezed == subTotal
+          ? _value.subTotal
+          : subTotal // ignore: cast_nullable_to_non_nullable
               as int?,
       guestDetailsList: freezed == guestDetailsList
           ? _value.guestDetailsList
@@ -2358,7 +2358,7 @@ abstract class _$$BookingModelImplCopyWith<$Res>
       int? amount,
       int? discount,
       int? walletDeduction,
-      int? total,
+      int? subTotal,
       List<GuestDetailsModel>? guestDetailsList,
       List<AmountDetailsModel>? logs,
       String? bookingStatus,
@@ -2390,7 +2390,7 @@ class __$$BookingModelImplCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? discount = freezed,
     Object? walletDeduction = freezed,
-    Object? total = freezed,
+    Object? subTotal = freezed,
     Object? guestDetailsList = freezed,
     Object? logs = freezed,
     Object? bookingStatus = freezed,
@@ -2453,9 +2453,9 @@ class __$$BookingModelImplCopyWithImpl<$Res>
           ? _value.walletDeduction
           : walletDeduction // ignore: cast_nullable_to_non_nullable
               as int?,
-      total: freezed == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
+      subTotal: freezed == subTotal
+          ? _value.subTotal
+          : subTotal // ignore: cast_nullable_to_non_nullable
               as int?,
       guestDetailsList: freezed == guestDetailsList
           ? _value._guestDetailsList
@@ -2495,7 +2495,7 @@ class _$BookingModelImpl implements _BookingModel {
       this.amount,
       this.discount,
       this.walletDeduction,
-      this.total,
+      this.subTotal,
       final List<GuestDetailsModel>? guestDetailsList,
       final List<AmountDetailsModel>? logs,
       this.bookingStatus,
@@ -2536,7 +2536,7 @@ class _$BookingModelImpl implements _BookingModel {
   @override
   final int? walletDeduction;
   @override
-  final int? total;
+  final int? subTotal;
   final List<GuestDetailsModel>? _guestDetailsList;
   @override
   List<GuestDetailsModel>? get guestDetailsList {
@@ -2565,7 +2565,7 @@ class _$BookingModelImpl implements _BookingModel {
 
   @override
   String toString() {
-    return 'BookingModel(id: $id, userId: $userId, dealerId: $dealerId, hostelId: $hostelId, roomId: $roomId, orderId: $orderId, paymentId: $paymentId, paymentStatus: $paymentStatus, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, amount: $amount, discount: $discount, walletDeduction: $walletDeduction, total: $total, guestDetailsList: $guestDetailsList, logs: $logs, bookingStatus: $bookingStatus, createdAt: $createdAt)';
+    return 'BookingModel(id: $id, userId: $userId, dealerId: $dealerId, hostelId: $hostelId, roomId: $roomId, orderId: $orderId, paymentId: $paymentId, paymentStatus: $paymentStatus, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, amount: $amount, discount: $discount, walletDeduction: $walletDeduction, subTotal: $subTotal, guestDetailsList: $guestDetailsList, logs: $logs, bookingStatus: $bookingStatus, createdAt: $createdAt)';
   }
 
   @override
@@ -2594,7 +2594,8 @@ class _$BookingModelImpl implements _BookingModel {
                 other.discount == discount) &&
             (identical(other.walletDeduction, walletDeduction) ||
                 other.walletDeduction == walletDeduction) &&
-            (identical(other.total, total) || other.total == total) &&
+            (identical(other.subTotal, subTotal) ||
+                other.subTotal == subTotal) &&
             const DeepCollectionEquality()
                 .equals(other._guestDetailsList, _guestDetailsList) &&
             const DeepCollectionEquality().equals(other._logs, _logs) &&
@@ -2622,7 +2623,7 @@ class _$BookingModelImpl implements _BookingModel {
         amount,
         discount,
         walletDeduction,
-        total,
+        subTotal,
         const DeepCollectionEquality().hash(_guestDetailsList),
         const DeepCollectionEquality().hash(_logs),
         bookingStatus,
@@ -2659,7 +2660,7 @@ abstract class _BookingModel implements BookingModel {
       final int? amount,
       final int? discount,
       final int? walletDeduction,
-      final int? total,
+      final int? subTotal,
       final List<GuestDetailsModel>? guestDetailsList,
       final List<AmountDetailsModel>? logs,
       final String? bookingStatus,
@@ -2698,7 +2699,7 @@ abstract class _BookingModel implements BookingModel {
   @override
   int? get walletDeduction;
   @override
-  int? get total;
+  int? get subTotal;
   @override
   List<GuestDetailsModel>? get guestDetailsList;
   @override

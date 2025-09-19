@@ -140,7 +140,7 @@ class BookingModel with _$BookingModel {
     int? amount,
     int? discount,
     int? walletDeduction,
-    int? total,
+    int? subTotal,
     List<GuestDetailsModel>? guestDetailsList,
     List<AmountDetailsModel>? logs,
     String? bookingStatus,

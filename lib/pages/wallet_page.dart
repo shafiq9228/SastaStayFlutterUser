@@ -29,58 +29,63 @@ class _WalletPageState extends State<WalletPage> {
       backgroundColor: CustomColors.white,
       body: SafeArea(
         top: true,
-          child: Column(
+          child: Stack(
             children: [
-              const SecondaryHeadingComponent(buttonTxt: "Add Money"),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                         Container(
-                           color: CustomColors.white,
-                          width: double.infinity,
-                          height: 100,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text("Available Balance",style: TextStyle(fontSize: 12,color: CustomColors.primary,fontWeight: FontWeight.w600)),
-                              Obx(() => Text( '₹ ${authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (data) => ((data as FetchUserDetailsResponseModel).data?.wallet ?? 0).toString() ,orElse: () => "0")}',style: TextStyle(fontSize: 25,color: CustomColors.primary,fontWeight: FontWeight.w800))),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 50, // Increase height to stretch into an oval
-                          decoration: BoxDecoration(
-                            color: CustomColors.white,
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.elliptical(200, 20),
-                              bottomRight: Radius.elliptical(200, 20),
+              Column(
+                children: [
+                  const SecondaryHeadingComponent(buttonTxt: "Add Money"),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                             Container(
+                               color: CustomColors.white,
+                              width: double.infinity,
+                              height: 100,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text("Available Balance",style: TextStyle(fontSize: 12,color: CustomColors.primary,fontWeight: FontWeight.w600)),
+                                  Obx(() => Text( '₹ ${authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (data) => ((data as FetchUserDetailsResponseModel).data?.wallet ?? 0).toString() ,orElse: () => "0")}',style: TextStyle(fontSize: 25,color: CustomColors.primary,fontWeight: FontWeight.w800))),
+                                ],
+                              ),
                             ),
-                          ),
+                            Container(
+                              width: double.infinity,
+                              height: 50, // Increase height to stretch into an oval
+                              decoration: BoxDecoration(
+                                color: CustomColors.white,
+                                borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.elliptical(200, 20),
+                                  bottomRight: Radius.elliptical(200, 20),
+                                ),
+                              ),
+                            ),
+                            CustomEditTextComponent(controller:addFundController , title: "Add Funds", hint: ""
+                                "Amount",keyboardType: TextInputType.phone),
+                            const SizedBox(height: 50),
+                            const StaticReferAndEarnComponent(),
+                            const SizedBox(height: 50),
+                            Obx(() => transactionViewModel.addAmountToWalletObserver.value.maybeWhen(
+                              loading: (loading) => const Center(child: CustomProgressBar()),
+                                orElse: () => PrimaryButton(buttonClick: (){
+                                   if((int.tryParse(addFundController.text) ?? 0) == 0){
+                                     Get.snackbar("Error","Enter Amount Correctly",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+                                     return;
+                                   }
+                                  transactionViewModel.performAddAmountToBalance(int.tryParse(addFundController.text) ?? 0,context);
+                                },buttonTxt:"Add Money To Wallet")))
+                          ],
                         ),
-                        CustomEditTextComponent(controller:addFundController , title: "Add Funds", hint: ""
-                            "Amount",keyboardType: TextInputType.phone),
-                        const SizedBox(height: 50),
-                        const StaticReferAndEarnComponent(),
-                        const SizedBox(height: 50),
-                        Obx(() => transactionViewModel.addAmountToWalletObserver.value.maybeWhen(
-                          loading: (loading) => const Center(child: CustomProgressBar()),
-                            orElse: () => PrimaryButton(buttonClick: (){
-                               if((int.tryParse(addFundController.text) ?? 0) == 0){
-                                 Get.snackbar("Error","Enter Amount Correctly",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
-                                 return;
-                               }
-                              transactionViewModel.performAddAmountToBalance(int.tryParse(addFundController.text) ?? 0,context);
-                            },buttonTxt:"Add Money To Wallet")))
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
+              Obx(()=> transactionViewModel.updateDepositStatusObserver.value.maybeWhen(loading: (loading) => Container(width:double.infinity,height:double.infinity,color: CustomColors.black.withOpacity(0.4),child: Center(child: CircularProgressIndicator(color: CustomColors.white)),),orElse: () => SizedBox())),
             ],
           )),
     );
