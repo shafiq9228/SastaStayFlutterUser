@@ -6,7 +6,8 @@ class EndPoints{
 
   static const sendOtp = "sendOtp";
   static const verifyOtp = "verifyOtp";
-  static const googleAuth = "googleAuth";
+  static const sendEmailVerification = "sendEmailVerification";
+  static const verifyEmail = "verifyEmail";
   static const uploadFile = "uploadFile";
   static const registerUser = "registerUser";
   static const fetchUserDetails = "fetchUserDetails";

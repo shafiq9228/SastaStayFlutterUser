@@ -94,6 +94,7 @@ Map<String, dynamic> _$$SendOtpRequestModelImplToJson(
 _$VerifyOtpRequestModelImpl _$$VerifyOtpRequestModelImplFromJson(
         Map<String, dynamic> json) =>
     _$VerifyOtpRequestModelImpl(
+      email: json['email'] as String?,
       mobile: json['mobile'] as int?,
       otp: json['otp'] as int?,
       source: json['source'] as String?,
@@ -104,6 +105,7 @@ _$VerifyOtpRequestModelImpl _$$VerifyOtpRequestModelImplFromJson(
 Map<String, dynamic> _$$VerifyOtpRequestModelImplToJson(
         _$VerifyOtpRequestModelImpl instance) =>
     <String, dynamic>{
+      'email': instance.email,
       'mobile': instance.mobile,
       'otp': instance.otp,
       'source': instance.source,

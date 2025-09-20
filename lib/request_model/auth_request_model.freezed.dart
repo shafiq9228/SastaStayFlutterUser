@@ -937,6 +937,7 @@ VerifyOtpRequestModel _$VerifyOtpRequestModelFromJson(
 
 /// @nodoc
 mixin _$VerifyOtpRequestModel {
+  String? get email => throw _privateConstructorUsedError;
   int? get mobile => throw _privateConstructorUsedError;
   int? get otp => throw _privateConstructorUsedError;
   String? get source => throw _privateConstructorUsedError;
@@ -956,7 +957,8 @@ abstract class $VerifyOtpRequestModelCopyWith<$Res> {
       _$VerifyOtpRequestModelCopyWithImpl<$Res, VerifyOtpRequestModel>;
   @useResult
   $Res call(
-      {int? mobile,
+      {String? email,
+      int? mobile,
       int? otp,
       String? source,
       String? version,
@@ -977,6 +979,7 @@ class _$VerifyOtpRequestModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? email = freezed,
     Object? mobile = freezed,
     Object? otp = freezed,
     Object? source = freezed,
@@ -984,6 +987,10 @@ class _$VerifyOtpRequestModelCopyWithImpl<$Res,
     Object? deviceId = freezed,
   }) {
     return _then(_value.copyWith(
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
       mobile: freezed == mobile
           ? _value.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
@@ -1018,7 +1025,8 @@ abstract class _$$VerifyOtpRequestModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? mobile,
+      {String? email,
+      int? mobile,
       int? otp,
       String? source,
       String? version,
@@ -1037,6 +1045,7 @@ class __$$VerifyOtpRequestModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? email = freezed,
     Object? mobile = freezed,
     Object? otp = freezed,
     Object? source = freezed,
@@ -1044,6 +1053,10 @@ class __$$VerifyOtpRequestModelImplCopyWithImpl<$Res>
     Object? deviceId = freezed,
   }) {
     return _then(_$VerifyOtpRequestModelImpl(
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
       mobile: freezed == mobile
           ? _value.mobile
           : mobile // ignore: cast_nullable_to_non_nullable
@@ -1072,7 +1085,8 @@ class __$$VerifyOtpRequestModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$VerifyOtpRequestModelImpl implements _VerifyOtpRequestModel {
   const _$VerifyOtpRequestModelImpl(
-      {required this.mobile,
+      {this.email,
+      this.mobile,
       required this.otp,
       required this.source,
       required this.version,
@@ -1081,6 +1095,8 @@ class _$VerifyOtpRequestModelImpl implements _VerifyOtpRequestModel {
   factory _$VerifyOtpRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$VerifyOtpRequestModelImplFromJson(json);
 
+  @override
+  final String? email;
   @override
   final int? mobile;
   @override
@@ -1094,7 +1110,7 @@ class _$VerifyOtpRequestModelImpl implements _VerifyOtpRequestModel {
 
   @override
   String toString() {
-    return 'VerifyOtpRequestModel(mobile: $mobile, otp: $otp, source: $source, version: $version, deviceId: $deviceId)';
+    return 'VerifyOtpRequestModel(email: $email, mobile: $mobile, otp: $otp, source: $source, version: $version, deviceId: $deviceId)';
   }
 
   @override
@@ -1102,6 +1118,7 @@ class _$VerifyOtpRequestModelImpl implements _VerifyOtpRequestModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VerifyOtpRequestModelImpl &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.mobile, mobile) || other.mobile == mobile) &&
             (identical(other.otp, otp) || other.otp == otp) &&
             (identical(other.source, source) || other.source == source) &&
@@ -1113,7 +1130,7 @@ class _$VerifyOtpRequestModelImpl implements _VerifyOtpRequestModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, mobile, otp, source, version, deviceId);
+      Object.hash(runtimeType, email, mobile, otp, source, version, deviceId);
 
   @JsonKey(ignore: true)
   @override
@@ -1132,7 +1149,8 @@ class _$VerifyOtpRequestModelImpl implements _VerifyOtpRequestModel {
 
 abstract class _VerifyOtpRequestModel implements VerifyOtpRequestModel {
   const factory _VerifyOtpRequestModel(
-      {required final int? mobile,
+      {final String? email,
+      final int? mobile,
       required final int? otp,
       required final String? source,
       required final String? version,
@@ -1141,6 +1159,8 @@ abstract class _VerifyOtpRequestModel implements VerifyOtpRequestModel {
   factory _VerifyOtpRequestModel.fromJson(Map<String, dynamic> json) =
       _$VerifyOtpRequestModelImpl.fromJson;
 
+  @override
+  String? get email;
   @override
   int? get mobile;
   @override

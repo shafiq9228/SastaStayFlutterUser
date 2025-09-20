@@ -16,8 +16,7 @@ class UploadedViewComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        print("hello Value");
-        Get.off(() => FilePickerPage(fileView: true,fileType: fileType, fileName: fileName,imageUrl:imageUrl,editable: forEdit ?? true));
+        Get.to(() => FilePickerPage(fileView: true,fileType: fileType, fileName: fileName,imageUrl:imageUrl,editable: forEdit ?? true));
       },
       child: Padding(
         padding: const EdgeInsets.all(15),

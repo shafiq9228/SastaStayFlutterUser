@@ -64,7 +64,8 @@ class SendOtpRequestModel with _$SendOtpRequestModel{
 @Freezed()
 class VerifyOtpRequestModel with _$VerifyOtpRequestModel{
   const factory VerifyOtpRequestModel({
-    required int? mobile,
+    String? email,
+    int? mobile,
     required int? otp,
     required String? source,
     required String? version,

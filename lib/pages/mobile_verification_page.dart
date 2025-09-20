@@ -118,7 +118,7 @@ class MobileVerificationPage extends StatelessWidget {
                 Expanded(child: Container(height: 1,color: CustomColors.textColor)),
               ],
             ),
-            Obx(() => authViewModel.googleAuthResponseObserver.value.maybeWhen(
+            Obx(() => authViewModel.emailVerificationObserver.value.maybeWhen(
                 loading: (loading) => const CustomProgressBar(),
                 error: (error) {
                   logoutEmail();
@@ -162,7 +162,7 @@ class MobileVerificationPage extends StatelessWidget {
 
   Future<User?> signInWithGoogle() async {
     try {
-      authViewModel.googleAuthResponseObserver.value = const ApiResult.loading("");
+      authViewModel.emailVerificationObserver.value = const ApiResult.loading("");
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
         return null;
@@ -175,10 +175,7 @@ class MobileVerificationPage extends StatelessWidget {
       );
 
       final UserCredential userCredential = await _auth.signInWithCredential(credential);
-      final version = await AuthUtils.getAppVersion();
-      String? deviceId = await AuthUtils.getDeviceId();
-      String sorce = await AuthUtils.getSource();
-      authViewModel.googleAuth(GoogleAuthRequestModel(email: userCredential.user?.email ?? "", name: userCredential.user?.displayName ?? "",source:sorce, version:version,deviceId: deviceId));
+      authViewModel.sendEmailVerification(userCredential.user?.email ?? "");
       return userCredential.user;
     } catch (e) {
       print("Error during logout: $e");
@@ -192,7 +189,7 @@ class MobileVerificationPage extends StatelessWidget {
     try {
       await _auth.signOut();
       await _googleSignIn.signOut();
-      authViewModel.googleAuthResponseObserver.value = const ApiResult.init();
+      authViewModel.emailVerificationObserver.value = const ApiResult.init();
     } catch (e) {
       print("Error during logout: $e");
     }

@@ -34,8 +34,8 @@ class AuthViewModel extends GetxController{
 
   final validaVersionObserver = const ApiResult<ValidateVersionResponseModel>.init().obs;
   final sendOtpResponseObserver = const ApiResult<PrimaryResponseModel>.init().obs;
+  final emailVerificationObserver = const ApiResult<PrimaryResponseModel>.init().obs;
   final verifyOtpResponseObserver  = const ApiResult<VerifyOtpResponseModel>.init().obs;
-  final googleAuthResponseObserver  = const ApiResult<VerifyOtpResponseModel>.init().obs;
   final registerUserResponseObserver  = const ApiResult<PrimaryResponseModel>.init().obs;
   final fetchUserDetailsObserver  = const ApiResult<FetchUserDetailsResponseModel>.init().obs;
 
@@ -244,7 +244,7 @@ class AuthViewModel extends GetxController{
         final responseData = PrimaryResponseModel.fromJson(body);
         if(responseData.status == 1){
           sendOtpResponseObserver.value = ApiResult.success(responseData);
-          Get.to(() => OtpVerificationPage(mobileNumber: request.mobile));
+          Get.to(() => OtpVerificationPage(mobileVerification: true,mobile: request.mobile));
           return;
         }
         throw "${responseData.message}";
@@ -285,12 +285,37 @@ class AuthViewModel extends GetxController{
     }
   }
 
-  Future<void> googleAuth(GoogleAuthRequestModel request) async {
+
+  Future<void> sendEmailVerification(String email) async {
     try{
-      googleAuthResponseObserver.value = const ApiResult.loading("");
-      final String? validatorResponse = AuthUtils.validateRequestFields(['email','name'], request.toJson());
+      if(email.isEmpty) throw "Invalid Email";
+      emailVerificationObserver.value = const ApiResult.loading("");
+      final response = await apiProvider.post(EndPoints.sendEmailVerification,{"email" : email});
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = PrimaryResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          emailVerificationObserver.value = ApiResult.success(responseData);
+          Get.to(() => OtpVerificationPage(mobileVerification: false,email: email));
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      emailVerificationObserver.value = ApiResult.error(e.toString());
+    }
+  }
+
+
+  Future<void> verifyEmail(VerifyOtpRequestModel request) async {
+    try{
+      verifyOtpResponseObserver.value = const ApiResult.loading("");
+      final String? validatorResponse = AuthUtils.validateRequestFields(['email','otp','source','version','deviceId'], request.toJson());
       if(validatorResponse != null) throw validatorResponse;
-      final response = await apiProvider.post(EndPoints.googleAuth,request.toJson());
+      final response = await apiProvider.post(EndPoints.verifyEmail,request.toJson());
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = VerifyOtpResponseModel.fromJson(body);
@@ -299,7 +324,7 @@ class AuthViewModel extends GetxController{
           preferenceManager.setValue("page",page);
           preferenceManager.setValue("registerValue",request.email.toString());
           preferenceManager.setValue("token",responseData.data?.token);
-          googleAuthResponseObserver.value = ApiResult.success(responseData);
+          verifyOtpResponseObserver.value = ApiResult.success(responseData);
           AuthUtils.navigateFromPageName(page);
           return;
         }
@@ -309,7 +334,7 @@ class AuthViewModel extends GetxController{
     }
     catch(e){
       Get.snackbar("Error","something went wrong $e",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
-      googleAuthResponseObserver.value = ApiResult.error(e.toString());
+      verifyOtpResponseObserver.value = ApiResult.error(e.toString());
     }
   }
 

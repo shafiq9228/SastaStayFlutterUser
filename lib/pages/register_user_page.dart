@@ -53,6 +53,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
             emailIdController.text = value ?? "";
             registerByMobile.value = false;
           }
+          authViewModel.kysDocuments.value = authViewModel.initialKycDocuments.toList();
         }
         else{
           mobileController.text = (widget.userModel?.mobile ?? 0).toString();

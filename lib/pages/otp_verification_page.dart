@@ -19,8 +19,10 @@ import '../utils/custom_colors.dart';
 import '../view_models/auth_view_model.dart';
 
 class OtpVerificationPage extends StatefulWidget {
-  final int? mobileNumber;
-  const OtpVerificationPage({super.key, required this.mobileNumber});
+  final bool mobileVerification;
+  final int? mobile;
+  final String? email;
+  const OtpVerificationPage({super.key,required this.mobileVerification,this.mobile,this.email});
 
   @override
   State<OtpVerificationPage> createState() => _OtpVerificationPageState();
@@ -54,15 +56,28 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> with CodeAuto
     AuthUtils.getAppVersion().then((version) async {
       String? deviceId = await AuthUtils.getDeviceId();
       String source = await AuthUtils.getSource();
-      authViewModel.verifyOtp(
-        VerifyOtpRequestModel(
-          mobile: widget.mobileNumber,
-          otp: int.parse(pinController.text),
-          source: source,
-          version: version,
-          deviceId: deviceId,
-        ),
-      );
+      if(widget.mobileVerification == true){
+        authViewModel.verifyOtp(
+          VerifyOtpRequestModel(
+            mobile: widget.mobile,
+            otp: int.parse(pinController.text),
+            source: source,
+            version: version,
+            deviceId: deviceId,
+          ),
+        );
+      }
+      else{
+        authViewModel.verifyEmail(
+          VerifyOtpRequestModel(
+            email: widget.email,
+            otp: int.parse(pinController.text),
+            source: source,
+            version: version,
+            deviceId: deviceId,
+          ),
+        );
+      }
     });
   }
 
@@ -90,7 +105,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> with CodeAuto
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Text(
-                "Verification Code Sent To ${widget.mobileNumber}",
+                "Verification Code Sent To ${ widget.mobileVerification ==  true ? widget.mobile : widget.email}",
                 style: TextStyle(
                   color: CustomColors.gray,
                   fontWeight: FontWeight.w400,
@@ -146,11 +161,7 @@ class _OtpVerificationPageState extends State<OtpVerificationPage> with CodeAuto
                   Obx(() => authViewModel.verifyOtpResponseObserver.value.maybeWhen(
                       loading: (loading) => const CustomProgressBar(),
                       orElse: () => PrimaryButton(buttonTxt: "VERIFY OTP", buttonClick: () async {
-                        authViewModel.verifyOtpResponseObserver.value = const ApiResult.loading("");
-                        final version = await AuthUtils.getAppVersion();
-                        String? deviceId = await AuthUtils.getDeviceId();
-                        String sorce = await AuthUtils.getSource();
-                        authViewModel.verifyOtp(VerifyOtpRequestModel(mobile: widget.mobileNumber, otp: pinController.text.toString().isEmpty ? null : int.parse(pinController.text.toString()), source: sorce, version:version, deviceId: deviceId));
+                        verifyOtp();
                       },))
                   ),
                 ],

@@ -35,174 +35,336 @@ class _HomePageState extends State<HomePage> {
   final authViewModel = Get.put(AuthViewModel());
   final hostelViewModel = Get.put(HostelViewModel());
 
-
   @override
   Widget build(BuildContext context) {
-    return  StatefulWrapper(
+    return StatefulWrapper(
       onInit: () async {
         await authViewModel.fetchUserDetails(false);
-        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type:"popular",latitude:authViewModel.locationDetails.value?.latitude,longitude:authViewModel.locationDetails.value?.longitude), true);
-        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,latitude:authViewModel.locationDetails.value?.latitude,longitude:authViewModel.locationDetails.value?.longitude), true);
-        hostelViewModel.fetchHostels(PaginationRequestModel(page: 1,type: "nearby",latitude:authViewModel.locationDetails.value?.latitude,longitude:authViewModel.locationDetails.value?.longitude), true);
+        hostelViewModel.fetchHostels(
+          PaginationRequestModel(
+            page: 1,
+            type: "popular",
+            latitude: authViewModel.locationDetails.value?.latitude,
+            longitude: authViewModel.locationDetails.value?.longitude,
+          ),
+          true,
+        );
+        hostelViewModel.fetchHostels(
+          PaginationRequestModel(
+            page: 1,
+            latitude: authViewModel.locationDetails.value?.latitude,
+            longitude: authViewModel.locationDetails.value?.longitude,
+          ),
+          true,
+        );
+        hostelViewModel.fetchHostels(
+          PaginationRequestModel(
+            page: 1,
+            type: "nearby",
+            latitude: authViewModel.locationDetails.value?.latitude,
+            longitude: authViewModel.locationDetails.value?.longitude,
+          ),
+          true,
+        );
       },
       child: Scaffold(
         backgroundColor: CustomColors.white,
-        body: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Column(
-            children: [
-              const HomePageComponent(),
-              const TypeOfHostelComponent(),
-              // HostelDetailsHorizontalComponent1(),
-              Obx(
-                  () => hostelViewModel.fetchNearbyHostelsObserver.value.data.value.maybeWhen(
-                      loading:(data) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: SizedBox(
-                          height: 250,
-                          width: double.infinity,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context,index){
-                                return HostelDetailsHorizontalShimmer(index: index, view: 1);
-                              },itemCount: 4),
+        body: NotificationListener<ScrollNotification>(
+          onNotification: (scrollNotification) {
+            if (scrollNotification.metrics.pixels >=
+                scrollNotification.metrics.maxScrollExtent - 20) {
+              _addData();
+            }
+            return false;
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                const HomePageComponent(),
+                const TypeOfHostelComponent(),
+
+                /// Nearby Hostels
+                Obx(
+                      () => hostelViewModel
+                      .fetchNearbyHostelsObserver.value.data.value
+                      .maybeWhen(
+                    loading: (data) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                        height: 250,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return HostelDetailsHorizontalShimmer(
+                                index: index, view: 1);
+                          },
+                          itemCount: 4,
                         ),
                       ),
-                      success: (data){
-                        final hostelsList = (data as FetchHostelsResponseModel).data;
-                        return hostelsList?.isNotEmpty == true ? Column(
-                          children: [
-                            SideHeadingComponent(title: "Nearby Hostels", viewVisible: true,viewType: 1,viewClick: (){
-                              Get.to(() => const SearchPage(type: "Nearby"));
-                            }),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: SizedBox(
-                                height: 250,
-                                width: double.infinity,
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context,index){
-                                      final hostelModel =  hostelsList?[index];
-                                      return HostelDetailsHorizontalComponent1(hostelModel:hostelModel);
-                                    },itemCount: hostelsList?.length ?? 0),
+                    ),
+                    success: (data) {
+                      final hostelsList =
+                          (data as FetchHostelsResponseModel).data;
+                      return hostelsList?.isNotEmpty == true
+                          ? Column(
+                        children: [
+                          SideHeadingComponent(
+                            title: "Nearby Hostels",
+                            viewVisible: true,
+                            viewType: 1,
+                            viewClick: () {
+                              Get.to(() =>
+                              const SearchPage(type: "Nearby"));
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20),
+                            child: SizedBox(
+                              height: 250,
+                              width: double.infinity,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  final hostelModel =
+                                  hostelsList?[index];
+                                  return HostelDetailsHorizontalComponent1(
+                                    hostelModel: hostelModel,
+                                  );
+                                },
+                                itemCount: hostelsList?.length ?? 0,
                               ),
                             ),
-                          ],
-                        ) : SizedBox();
-                      },
-                      orElse: () => SizedBox()) ,
-              ),
-              const SwipableImageOverlay(imageHeight:150,viewportFraction:1),
-              Obx(
-                    () => hostelViewModel.fetchPopularHostelsObserver.value.data.value.maybeWhen(
-                    loading:(data) =>  Padding(
+                          ),
+                        ],
+                      )
+                          : const SizedBox();
+                    },
+                    orElse: () => const SizedBox(),
+                  ),
+                ),
+
+                const SwipableImageOverlay(
+                  imageHeight: 150,
+                  viewportFraction: 1,
+                ),
+
+                /// Popular Hostels
+                Obx(
+                      () => hostelViewModel
+                      .fetchPopularHostelsObserver.value.data.value
+                      .maybeWhen(
+                    loading: (data) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: SizedBox(
                         height: 280,
                         width: double.infinity,
                         child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context,index){
-                              return HostelDetailsHorizontalShimmer(index: index, view: 2,);
-                            },itemCount: 4),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return HostelDetailsHorizontalShimmer(
+                              index: index,
+                              view: 2,
+                            );
+                          },
+                          itemCount: 4,
+                        ),
                       ),
                     ),
-                    success: (data){
-                      final hostelsList = (data as FetchHostelsResponseModel).data;
+                    success: (data) {
+                      final hostelsList =
+                          (data as FetchHostelsResponseModel).data;
                       return Column(
                         children: [
-                          SideHeadingComponent(title: "Popular Hostels", viewVisible: true,viewType: 1,viewClick: (){
-                            Get.to(() => const SearchPage(type: "Popular"));
-                          }),
+                          SideHeadingComponent(
+                            title: "Popular Hostels",
+                            viewVisible: true,
+                            viewType: 1,
+                            viewClick: () {
+                              Get.to(() =>
+                              const SearchPage(type: "Popular"));
+                            },
+                          ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 20),
                             child: SizedBox(
                               height: 280,
                               width: double.infinity,
                               child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context,index){
-                                    final hostelModel =  hostelsList?[index];
-                                    return HostelDetailsHorizontalComponent2(hostelModel:hostelModel);
-                                  },itemCount: hostelsList?.length ?? 0),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  final hostelModel = hostelsList?[index];
+                                  return HostelDetailsHorizontalComponent2(
+                                    hostelModel: hostelModel,
+                                  );
+                                },
+                                itemCount: hostelsList?.length ?? 0,
+                              ),
                             ),
                           ),
                         ],
                       );
                     },
-                    orElse: () => SizedBox()) ,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                child: Row(
-                  children: [
-                    Expanded(child: Text("Hostel Feed",style:  TextStyle(fontWeight: FontWeight.w800,fontSize: 22,color: CustomColors.black))),
-                    const SizedBox(width: 20),
-                    InkWell(
-                      onTap:(){
-                        Get.to(() => FilterPage());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                          child: Row(
-                            children: [
-                              Text("Filter",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.black)),
-                              const SizedBox(width: 5),
-                              Image.asset("assets/images/filter.png",width: 15,height: 15,color: CustomColors.textColor)
-                            ],
-                          ),
-                        ),),
-                    ),
-                    const SizedBox(width: 10),
-                    InkWell(
-                      onTap:(){
-                        Get.to(() => HostelsMapView());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.darkGray)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                          child: Row(
-                            children: [
-                              Text("Map View",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.black)),
-                              const SizedBox(width: 5),
-                              Image.asset("assets/images/map.png",width: 15,height: 15,color: CustomColors.textColor)
-                            ],
-                          ),
-                        ),),
-                    )
-                  ],
+                    orElse: () => const SizedBox(),
+                  ),
                 ),
-              ),
-              Obx(
-                    () => hostelViewModel.fetchHostelsObserver.value.data.value.maybeWhen(
-                    loading:(data) => ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context,index){
-                          return HostelDetailsShimmer(index: index);
-                        },itemCount: 5),
-                    success: (data){
-                      final hostelsList = (data as FetchHostelsResponseModel).data;
+
+                /// Hostel Feed
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Hostel Feed",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 22,
+                            color: CustomColors.black,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => FilterPage());
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 0.5,
+                              color: CustomColors.darkGray,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Filter",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: CustomColors.black,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                Image.asset(
+                                  "assets/images/filter.png",
+                                  width: 15,
+                                  height: 15,
+                                  color: CustomColors.textColor,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => HostelsMapView());
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              width: 0.5,
+                              color: CustomColors.darkGray,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Map View",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                    color: CustomColors.black,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                Image.asset(
+                                  "assets/images/map.png",
+                                  width: 15,
+                                  height: 15,
+                                  color: CustomColors.textColor,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+
+                /// Main Hostel List
+                Obx(
+                      () => hostelViewModel
+                      .fetchHostelsObserver.value.data.value
+                      .maybeWhen(
+                    loading: (data) => ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return HostelDetailsShimmer(index: index);
+                      },
+                      itemCount: 5,
+                    ),
+                    success: (data) {
+                      final hostelsList =
+                          (data as FetchHostelsResponseModel).data;
                       return ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context,index){
-                            final hostelModel =  hostelsList?[index];
-                            return HostelDetailsComponent(hostelModel:hostelModel);
-                          },itemCount: hostelsList?.length ?? 0);
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          final hostelModel = hostelsList?[index];
+                          return HostelDetailsComponent(
+                            hostelModel: hostelModel,
+                          );
+                        },
+                        itemCount: hostelsList?.length ?? 0,
+                      );
                     },
-                    orElse: () => SizedBox()) ,
-              ),
-            ],
+                    orElse: () => const SizedBox(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _addData() async {
+    final observer = hostelViewModel.fetchHostelsObserver;
+    if (observer.value.isPaginationCompleted || observer.value.isLoading) {
+      return;
+    }
+    hostelViewModel.fetchHostels(
+      PaginationRequestModel(
+        page: observer.value.page,
+        latitude: authViewModel.locationDetails.value?.latitude,
+        longitude: authViewModel.locationDetails.value?.longitude,
+      ),
+      false,
     );
   }
 }
