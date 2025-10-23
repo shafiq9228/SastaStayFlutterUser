@@ -138,10 +138,21 @@ class UserModel with _$UserModel{
     String? referralCode,
     List<String>? referrals,
     int? referralEarnings,
-    List<DocumentDataModel>? kycDocuments
+    List<DocumentDataModel>? kycDocuments,
+    ReferralModel? referral
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+}
+
+@Freezed()
+class ReferralModel with _$ReferralModel{
+  const factory ReferralModel({
+    int? referralAmount,
+    int? referralCount
+  }) = _ReferralModel;
+
+  factory ReferralModel.fromJson(Map<String, dynamic> json) => _$ReferralModelFromJson(json);
 }
 
 @Freezed()

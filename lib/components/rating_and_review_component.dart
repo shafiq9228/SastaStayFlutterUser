@@ -34,7 +34,7 @@ class RatingAndReviewComponent extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(userModel?.name ?? "",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: CustomColors.textColor),),
+                      Text(userModel?.name ?? "",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor),),
                       SizedBox(height: 5),
                       IgnorePointer(
                           child: RatingBar.builder(
@@ -60,6 +60,7 @@ class RatingAndReviewComponent extends StatelessWidget {
             Text(ratingAndReviewModel?.review ?? "",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: CustomColors.darkGray),),
             const SizedBox(height: 10),
             DottedLine(dashColor: CustomColors.darkGray)
+
           ],
         ),
       ),

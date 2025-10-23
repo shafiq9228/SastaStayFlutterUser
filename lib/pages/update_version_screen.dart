@@ -105,7 +105,7 @@ class _UpdateVersionScreenState extends State<UpdateVersionScreen> {
               GestureDetector(
                 onTap: launchEmail,
                 child: Text("Contact admin for support \n chatting@gmail.com",textAlign: TextAlign.center,style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                     color: CustomColors.primary,
                     fontWeight: FontWeight.w800,
                     fontStyle: FontStyle.normal

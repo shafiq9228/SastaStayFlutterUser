@@ -15,7 +15,7 @@ class SearchViewComponent extends StatelessWidget {
           SizedBox(width:20,height:20,child: Image.asset("assets/images/search.png",color: CustomColors.textColor)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text("Search",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: CustomColors.gray)),
+            child: Text("Search",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: CustomColors.gray)),
           ),
         ],),
       ),

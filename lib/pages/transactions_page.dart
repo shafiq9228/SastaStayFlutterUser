@@ -51,7 +51,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (context,index){
-                                  return BookingDetailsShimmer(index: index);
+                                  return BookingDetailsShimmer(index: index,imageView:false);
                                 },itemCount: 10),
                             success: (data){
                               final responseData = (data as FetchTransactionsResponseModel).data;

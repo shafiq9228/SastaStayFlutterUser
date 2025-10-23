@@ -8,6 +8,7 @@ import '../components/secondary_heading_component.dart';
 import '../request_model/auth_request_model.dart';
 import '../response_model/auth_response_model.dart';
 import '../utils/app_styles.dart';
+import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/preference_manager.dart';
 import '../utils/statefullwrapper.dart';
@@ -80,7 +81,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                   color: CustomColors.white,child: Column(children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: SizedBox(width:200,child: Text("Enter Your Details",textAlign: TextAlign.start,style: TextStyle(color: CustomColors.primary,fontWeight: FontWeight.w600,fontSize: 22),)),
+                  child: SizedBox(width:200,child: Text("Enter Your Details",textAlign: TextAlign.start,style: TextStyle(color: CustomColors.primary,fontWeight: FontWeight.w600,fontSize: 18),)),
                 ),
                 Container(width: double.infinity,height: 1,color: CustomColors.primary,),
               ])),
@@ -339,7 +340,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                        child: Padding(
                         padding: const EdgeInsets.symmetric(vertical:10),
                         child: Text("Referral Code (Optional)",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: CustomColors.textColor)),
-                                           ),
+                       ),
                      ),
                      Visibility(
                        visible: widget.userModel == null,
@@ -368,8 +369,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                                 ),
                               )
                           ),
-                        ),
-                                           ),
+                        ),),
                      ),
                     const SizedBox(height: 20),
                     Text(widget.userModel != null ? "Email And Mobile Can\'t Be Edited" : "${registerByMobile.value == true ? "Mobile" : "Email"} Can\'t Be Edited",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.secondary,fontSize: 12),),
@@ -381,7 +381,19 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                             Get.snackbar("Error","Please Select Gender",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
                             return;
                           }
-                          authViewModel.registerUser(RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender,address: authViewModel.locationDetails.value,referralCode: referralCodeController.text,kycDocuments: authViewModel.kysDocuments));
+                          final request = RegisterUserRequestModel(image:authViewModel.profilePic.value,registerByMobile: widget.userModel == null ? registerByMobile.value : null ,mobile: mobileController.text,email: emailIdController.text,name: nameController.text,dob: dobController.text ?? '0',gender: selectedGender,address: authViewModel.locationDetails.value,referralCode: referralCodeController.text,kycDocuments: authViewModel.kysDocuments);
+                          final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','dob','gender','address','kycDocuments'], request.toJson());
+                          if(validatorResponse != null) {
+                            Get.snackbar("Error",validatorResponse,backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+                            return;
+                          }
+                          final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','landMark','pinCode','latitude','longitude'], request.address!.toJson());
+                          if(locationValidation != null){
+                            Get.to(() =>  const LocationPickerPage());
+                            Get.snackbar("Error",locationValidation,backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+                            return;
+                          };
+                          authViewModel.registerUser(request);
                         },))
                     ),
                     const SizedBox(height: 50),

@@ -6,6 +6,7 @@ import 'package:pg_hostel/components/amenities_component.dart';
 import 'package:pg_hostel/components/custom_outlined_button.dart';
 import 'package:pg_hostel/components/empty_data_view.dart';
 import 'package:pg_hostel/components/error_text_component.dart';
+import 'package:pg_hostel/components/hostel_details_extra_options_view.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/components/rating_component.dart';
 import 'package:pg_hostel/components/read_more_text.dart';
@@ -22,12 +23,14 @@ import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/auth_utils.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
+import '../components/animated_tap.dart';
 import '../components/custom_network_image.dart';
 import '../components/room_component_1.dart';
 import '../components/side_heading_component.dart';
@@ -47,6 +50,7 @@ class HostelDetailPage extends StatefulWidget {
 
 class _HostelDetailPageState extends State<HostelDetailPage> {
   final hostelViewModel = Get.put(HostelViewModel());
+  final authViewModel = Get.put(AuthViewModel());
   final bookingViewModel = Get.put(BookingViewModel());
 
   @override
@@ -203,7 +207,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                     const SizedBox(width: 10),
                     Obx(() => hostelViewModel.updateFavouritesObserver.value.maybeWhen(
                         loading: (loadingId) => loadingId ==  hostelData?.id ? const CircularProgressIndicator() : Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelData?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelData?.isFavorite == true ? CustomColors.red : CustomColors.black))),
-                        orElse: () => InkWell(
+                        orElse: () => AnimatedTap(
                           onTap: (){
                             hostelViewModel.updateFavouriteStatus(hostelData?.id ?? "",hostelData?.isFavorite ?? false);
                           },
@@ -227,7 +231,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                               child: Text(
                                 hostelData?.hostelName ?? 'Hostel',
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -235,7 +239,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             Image.asset("assets/images/star.png",width: 18,height: 18),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 5),
-                              child: Text("${hostelData?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black,decoration: TextDecoration.underline)),
+                              child: Text("${hostelData?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16,color: CustomColors.black,decoration: TextDecoration.underline)),
                             ),
                           ],
                         ),
@@ -245,7 +249,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             children: [
                               Image.asset("assets/images/location.png",width: 10,height: 10,color: CustomColors.textColor),
                               Expanded(child: Text(hostelData?.location?.address1 ?? "",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.textColor))),
-                              Text("${hostelData?.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
+                              Text("${AuthUtils.formatNumber(hostelData?.totalVotes ?? 0)} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
                             ],
                           ),
                         ),
@@ -264,12 +268,12 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                           ),
                         ),
                         SideHeadingComponent(title: "Amenities",
-                            viewVisible: true
+                            viewVisible: false
                             // viewVisible: (hostelData?.amenitiesMore ?? 0) > 0
                             ,viewClick: (){
-                          Get.to(() =>  AmenitiesPage(hostelId: hostelData?.id ?? ""));
+
                         },viewType: 2),
-                        _buildAmenitiesGrid(hostelData?.amenities,hostelData?.amenitiesMore),
+                        authViewModel.buildAmenitiesGrid(hostelData?.amenities,hostelData?.amenitiesMore,hostelData?.id ?? ""),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Container(
@@ -278,13 +282,39 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             height: 5,
                           ),
                         ),
-                        SideHeadingComponent(title: "Room Types",
+                        SideHeadingComponent(title: "Room Type",
                             viewVisible: true,
                             // viewVisible: (hostelData?.roomsMore ?? 0) > 0,
                             viewClick: (){
                           Get.to(() => RoomsListPage(hostelId: hostelData?.id ?? ""));
                         }),
                         _buildHostelRoomsList(hostelData),
+                        Visibility(visible: (hostelData?.faq ?? []).isNotEmpty,child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Container(
+                                width: double.infinity,
+                                color: CustomColors.lightGray,
+                                height: 5,
+                              ),
+                            ),
+                            const SideHeadingComponent(title: "Why To Book this Hostel ?",viewVisible: false),
+                          ],
+                        )),
+                        _buildFaqList(hostelData?.faq ?? []),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Container(
+                            width: double.infinity,
+                            color: CustomColors.lightGray,
+                            height: 5,
+                          ),
+                        ),
+                        SideHeadingComponent(title: "Ratings And Reviews",viewVisible: true,viewClick: (){
+                          Get.to(() => RatingReviewsPage(hostelId: hostelData?.id ?? "", rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0, categoryRating:  hostelData?.categoryRatings));
+                        }),
+                        RatingComponent(rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0,categoryRatings:hostelData?.categoryRatings),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Container(
@@ -303,21 +333,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             height: 5,
                           ),
                         ),
-                        const SideHeadingComponent(title: "Rules",viewVisible: false),
-                        _buildRulesList(hostelData?.rules ?? []),
-                        const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Container(
-                            width: double.infinity,
-                            color: CustomColors.lightGray,
-                            height: 5,
-                          ),
-                        ),
-                        SideHeadingComponent(title: "Ratings",viewVisible: true,viewClick: (){
-                           Get.to(() => RatingReviewsPage(hostelId: hostelData?.id ?? "", rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0));
-                        }),
-                        RatingComponent(rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0),
+                        HostelDetailsExtraOptionsView(rules: hostelData?.rules ?? [],checkInTime: hostelData?.checkInTime,checkOutTime: hostelData?.checkOutTime, mobileNumber: ""),
                         const SizedBox(height: 30),
                         Obx(() => bookingViewModel.bookingRequestModelObserver.value != null ? Column(
                           children: [
@@ -332,7 +348,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             const SizedBox(height: 20),
                             Row(
                               children: [
-                                Expanded(child: Text("Your Booking Details",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: CustomColors.black))),
+                                Expanded(child: Text("Your Booking Details",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: CustomColors.black))),
                                 const SizedBox(width: 20),
                                 InkWell(
                                   onTap: (){
@@ -401,16 +417,16 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                   const SizedBox(height: 10),
                                   Row(
                                     children: [
-                                      Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                      Visibility(visible: (availabilityResponse?.discount ?? 0) +  (availabilityResponse?.walletDeduction ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.subTotal ?? 0) + (availabilityResponse?.walletDeduction ?? 0) + (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                      Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 16))),
+                                      Visibility(visible: (availabilityResponse?.discount ?? 0) +  (availabilityResponse?.walletDeduction ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.subTotal ?? 0) + (availabilityResponse?.walletDeduction ?? 0) + (availabilityResponse?.discount ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
                                           decorationThickness: 2,
                                           decorationColor: Colors.black))),
                                       const SizedBox(width: 5),
-                                      Text("₹${(availabilityResponse?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
+                                      Text("₹${(availabilityResponse?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
                                     ],
                                   ),
                                   const SizedBox(height: 10),
-                                  PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: (){
+                                  PrimaryButton(buttonTxt: "Book Now", buttonClick: (){
                                       Get.to(() => CheckoutPage(hostelData: hostelData));
                                   }),
                                   const SizedBox(height: 50),
@@ -507,56 +523,35 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
     }
   }
 
-  Widget _buildAmenitiesGrid(List<AmenitiesModel>? amenities,int? amenitiesMore) {
-    return Builder(
-      builder: (context) {
-        final List<AmenitiesModel> displayList = List.from(amenities ?? []);
-        if ((amenitiesMore ?? 0) > 0) {
-          displayList.add(
-            AmenitiesModel(
-              image: "https://firebasestorage.googleapis.com/v0/b/sastastay-1d420.firebasestorage.app/o/bannerImages%2F1755513864049.png?alt=media&token=b25f99c1-8dcc-44a7-a888-fc7bf4398426",
-              name: "${amenitiesMore} More",
-            ),
-          );
-        }
-        return displayList.isEmpty ? ErrorTextComponent(text: "No Amenities Available") :
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: displayList.map((amenityModel) {
-            return AmenitiesComponent(
-              amenitiesModel: amenityModel,
-              view: 2,
-            );
-          }).toList(),
-        );
-      },
-    );
-  }
-
-  Widget _buildRulesList(List<String> rules) {
-    return rules.isNotEmpty ? Container(
+  Widget _buildFaqList(List<FaqModel> faqs) {
+    return faqs.isNotEmpty ? Container(
       decoration: AppStyles.categoryBg4,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
-          children: rules.map((rule) =>
+          children: faqs.map((faq) =>
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                 child: Column(
                   children: [
                     Row(
                       children: [
-                         Container(width: 40,height:40,decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),child: Icon(Icons.rule,color: CustomColors.textColor,size: 20)),
+                         Container(width: 40,height:40,decoration: BoxDecoration(borderRadius: BorderRadius.circular(200),color: CustomColors.white),child: Icon(Icons.question_answer,color: CustomColors.textColor,size: 20)),
                          const SizedBox(width: 10),
-                         Expanded(child: Text(rule,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.textColor)))
+                         Expanded(child: Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           children: [
+                             Text((faq.question ?? ""),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.textColor)),
+                             Text(faq.answer ?? "",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
+                           ],
+                         ))
                       ],
                     ),
                     const SizedBox(height: 5),
                     Visibility(
-                      visible: rules.length > 1,
+                      visible: faqs.length > 1,
                       child: DottedLine(
-                        dashColor: Colors.black.withOpacity(0.8),
+                        dashColor: CustomColors.darkGray,
                       ),
                     )
                   ],
@@ -565,7 +560,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
           ).toList(),
         ),
       ),
-    ) : ErrorTextComponent(text: "No Rules Attached");
+    ) : SizedBox();
   }
 
   Widget _buildHostelRoomsList(HostelModel? hostelModel) {
@@ -634,9 +629,9 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                               style: TextStyle(color: Colors.grey),
                             ),
                             Text(
-                              '₹${availabilityResponse?.amount ?? 0}',
+                              '₹${availabilityResponse?.subTotal ?? 0}',
                               style: TextStyle(
-                                fontSize: 18.0,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -653,7 +648,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                           onPressed: () {
                             Get.to(() => CheckoutPage(hostelData: hostelModel));
                           },
-                          child: Text('Confirm Booking',style: TextStyle(fontSize: 16,color: CustomColors.white)),
+                          child: Text('Book Now',style: TextStyle(fontSize: 16,color: CustomColors.white)),
                         ),
                       ],
                     ),

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/pages/refer_and_earn_page.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 
 class StaticReferAndEarnComponent extends StatelessWidget {
   const StaticReferAndEarnComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Get.put(AuthViewModel());
+
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: CustomColors.primary),
       child: Stack(
@@ -24,9 +27,9 @@ class StaticReferAndEarnComponent extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text("Refer Friends & Earn Wallet Credits",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.white,fontSize: 18)),
+                 Text("Refer Friends & Earn Wallet Credits",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.white,fontSize: 16)),
                  const SizedBox(height: 10),
-                 Text("Earn ₹100 for every friend who signs up and books their first hostel stay!",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 16)),
+                 Obx(() => Text("Earn ₹${authViewModel.referralData.value.referralAmount ?? 0} for every friend who signs up and books their first hostel stay!",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 16))),
                 const SizedBox(height: 10),
                 Row(
                   children: [

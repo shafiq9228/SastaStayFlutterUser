@@ -67,7 +67,7 @@ class _WalletPageState extends State<WalletPage> {
                             CustomEditTextComponent(controller:addFundController , title: "Add Funds", hint: ""
                                 "Amount",keyboardType: TextInputType.phone),
                             const SizedBox(height: 50),
-                            const StaticReferAndEarnComponent(),
+                            StaticReferAndEarnComponent(),
                             const SizedBox(height: 50),
                             Obx(() => transactionViewModel.addAmountToWalletObserver.value.maybeWhen(
                               loading: (loading) => const Center(child: CustomProgressBar()),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/components/empty_data_view.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
+import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
-
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 
 class HostelImagesPage extends StatelessWidget {
   final List<ImageDataModel> imageDataList;
@@ -13,6 +15,8 @@ class HostelImagesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Get.put(AuthViewModel());
+
     return DefaultTabController(
       length: imageDataList.length,
       child: Scaffold(
@@ -27,19 +31,22 @@ class HostelImagesPage extends StatelessWidget {
                   Get.back();
                 },
               ),
-              // Tabs for image types
-              if(imageDataList.isEmpty) const EmptyDataView(text: "No Images Found"),
-              TabBar(
-                isScrollable: true,
-                labelColor: CustomColors.textColor,
-                unselectedLabelColor: Colors.black54,
-                indicatorColor: CustomColors.textColor,
-                tabs: imageDataList
-                    .map((data) => Tab(text: data.imagesType ?? "Unknown"))
-                    .toList(),
-              ),
+              if (imageDataList.isEmpty)
+                const EmptyDataView(text: "No Images Found"),
+              if (imageDataList.isNotEmpty)
+                TabBar(
+                  isScrollable: true,
+                  labelColor: CustomColors.textColor,
+                  unselectedLabelColor: Colors.black54,
+                  indicatorColor: CustomColors.textColor,
+                  tabs: imageDataList
+                      .map((data) => Tab(text: data.imagesType ?? "Unknown"))
+                      .toList(),
+                ),
               Expanded(
-                child: TabBarView(
+                child: imageDataList.isEmpty
+                    ? const SizedBox.shrink()
+                    : TabBarView(
                   children: imageDataList.map((data) {
                     final images = data.images ?? [];
                     return Padding(
@@ -52,11 +59,19 @@ class HostelImagesPage extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final double height =
                           (100 + (index % 5) * 40).toDouble();
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
+                          final double width =
+                              MediaQuery.of(context).size.width / 3 - 16;
+
+                          return GestureDetector(
+                            onTap: () => authViewModel.showImagePopup(
+                              context,
                               images[index],
+                            ),
+                            child: CustomNetworkImage(
+                              borderRadius: 8,
+                              imageUrl: images[index],
                               height: height,
+                              width: width,
                               fit: BoxFit.cover,
                             ),
                           );
@@ -74,4 +89,3 @@ class HostelImagesPage extends StatelessWidget {
   }
 
 }
-

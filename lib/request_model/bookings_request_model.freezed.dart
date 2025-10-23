@@ -369,6 +369,7 @@ RatingReviewRequestModel _$RatingReviewRequestModelFromJson(
 /// @nodoc
 mixin _$RatingReviewRequestModel {
   String? get hostelId => throw _privateConstructorUsedError;
+  String? get ratedFor => throw _privateConstructorUsedError;
   String? get review => throw _privateConstructorUsedError;
   double? get rating => throw _privateConstructorUsedError;
 
@@ -384,7 +385,8 @@ abstract class $RatingReviewRequestModelCopyWith<$Res> {
           $Res Function(RatingReviewRequestModel) then) =
       _$RatingReviewRequestModelCopyWithImpl<$Res, RatingReviewRequestModel>;
   @useResult
-  $Res call({String? hostelId, String? review, double? rating});
+  $Res call(
+      {String? hostelId, String? ratedFor, String? review, double? rating});
 }
 
 /// @nodoc
@@ -402,6 +404,7 @@ class _$RatingReviewRequestModelCopyWithImpl<$Res,
   @override
   $Res call({
     Object? hostelId = freezed,
+    Object? ratedFor = freezed,
     Object? review = freezed,
     Object? rating = freezed,
   }) {
@@ -409,6 +412,10 @@ class _$RatingReviewRequestModelCopyWithImpl<$Res,
       hostelId: freezed == hostelId
           ? _value.hostelId
           : hostelId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ratedFor: freezed == ratedFor
+          ? _value.ratedFor
+          : ratedFor // ignore: cast_nullable_to_non_nullable
               as String?,
       review: freezed == review
           ? _value.review
@@ -431,7 +438,8 @@ abstract class _$$RatingReviewRequestModelImplCopyWith<$Res>
       __$$RatingReviewRequestModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? hostelId, String? review, double? rating});
+  $Res call(
+      {String? hostelId, String? ratedFor, String? review, double? rating});
 }
 
 /// @nodoc
@@ -448,6 +456,7 @@ class __$$RatingReviewRequestModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? hostelId = freezed,
+    Object? ratedFor = freezed,
     Object? review = freezed,
     Object? rating = freezed,
   }) {
@@ -455,6 +464,10 @@ class __$$RatingReviewRequestModelImplCopyWithImpl<$Res>
       hostelId: freezed == hostelId
           ? _value.hostelId
           : hostelId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      ratedFor: freezed == ratedFor
+          ? _value.ratedFor
+          : ratedFor // ignore: cast_nullable_to_non_nullable
               as String?,
       review: freezed == review
           ? _value.review
@@ -472,7 +485,10 @@ class __$$RatingReviewRequestModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RatingReviewRequestModelImpl implements _RatingReviewRequestModel {
   const _$RatingReviewRequestModelImpl(
-      {required this.hostelId, required this.review, required this.rating});
+      {required this.hostelId,
+      required this.ratedFor,
+      required this.review,
+      required this.rating});
 
   factory _$RatingReviewRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RatingReviewRequestModelImplFromJson(json);
@@ -480,13 +496,15 @@ class _$RatingReviewRequestModelImpl implements _RatingReviewRequestModel {
   @override
   final String? hostelId;
   @override
+  final String? ratedFor;
+  @override
   final String? review;
   @override
   final double? rating;
 
   @override
   String toString() {
-    return 'RatingReviewRequestModel(hostelId: $hostelId, review: $review, rating: $rating)';
+    return 'RatingReviewRequestModel(hostelId: $hostelId, ratedFor: $ratedFor, review: $review, rating: $rating)';
   }
 
   @override
@@ -496,13 +514,16 @@ class _$RatingReviewRequestModelImpl implements _RatingReviewRequestModel {
             other is _$RatingReviewRequestModelImpl &&
             (identical(other.hostelId, hostelId) ||
                 other.hostelId == hostelId) &&
+            (identical(other.ratedFor, ratedFor) ||
+                other.ratedFor == ratedFor) &&
             (identical(other.review, review) || other.review == review) &&
             (identical(other.rating, rating) || other.rating == rating));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, hostelId, review, rating);
+  int get hashCode =>
+      Object.hash(runtimeType, hostelId, ratedFor, review, rating);
 
   @JsonKey(ignore: true)
   @override
@@ -522,6 +543,7 @@ class _$RatingReviewRequestModelImpl implements _RatingReviewRequestModel {
 abstract class _RatingReviewRequestModel implements RatingReviewRequestModel {
   const factory _RatingReviewRequestModel(
       {required final String? hostelId,
+      required final String? ratedFor,
       required final String? review,
       required final double? rating}) = _$RatingReviewRequestModelImpl;
 
@@ -530,6 +552,8 @@ abstract class _RatingReviewRequestModel implements RatingReviewRequestModel {
 
   @override
   String? get hostelId;
+  @override
+  String? get ratedFor;
   @override
   String? get review;
   @override

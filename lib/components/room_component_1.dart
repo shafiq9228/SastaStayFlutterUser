@@ -18,17 +18,20 @@ class RoomComponent1 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 5),
-              CustomNetworkImage(imageUrl: roomModel?.image ?? "",height: 100,fit: BoxFit.cover,),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: CustomNetworkImage(imageUrl: roomModel?.image ?? "",height: 100,fit: BoxFit.cover,width:150),
+              ),
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text(roomModel?.roomType ?? "",maxLines: 1,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor.withOpacity(0.8),fontSize: 18)),
+                child: Text(roomModel?.roomType ?? "",maxLines: 1,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor.withOpacity(0.8),fontSize: 16)),
               ),
               SizedBox(height: 5),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Text("${roomModel?.rent?.monthly ?? 0}/Monthly",maxLines: 1,style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor.withOpacity(0.8),fontSize: 20)),
+                child: Text("${roomModel?.rent?.monthly ?? 0}/Monthly",maxLines: 1,style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor.withOpacity(0.8),fontSize: 16)),
               )
             ],
           ),

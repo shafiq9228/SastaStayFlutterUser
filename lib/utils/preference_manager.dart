@@ -5,6 +5,37 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceManager {
 
+  static const String _key = "recent_searches";
+
+  Future<void> addSearchItem(String item) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<String> searches = prefs.getStringList(_key) ?? [];
+
+    searches.remove(item);
+
+    // Insert at 0 index
+    searches.insert(0, item);
+
+    // Keep only latest 5
+    if (searches.length > 5) {
+      searches = searches.sublist(0, 5);
+    }
+
+    await prefs.setStringList(_key, searches);
+  }
+
+  Future<List<String>> getRecentSearches() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(_key) ?? [];
+  }
+
+  /// Clear all recent searches
+  Future<void> clearRecentSearches() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_key);
+  }
+
+
   Future<void> setValue(String key, dynamic value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);

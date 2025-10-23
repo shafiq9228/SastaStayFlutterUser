@@ -420,6 +420,364 @@ abstract class _ConfirmBookingResponseModel
       get copyWith => throw _privateConstructorUsedError;
 }
 
+HostelRoomAvailabilityDatesResponseModel
+    _$HostelRoomAvailabilityDatesResponseModelFromJson(
+        Map<String, dynamic> json) {
+  return _HostelRoomAvailabilityDatesResponseModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$HostelRoomAvailabilityDatesResponseModel {
+  int? get status => throw _privateConstructorUsedError;
+  String? get message => throw _privateConstructorUsedError;
+  List<AvailabilityDataModel>? get data => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $HostelRoomAvailabilityDatesResponseModelCopyWith<
+          HostelRoomAvailabilityDatesResponseModel>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $HostelRoomAvailabilityDatesResponseModelCopyWith<$Res> {
+  factory $HostelRoomAvailabilityDatesResponseModelCopyWith(
+          HostelRoomAvailabilityDatesResponseModel value,
+          $Res Function(HostelRoomAvailabilityDatesResponseModel) then) =
+      _$HostelRoomAvailabilityDatesResponseModelCopyWithImpl<$Res,
+          HostelRoomAvailabilityDatesResponseModel>;
+  @useResult
+  $Res call({int? status, String? message, List<AvailabilityDataModel>? data});
+}
+
+/// @nodoc
+class _$HostelRoomAvailabilityDatesResponseModelCopyWithImpl<$Res,
+        $Val extends HostelRoomAvailabilityDatesResponseModel>
+    implements $HostelRoomAvailabilityDatesResponseModelCopyWith<$Res> {
+  _$HostelRoomAvailabilityDatesResponseModelCopyWithImpl(
+      this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = freezed,
+    Object? message = freezed,
+    Object? data = freezed,
+  }) {
+    return _then(_value.copyWith(
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: freezed == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<AvailabilityDataModel>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$HostelRoomAvailabilityDatesResponseModelImplCopyWith<$Res>
+    implements $HostelRoomAvailabilityDatesResponseModelCopyWith<$Res> {
+  factory _$$HostelRoomAvailabilityDatesResponseModelImplCopyWith(
+          _$HostelRoomAvailabilityDatesResponseModelImpl value,
+          $Res Function(_$HostelRoomAvailabilityDatesResponseModelImpl) then) =
+      __$$HostelRoomAvailabilityDatesResponseModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int? status, String? message, List<AvailabilityDataModel>? data});
+}
+
+/// @nodoc
+class __$$HostelRoomAvailabilityDatesResponseModelImplCopyWithImpl<$Res>
+    extends _$HostelRoomAvailabilityDatesResponseModelCopyWithImpl<$Res,
+        _$HostelRoomAvailabilityDatesResponseModelImpl>
+    implements _$$HostelRoomAvailabilityDatesResponseModelImplCopyWith<$Res> {
+  __$$HostelRoomAvailabilityDatesResponseModelImplCopyWithImpl(
+      _$HostelRoomAvailabilityDatesResponseModelImpl _value,
+      $Res Function(_$HostelRoomAvailabilityDatesResponseModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = freezed,
+    Object? message = freezed,
+    Object? data = freezed,
+  }) {
+    return _then(_$HostelRoomAvailabilityDatesResponseModelImpl(
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int?,
+      message: freezed == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String?,
+      data: freezed == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as List<AvailabilityDataModel>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$HostelRoomAvailabilityDatesResponseModelImpl
+    implements _HostelRoomAvailabilityDatesResponseModel {
+  const _$HostelRoomAvailabilityDatesResponseModelImpl(
+      {this.status, this.message, final List<AvailabilityDataModel>? data})
+      : _data = data;
+
+  factory _$HostelRoomAvailabilityDatesResponseModelImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$HostelRoomAvailabilityDatesResponseModelImplFromJson(json);
+
+  @override
+  final int? status;
+  @override
+  final String? message;
+  final List<AvailabilityDataModel>? _data;
+  @override
+  List<AvailabilityDataModel>? get data {
+    final value = _data;
+    if (value == null) return null;
+    if (_data is EqualUnmodifiableListView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'HostelRoomAvailabilityDatesResponseModel(status: $status, message: $message, data: $data)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HostelRoomAvailabilityDatesResponseModelImpl &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.message, message) || other.message == message) &&
+            const DeepCollectionEquality().equals(other._data, _data));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, status, message, const DeepCollectionEquality().hash(_data));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$HostelRoomAvailabilityDatesResponseModelImplCopyWith<
+          _$HostelRoomAvailabilityDatesResponseModelImpl>
+      get copyWith =>
+          __$$HostelRoomAvailabilityDatesResponseModelImplCopyWithImpl<
+              _$HostelRoomAvailabilityDatesResponseModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$HostelRoomAvailabilityDatesResponseModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _HostelRoomAvailabilityDatesResponseModel
+    implements HostelRoomAvailabilityDatesResponseModel {
+  const factory _HostelRoomAvailabilityDatesResponseModel(
+          {final int? status,
+          final String? message,
+          final List<AvailabilityDataModel>? data}) =
+      _$HostelRoomAvailabilityDatesResponseModelImpl;
+
+  factory _HostelRoomAvailabilityDatesResponseModel.fromJson(
+          Map<String, dynamic> json) =
+      _$HostelRoomAvailabilityDatesResponseModelImpl.fromJson;
+
+  @override
+  int? get status;
+  @override
+  String? get message;
+  @override
+  List<AvailabilityDataModel>? get data;
+  @override
+  @JsonKey(ignore: true)
+  _$$HostelRoomAvailabilityDatesResponseModelImplCopyWith<
+          _$HostelRoomAvailabilityDatesResponseModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+AvailabilityDataModel _$AvailabilityDataModelFromJson(
+    Map<String, dynamic> json) {
+  return _AvailabilityDataModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AvailabilityDataModel {
+  String? get date => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AvailabilityDataModelCopyWith<AvailabilityDataModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AvailabilityDataModelCopyWith<$Res> {
+  factory $AvailabilityDataModelCopyWith(AvailabilityDataModel value,
+          $Res Function(AvailabilityDataModel) then) =
+      _$AvailabilityDataModelCopyWithImpl<$Res, AvailabilityDataModel>;
+  @useResult
+  $Res call({String? date, String? status});
+}
+
+/// @nodoc
+class _$AvailabilityDataModelCopyWithImpl<$Res,
+        $Val extends AvailabilityDataModel>
+    implements $AvailabilityDataModelCopyWith<$Res> {
+  _$AvailabilityDataModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = freezed,
+    Object? status = freezed,
+  }) {
+    return _then(_value.copyWith(
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AvailabilityDataModelImplCopyWith<$Res>
+    implements $AvailabilityDataModelCopyWith<$Res> {
+  factory _$$AvailabilityDataModelImplCopyWith(
+          _$AvailabilityDataModelImpl value,
+          $Res Function(_$AvailabilityDataModelImpl) then) =
+      __$$AvailabilityDataModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? date, String? status});
+}
+
+/// @nodoc
+class __$$AvailabilityDataModelImplCopyWithImpl<$Res>
+    extends _$AvailabilityDataModelCopyWithImpl<$Res,
+        _$AvailabilityDataModelImpl>
+    implements _$$AvailabilityDataModelImplCopyWith<$Res> {
+  __$$AvailabilityDataModelImplCopyWithImpl(_$AvailabilityDataModelImpl _value,
+      $Res Function(_$AvailabilityDataModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = freezed,
+    Object? status = freezed,
+  }) {
+    return _then(_$AvailabilityDataModelImpl(
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AvailabilityDataModelImpl implements _AvailabilityDataModel {
+  const _$AvailabilityDataModelImpl({this.date, this.status});
+
+  factory _$AvailabilityDataModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AvailabilityDataModelImplFromJson(json);
+
+  @override
+  final String? date;
+  @override
+  final String? status;
+
+  @override
+  String toString() {
+    return 'AvailabilityDataModel(date: $date, status: $status)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AvailabilityDataModelImpl &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, date, status);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AvailabilityDataModelImplCopyWith<_$AvailabilityDataModelImpl>
+      get copyWith => __$$AvailabilityDataModelImplCopyWithImpl<
+          _$AvailabilityDataModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AvailabilityDataModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AvailabilityDataModel implements AvailabilityDataModel {
+  const factory _AvailabilityDataModel(
+      {final String? date, final String? status}) = _$AvailabilityDataModelImpl;
+
+  factory _AvailabilityDataModel.fromJson(Map<String, dynamic> json) =
+      _$AvailabilityDataModelImpl.fromJson;
+
+  @override
+  String? get date;
+  @override
+  String? get status;
+  @override
+  @JsonKey(ignore: true)
+  _$$AvailabilityDataModelImplCopyWith<_$AvailabilityDataModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 GuestDetailsModel _$GuestDetailsModelFromJson(Map<String, dynamic> json) {
   return _GuestDetailsModel.fromJson(json);
 }
@@ -2909,6 +3267,10 @@ CouponDataModel _$CouponDataModelFromJson(Map<String, dynamic> json) {
 mixin _$CouponDataModel {
   @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
+  bool? get isActive => throw _privateConstructorUsedError;
+  String? get discountType => throw _privateConstructorUsedError;
+  bool? get singleUse => throw _privateConstructorUsedError;
+  List<dynamic>? get usedBy => throw _privateConstructorUsedError;
   String? get createdBy => throw _privateConstructorUsedError;
   DateTime? get expiryDate => throw _privateConstructorUsedError;
   String? get code => throw _privateConstructorUsedError;
@@ -2929,6 +3291,10 @@ abstract class $CouponDataModelCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: '_id') String? id,
+      bool? isActive,
+      String? discountType,
+      bool? singleUse,
+      List<dynamic>? usedBy,
       String? createdBy,
       DateTime? expiryDate,
       String? code,
@@ -2950,6 +3316,10 @@ class _$CouponDataModelCopyWithImpl<$Res, $Val extends CouponDataModel>
   @override
   $Res call({
     Object? id = freezed,
+    Object? isActive = freezed,
+    Object? discountType = freezed,
+    Object? singleUse = freezed,
+    Object? usedBy = freezed,
     Object? createdBy = freezed,
     Object? expiryDate = freezed,
     Object? code = freezed,
@@ -2961,6 +3331,22 @@ class _$CouponDataModelCopyWithImpl<$Res, $Val extends CouponDataModel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      isActive: freezed == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      discountType: freezed == discountType
+          ? _value.discountType
+          : discountType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      singleUse: freezed == singleUse
+          ? _value.singleUse
+          : singleUse // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      usedBy: freezed == usedBy
+          ? _value.usedBy
+          : usedBy // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
       createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -2995,6 +3381,10 @@ abstract class _$$CouponDataModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(name: '_id') String? id,
+      bool? isActive,
+      String? discountType,
+      bool? singleUse,
+      List<dynamic>? usedBy,
       String? createdBy,
       DateTime? expiryDate,
       String? code,
@@ -3014,6 +3404,10 @@ class __$$CouponDataModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? isActive = freezed,
+    Object? discountType = freezed,
+    Object? singleUse = freezed,
+    Object? usedBy = freezed,
     Object? createdBy = freezed,
     Object? expiryDate = freezed,
     Object? code = freezed,
@@ -3025,6 +3419,22 @@ class __$$CouponDataModelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      isActive: freezed == isActive
+          ? _value.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      discountType: freezed == discountType
+          ? _value.discountType
+          : discountType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      singleUse: freezed == singleUse
+          ? _value.singleUse
+          : singleUse // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      usedBy: freezed == usedBy
+          ? _value._usedBy
+          : usedBy // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
       createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
@@ -3054,11 +3464,16 @@ class __$$CouponDataModelImplCopyWithImpl<$Res>
 class _$CouponDataModelImpl implements _CouponDataModel {
   const _$CouponDataModelImpl(
       {@JsonKey(name: '_id') this.id,
+      this.isActive,
+      this.discountType,
+      this.singleUse,
+      final List<dynamic>? usedBy,
       this.createdBy,
       this.expiryDate,
       this.code,
       this.orderValue,
-      this.discount});
+      this.discount})
+      : _usedBy = usedBy;
 
   factory _$CouponDataModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CouponDataModelImplFromJson(json);
@@ -3066,6 +3481,22 @@ class _$CouponDataModelImpl implements _CouponDataModel {
   @override
   @JsonKey(name: '_id')
   final String? id;
+  @override
+  final bool? isActive;
+  @override
+  final String? discountType;
+  @override
+  final bool? singleUse;
+  final List<dynamic>? _usedBy;
+  @override
+  List<dynamic>? get usedBy {
+    final value = _usedBy;
+    if (value == null) return null;
+    if (_usedBy is EqualUnmodifiableListView) return _usedBy;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? createdBy;
   @override
@@ -3079,7 +3510,7 @@ class _$CouponDataModelImpl implements _CouponDataModel {
 
   @override
   String toString() {
-    return 'CouponDataModel(id: $id, createdBy: $createdBy, expiryDate: $expiryDate, code: $code, orderValue: $orderValue, discount: $discount)';
+    return 'CouponDataModel(id: $id, isActive: $isActive, discountType: $discountType, singleUse: $singleUse, usedBy: $usedBy, createdBy: $createdBy, expiryDate: $expiryDate, code: $code, orderValue: $orderValue, discount: $discount)';
   }
 
   @override
@@ -3088,6 +3519,13 @@ class _$CouponDataModelImpl implements _CouponDataModel {
         (other.runtimeType == runtimeType &&
             other is _$CouponDataModelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
+            (identical(other.discountType, discountType) ||
+                other.discountType == discountType) &&
+            (identical(other.singleUse, singleUse) ||
+                other.singleUse == singleUse) &&
+            const DeepCollectionEquality().equals(other._usedBy, _usedBy) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy) &&
             (identical(other.expiryDate, expiryDate) ||
@@ -3102,7 +3540,17 @@ class _$CouponDataModelImpl implements _CouponDataModel {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, createdBy, expiryDate, code, orderValue, discount);
+      runtimeType,
+      id,
+      isActive,
+      discountType,
+      singleUse,
+      const DeepCollectionEquality().hash(_usedBy),
+      createdBy,
+      expiryDate,
+      code,
+      orderValue,
+      discount);
 
   @JsonKey(ignore: true)
   @override
@@ -3122,6 +3570,10 @@ class _$CouponDataModelImpl implements _CouponDataModel {
 abstract class _CouponDataModel implements CouponDataModel {
   const factory _CouponDataModel(
       {@JsonKey(name: '_id') final String? id,
+      final bool? isActive,
+      final String? discountType,
+      final bool? singleUse,
+      final List<dynamic>? usedBy,
       final String? createdBy,
       final DateTime? expiryDate,
       final String? code,
@@ -3134,6 +3586,14 @@ abstract class _CouponDataModel implements CouponDataModel {
   @override
   @JsonKey(name: '_id')
   String? get id;
+  @override
+  bool? get isActive;
+  @override
+  String? get discountType;
+  @override
+  bool? get singleUse;
+  @override
+  List<dynamic>? get usedBy;
   @override
   String? get createdBy;
   @override

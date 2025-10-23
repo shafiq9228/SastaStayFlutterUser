@@ -45,6 +45,40 @@ Map<String, dynamic> _$$ConfirmBookingResponseModelImplToJson(
       'data': instance.data,
     };
 
+_$HostelRoomAvailabilityDatesResponseModelImpl
+    _$$HostelRoomAvailabilityDatesResponseModelImplFromJson(
+            Map<String, dynamic> json) =>
+        _$HostelRoomAvailabilityDatesResponseModelImpl(
+          status: json['status'] as int?,
+          message: json['message'] as String?,
+          data: (json['data'] as List<dynamic>?)
+              ?.map((e) =>
+                  AvailabilityDataModel.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$HostelRoomAvailabilityDatesResponseModelImplToJson(
+        _$HostelRoomAvailabilityDatesResponseModelImpl instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+      'data': instance.data,
+    };
+
+_$AvailabilityDataModelImpl _$$AvailabilityDataModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AvailabilityDataModelImpl(
+      date: json['date'] as String?,
+      status: json['status'] as String?,
+    );
+
+Map<String, dynamic> _$$AvailabilityDataModelImplToJson(
+        _$AvailabilityDataModelImpl instance) =>
+    <String, dynamic>{
+      'date': instance.date,
+      'status': instance.status,
+    };
+
 _$GuestDetailsModelImpl _$$GuestDetailsModelImplFromJson(
         Map<String, dynamic> json) =>
     _$GuestDetailsModelImpl(
@@ -289,6 +323,10 @@ _$CouponDataModelImpl _$$CouponDataModelImplFromJson(
         Map<String, dynamic> json) =>
     _$CouponDataModelImpl(
       id: json['_id'] as String?,
+      isActive: json['isActive'] as bool?,
+      discountType: json['discountType'] as String?,
+      singleUse: json['singleUse'] as bool?,
+      usedBy: json['usedBy'] as List<dynamic>?,
       createdBy: json['createdBy'] as String?,
       expiryDate: json['expiryDate'] == null
           ? null
@@ -302,6 +340,10 @@ Map<String, dynamic> _$$CouponDataModelImplToJson(
         _$CouponDataModelImpl instance) =>
     <String, dynamic>{
       '_id': instance.id,
+      'isActive': instance.isActive,
+      'discountType': instance.discountType,
+      'singleUse': instance.singleUse,
+      'usedBy': instance.usedBy,
       'createdBy': instance.createdBy,
       'expiryDate': instance.expiryDate?.toIso8601String(),
       'code': instance.code,

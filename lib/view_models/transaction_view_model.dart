@@ -39,6 +39,8 @@ class TransactionViewModel extends GetxController {
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
+        print("responseData");
+        print(responseData);
 
         if(responseData.status == 1){
 

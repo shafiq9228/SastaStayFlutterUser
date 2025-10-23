@@ -43,7 +43,7 @@ class _FilePickerPageState extends State<FilePickerPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 20),
-                Text("Choose Option",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: CustomColors.primary)),
+                Text("Choose Option",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w800,color: CustomColors.primary)),
                 Divider(),
                 const SizedBox(height: 10),
                 InkWell(

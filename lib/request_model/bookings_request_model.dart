@@ -30,6 +30,7 @@ class BookingRequestModel with _$BookingRequestModel{
 class RatingReviewRequestModel with _$RatingReviewRequestModel{
   const factory RatingReviewRequestModel({
     required String? hostelId,
+    required String? ratedFor,
     required String? review,
     required double? rating
   }) = _RatingReviewRequestModel;

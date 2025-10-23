@@ -6,9 +6,11 @@ import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:pg_hostel/pages/splash_screen.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/firebase_notification.dart';
-import 'package:sms_autofill/sms_autofill.dart';
-
 import 'firebase_options.dart';
+
+
+
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +18,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  //
+
   await FireBaseNotification().initNotifications();
 
   // String signature = await SmsAutoFill().getAppSignature;

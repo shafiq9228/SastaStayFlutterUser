@@ -213,10 +213,12 @@ class _HostelsMapViewState extends State<HostelsMapView> {
                                 mapController = controller;
                               },
                             ),
-                            const Padding(
-                              padding:  EdgeInsets.symmetric(
+                             Padding(
+                              padding: const  EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 20),
-                              child: SizedBox(height: 250,child: HostelDetailsHorizontalShimmer(index: 1, view: 1)),
+                              child: SizedBox(height: 200,child:ListView.builder(scrollDirection: Axis.horizontal,itemBuilder: (context,index){return
+                                const HostelDetailsHorizontalShimmer(index: 1, view: 1,infiniteWidth:false);
+                              },itemCount: 5)),
                             )
                           ],
                         ),
@@ -259,8 +261,10 @@ class _HostelsMapViewState extends State<HostelsMapView> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 20),
                                 child: SizedBox(
-                                    height: 250,
-                                    child: HostelDetailsHorizontalComponent1(hostelModel: hostelsList.first)),
+                                    height: 200,
+                                    child: ListView.builder(scrollDirection: Axis.horizontal,itemBuilder: (context,index){
+                                      return HostelDetailsHorizontalComponent1(hostelModel: hostelsList[index],infinityWidth: false);
+                                    },itemCount: 5)),
                               )
                             ],
                           );

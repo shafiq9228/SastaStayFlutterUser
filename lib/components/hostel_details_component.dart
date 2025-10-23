@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/components/amenities_component.dart';
+import 'package:pg_hostel/components/animated_tap.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/pages/hostel_details_page.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
@@ -7,6 +8,7 @@ import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
 import '../utils/app_styles.dart';
+import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/geo_util.dart';
 import 'custom_network_image.dart';
@@ -23,7 +25,7 @@ class HostelDetailsComponent extends StatelessWidget {
     final hostelViewModel = Get.put(HostelViewModel());
     final authViewModel = Get.put(AuthViewModel());
    
-    return  InkWell(
+    return  AnimatedTap(
       onTap: (){
         Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
       },
@@ -62,7 +64,7 @@ class HostelDetailsComponent extends StatelessWidget {
                             const Spacer(),
                             Obx(() => hostelViewModel.updateFavouritesObserver.value.maybeWhen(
                               loading: (loadingId) => loadingId ==  hostelModel?.id ? const CircularProgressIndicator() : Container(width: 30,height: 30,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(hostelModel?.isFavorite == true ? Icons.favorite : Icons.favorite_outline_rounded,size: 20,color: hostelModel?.isFavorite == true ? CustomColors.red : CustomColors.black))),
-                                orElse: () => InkWell(
+                                orElse: () => AnimatedTap(
                               onTap: (){
                                 hostelViewModel.updateFavouriteStatus(hostelModel?.id ?? "",hostelModel?.isFavorite ?? false);
                               },
@@ -106,7 +108,7 @@ class HostelDetailsComponent extends StatelessWidget {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.only(left: 5,right: 5,bottom: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,53 +116,61 @@ class HostelDetailsComponent extends StatelessWidget {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          Expanded(child: Text(hostelModel?.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20,color: CustomColors.black))),
+                          Expanded(child: Text(hostelModel?.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18,color: CustomColors.black))),
                           Image.asset("assets/images/star.png",width: 18,height: 18),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Text("${hostelModel?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
+                            child: Text("${hostelModel?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16,color: CustomColors.black)),
                           ),
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset("assets/images/location.png",width: 10,height: 10,color: CustomColors.darkGray),
-                            Expanded(child: Text(hostelModel?.location?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3,right: 5),
+                              child: Image.asset("assets/images/location.png",width: 15,height: 15,color: CustomColors.darkGray),
+                            ),
+                            Expanded(child: Text(GeoUtil().getDistanceFromLatLonInKm(hostelModel?.location?.latitude ?? 0.00,hostelModel?.location?.longitude?? 0.00,authViewModel.locationDetails.value?.latitude ?? 0.00,authViewModel.locationDetails.value?.longitude ?? 0.00),maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray))),
+                            // Expanded(child: Text(hostelModel?.location?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w400,fontSize: 16,color: CustomColors.darkGray))),
                             const SizedBox(width: 5),
-                            Text("${hostelModel?.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
+                            Text("${AuthUtils.formatNumber(hostelModel?.totalVotes ?? 0)} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray))
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Row(
-                          children: [
-                            Expanded(child: Text(GeoUtil().getDistanceFromLatLonInKm(hostelModel?.location?.latitude ?? 0.00,hostelModel?.location?.longitude?? 0.00,authViewModel.locationDetails.value?.latitude ?? 0.00,authViewModel.locationDetails.value?.longitude ?? 0.00),maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
-                          ],
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(vertical: 5),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(child: Text(GeoUtil().getDistanceFromLatLonInKm(hostelModel?.location?.latitude ?? 0.00,hostelModel?.location?.longitude?? 0.00,authViewModel.locationDetails.value?.latitude ?? 0.00,authViewModel.locationDetails.value?.longitude ?? 0.00),maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                      //     ],
+                      //   ),
+                      // ),
                       hostelModel?.room != null  ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.only(bottom: 5),
                             child: Row(
                               children: [
-                                Image.asset("assets/images/info.png",width: 10,height: 10,color: CustomColors.darkGray),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2,right: 5),
+                                  child: Image.asset("assets/images/info.png",width: 10,height: 10,color: CustomColors.darkGray),
+                                ),
                                 Expanded(child: Text("Avg. Locality Price",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
-                                Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.primary)),
+                                Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.primary)),
                                 Text("/mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
                               ],
                             ),
                           ),
                           Row(
                             children: [
-                              Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
-                              Text("/mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                              Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.black)),
+                              Text("/mo",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.darkGray)),
                               Spacer(),
-                              Text("",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                              Text("",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.darkGray)),
                             ],
                           ),
                           SizedBox(height: 10),
@@ -172,7 +182,7 @@ class HostelDetailsComponent extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
               ],
             ),
           ),

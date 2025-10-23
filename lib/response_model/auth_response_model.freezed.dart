@@ -1361,6 +1361,7 @@ mixin _$UserModel {
   int? get referralEarnings => throw _privateConstructorUsedError;
   List<DocumentDataModel>? get kycDocuments =>
       throw _privateConstructorUsedError;
+  ReferralModel? get referral => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1395,9 +1396,11 @@ abstract class $UserModelCopyWith<$Res> {
       String? referralCode,
       List<String>? referrals,
       int? referralEarnings,
-      List<DocumentDataModel>? kycDocuments});
+      List<DocumentDataModel>? kycDocuments,
+      ReferralModel? referral});
 
   $LocationModelCopyWith<$Res>? get address;
+  $ReferralModelCopyWith<$Res>? get referral;
 }
 
 /// @nodoc
@@ -1435,6 +1438,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? referrals = freezed,
     Object? referralEarnings = freezed,
     Object? kycDocuments = freezed,
+    Object? referral = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -1525,6 +1529,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.kycDocuments
           : kycDocuments // ignore: cast_nullable_to_non_nullable
               as List<DocumentDataModel>?,
+      referral: freezed == referral
+          ? _value.referral
+          : referral // ignore: cast_nullable_to_non_nullable
+              as ReferralModel?,
     ) as $Val);
   }
 
@@ -1537,6 +1545,18 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
 
     return $LocationModelCopyWith<$Res>(_value.address!, (value) {
       return _then(_value.copyWith(address: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ReferralModelCopyWith<$Res>? get referral {
+    if (_value.referral == null) {
+      return null;
+    }
+
+    return $ReferralModelCopyWith<$Res>(_value.referral!, (value) {
+      return _then(_value.copyWith(referral: value) as $Val);
     });
   }
 }
@@ -1571,10 +1591,13 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? referralCode,
       List<String>? referrals,
       int? referralEarnings,
-      List<DocumentDataModel>? kycDocuments});
+      List<DocumentDataModel>? kycDocuments,
+      ReferralModel? referral});
 
   @override
   $LocationModelCopyWith<$Res>? get address;
+  @override
+  $ReferralModelCopyWith<$Res>? get referral;
 }
 
 /// @nodoc
@@ -1610,6 +1633,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? referrals = freezed,
     Object? referralEarnings = freezed,
     Object? kycDocuments = freezed,
+    Object? referral = freezed,
   }) {
     return _then(_$UserModelImpl(
       id: freezed == id
@@ -1700,6 +1724,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value._kycDocuments
           : kycDocuments // ignore: cast_nullable_to_non_nullable
               as List<DocumentDataModel>?,
+      referral: freezed == referral
+          ? _value.referral
+          : referral // ignore: cast_nullable_to_non_nullable
+              as ReferralModel?,
     ));
   }
 }
@@ -1729,7 +1757,8 @@ class _$UserModelImpl implements _UserModel {
       this.referralCode,
       final List<String>? referrals,
       this.referralEarnings,
-      final List<DocumentDataModel>? kycDocuments})
+      final List<DocumentDataModel>? kycDocuments,
+      this.referral})
       : _referrals = referrals,
         _kycDocuments = kycDocuments;
 
@@ -1798,8 +1827,11 @@ class _$UserModelImpl implements _UserModel {
   }
 
   @override
+  final ReferralModel? referral;
+
+  @override
   String toString() {
-    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings, wallet: $wallet, address: $address, referralCode: $referralCode, referrals: $referrals, referralEarnings: $referralEarnings, kycDocuments: $kycDocuments)';
+    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings, wallet: $wallet, address: $address, referralCode: $referralCode, referrals: $referrals, referralEarnings: $referralEarnings, kycDocuments: $kycDocuments, referral: $referral)';
   }
 
   @override
@@ -1837,7 +1869,9 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.referralEarnings, referralEarnings) ||
                 other.referralEarnings == referralEarnings) &&
             const DeepCollectionEquality()
-                .equals(other._kycDocuments, _kycDocuments));
+                .equals(other._kycDocuments, _kycDocuments) &&
+            (identical(other.referral, referral) ||
+                other.referral == referral));
   }
 
   @JsonKey(ignore: true)
@@ -1865,7 +1899,8 @@ class _$UserModelImpl implements _UserModel {
         referralCode,
         const DeepCollectionEquality().hash(_referrals),
         referralEarnings,
-        const DeepCollectionEquality().hash(_kycDocuments)
+        const DeepCollectionEquality().hash(_kycDocuments),
+        referral
       ]);
 
   @JsonKey(ignore: true)
@@ -1905,7 +1940,8 @@ abstract class _UserModel implements UserModel {
       final String? referralCode,
       final List<String>? referrals,
       final int? referralEarnings,
-      final List<DocumentDataModel>? kycDocuments}) = _$UserModelImpl;
+      final List<DocumentDataModel>? kycDocuments,
+      final ReferralModel? referral}) = _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -1956,8 +1992,166 @@ abstract class _UserModel implements UserModel {
   @override
   List<DocumentDataModel>? get kycDocuments;
   @override
+  ReferralModel? get referral;
+  @override
   @JsonKey(ignore: true)
   _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ReferralModel _$ReferralModelFromJson(Map<String, dynamic> json) {
+  return _ReferralModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ReferralModel {
+  int? get referralAmount => throw _privateConstructorUsedError;
+  int? get referralCount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ReferralModelCopyWith<ReferralModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ReferralModelCopyWith<$Res> {
+  factory $ReferralModelCopyWith(
+          ReferralModel value, $Res Function(ReferralModel) then) =
+      _$ReferralModelCopyWithImpl<$Res, ReferralModel>;
+  @useResult
+  $Res call({int? referralAmount, int? referralCount});
+}
+
+/// @nodoc
+class _$ReferralModelCopyWithImpl<$Res, $Val extends ReferralModel>
+    implements $ReferralModelCopyWith<$Res> {
+  _$ReferralModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? referralAmount = freezed,
+    Object? referralCount = freezed,
+  }) {
+    return _then(_value.copyWith(
+      referralAmount: freezed == referralAmount
+          ? _value.referralAmount
+          : referralAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      referralCount: freezed == referralCount
+          ? _value.referralCount
+          : referralCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ReferralModelImplCopyWith<$Res>
+    implements $ReferralModelCopyWith<$Res> {
+  factory _$$ReferralModelImplCopyWith(
+          _$ReferralModelImpl value, $Res Function(_$ReferralModelImpl) then) =
+      __$$ReferralModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int? referralAmount, int? referralCount});
+}
+
+/// @nodoc
+class __$$ReferralModelImplCopyWithImpl<$Res>
+    extends _$ReferralModelCopyWithImpl<$Res, _$ReferralModelImpl>
+    implements _$$ReferralModelImplCopyWith<$Res> {
+  __$$ReferralModelImplCopyWithImpl(
+      _$ReferralModelImpl _value, $Res Function(_$ReferralModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? referralAmount = freezed,
+    Object? referralCount = freezed,
+  }) {
+    return _then(_$ReferralModelImpl(
+      referralAmount: freezed == referralAmount
+          ? _value.referralAmount
+          : referralAmount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      referralCount: freezed == referralCount
+          ? _value.referralCount
+          : referralCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ReferralModelImpl implements _ReferralModel {
+  const _$ReferralModelImpl({this.referralAmount, this.referralCount});
+
+  factory _$ReferralModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ReferralModelImplFromJson(json);
+
+  @override
+  final int? referralAmount;
+  @override
+  final int? referralCount;
+
+  @override
+  String toString() {
+    return 'ReferralModel(referralAmount: $referralAmount, referralCount: $referralCount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ReferralModelImpl &&
+            (identical(other.referralAmount, referralAmount) ||
+                other.referralAmount == referralAmount) &&
+            (identical(other.referralCount, referralCount) ||
+                other.referralCount == referralCount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, referralAmount, referralCount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ReferralModelImplCopyWith<_$ReferralModelImpl> get copyWith =>
+      __$$ReferralModelImplCopyWithImpl<_$ReferralModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ReferralModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ReferralModel implements ReferralModel {
+  const factory _ReferralModel(
+      {final int? referralAmount,
+      final int? referralCount}) = _$ReferralModelImpl;
+
+  factory _ReferralModel.fromJson(Map<String, dynamic> json) =
+      _$ReferralModelImpl.fromJson;
+
+  @override
+  int? get referralAmount;
+  @override
+  int? get referralCount;
+  @override
+  @JsonKey(ignore: true)
+  _$$ReferralModelImplCopyWith<_$ReferralModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

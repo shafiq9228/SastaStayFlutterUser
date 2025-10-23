@@ -67,7 +67,7 @@ class CheckoutPage extends StatelessWidget {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(hostelData?.hostelName ?? "",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 22,color: CustomColors.textColor)),
+                                          Text(hostelData?.hostelName ?? "",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: CustomColors.textColor)),
                                           SizedBox(height: 10),
                                           Text(hostelData?.location?.address1 ?? "",style:TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: CustomColors.darkGray)),
                                           SizedBox(height: 10),
@@ -76,12 +76,12 @@ class CheckoutPage extends StatelessWidget {
                                               Image.asset("assets/images/star.png",width: 18,height: 18),
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                child: Text("${hostelData?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
+                                                child: Text("${hostelData?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16,color: CustomColors.black)),
                                               ),
                                             ],
                                           )
                                         ],
-                                                                ),
+                                      ),
                                     ), CustomNetworkImage(imageUrl: hostelData?.hostelImage ?? "",width: 100,height: 100,fit: BoxFit.cover,)
                                   ]),
                               )
@@ -100,7 +100,7 @@ class CheckoutPage extends StatelessWidget {
                                 const SizedBox(height: 20),
                                 Row(
                                   children: [
-                                    Expanded(child: Text("Your Booking Details",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: CustomColors.black))),
+                                    Expanded(child: Text("Your Booking Details",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: CustomColors.black))),
                                     const SizedBox(width: 20),
                                     InkWell(
                                         onTap: (){
@@ -111,65 +111,65 @@ class CheckoutPage extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 TitleMessageComponent(asset: 'assets/images/profile.png', title: 'Total Guests', message: "${bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0}",),
-                                Obx(() => Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("${bookingViewModel.guestDetailsList.length}/${(bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0)} Guests",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.darkGray,fontSize: 14),),
-                                    SizedBox(height: 10),
-                                    bookingViewModel.guestDetailsList.length == 0 ? InkWell(
-                                      onTap: (){
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true, // allows full height scroll
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                                          ),
-                                          builder: (context) {
-                                            return const AddGuestBottomSheet();
-                                          },
-                                        );
-                                      },
-                                        child: ErrorTextComponent(text: "Add Guest Details")) :
-                                    ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context,index){
-                                          final guestDetailsModel = bookingViewModel.guestDetailsList[index];
-                                          return InkWell(
-                                            onTap: (){
-                                              showModalBottomSheet(
-                                                context: context,
-                                                isScrollControlled: true, // allows full height scroll
-                                                shape: const RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                                                ),
-                                                builder: (context) {
-                                                  return AddGuestBottomSheet(guestDetailsModel:guestDetailsModel);
-                                                },
-                                              );
-                                            },
-                                              child: AddGuestItem(guestDetailsModel:guestDetailsModel,index: index));
-                                        },itemCount: bookingViewModel.guestDetailsList.length),
-                                    SizedBox(height: 10),
-                                    Visibility(visible: bookingViewModel.guestDetailsList.length < (bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0),child:
-                                    InkWell(
-                                      onTap: (){
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true, // allows full height scroll
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                                          ),
-                                          builder: (context) {
-                                            return const AddGuestBottomSheet();
-                                          },
-                                        );
-                                      },
-                                        child: Text("+ Add New Guest",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: CustomColors.primary)))),
-                                    SizedBox(height: 20),
-                                  ],
-                                )),
+                                // Obx(() => Column(
+                                //   crossAxisAlignment: CrossAxisAlignment.start,
+                                //   children: [
+                                //     Text("${bookingViewModel.guestDetailsList.length}/${(bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0)} Guests",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.darkGray,fontSize: 14),),
+                                //     SizedBox(height: 10),
+                                //     bookingViewModel.guestDetailsList.length == 0 ? InkWell(
+                                //       onTap: (){
+                                //         showModalBottomSheet(
+                                //           context: context,
+                                //           isScrollControlled: true, // allows full height scroll
+                                //           shape: const RoundedRectangleBorder(
+                                //             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                //           ),
+                                //           builder: (context) {
+                                //             return const AddGuestBottomSheet();
+                                //           },
+                                //         );
+                                //       },
+                                //         child: ErrorTextComponent(text: "Add Guest Details")) :
+                                //     ListView.builder(
+                                //         shrinkWrap: true,
+                                //         physics: NeverScrollableScrollPhysics(),
+                                //         scrollDirection: Axis.vertical,
+                                //         itemBuilder: (context,index){
+                                //           final guestDetailsModel = bookingViewModel.guestDetailsList[index];
+                                //           return InkWell(
+                                //             onTap: (){
+                                //               showModalBottomSheet(
+                                //                 context: context,
+                                //                 isScrollControlled: true, // allows full height scroll
+                                //                 shape: const RoundedRectangleBorder(
+                                //                   borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                //                 ),
+                                //                 builder: (context) {
+                                //                   return AddGuestBottomSheet(guestDetailsModel:guestDetailsModel);
+                                //                 },
+                                //               );
+                                //             },
+                                //               child: AddGuestItem(guestDetailsModel:guestDetailsModel,index: index));
+                                //         },itemCount: bookingViewModel.guestDetailsList.length),
+                                //     SizedBox(height: 10),
+                                //     Visibility(visible: bookingViewModel.guestDetailsList.length < (bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0),child:
+                                //     InkWell(
+                                //       onTap: (){
+                                //         showModalBottomSheet(
+                                //           context: context,
+                                //           isScrollControlled: true, // allows full height scroll
+                                //           shape: const RoundedRectangleBorder(
+                                //             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                //           ),
+                                //           builder: (context) {
+                                //             return const AddGuestBottomSheet();
+                                //           },
+                                //         );
+                                //       },
+                                //         child: Text("+ Add New Guest",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.primary)))),
+                                //     SizedBox(height: 20),
+                                //   ],
+                                // )),
                                 DottedLine(
                                   dashColor: CustomColors.darkGray,
                                 ),
@@ -193,6 +193,15 @@ class CheckoutPage extends StatelessWidget {
                             ),
                             ErrorTextComponent(assetImage: "assets/images/aadhar.png",text: "Carry your Aadhaar card to ensure smooth check-in."),
                             const SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Container(
+                                width: double.infinity,
+                                color: CustomColors.lightGray,
+                                height: 5,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
                             Obx(() {
                               return bookingViewModel.selectedCoupon.value != null ? InkWell(
                                 onTap: (){
@@ -215,7 +224,7 @@ class CheckoutPage extends StatelessWidget {
                                                 '${bookingViewModel.selectedCoupon.value?.code ?? ""} ',
                                                 style:  TextStyle(
                                                     fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     color: CustomColors.textColor)),
                                             Text(
                                                 ' Coupon applied',
@@ -259,7 +268,7 @@ class CheckoutPage extends StatelessWidget {
                                                   'Apply Coupon',
                                                   style:  TextStyle(
                                                       fontWeight: FontWeight.w700,
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       color: CustomColors.textColor)),
                                             )
                                           ],
@@ -279,7 +288,15 @@ class CheckoutPage extends StatelessWidget {
                             },
                             ),
                             const SizedBox(height: 10),
-                          Obx(() {
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Container(
+                                width: double.infinity,
+                                color: CustomColors.lightGray,
+                                height: 5,
+                              ),
+                            ),
+                            Obx(() {
                             final walletBalance = authViewModel.fetchUserDetailsObserver.value.whenOrNull(
                               success: (data) =>
                               (data as FetchUserDetailsResponseModel).data?.wallet,
@@ -287,58 +304,62 @@ class CheckoutPage extends StatelessWidget {
 
                             return Visibility(
                               visible: walletBalance != 0,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Wallet Info
-                                    Row(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Container(
-                                          decoration: AppStyles.whiteCircleBg,
-                                          padding: const EdgeInsets.all(8),
-                                          child: Image.asset(
-                                            "assets/images/wallet.png",
-                                            width: 20,
-                                            height: 20,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                        // Wallet Info
+                                        Row(
                                           children: [
-                                            Text(
-                                              "Wallet",
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w700,
-                                                color: CustomColors.textColor,
+                                            Container(
+                                              decoration: AppStyles.whiteCircleBg,
+                                              padding: const EdgeInsets.all(8),
+                                              child: Image.asset(
+                                                "assets/images/wallet.png",
+                                                width: 20,
+                                                height: 20,
                                               ),
                                             ),
-                                            Text(
-                                              "Available Balance  : ₹$walletBalance",
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                                color: CustomColors.textColor,
-                                              ),
+                                            const SizedBox(width: 10),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Wallet",
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: CustomColors.textColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Available Balance  : ₹$walletBalance",
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: CustomColors.textColor,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
+
+                                        // Checkbox
+                                        Checkbox(
+                                          value: bookingViewModel.userWalletBalance.value,
+                                          onChanged: (value) {
+                                            bookingViewModel.userWalletBalance.value = value ?? false;
+                                            bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,0);
+                                          },
+                                        ),
                                       ],
                                     ),
-
-                                    // Checkbox
-                                    Checkbox(
-                                      value: bookingViewModel.userWalletBalance.value,
-                                      onChanged: (value) {
-                                        bookingViewModel.userWalletBalance.value = value ?? false;
-                                        bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,0);
-                                      },
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             );
                           }),
@@ -380,31 +401,32 @@ class CheckoutPage extends StatelessWidget {
                                       const SizedBox(height: 10),
                                       Row(
                                         children: [
-                                          Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                          Visibility(visible: (availabilityResponse?.discount ?? 0) + (availabilityResponse?.walletDeduction ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.subTotal ?? 0) + (availabilityResponse?.discount ?? 0) + (availabilityResponse?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                          Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 16))),
+                                          Visibility(visible: (availabilityResponse?.discount ?? 0) + (availabilityResponse?.walletDeduction ?? 0) != 0 ,child: Text("₹${(availabilityResponse?.subTotal ?? 0) + (availabilityResponse?.discount ?? 0) + (availabilityResponse?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
                                               decorationThickness: 2,
                                               decorationColor: Colors.black))),
                                           const SizedBox(width: 5),
-                                          Text("₹${(availabilityResponse?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
+                                          Text("₹${(availabilityResponse?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
                                         ],
                                       ),
                                       const SizedBox(height: 10),
                                       Obx(()=> bookingViewModel.confirmBookingObserver.value.maybeWhen(
                                           loading: (loading) => const CircularProgressIndicator(),
-                                          orElse: () => (bookingViewModel.guestDetailsList.length < (bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0)) ?
-                                              PrimaryButton(buttonTxt: "Add Guest Details", buttonClick: (){
-                                                showModalBottomSheet(
-                                                  context: context,
-                                                  isScrollControlled: true, // allows full height scroll
-                                                  shape: const RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                                                  ),
-                                                  builder: (context) {
-                                                    return const AddGuestBottomSheet();
-                                                  },
-                                                );
-                                              })
-                                              :
+                                          orElse: () =>
+                                          // (bookingViewModel.guestDetailsList.length < (bookingViewModel.bookingRequestModelObserver.value?.guestCount ?? 0)) ?
+                                          //     PrimaryButton(buttonTxt: "Add Guest Details", buttonClick: (){
+                                          //       showModalBottomSheet(
+                                          //         context: context,
+                                          //         isScrollControlled: true, // allows full height scroll
+                                          //         shape: const RoundedRectangleBorder(
+                                          //           borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                          //         ),
+                                          //         builder: (context) {
+                                          //           return const AddGuestBottomSheet();
+                                          //         },
+                                          //       );
+                                          //     })
+                                          //     :
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
@@ -475,7 +497,8 @@ class CheckoutPage extends StatelessWidget {
                                                 bookingViewModel.performConfirmBooking(newRequest);
                                               }),
                                             ],
-                                          )),
+                                          )
+                                      ),
                                       ),
                                       const SizedBox(height: 50),
                                     ],

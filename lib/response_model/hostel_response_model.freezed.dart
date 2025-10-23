@@ -432,7 +432,12 @@ mixin _$HostelModel {
   int? get totalIncome => throw _privateConstructorUsedError;
   int? get totalVotes => throw _privateConstructorUsedError;
   dynamic get rating => throw _privateConstructorUsedError;
+  List<CategoryRating>? get categoryRatings =>
+      throw _privateConstructorUsedError;
   bool? get isFavorite => throw _privateConstructorUsedError;
+  String? get checkInTime => throw _privateConstructorUsedError;
+  String? get checkOutTime => throw _privateConstructorUsedError;
+  List<FaqModel>? get faq => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -469,7 +474,11 @@ abstract class $HostelModelCopyWith<$Res> {
       int? totalIncome,
       int? totalVotes,
       dynamic rating,
-      bool? isFavorite});
+      List<CategoryRating>? categoryRatings,
+      bool? isFavorite,
+      String? checkInTime,
+      String? checkOutTime,
+      List<FaqModel>? faq});
 
   $RoomModelCopyWith<$Res>? get room;
   $LocationModelCopyWith<$Res>? get location;
@@ -510,7 +519,11 @@ class _$HostelModelCopyWithImpl<$Res, $Val extends HostelModel>
     Object? totalIncome = freezed,
     Object? totalVotes = freezed,
     Object? rating = freezed,
+    Object? categoryRatings = freezed,
     Object? isFavorite = freezed,
+    Object? checkInTime = freezed,
+    Object? checkOutTime = freezed,
+    Object? faq = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -601,10 +614,26 @@ class _$HostelModelCopyWithImpl<$Res, $Val extends HostelModel>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      categoryRatings: freezed == categoryRatings
+          ? _value.categoryRatings
+          : categoryRatings // ignore: cast_nullable_to_non_nullable
+              as List<CategoryRating>?,
       isFavorite: freezed == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
               as bool?,
+      checkInTime: freezed == checkInTime
+          ? _value.checkInTime
+          : checkInTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      checkOutTime: freezed == checkOutTime
+          ? _value.checkOutTime
+          : checkOutTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      faq: freezed == faq
+          ? _value.faq
+          : faq // ignore: cast_nullable_to_non_nullable
+              as List<FaqModel>?,
     ) as $Val);
   }
 
@@ -664,7 +693,11 @@ abstract class _$$HostelModelImplCopyWith<$Res>
       int? totalIncome,
       int? totalVotes,
       dynamic rating,
-      bool? isFavorite});
+      List<CategoryRating>? categoryRatings,
+      bool? isFavorite,
+      String? checkInTime,
+      String? checkOutTime,
+      List<FaqModel>? faq});
 
   @override
   $RoomModelCopyWith<$Res>? get room;
@@ -705,7 +738,11 @@ class __$$HostelModelImplCopyWithImpl<$Res>
     Object? totalIncome = freezed,
     Object? totalVotes = freezed,
     Object? rating = freezed,
+    Object? categoryRatings = freezed,
     Object? isFavorite = freezed,
+    Object? checkInTime = freezed,
+    Object? checkOutTime = freezed,
+    Object? faq = freezed,
   }) {
     return _then(_$HostelModelImpl(
       id: freezed == id
@@ -796,10 +833,26 @@ class __$$HostelModelImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      categoryRatings: freezed == categoryRatings
+          ? _value._categoryRatings
+          : categoryRatings // ignore: cast_nullable_to_non_nullable
+              as List<CategoryRating>?,
       isFavorite: freezed == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
               as bool?,
+      checkInTime: freezed == checkInTime
+          ? _value.checkInTime
+          : checkInTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      checkOutTime: freezed == checkOutTime
+          ? _value.checkOutTime
+          : checkOutTime // ignore: cast_nullable_to_non_nullable
+              as String?,
+      faq: freezed == faq
+          ? _value._faq
+          : faq // ignore: cast_nullable_to_non_nullable
+              as List<FaqModel>?,
     ));
   }
 }
@@ -830,12 +883,18 @@ class _$HostelModelImpl implements _HostelModel {
       this.totalIncome,
       this.totalVotes,
       this.rating,
-      this.isFavorite})
+      final List<CategoryRating>? categoryRatings,
+      this.isFavorite,
+      this.checkInTime,
+      this.checkOutTime,
+      final List<FaqModel>? faq})
       : _rejectedFields = rejectedFields,
         _amenities = amenities,
         _rooms = rooms,
         _rules = rules,
-        _images = images;
+        _images = images,
+        _categoryRatings = categoryRatings,
+        _faq = faq;
 
   factory _$HostelModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$HostelModelImplFromJson(json);
@@ -925,12 +984,35 @@ class _$HostelModelImpl implements _HostelModel {
   final int? totalVotes;
   @override
   final dynamic rating;
+  final List<CategoryRating>? _categoryRatings;
+  @override
+  List<CategoryRating>? get categoryRatings {
+    final value = _categoryRatings;
+    if (value == null) return null;
+    if (_categoryRatings is EqualUnmodifiableListView) return _categoryRatings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final bool? isFavorite;
+  @override
+  final String? checkInTime;
+  @override
+  final String? checkOutTime;
+  final List<FaqModel>? _faq;
+  @override
+  List<FaqModel>? get faq {
+    final value = _faq;
+    if (value == null) return null;
+    if (_faq is EqualUnmodifiableListView) return _faq;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'HostelModel(id: $id, approvalStatus: $approvalStatus, rejectedFields: $rejectedFields, reason: $reason, hostelImage: $hostelImage, hostelLicence: $hostelLicence, hostelName: $hostelName, aboutHostel: $aboutHostel, gstIn: $gstIn, hostelType: $hostelType, amenities: $amenities, amenitiesMore: $amenitiesMore, room: $room, rooms: $rooms, roomsMore: $roomsMore, rules: $rules, images: $images, location: $location, monthlyIncome: $monthlyIncome, totalIncome: $totalIncome, totalVotes: $totalVotes, rating: $rating, isFavorite: $isFavorite)';
+    return 'HostelModel(id: $id, approvalStatus: $approvalStatus, rejectedFields: $rejectedFields, reason: $reason, hostelImage: $hostelImage, hostelLicence: $hostelLicence, hostelName: $hostelName, aboutHostel: $aboutHostel, gstIn: $gstIn, hostelType: $hostelType, amenities: $amenities, amenitiesMore: $amenitiesMore, room: $room, rooms: $rooms, roomsMore: $roomsMore, rules: $rules, images: $images, location: $location, monthlyIncome: $monthlyIncome, totalIncome: $totalIncome, totalVotes: $totalVotes, rating: $rating, categoryRatings: $categoryRatings, isFavorite: $isFavorite, checkInTime: $checkInTime, checkOutTime: $checkOutTime, faq: $faq)';
   }
 
   @override
@@ -974,8 +1056,15 @@ class _$HostelModelImpl implements _HostelModel {
             (identical(other.totalVotes, totalVotes) ||
                 other.totalVotes == totalVotes) &&
             const DeepCollectionEquality().equals(other.rating, rating) &&
+            const DeepCollectionEquality()
+                .equals(other._categoryRatings, _categoryRatings) &&
             (identical(other.isFavorite, isFavorite) ||
-                other.isFavorite == isFavorite));
+                other.isFavorite == isFavorite) &&
+            (identical(other.checkInTime, checkInTime) ||
+                other.checkInTime == checkInTime) &&
+            (identical(other.checkOutTime, checkOutTime) ||
+                other.checkOutTime == checkOutTime) &&
+            const DeepCollectionEquality().equals(other._faq, _faq));
   }
 
   @JsonKey(ignore: true)
@@ -1004,7 +1093,11 @@ class _$HostelModelImpl implements _HostelModel {
         totalIncome,
         totalVotes,
         const DeepCollectionEquality().hash(rating),
-        isFavorite
+        const DeepCollectionEquality().hash(_categoryRatings),
+        isFavorite,
+        checkInTime,
+        checkOutTime,
+        const DeepCollectionEquality().hash(_faq)
       ]);
 
   @JsonKey(ignore: true)
@@ -1045,7 +1138,11 @@ abstract class _HostelModel implements HostelModel {
       final int? totalIncome,
       final int? totalVotes,
       final dynamic rating,
-      final bool? isFavorite}) = _$HostelModelImpl;
+      final List<CategoryRating>? categoryRatings,
+      final bool? isFavorite,
+      final String? checkInTime,
+      final String? checkOutTime,
+      final List<FaqModel>? faq}) = _$HostelModelImpl;
 
   factory _HostelModel.fromJson(Map<String, dynamic> json) =
       _$HostelModelImpl.fromJson;
@@ -1096,10 +1193,171 @@ abstract class _HostelModel implements HostelModel {
   @override
   dynamic get rating;
   @override
+  List<CategoryRating>? get categoryRatings;
+  @override
   bool? get isFavorite;
+  @override
+  String? get checkInTime;
+  @override
+  String? get checkOutTime;
+  @override
+  List<FaqModel>? get faq;
   @override
   @JsonKey(ignore: true)
   _$$HostelModelImplCopyWith<_$HostelModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FaqModel _$FaqModelFromJson(Map<String, dynamic> json) {
+  return _FaqModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FaqModel {
+  String? get question => throw _privateConstructorUsedError;
+  String? get answer => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FaqModelCopyWith<FaqModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FaqModelCopyWith<$Res> {
+  factory $FaqModelCopyWith(FaqModel value, $Res Function(FaqModel) then) =
+      _$FaqModelCopyWithImpl<$Res, FaqModel>;
+  @useResult
+  $Res call({String? question, String? answer});
+}
+
+/// @nodoc
+class _$FaqModelCopyWithImpl<$Res, $Val extends FaqModel>
+    implements $FaqModelCopyWith<$Res> {
+  _$FaqModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? question = freezed,
+    Object? answer = freezed,
+  }) {
+    return _then(_value.copyWith(
+      question: freezed == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String?,
+      answer: freezed == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FaqModelImplCopyWith<$Res>
+    implements $FaqModelCopyWith<$Res> {
+  factory _$$FaqModelImplCopyWith(
+          _$FaqModelImpl value, $Res Function(_$FaqModelImpl) then) =
+      __$$FaqModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String? question, String? answer});
+}
+
+/// @nodoc
+class __$$FaqModelImplCopyWithImpl<$Res>
+    extends _$FaqModelCopyWithImpl<$Res, _$FaqModelImpl>
+    implements _$$FaqModelImplCopyWith<$Res> {
+  __$$FaqModelImplCopyWithImpl(
+      _$FaqModelImpl _value, $Res Function(_$FaqModelImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? question = freezed,
+    Object? answer = freezed,
+  }) {
+    return _then(_$FaqModelImpl(
+      question: freezed == question
+          ? _value.question
+          : question // ignore: cast_nullable_to_non_nullable
+              as String?,
+      answer: freezed == answer
+          ? _value.answer
+          : answer // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FaqModelImpl implements _FaqModel {
+  const _$FaqModelImpl({this.question, this.answer});
+
+  factory _$FaqModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FaqModelImplFromJson(json);
+
+  @override
+  final String? question;
+  @override
+  final String? answer;
+
+  @override
+  String toString() {
+    return 'FaqModel(question: $question, answer: $answer)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FaqModelImpl &&
+            (identical(other.question, question) ||
+                other.question == question) &&
+            (identical(other.answer, answer) || other.answer == answer));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, question, answer);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FaqModelImplCopyWith<_$FaqModelImpl> get copyWith =>
+      __$$FaqModelImplCopyWithImpl<_$FaqModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FaqModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FaqModel implements FaqModel {
+  const factory _FaqModel({final String? question, final String? answer}) =
+      _$FaqModelImpl;
+
+  factory _FaqModel.fromJson(Map<String, dynamic> json) =
+      _$FaqModelImpl.fromJson;
+
+  @override
+  String? get question;
+  @override
+  String? get answer;
+  @override
+  @JsonKey(ignore: true)
+  _$$FaqModelImplCopyWith<_$FaqModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1666,6 +1924,8 @@ mixin _$RatingAndReviewModel {
   dynamic get userId => throw _privateConstructorUsedError;
   dynamic get hostelId => throw _privateConstructorUsedError;
   dynamic get rating => throw _privateConstructorUsedError;
+  List<CategoryRating>? get categoryRatings =>
+      throw _privateConstructorUsedError;
   String? get review => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1680,7 +1940,12 @@ abstract class $RatingAndReviewModelCopyWith<$Res> {
           $Res Function(RatingAndReviewModel) then) =
       _$RatingAndReviewModelCopyWithImpl<$Res, RatingAndReviewModel>;
   @useResult
-  $Res call({dynamic userId, dynamic hostelId, dynamic rating, String? review});
+  $Res call(
+      {dynamic userId,
+      dynamic hostelId,
+      dynamic rating,
+      List<CategoryRating>? categoryRatings,
+      String? review});
 }
 
 /// @nodoc
@@ -1700,6 +1965,7 @@ class _$RatingAndReviewModelCopyWithImpl<$Res,
     Object? userId = freezed,
     Object? hostelId = freezed,
     Object? rating = freezed,
+    Object? categoryRatings = freezed,
     Object? review = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1715,6 +1981,10 @@ class _$RatingAndReviewModelCopyWithImpl<$Res,
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      categoryRatings: freezed == categoryRatings
+          ? _value.categoryRatings
+          : categoryRatings // ignore: cast_nullable_to_non_nullable
+              as List<CategoryRating>?,
       review: freezed == review
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
@@ -1731,7 +2001,12 @@ abstract class _$$RatingAndReviewModelImplCopyWith<$Res>
       __$$RatingAndReviewModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({dynamic userId, dynamic hostelId, dynamic rating, String? review});
+  $Res call(
+      {dynamic userId,
+      dynamic hostelId,
+      dynamic rating,
+      List<CategoryRating>? categoryRatings,
+      String? review});
 }
 
 /// @nodoc
@@ -1748,6 +2023,7 @@ class __$$RatingAndReviewModelImplCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? hostelId = freezed,
     Object? rating = freezed,
+    Object? categoryRatings = freezed,
     Object? review = freezed,
   }) {
     return _then(_$RatingAndReviewModelImpl(
@@ -1763,6 +2039,10 @@ class __$$RatingAndReviewModelImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      categoryRatings: freezed == categoryRatings
+          ? _value._categoryRatings
+          : categoryRatings // ignore: cast_nullable_to_non_nullable
+              as List<CategoryRating>?,
       review: freezed == review
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
@@ -1775,7 +2055,12 @@ class __$$RatingAndReviewModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
   const _$RatingAndReviewModelImpl(
-      {this.userId, this.hostelId, this.rating, this.review});
+      {this.userId,
+      this.hostelId,
+      this.rating,
+      final List<CategoryRating>? categoryRatings,
+      this.review})
+      : _categoryRatings = categoryRatings;
 
   factory _$RatingAndReviewModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RatingAndReviewModelImplFromJson(json);
@@ -1786,12 +2071,22 @@ class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
   final dynamic hostelId;
   @override
   final dynamic rating;
+  final List<CategoryRating>? _categoryRatings;
+  @override
+  List<CategoryRating>? get categoryRatings {
+    final value = _categoryRatings;
+    if (value == null) return null;
+    if (_categoryRatings is EqualUnmodifiableListView) return _categoryRatings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? review;
 
   @override
   String toString() {
-    return 'RatingAndReviewModel(userId: $userId, hostelId: $hostelId, rating: $rating, review: $review)';
+    return 'RatingAndReviewModel(userId: $userId, hostelId: $hostelId, rating: $rating, categoryRatings: $categoryRatings, review: $review)';
   }
 
   @override
@@ -1802,6 +2097,8 @@ class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
             const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.hostelId, hostelId) &&
             const DeepCollectionEquality().equals(other.rating, rating) &&
+            const DeepCollectionEquality()
+                .equals(other._categoryRatings, _categoryRatings) &&
             (identical(other.review, review) || other.review == review));
   }
 
@@ -1812,6 +2109,7 @@ class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
       const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(hostelId),
       const DeepCollectionEquality().hash(rating),
+      const DeepCollectionEquality().hash(_categoryRatings),
       review);
 
   @JsonKey(ignore: true)
@@ -1835,6 +2133,7 @@ abstract class _RatingAndReviewModel implements RatingAndReviewModel {
       {final dynamic userId,
       final dynamic hostelId,
       final dynamic rating,
+      final List<CategoryRating>? categoryRatings,
       final String? review}) = _$RatingAndReviewModelImpl;
 
   factory _RatingAndReviewModel.fromJson(Map<String, dynamic> json) =
@@ -1847,11 +2146,169 @@ abstract class _RatingAndReviewModel implements RatingAndReviewModel {
   @override
   dynamic get rating;
   @override
+  List<CategoryRating>? get categoryRatings;
+  @override
   String? get review;
   @override
   @JsonKey(ignore: true)
   _$$RatingAndReviewModelImplCopyWith<_$RatingAndReviewModelImpl>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+CategoryRating _$CategoryRatingFromJson(Map<String, dynamic> json) {
+  return _CategoryRating.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CategoryRating {
+  dynamic get rating => throw _privateConstructorUsedError;
+  String? get ratedFor => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CategoryRatingCopyWith<CategoryRating> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CategoryRatingCopyWith<$Res> {
+  factory $CategoryRatingCopyWith(
+          CategoryRating value, $Res Function(CategoryRating) then) =
+      _$CategoryRatingCopyWithImpl<$Res, CategoryRating>;
+  @useResult
+  $Res call({dynamic rating, String? ratedFor});
+}
+
+/// @nodoc
+class _$CategoryRatingCopyWithImpl<$Res, $Val extends CategoryRating>
+    implements $CategoryRatingCopyWith<$Res> {
+  _$CategoryRatingCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rating = freezed,
+    Object? ratedFor = freezed,
+  }) {
+    return _then(_value.copyWith(
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      ratedFor: freezed == ratedFor
+          ? _value.ratedFor
+          : ratedFor // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CategoryRatingImplCopyWith<$Res>
+    implements $CategoryRatingCopyWith<$Res> {
+  factory _$$CategoryRatingImplCopyWith(_$CategoryRatingImpl value,
+          $Res Function(_$CategoryRatingImpl) then) =
+      __$$CategoryRatingImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({dynamic rating, String? ratedFor});
+}
+
+/// @nodoc
+class __$$CategoryRatingImplCopyWithImpl<$Res>
+    extends _$CategoryRatingCopyWithImpl<$Res, _$CategoryRatingImpl>
+    implements _$$CategoryRatingImplCopyWith<$Res> {
+  __$$CategoryRatingImplCopyWithImpl(
+      _$CategoryRatingImpl _value, $Res Function(_$CategoryRatingImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rating = freezed,
+    Object? ratedFor = freezed,
+  }) {
+    return _then(_$CategoryRatingImpl(
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      ratedFor: freezed == ratedFor
+          ? _value.ratedFor
+          : ratedFor // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CategoryRatingImpl implements _CategoryRating {
+  const _$CategoryRatingImpl({this.rating, this.ratedFor});
+
+  factory _$CategoryRatingImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CategoryRatingImplFromJson(json);
+
+  @override
+  final dynamic rating;
+  @override
+  final String? ratedFor;
+
+  @override
+  String toString() {
+    return 'CategoryRating(rating: $rating, ratedFor: $ratedFor)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CategoryRatingImpl &&
+            const DeepCollectionEquality().equals(other.rating, rating) &&
+            (identical(other.ratedFor, ratedFor) ||
+                other.ratedFor == ratedFor));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(rating), ratedFor);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CategoryRatingImplCopyWith<_$CategoryRatingImpl> get copyWith =>
+      __$$CategoryRatingImplCopyWithImpl<_$CategoryRatingImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CategoryRatingImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CategoryRating implements CategoryRating {
+  const factory _CategoryRating(
+      {final dynamic rating, final String? ratedFor}) = _$CategoryRatingImpl;
+
+  factory _CategoryRating.fromJson(Map<String, dynamic> json) =
+      _$CategoryRatingImpl.fromJson;
+
+  @override
+  dynamic get rating;
+  @override
+  String? get ratedFor;
+  @override
+  @JsonKey(ignore: true)
+  _$$CategoryRatingImplCopyWith<_$CategoryRatingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 FetchHostelRoomsResponseModel _$FetchHostelRoomsResponseModelFromJson(

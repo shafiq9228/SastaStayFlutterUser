@@ -29,6 +29,29 @@ class ConfirmBookingResponseModel with _$ConfirmBookingResponseModel{
 
 
 @Freezed()
+class HostelRoomAvailabilityDatesResponseModel with _$HostelRoomAvailabilityDatesResponseModel {
+  const factory HostelRoomAvailabilityDatesResponseModel({
+    int? status,
+    String? message,
+    List<AvailabilityDataModel>? data
+  }) = _HostelRoomAvailabilityDatesResponseModel;
+
+  factory HostelRoomAvailabilityDatesResponseModel.fromJson(Map<String, dynamic> json) => _$HostelRoomAvailabilityDatesResponseModelFromJson(json);
+}
+
+
+@Freezed()
+class AvailabilityDataModel with _$AvailabilityDataModel {
+  const factory AvailabilityDataModel({
+    String? date,
+    String? status,
+  }) = _AvailabilityDataModel;
+
+  factory AvailabilityDataModel.fromJson(Map<String, dynamic> json) => _$AvailabilityDataModelFromJson(json);
+}
+
+
+@Freezed()
 class GuestDetailsModel with _$GuestDetailsModel{
   const factory GuestDetailsModel({
     String? name,
@@ -166,6 +189,10 @@ class FetchCouponsResponseModel with _$FetchCouponsResponseModel{
 class CouponDataModel with _$CouponDataModel{
   const factory CouponDataModel({
     @JsonKey(name:'_id') String? id,
+    bool? isActive,
+    String? discountType,
+    bool? singleUse,
+    List<dynamic>? usedBy,
     String? createdBy,
     DateTime? expiryDate,
     String? code,

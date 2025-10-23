@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:pg_hostel/components/refer_and_earn_component.dart';
@@ -34,20 +38,35 @@ class _ReferAndEarnPageState extends State<ReferAndEarnPage> {
       await Clipboard.setData(ClipboardData(text: referCode));
       Get.snackbar("Copied","Referral code copied to clipboard",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
     }
-    else if (action == "Whatsapp") {
-      final url = "https://wa.me/?text=Hey! Use my referral code $referCode to join.";
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-      } else {
-        Get.snackbar("Error", "WhatsApp not available",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
-      }
-    }
-    else if (action == "Instagram") {
-      final url = "https://www.instagram.com/";
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-      } else {
-        Get.snackbar("Error", "Instagram not available",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+    else if (action == "Whatsapp" || action == "Instagram") {
+      try {
+        // Load image from assets
+        final byteData = await rootBundle.load('assets/images/refer.webp');
+        final tempDir = await getTemporaryDirectory();
+        final file = File('${tempDir.path}/refer.png');
+        await file.writeAsBytes(byteData.buffer.asUint8List());
+
+        const appLink = "https://play.google.com/store/apps/details?id=com.sastastay.user";
+
+        // Message with clickable referral code and link
+        final text = "Hey! 👋\n\n"
+            "Use my referral code 👉 *$referCode* to join the app and get rewards!\n\n"
+            "Download the app here:\n$appLink";
+
+        // Share to WhatsApp or Instagram
+        await Share.shareXFiles(
+          [XFile(file.path)],
+          text: text,
+          subject: "Join Now!",
+        );
+      } catch (e) {
+        Get.snackbar(
+          "Error",
+          "Unable to share via $action",
+          backgroundColor: CustomColors.primary,
+          colorText: CustomColors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     }
   }
@@ -72,16 +91,16 @@ class _ReferAndEarnPageState extends State<ReferAndEarnPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ReferAndEarnComponent(count:(authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referrals) ?? []).length,outOff: 3),
+                      ReferAndEarnComponent(count:(authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referrals) ?? []).length,authViewModel: authViewModel),
                       const SizedBox(height: 50),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text("Referral Code : ${referCode}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 18)),
+                        child: Text("Referral Code : ${referCode}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 16)),
                       ),
                       const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text("Referral Earnings : ₹${(authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referralEarnings) ?? 0)}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 18)),
+                        child: Text("Referral Earnings : ₹${(authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referralEarnings) ?? 0)}",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 16)),
                       ),
                       const SizedBox(height: 20),
                       Padding(

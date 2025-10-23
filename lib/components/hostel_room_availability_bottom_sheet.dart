@@ -17,6 +17,7 @@ import 'package:get/get.dart';
 
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
+import 'colored_availability_calendar.dart';
 
 class HostelRoomAvailabilityBottomSheet extends StatefulWidget {
   final RoomModel? roomModel;
@@ -33,27 +34,61 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
   final List<DateTime> _selectedDates = [];
 
   Future<void> _selectDate(BuildContext context) async {
-    bookingViewModel.checkHostelRoomAvailabilityObserver.value = ApiResult.init();
-    final DateTimeRange? picked = await showDateRangePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 1),
-      initialDateRange: _selectedDates.length >= 2
-          ? DateTimeRange(start: _selectedDates.first, end: _selectedDates.last)
-          : null,
-    );
+    await bookingViewModel.checkAvailabilityDates(widget.roomModel?.hostelId ?? "",widget.roomModel?.id ?? "",_guestCount);
 
-    if (picked != null) {
-      setState(() {
-        _selectedDates.clear();
-        DateTime current = picked.start;
-        while (current.isBefore(picked.end) || current.isAtSameMomentAs(picked.end)) {
-          _selectedDates.add(current);
-          current = current.add(const Duration(days: 1));
-        }
-      });
-    }
+    bookingViewModel.checkAvailabilityDatesObserver.value.whenOrNull(success: (data){
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        builder: (_) => ColoredAvailabilityCalendar(
+          bookingViewModel: bookingViewModel,
+          onRangeSelected: (DateTime start, DateTime end) {
+            setState(() {
+              _selectedDates.clear();
+              DateTime current = start;
+              if(start ==  end){
+                _selectedDates.add(current);
+              }
+              else{
+                while (current.isBefore(end) || current.isAtSameMomentAs(end)) {
+                  _selectedDates.add(current);
+                  current = current.add(const Duration(days: 1));
+                }
+              }
+            });
+          }
+        ),
+      );
+    });
   }
+
+
+  // Future<void> _selectDate(BuildContext context) async {
+  //   bookingViewModel.checkHostelRoomAvailabilityObserver.value = ApiResult.init();
+  //   final DateTimeRange? picked = await showDateRangePicker(
+  //     context: context,
+  //     firstDate: DateTime.now(),
+  //     lastDate: DateTime(DateTime.now().year + 1),
+  //     initialDateRange: _selectedDates.length >= 2
+  //         ? DateTimeRange(start: _selectedDates.first, end: _selectedDates.last)
+  //         : null,
+  //   );
+  //
+  //   if (picked != null) {
+  //     setState(() {
+  //       _selectedDates.clear();
+  //
+  //       DateTime current = picked.start;
+  //       while (current.isBefore(picked.end) || current.isAtSameMomentAs(picked.end)) {
+  //         _selectedDates.add(current);
+  //         current = current.add(const Duration(days: 1));
+  //       }
+  //     });
+  //   }
+  // }
 
   void _incrementGuests() {
     setState(() {
@@ -114,7 +149,7 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
               Text(
                 'Check Availability',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   color: CustomColors.textColor,
                   fontWeight: FontWeight.w600,
                 ),
@@ -181,7 +216,7 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Text('$_guestCount', style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700,color: CustomColors.textColor)),
+                          child: Text('$_guestCount', style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,color: CustomColors.textColor)),
                         ),
                         _guestCount < (widget.roomModel?.capacityCount ?? 0)
                             ? InkWell(
@@ -241,10 +276,12 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                 ),
               ),
               const SizedBox(height: 8),
-              _selectedDates.isEmpty == true ? CustomOutlinedButton(
-                buttonTxt: "Choose Dates",
-                buttonClick: () => _selectDate(context),
-              ) : Column(
+              _selectedDates.isEmpty == true ? Obx(() => bookingViewModel.checkAvailabilityDatesObserver.value.maybeWhen(
+                  loading: (d) => Center(child: CircularProgressIndicator()),
+                  orElse: () => CustomOutlinedButton(
+                    buttonTxt: "Choose Dates",
+                    buttonClick: () => _selectDate(context),
+                  ))) : Column(
                 children: [
                   Row(
                     children: [
@@ -253,10 +290,12 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                       TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check Out', message: "${AuthUtils.formatDateToLong(_selectedDates.last)}",),
                     ],
                   ),
-                  CustomOutlinedButton(
-                    buttonTxt: "Edit",
-                    buttonClick: () => _selectDate(context),
-                  )
+                  Obx(() => bookingViewModel.checkAvailabilityDatesObserver.value.maybeWhen(
+                      loading: (d) => Center(child: CircularProgressIndicator()),
+                      orElse: () => CustomOutlinedButton(
+                        buttonTxt: "Edit",
+                        buttonClick: () => _selectDate(context),
+                      )))
                 ],
               ),
               const SizedBox(height: 16),

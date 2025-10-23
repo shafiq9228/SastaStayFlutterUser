@@ -8,6 +8,8 @@ import '../utils/custom_colors.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+import 'animated_tap.dart';
+
 class TypeOfHostelComponent extends StatelessWidget {
   final bool? filter;
   const TypeOfHostelComponent({super.key, this.filter});
@@ -39,7 +41,7 @@ class TypeOfHostelComponent extends StatelessWidget {
 
     return SizedBox(
       height: 100,
-      child: InkWell(
+      child: AnimatedTap(
         onTap: (){
           if(filter == true){
             if(hostelViewModel.filterHostelTypes.contains(name.toLowerCase())){
@@ -74,7 +76,7 @@ class TypeOfHostelComponent extends StatelessWidget {
                       Text(
                         name,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: CustomColors.black,
                         ),

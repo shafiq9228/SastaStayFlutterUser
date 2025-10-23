@@ -46,6 +46,7 @@ _$RatingReviewRequestModelImpl _$$RatingReviewRequestModelImplFromJson(
         Map<String, dynamic> json) =>
     _$RatingReviewRequestModelImpl(
       hostelId: json['hostelId'] as String?,
+      ratedFor: json['ratedFor'] as String?,
       review: json['review'] as String?,
       rating: (json['rating'] as num?)?.toDouble(),
     );
@@ -54,6 +55,7 @@ Map<String, dynamic> _$$RatingReviewRequestModelImplToJson(
         _$RatingReviewRequestModelImpl instance) =>
     <String, dynamic>{
       'hostelId': instance.hostelId,
+      'ratedFor': instance.ratedFor,
       'review': instance.review,
       'rating': instance.rating,
     };

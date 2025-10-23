@@ -9,6 +9,7 @@ import 'package:pg_hostel/components/sort_by_bottom_sheet.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/shimmers/hostel_details_shimmer.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
+import 'package:pg_hostel/utils/preference_manager.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
@@ -35,6 +36,8 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController searchController = TextEditingController();
   RxString searchQuery = "".obs;
   Timer? _debounce;
+  final preferenceManager =  Get.put(PreferenceManager());
+  RxList<String> recentSearchList = <String>[].obs;
 
   @override
   void dispose() {
@@ -47,16 +50,19 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: CustomColors.white,
       body: StatefulWrapper(
-        onInit: (){
-          if(widget.search != null){
+        onInit: () async {
+          if (widget.search != null) {
             searchQuery.value = widget.search ?? "";
             searchController.text = widget.search ?? "";
             _onSearchChanged();
           }
-          else if(widget.type == "Filter"){
-            _onSearchChanged();
+          else if (widget.type == "Filter") {
+            _refreshData("");
           }
-        },
+
+          recentSearchList.value = await preferenceManager.getRecentSearches();
+        }
+        ,
         child: SafeArea(
             top:true,
             child: Column(
@@ -117,10 +123,10 @@ class _SearchPageState extends State<SearchPage> {
                                       child: SizedBox(height: 20,width: 20,child: Center(child: Image.asset("assets/images/filter.png")))) : hostelViewModel.fetchSearchedHostelsObserver.value.data.value.maybeWhen(
                                       loading: (_) => SizedBox(height: 10,width: 10,child: Center(child: CircularProgressIndicator(color:CustomColors.textColor,strokeWidth: 2))),
                                       orElse: () => GestureDetector(
-                                          onTap: (){
+                                          onTap: () async {
                                             searchController.clear();
                                             searchQuery.value = "";
-                                            _refreshData("");
+                                            _onSearchChanged();
                                           },
                                           child: SizedBox(height: 20,width: 20,child: Center(child: Icon(Icons.cancel_outlined,color:CustomColors.textColor)))))),
                                 )
@@ -132,6 +138,45 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ) :
                 SecondaryHeadingComponent(buttonTxt: "${widget.type} Hostels",),
+                Obx(() =>
+                   Visibility(
+                     visible: recentSearchList.isNotEmpty && searchQuery.value.trim().isEmpty && widget.type.toLowerCase() == "search",
+                     child: Padding(
+                       padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 10),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Recent Search",style: TextStyle(fontSize: 16,color: CustomColors.textColor,fontWeight: FontWeight.w600)),
+                          const SizedBox(height: 10),
+                          Wrap(
+                              spacing: 8,
+                              children: recentSearchList.map((item) {
+                                return InkWell(
+                                    onTap: () async {
+                                      searchQuery.value = item;
+                                      searchController.text = item;
+                                      _onSearchChanged();
+                                    }, child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 3,vertical: 3),
+                                      child: Container(decoration: AppStyles.categoryBg6,child: IntrinsicWidth(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                                          child: Row(children: [
+                                          Text(item,style: TextStyle(fontSize: 14,color: CustomColors.textColor,fontWeight: FontWeight.w600)),
+                                          const SizedBox(width:5),
+                                          Image.asset("assets/images/recent.png",width: 15,height: 15)
+                                          ],
+                                          ),
+                                        ),
+                                      ),),
+                                    )
+                                );}).toList()
+                          )
+                        ],
+                       ),
+                     ),
+                   ),
+                ),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () => _refreshData(""),
@@ -140,6 +185,7 @@ class _SearchPageState extends State<SearchPage> {
                       height: double.infinity,
                       child: Obx(() {
                         final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver  : widget.type.toLowerCase() == "filter" ? hostelViewModel.fetchFilterHostelsObserver  : hostelViewModel.fetchHostelsObserver;
+                        print(widget.type.toLowerCase());
                         return observer.value.data.value.maybeWhen(
                             loading: (loading) => ListView.builder(
                                 shrinkWrap: true,
@@ -167,7 +213,7 @@ class _SearchPageState extends State<SearchPage> {
                                         padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
                                         child: Row(
                                           children: [
-                                            Expanded(child: Text("Hostels (${hostelList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 22))),
+                                            Expanded(child: Text("Hostels (${hostelList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
                                             Visibility(
                                               visible: widget.type.toLowerCase() == "filter",
                                               child: InkWell(
@@ -214,22 +260,22 @@ class _SearchPageState extends State<SearchPage> {
                                             return HostelDetailsComponent(hostelModel: hostelModel);
                                           }),
                                       Visibility(
-                                        visible: (hostelList?.length ?? 0) < 10,
+                                        visible: (hostelList?.length ?? 0) < 2,
                                         child: SizedBox(
-                                          height: max(0, (10 - (hostelList?.length ?? 0)) * 200),
+                                          height: max(0, (2 - (hostelList?.length ?? 0)) * 200),
                                           width: double.infinity,
                                         ),
                                       ),
                                       Obx(() => Visibility(
                                           visible: observer.value.isLoading,
-                                          child: HostelDetailsShimmer(index: 1)),
+                                          child: const HostelDetailsShimmer(index: 1)),
                                       )
                                     ],
                                   ),
                                 ),
                               );
                             },
-                            orElse: () => SizedBox(width: double.infinity,height: double.infinity,child: const Center(child: EmptyDataView(text: "No Hostels Found"))));
+                            orElse: () => const SizedBox(width: double.infinity,height: double.infinity,child: const Center(child: EmptyDataView(text: "No Hostels Found"))));
                       }
                       ),
                     ),
@@ -240,12 +286,19 @@ class _SearchPageState extends State<SearchPage> {
       ),);
   }
 
-  void _onSearchChanged() {
+  Future<void> _onSearchChanged() async {
     final observer = widget.type.toLowerCase() == "favourites" ? hostelViewModel.fetchFavouriteHostelsObserver : widget.type.toLowerCase() == "search" ? hostelViewModel.fetchSearchedHostelsObserver : widget.type?.toLowerCase() == "nearby" ? hostelViewModel.fetchNearbyHostelsObserver : widget.type?.toLowerCase() == "popular" ? hostelViewModel.fetchPopularHostelsObserver : widget.type.toLowerCase() == "filter" ? hostelViewModel.fetchFilterHostelsObserver  : hostelViewModel.fetchHostelsObserver;
     observer.value.data.value = const ApiResult.loading("");
     if (_debounce?.isActive ?? false) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 1000), () {
-      _refreshData("");
+    _debounce = Timer(const Duration(milliseconds: 1000), () async {
+      if(searchQuery.value.trim().isNotEmpty){
+        await preferenceManager.addSearchItem(searchQuery.value);
+        recentSearchList.value = await preferenceManager.getRecentSearches();
+        _refreshData("");
+      }
+      else{
+        observer.value.data.value = const ApiResult.init();
+      }
     });
   }
 

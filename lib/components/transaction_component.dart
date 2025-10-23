@@ -36,7 +36,7 @@ class TransactionComponent extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(transactionModel?.userTitle ?? "Booking Confirmed",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.black,fontSize: 20)),
+                            Text(transactionModel?.userTitle ?? "Booking Confirmed",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.black,fontSize: 18)),
                             SizedBox(height: 10),
                             Container(decoration: AppStyles.gradient,
                                 child: Padding(

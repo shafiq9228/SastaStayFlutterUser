@@ -20,8 +20,9 @@ import '../view_models/hostel_view_model.dart';
 
 class RatingReviewsPage extends StatefulWidget {
   final double? rating;
+  final List<CategoryRating>? categoryRating;
   final String? hostelId;
-  const RatingReviewsPage({super.key, this.hostelId, required this.rating});
+  const RatingReviewsPage({super.key, this.hostelId, required this.rating, required this.categoryRating});
 
   @override
   State<RatingReviewsPage> createState() => _RatingReviewsPageState();
@@ -43,25 +44,6 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                 SecondaryHeadingComponent(buttonTxt: "Rating And Reviews", buttonClick: (){
                   Get.back();
                 }),
-                RatingComponent(rating: widget.rating),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Container(
-                    width: double.infinity,
-                    color: CustomColors.lightGray,
-                    height: 5,
-                  ),
-                ),
-                const Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-
-                      SideHeadingComponent(title: "Rating And Reviews", viewVisible: false),
-                    ],
-                  ),
-                ),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () => _refreshData(),
@@ -94,6 +76,28 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                                 child: SingleChildScrollView(
                                   child: Column(
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                                        child: RatingComponent(rating: widget.rating,categoryRatings:widget.categoryRating),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: CustomColors.lightGray,
+                                          height: 5,
+                                        ),
+                                      ),
+                                      const Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                                        child: Column(
+                                          children: [
+
+                                            SideHeadingComponent(title: "Rating And Reviews", viewVisible: false),
+                                          ],
+                                        ),
+                                      ),
                                       ListView.builder(
                                           shrinkWrap: true,
                                           physics: const NeverScrollableScrollPhysics(),

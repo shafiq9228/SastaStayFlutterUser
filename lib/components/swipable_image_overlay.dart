@@ -196,7 +196,7 @@ class _SwipableImageOverlayState extends State<SwipableImageOverlay> {
             //         'Image ${index + 1}',
             //         style: const TextStyle(
             //           color: Colors.white,
-            //           fontSize: 18,
+            //           fontSize: 16,
             //           fontWeight: FontWeight.bold,
             //         ),
             //       ),

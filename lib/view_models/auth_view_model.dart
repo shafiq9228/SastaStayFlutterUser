@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +16,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
+import '../components/amenities_component.dart';
+import '../components/custom_network_image.dart';
+import '../components/error_text_component.dart';
 import '../pages/main_page.dart';
 import '../pages/mobile_verification_page.dart';
 import '../pages/otp_verification_page.dart';
@@ -22,6 +27,8 @@ import '../pages/update_version_screen.dart';
 import '../pages/user_blocked.dart';
 import '../request_model/auth_request_model.dart';
 import '../response_model/auth_response_model.dart';
+import '../response_model/hostel_response_model.dart';
+import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/geo_util.dart';
@@ -48,10 +55,13 @@ class AuthViewModel extends GetxController{
   RxString aadharImage = "".obs;
   RxString uploadedImage = "".obs;
 
+  Rx<ReferralModel> referralData = const ReferralModel(referralAmount: 30,referralCount: 3).obs;
+
   RxString userId = "".obs;
 
   Rx<Position?> locationPosition = Rx<Position?>(null);
   Rx<LocationModel?> locationDetails = Rx<LocationModel?>(null);
+
 
   RxList<DocumentDataModel> kysDocuments = [
     DocumentDataModel(
@@ -94,6 +104,85 @@ class AuthViewModel extends GetxController{
       errorTxt: '',
     )
   ];
+
+
+  /// Show popup with zoomable image
+  void showImagePopup(BuildContext context, String imageUrl) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: EdgeInsets.zero,
+        child: Stack(
+          children: [
+            GestureDetector(
+              onTap: () => Get.back(),
+              child: Container(
+                color: Colors.black.withOpacity(0.8),
+                width: double.infinity,
+                height: double.infinity,
+                child: InteractiveViewer(
+                  panEnabled: true,
+                  minScale: 0.8,
+                  maxScale: 4.0,
+                  child: Center(
+                    child: CustomNetworkImage(
+                      imageUrl: imageUrl,
+                      fit: BoxFit.contain,
+                      borderRadius: 0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 40,
+              right: 20,
+              child: InkWell(
+                onTap: (){
+                  Get.back();
+                },
+                child: Container(
+                  width: 30,height: 30,
+                  decoration: AppStyles.primaryCircleBg,
+                  child: const Icon(Icons.close, color: Colors.white, size: 18),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  Widget buildAmenitiesGrid(List<AmenitiesModel>? amenities,int? amenitiesMore,String? hostelId) {
+    return Builder(
+      builder: (context) {
+        final List<AmenitiesModel> displayList = List.from(amenities ?? []);
+        if ((amenitiesMore ?? 0) > 0) {
+          displayList.add(
+            AmenitiesModel(
+              image: "https://firebasestorage.googleapis.com/v0/b/sastastay-1d420.firebasestorage.app/o/bannerImages%2F1755513864049.png?alt=media&token=b25f99c1-8dcc-44a7-a888-fc7bf4398426",
+              name: "${amenitiesMore} More",
+            ),
+          );
+        }
+        return displayList.isEmpty ? ErrorTextComponent(text: "No Amenities Available") :
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: displayList.map((amenityModel) {
+            return AmenitiesComponent(
+                amenitiesModel: amenityModel,
+                view: 2,hostelId:hostelId
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+
 
 
   Future<Position?> fetchCurrentLocation() async {
@@ -352,15 +441,17 @@ class AuthViewModel extends GetxController{
           userId.value = responseData.data?.id ?? "";
           profilePic.value = responseData.data?.image ?? "";
 
+          referralData.value = responseData.data?.referral ?? ReferralModel(referralCount: 3,referralAmount: 30);
+
           if(responseData.data?.kycDocuments?.length == 3){
             kysDocuments.value = responseData.data?.kycDocuments ?? initialKycDocuments;
           }
 
-          if(responseData.data?.address != null){
-            locationDetails.value = responseData.data?.address;
-          }else{
-            await fetchCurrentLocation();
-          }
+          // if(responseData.data?.address != null){
+          //   locationDetails.value = responseData.data?.address;
+          // }else{
+          //   await fetchCurrentLocation();
+          // }
 
           if((responseData.data?.email ?? "").isEmpty == true || responseData.data?.mobile.toString().isEmpty == true || responseData.data?.mobile.toString().length != 10 || (responseData.data?.name ?? "").isEmpty){
             Get.offAll(() => const  RegisterUserPage());
@@ -387,10 +478,6 @@ class AuthViewModel extends GetxController{
   Future<void> registerUser(RegisterUserRequestModel request) async {
     try{
       registerUserResponseObserver.value = const ApiResult.loading("");
-      final String? validatorResponse = AuthUtils.validateRequestFields(['mobile','name','email','dob','gender','address','kycDocuments'], request.toJson());
-      if(validatorResponse != null) throw validatorResponse;
-      final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','landMark','pinCode','latitude','longitude'], request.address!.toJson());
-      if(locationValidation != null) throw locationValidation;
       final response = await apiProvider.post(EndPoints.registerUser,request.toJson());
       final body = response.body;
       if(response.isOk && body != null){

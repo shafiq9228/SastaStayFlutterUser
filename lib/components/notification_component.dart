@@ -35,7 +35,7 @@ class NotificationComponent extends StatelessWidget {
                   child: Column(
                      crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(notificationModel?.title ?? "",style:TextStyle(fontWeight: FontWeight.w800,fontSize: 16,color: CustomColors.primary)),
+                      Text(notificationModel?.title ?? "",style:TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: CustomColors.primary)),
                       const SizedBox(height: 5),
                       Text(notificationModel?.body ?? "",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.textColor)),
                       const SizedBox(height: 5),

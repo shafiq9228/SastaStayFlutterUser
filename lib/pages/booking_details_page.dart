@@ -6,6 +6,7 @@ import 'package:pg_hostel/components/static_refer_and_earn_component.dart';
 import 'package:pg_hostel/pages/main_page.dart';
 import 'package:pg_hostel/pages/rating_reviews_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../api/api_result.dart';
@@ -16,6 +17,7 @@ import '../components/custom_outlined_button.dart';
 import '../components/empty_data_view.dart';
 import '../components/error_text_component.dart';
 import '../components/helper_bottom_sheet.dart';
+import '../components/hostel_details_extra_options_view.dart';
 import '../components/primary_button.dart';
 import '../components/rating_and_review_bottom_sheet.dart';
 import '../components/rating_component.dart';
@@ -41,8 +43,7 @@ import 'hostel_images_page.dart';
 
 class BookingDetailsPage extends StatefulWidget {
   final String bookingId;
-  final bool? fromPaymentScreen;
-  const BookingDetailsPage({super.key, required this.bookingId, this.fromPaymentScreen});
+  const BookingDetailsPage({super.key, required this.bookingId});
 
   @override
   State<BookingDetailsPage> createState() => _BookingDetailsPageState();
@@ -50,22 +51,19 @@ class BookingDetailsPage extends StatefulWidget {
 
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
   final bookingViewModel = Get.put(BookingViewModel());
+  final authViewModel = Get.put(AuthViewModel());
+
+  bool priceDetailsView = true;
 
   @override
   Widget build(BuildContext context) {
-
     return StatefulWrapper(
       onInit: (){
         bookingViewModel.fetchBookingDetails(widget.bookingId ?? "");
       },
       child: WillPopScope(
         onWillPop: ()async {
-          if(widget.fromPaymentScreen ==  true){
-            Get.offAll(() => const MainPage());
-          }
-          else{
-            Get.back();
-          }
+          Get.back();
           return false;
         },
         child: Scaffold(
@@ -82,35 +80,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
 
                     return CustomScrollView(
                       slivers: [
-                        widget.fromPaymentScreen ==  true ?
-                        SliverAppBar(
-                          backgroundColor: CustomColors.white,
-                          expandedHeight: 50.0,
-                          floating: false,
-                          pinned: true,
-                          automaticallyImplyLeading: false, // removes default back arrow
-                          leading: IconButton(
-                            icon: Image.asset(
-                              'assets/images/back_btn.png', // your asset path
-                              width: 20,
-                              height: 20
-                              ,
-                            ),
-                            onPressed: () => Get.offAll(() => const MainPage()), // or Navigator.pop(context)
-                          ),
-                          flexibleSpace:
-                          FlexibleSpaceBar(
-                            background: Hero(
-                              tag: hostelData.id ?? "",
-                              child: SizedBox(),
-                            ),
-                          ),
-                          title: Text("Your Booking Is Confirmed!",style: TextStyle(fontSize: 18,color: CustomColors.textColor,fontWeight: FontWeight.w800),),
-                          actions: [
-
-                          ],
-                        )
-                            :SliverAppBar(
+                       SliverAppBar(
                           expandedHeight: 250.0,
                           floating: false,
                           pinned: true,
@@ -253,39 +223,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                widget.fromPaymentScreen == true ?
-                                Container(
-                                    decoration: AppStyles.categoryBg3,
-                                    child:
-                                    Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(hostelData?.hostelName ?? "",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 22,color: CustomColors.textColor)),
-                                                  SizedBox(height: 10),
-                                                  Text(hostelData?.location?.address1 ?? "",style:TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: CustomColors.darkGray)),
-                                                  SizedBox(height: 10),
-                                                  Row(
-                                                    children: [
-                                                      Image.asset("assets/images/star.png",width: 18,height: 18),
-                                                      Padding(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                        child: Text("${hostelData?.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 10),
-                                                  Text(bookingDataModel?.orderId ?? "",style:TextStyle(fontWeight: FontWeight.w600,fontSize: 12,color: CustomColors.textColor)),
-                                                ],
-                                              ),
-                                            ), CustomNetworkImage(imageUrl: hostelData?.hostelImage ?? "",width: 100,height: 100,fit: BoxFit.cover,)
-                                          ]),
-                                    )
-                                ) :Column(
+                               Column(
                                   crossAxisAlignment:CrossAxisAlignment.start,
                                   children: [
                                     Row(
@@ -295,7 +233,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                           child: Text(
                                             hostelData.hostelName ?? 'Hostel',
                                             style: TextStyle(
-                                              fontSize: 24,
+                                              fontSize: 22,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -303,7 +241,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                         Image.asset("assets/images/star.png",width: 18,height: 18),
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                                          child: Text("${hostelData.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.black,decoration: TextDecoration.underline)),
+                                          child: Text("${hostelData.rating ?? 0}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16,color: CustomColors.black,decoration: TextDecoration.underline)),
                                         ),
                                       ],
                                     ),
@@ -313,7 +251,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                         children: [
                                           Image.asset("assets/images/location.png",width: 10,height: 10,color: CustomColors.textColor),
                                           Expanded(child: Text(hostelData.location?.address1 ?? "",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.textColor))),
-                                          Text("${hostelData.totalVotes ?? 0} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
+                                          Text("${AuthUtils.formatNumber(hostelData.totalVotes ?? 0)} reviews",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))
                                         ],
                                       ),
                                     ),
@@ -325,6 +263,150 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 //   backgroundColor: _getHostelTypeColor(hostelData?.hostelType),
                                 // ),
                                 const SizedBox(height: 16),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: CustomColors.lightGray,
+                                    height: 5,
+                                  ),
+                                ),
+                                SideHeadingComponent(title: "Booking Info",
+                                    viewVisible: false,viewType: 2),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 5),
+                                  child: Container(
+                                    color: CustomColors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          Container(decoration: AppStyles.whiteCircleBg,width: 40,height: 40,child: Center(child: Image.asset('assets/images/booking.png',width: 20,height: 20,color: CustomColors.primary))),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Date",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
+                                                  Text("${AuthUtils.formatDateToLong(bookingDataModel?.checkInDate)}" +" - " + "${AuthUtils.formatDateToLong(bookingDataModel?.checkOutDate)}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.black)),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(decoration: AppStyles.gradient,child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                              child: Text("${roomModelData.roomType ?? ""}",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.primary)),
+                                            )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: CustomColors.lightGray,
+                                    height: 5,
+                                  ),
+                                ),
+                                SideHeadingComponent(title: "Amenities",
+                                    viewVisible: false
+                                    // viewVisible: (hostelData?.amenitiesMore ?? 0) > 0
+                                    ,viewClick: (){
+
+                                    },viewType: 2),
+                                const SizedBox(height: 10),
+                                authViewModel.buildAmenitiesGrid(hostelData?.amenities,hostelData?.amenitiesMore,hostelData?.id ?? ""),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: CustomColors.lightGray,
+                                    height: 5,
+                                  ),
+                                ),
+                                SideHeadingComponent(title: "Ratings",viewVisible: true,viewClick: (){
+                                  Get.to(() => RatingReviewsPage(hostelId: hostelData.id ?? "", rating: double.tryParse((hostelData.rating ?? "0").toString()) ?? 0, categoryRating: hostelData.categoryRatings));
+                                }),
+                                RatingComponent(rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0,categoryRatings:hostelData.categoryRatings),
+                                const SizedBox(height: 20),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: CustomColors.lightGray,
+                                    height: 5,
+                                  ),
+                                ),
+                                const SideHeadingComponent(title: "Pricing Details",viewVisible: false),
+                                const SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16))),
+                                    Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                        decorationThickness: 2,
+                                        decorationColor: Colors.black))),
+                                    const SizedBox(width: 5),
+                                    Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
+                                    IconButton(onPressed: (){
+                                      setState(() {
+                                        priceDetailsView = !priceDetailsView;
+                                      });
+
+                                    }, icon: Icon(!priceDetailsView ? Icons.keyboard_arrow_down_sharp : Icons.keyboard_arrow_up_sharp,color: CustomColors.textColor,size: 20))
+                                  ],
+                                ),
+                                Visibility(
+                                  visible: priceDetailsView,
+                                  child: Container(
+                                    decoration: AppStyles.categoryBg4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                        bottom: 20, // keep bottom if you want
+                                        top: 0,     // remove upper padding
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          ListView.builder(
+                                              shrinkWrap: true,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              scrollDirection: Axis.vertical,
+                                              itemBuilder: (context,index){
+                                                final hostelModel =  bookingDataModel?.logs?[index];
+                                                return Padding(
+                                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(child: Text(hostelModel?.message ?? "",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.darkGray,fontSize: 14))),
+                                                      Text("₹${hostelModel?.amount}",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.primary,fontSize: 14)),
+                                                    ],
+                                                  ),
+                                                );
+                                              },itemCount: bookingDataModel?.logs?.length ?? 0),
+                                          const SizedBox(height: 20),
+                                          Row(
+                                            children: [
+                                              Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 16))),
+                                              Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
+                                                  decorationThickness: 2,
+                                                  decorationColor: Colors.black))),
+                                              const SizedBox(width: 5),
+                                              Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Container(
@@ -366,7 +448,14 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                   dashColor: CustomColors.darkGray,
                                 ),
                                 TitleMessageComponent(asset: 'assets/images/bed.png', title: 'Room Type', message: "${roomModelData?.roomType ?? ""} | ${roomModelData?.roomNo ?? ""} | ${roomModelData?.floor ?? ""}"),
-                                const SizedBox(height: 10),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: CustomColors.lightGray,
+                                    height: 5,
+                                  ),
+                                ),
                                 // SideHeadingComponent(title: "Amenities",
                                 //     viewVisible: true
                                 //     // viewVisible: (hostelData?.amenitiesMore ?? 0) > 0
@@ -374,7 +463,17 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 //       Get.to(() =>  AmenitiesPage(hostelId: hostelData.id ?? ""));
                                 //     },viewType: 2),
                                 // _buildAmenitiesGrid(hostelData.amenities,hostelData.amenitiesMore),
-                                const SizedBox(height: 20),
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(vertical: 10),
+                                //   child: Container(
+                                //     width: double.infinity,
+                                //     color: CustomColors.lightGray,
+                                //     height: 5,
+                                //   ),
+                                // ),
+                                // const SideHeadingComponent(title: "Location",viewVisible:false),
+                                // _buildLocationInfo(hostelData.location),
+                                // const SizedBox(height: 16),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Container(
@@ -383,90 +482,13 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                     height: 5,
                                   ),
                                 ),
-
-                                const SideHeadingComponent(title: "Pricing Details",viewVisible: false),
-                                const SizedBox(height: 10),
-                                Container(
-                                  decoration: AppStyles.categoryBg4,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 20,
-                                      right: 20,
-                                      bottom: 20, // keep bottom if you want
-                                      top: 0,     // remove upper padding
-                                    ),
-                                    child: ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        scrollDirection: Axis.vertical,
-                                        itemBuilder: (context,index){
-                                          final hostelModel =  bookingDataModel?.logs?[index];
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 2),
-                                            child: Row(
-                                              children: [
-                                                Expanded(child: Text(hostelModel?.message ?? "",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.darkGray,fontSize: 14))),
-                                                Text("₹${hostelModel?.amount}",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.primary,fontSize: 14)),
-                                              ],
-                                            ),
-                                          );
-                                        },itemCount: bookingDataModel?.logs?.length ?? 0),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18))),
-                                    Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 18,decoration: TextDecoration.lineThrough, // 👈 strike-through
-                                        decorationThickness: 2,
-                                        decorationColor: Colors.black))),
-                                    const SizedBox(width: 5),
-                                    Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 18)),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Container(
-                                    width: double.infinity,
-                                    color: CustomColors.lightGray,
-                                    height: 5,
-                                  ),
-                                ),
-                                const SideHeadingComponent(title: "Location",viewVisible:false),
-                                _buildLocationInfo(hostelData.location),
-                                const SizedBox(height: 16),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Container(
-                                    width: double.infinity,
-                                    color: CustomColors.lightGray,
-                                    height: 5,
-                                  ),
-                                ),
-                                SideHeadingComponent(title: "Ratings",viewVisible: true,viewClick: (){
-                                    Get.to(() => RatingReviewsPage(hostelId: hostelData.id ?? "", rating: double.tryParse((hostelData.rating ?? "0").toString()) ?? 0));
-                                }),
-                                RatingComponent(rating: double.tryParse((hostelData?.rating ?? "0").toString()) ?? 0),
-                                const SizedBox(height: 20),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Container(
-                                    width: double.infinity,
-                                    color: CustomColors.lightGray,
-                                    height: 5,
-                                  ),
-                                ),
-                                const SideHeadingComponent(title: "Rules",viewVisible: false),
-                                _buildRulesList(hostelData.rules ?? []),
+                                // const SideHeadingComponent(title: "Rules",viewVisible: false),
+                                // _buildRulesList(hostelData.rules ?? []),
                                 const SizedBox(height: 30),
-                                const StaticReferAndEarnComponent(),
+                                HostelDetailsExtraOptionsView(rules: hostelData.rules,checkInTime: hostelData?.checkInTime,checkOutTime:  hostelData?.checkOutTime,mobileNumber: dealerData.mobile.toString()),
                                 const SizedBox(height: 30),
-                                InkWell(
-                                  onTap: (){
-                                    openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
-                                  },
-                                    child: const ErrorTextComponent(assetImage: "assets/images/chat.png",text: "Have Queries? Here to help")),
+                                SideHeadingComponent(title: "Refer And Earn",viewVisible: false),
+                                StaticReferAndEarnComponent(),
                                 const SizedBox(height: 30),
                                 ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
                                 SizedBox(

@@ -105,7 +105,7 @@ class _OnBoardingScreens  extends State<OnBoardingScreens> {
                   TextButton(onPressed:
                   _goToNextPage, child:  Text( style: TextStyle(
                     color:  Colors.white,
-                    fontSize: 18,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     fontStyle: FontStyle.normal,
                   ),_currentPage == 1 ? 'Get Started' : "Next"),

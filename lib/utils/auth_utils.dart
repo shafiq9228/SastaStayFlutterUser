@@ -15,6 +15,19 @@ class AuthUtils {
   static String formatPrice(double price) => '\$${price.toStringAsFixed(2)}';
   static String formatDate(DateTime date) => DateFormat.yMd().format(date);
 
+  static DateTime normalizeDate(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
+  }
+
+  static String formatNumber(num? number) {
+    if (number == null) return '';
+    if (number < 1000) return number.toString();
+    if (number < 1000000) return "${(number / 1000).toStringAsFixed(number % 1000 < 100 ? 1 : 0)}K";
+    if (number < 1000000000) return "${(number / 1000000).toStringAsFixed(number % 1000000 < 100000 ? 1 : 0)}M";
+    return "${(number / 1000000000).toStringAsFixed(number % 1000000000 < 100000000 ? 1 : 0)}B";
+  }
+
+
   static String formatDateToLong(DateTime? date) {
     if(date == null) return "";
     return DateFormat("MMM d yyyy").format(date);

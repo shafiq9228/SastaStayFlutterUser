@@ -38,7 +38,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                  child: Text("My Favourites",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20,color: CustomColors.textColor)),
+                  child: Text("My Favourites",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18,color: CustomColors.textColor)),
                 ),
                 Expanded(
                   child: RefreshIndicator(
@@ -72,7 +72,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.symmetric(vertical:10,horizontal: 20),
-                                        child: Text("Hostels (${hostelsList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 22)),
+                                        child: Text("Hostels (${hostelsList?.length ?? 0}) ",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 18)),
                                       ),
                                       ListView.builder(
                                           shrinkWrap: true,
@@ -83,9 +83,9 @@ class _FavouritesPageState extends State<FavouritesPage> {
                                             return HostelDetailsComponent(hostelModel:hostelModel);
                                           },itemCount: hostelsList?.length ?? 0),
                                       Visibility(
-                                        visible: (hostelsList?.length ?? 0) < 5,
+                                        visible: (hostelsList?.length ?? 0) < 2,
                                         child: SizedBox(
-                                          height: max(0, (5 - (hostelsList?.length ?? 0)) * 200),
+                                          height: max(0, (2 - (hostelsList?.length ?? 0)) * 200),
                                           width: double.infinity,
                                         ),
                                       ),

@@ -27,7 +27,7 @@ class ErrorTextComponent extends StatelessWidget {
               )),
               Expanded(child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text(text,style:TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: CustomColors.textColor)),
+                child: Text(text,style:TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: CustomColors.textColor)),
               ))
             ],
           ),

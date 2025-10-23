@@ -31,7 +31,7 @@ class HomePageComponent extends StatelessWidget {
                     child: Obx(() =>
                        Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(authViewModel.locationDetails.value?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 18)),
+                        child: Text(authViewModel.locationDetails.value?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 16)),
                       ),
                     ),
                   ),
@@ -51,53 +51,9 @@ class HomePageComponent extends StatelessWidget {
                   )
                 ],),
                 const SizedBox(height: 10),
-                Obx(()=> Text(authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (data) => "Hi, ${(data as FetchUserDetailsResponseModel).data?.name ?? ""} 👋",orElse: () => ""),style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 18))),
+                Obx(()=> Text(authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (data) => "Hi, ${(data as FetchUserDetailsResponseModel).data?.name ?? ""} 👋",orElse: () => ""),style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.white,fontSize: 16))),
                 const SizedBox(height: 5),
-                Text("Lets Find The Best Hostel",style: TextStyle(fontWeight: FontWeight.w800,color: CustomColors.white,fontSize: 20)),
-              ],
-            ),
-          ),
-          Container(
-            color: CustomColors.white,
-            child: Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 50, // Increase height to stretch into an oval
-                  decoration: BoxDecoration(
-                    color: CustomColors.primary,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.elliptical(200, 20),
-                      bottomRight: Radius.elliptical(200, 20),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: (){
-                    Get.to(() => const SearchPage(type: 'Search'));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Container(width: double.infinity
-                      ,decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.circular(20),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
-                        child:Row(
-                          children: [
-                            const SizedBox(width: 10),
-                            Image.asset("assets/images/search.png",width: 20,height: 20,color: CustomColors.gray),
-                            const SizedBox(width: 10),
-                            Expanded(child: Text("Search by area,hostel or city",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: CustomColors.gray),)),
-                            InkWell(
-                              onTap: (){
-                                Get.to(() => FilterPage());
-                              },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: Image.asset("assets/images/filter.png",width: 20,height: 20,color: CustomColors.textColor),
-                                ))
-                          ],
-                        )),
-                  ),
-                )
+                Text("Lets Find The Best Hostel",style: TextStyle(fontWeight: FontWeight.w800,color: CustomColors.white,fontSize: 18)),
               ],
             ),
           )

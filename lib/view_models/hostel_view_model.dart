@@ -53,7 +53,6 @@ class HostelViewModel extends GetxController{
   final fetchMapLocationsObserver = const ApiResult<FetchHostelsResponseModel>.init().obs;
 
 
-
   Future<void> fetchHostelDetails(PaginationRequestModel request) async {
     try{
       fetchHostelDetailsObserver.value = const ApiResult.loading("");
@@ -137,7 +136,10 @@ class HostelViewModel extends GetxController{
   Future<void> fetchHostels(PaginationRequestModel request,bool refresh) async {
     final observer = request.type == "favourites" ? fetchFavouriteHostelsObserver : request.type == "search" ? fetchSearchedHostelsObserver : request.type == "nearby" ? fetchNearbyHostelsObserver : request.type == "popular" ? fetchPopularHostelsObserver : request.type == "filter" ? fetchFilterHostelsObserver : fetchHostelsObserver;
     try{
-      final newRequest = request.copyWith(filterRequest: FilterRequestModel(locations: filterLocations,hostelTypes: filterHostelTypes,roomTypes: filterRoomTypes,bookingType: bookingType.value,startPrice: rangeValue.value.start,endPrice: rangeValue.value.end));
+      PaginationRequestModel newRequest = request;
+      if(request.type == "filter"){
+        newRequest = request.copyWith(filterRequest: FilterRequestModel(locations: filterLocations,hostelTypes: filterHostelTypes,roomTypes: filterRoomTypes,bookingType: bookingType.value,startPrice: rangeValue.value.start,endPrice: rangeValue.value.end));
+      }
       if(refresh == true){
         observer.value = PaginationModel(data: const ApiResult<FetchHostelsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "");
       }
@@ -165,7 +167,11 @@ class HostelViewModel extends GetxController{
         if(responseData.status == 1){
           observer.value.data.value.maybeWhen(success: (data) {
             final oldList = (data as FetchHostelsResponseModel?)?.data?.toList();
-            oldList?.addAll(responseData.data ?? List.empty());
+            for (final hostel in responseData.data ?? []) {
+              if (oldList?.any((e) => e.id == hostel.id) == false) {
+                oldList?.add(hostel);
+              }
+            }
             observer.value.data.value = ApiResult.success(responseData.copyWith(data: oldList));
           }, orElse: () {
             observer.value.data.value = ApiResult.success(responseData);

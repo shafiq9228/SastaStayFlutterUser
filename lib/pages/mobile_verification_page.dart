@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pg_hostel/pages/terms_and_condition_page.dart';
 import '../api/api_result.dart';
 import '../components/custom_progress_bar.dart';
 import '../components/primary_button.dart';
@@ -28,26 +30,26 @@ class MobileVerificationPage extends StatelessWidget {
     final TextEditingController mobileNumberText = TextEditingController();
     return Scaffold(
       backgroundColor: CustomColors.white,
-      body: SafeArea(top: true,child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical:20,horizontal: 20),
-        child: Text("Login / SignUp",style: TextStyle(color: CustomColors.primary,fontWeight: FontWeight.w500,fontSize: 22),),
-      ),
-      Container(width: double.infinity,height: 1,color: CustomColors.primary,),
-          const SizedBox(height:30),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text("Enter Your Mobile Number",style: TextStyle(color: CustomColors.textColor,fontWeight: FontWeight.w500,fontSize: 24),),
-          ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+      body: SafeArea(top: true,child: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+          const SizedBox(height:20),
+            SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Login",style: TextStyle(color: CustomColors.textColor,fontWeight: FontWeight.w800,fontSize: 18),),
+                  Text("Enter your Login Information",style: TextStyle(color: CustomColors.gray,fontWeight: FontWeight.w500,fontSize: 12))
+                ],
+              ),
+            ),
+            const SizedBox(height:30),
+            Text("Phone Number",style: TextStyle(color: CustomColors.textColor,fontWeight: FontWeight.w500,fontSize: 16),),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Container(
                 width: double.infinity,
                 height: 50,
@@ -63,60 +65,33 @@ class MobileVerificationPage extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           fontSize: 16
                       ),
-                    decoration: InputDecoration(
-                      counterText: '',
-                      hintText: 'Enter Your Mobile Number',
-                      hintStyle: const TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w500),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white), // Default color
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: CustomColors.white, width: 2.0), // Focus color
-                      ),
-                    )
+                      decoration: InputDecoration(
+                        counterText: '',
+                        hintText: 'Enter Your Mobile Number',
+                        hintStyle: const TextStyle(color: Colors.grey,fontSize: 16,fontWeight: FontWeight.w500),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white), // Default color
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: CustomColors.white, width: 2.0), // Focus color
+                        ),
+                      )
                   ),
                 ),
               ),
             ),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  style: const TextStyle(height: 1.3),
-                  children: [
-                    TextSpan(text:
-                    'By creating an account, I accept the', style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: CustomColors.textColor,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                    )),
-                    TextSpan(text:
-                    ' Terms & Conditions', style:TextStyle(
-                      fontFamily: 'Montserrat',
-                      color: CustomColors.primary,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      fontStyle: FontStyle.normal,
-                    ))
-                  ]),
-            ),
-            const SizedBox(height: 20),
-            Obx(() => authViewModel.sendOtpResponseObserver.value.maybeWhen(
-              loading: (loading) =>  const CustomProgressBar(),
-                orElse: () => PrimaryButton(buttonTxt: "SEND OTP", buttonClick: () {
-                 authViewModel.sendOtp(SendOtpRequestModel(mobile: mobileNumberText.text.trim().isEmpty ? null : int.parse(mobileNumberText.text)));
-            },))
-            ),
-            Row(
-              children: [
-                Expanded(child: Container(height: 1,color: CustomColors.textColor)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 10),
-                  child: Text("Or Continue With",style: TextStyle(color: CustomColors.textColor,fontWeight: FontWeight.w500,fontSize: 16),),
-                ),
-                Expanded(child: Container(height: 1,color: CustomColors.textColor)),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Expanded(child: Container(height: 1,color: CustomColors.darkGray)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 20),
+                    child: Text("Or",style: TextStyle(color: CustomColors.darkGray,fontWeight: FontWeight.w500,fontSize: 16),),
+                  ),
+                  Expanded(child: Container(height: 1,color: CustomColors.darkGray)),
+                ],
+              ),
             ),
             Obx(() => authViewModel.emailVerificationObserver.value.maybeWhen(
                 loading: (loading) => const CustomProgressBar(),
@@ -153,18 +128,55 @@ class MobileVerificationPage extends StatelessWidget {
                       ],),
                   ),
                 ))
-            )
-          ],
-        ),
-      )
-    ],)),);
+            ),
+            Spacer(),
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  style: const TextStyle(height: 1.3),
+                  children: [
+                    TextSpan(text:
+                    'By creating an account, I accept the', style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: CustomColors.textColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                    )),
+                    TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.to(() => const TermsAndConditionsPage());
+                          },
+                        text:
+                        ' Terms & Conditions', style:TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: CustomColors.primary,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      fontStyle: FontStyle.normal,
+                    ))
+                  ]),
+            ),
+            const SizedBox(height: 20),
+            Obx(() => authViewModel.sendOtpResponseObserver.value.maybeWhen(
+                loading: (loading) =>  const CustomProgressBar(),
+                orElse: () => PrimaryButton(buttonTxt: "Log In", buttonClick: () {
+                  authViewModel.sendOtp(SendOtpRequestModel(mobile: mobileNumberText.text.trim().isEmpty ? null : int.parse(mobileNumberText.text)));
+                }))
+            ),
+            const SizedBox(height: 20)
+          ],),
+      )),);
   }
 
   Future<User?> signInWithGoogle() async {
     try {
+      await logoutEmail();
       authViewModel.emailVerificationObserver.value = const ApiResult.loading("");
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       if (googleUser == null) {
+        await logoutEmail();
         return null;
       }
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -173,8 +185,9 @@ class MobileVerificationPage extends StatelessWidget {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
       final UserCredential userCredential = await _auth.signInWithCredential(credential);
+      print(userCredential);
+      print(userCredential.user?.displayName ?? "");
       authViewModel.sendEmailVerification(userCredential.user?.email ?? "");
       return userCredential.user;
     } catch (e) {

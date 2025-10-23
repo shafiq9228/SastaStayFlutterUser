@@ -9,6 +9,7 @@ import 'package:pg_hostel/request_model/bookings_request_model.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
+import '../pages/filter_page.dart';
 import '../utils/custom_colors.dart';
 import 'custom_edit_text_component.dart';
 
@@ -24,6 +25,16 @@ class _RatingAndReviewBottomSheetState extends State<RatingAndReviewBottomSheet>
   final TextEditingController reviewController = TextEditingController();
   final hostelViewModel = Get.put(HostelViewModel());
   RxDouble ratingValue = 1.0.obs;
+  RxString ratedFor = "Other".obs;
+
+  List<String> ratingTypes = [
+    "Value for Money",
+    "Cleanliness",
+    "Safety & Security",
+    "Food Quality",
+    "Location",
+    "Other"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +56,7 @@ class _RatingAndReviewBottomSheetState extends State<RatingAndReviewBottomSheet>
               children: [
                 Row(
                   children: [
-                    Expanded(child: Text("Rating And Review",textAlign: TextAlign.start,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 20,color: CustomColors.textColor),)),
+                    Expanded(child: Text("Rating And Review",textAlign: TextAlign.start,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.textColor),)),
                     IconButton(onPressed: (){
                       Get.back();
                     }, icon: Icon(Icons.cancel,size: 30,color: CustomColors.primary,))
@@ -70,10 +81,22 @@ class _RatingAndReviewBottomSheetState extends State<RatingAndReviewBottomSheet>
                 const SizedBox(height: 10),
                 CustomEditTextComponent(controller: reviewController, title: "Enter You Name", hint: "Rating And Review",containerHeight:100),
                 const SizedBox(height: 10),
+                Wrap(
+                    spacing: 8,
+                    children: ratingTypes.map((item) {
+                      return InkWell(
+                          onTap: (){
+                            ratedFor.value = item;
+                            // Get.to(() => SearchPage(type: "Search",search: item));
+                          }, child: Obx(() => CustomChip(label: item,isSelected:ratedFor.value ==  item))
+                      );
+                    }).toList()
+                ),
+                const SizedBox(height: 10),
                 Obx(() => hostelViewModel.addRatingAndReviewObserver.value.maybeWhen(
                   loading: (loading) => const Center(child: CircularProgressIndicator()),
                     orElse: () => PrimaryButton(buttonTxt: "Submit", buttonClick: (){
-                      hostelViewModel.addRatingAndReview(RatingReviewRequestModel(hostelId: widget.hostelId,rating:ratingValue.value,review: reviewController.text),context);
+                      hostelViewModel.addRatingAndReview(RatingReviewRequestModel(hostelId: widget.hostelId,rating:ratingValue.value,ratedFor:ratedFor.value,review: reviewController.text),context);
                     }))),
                 const SizedBox(height: 20),
               ],

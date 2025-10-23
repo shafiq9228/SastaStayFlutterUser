@@ -26,7 +26,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
           style: TextStyle(
             color: CustomColors.darkGray,
             fontSize: 14,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
           ),
         ),
         if (widget.text.length > 100) // Show button only if text is long enough

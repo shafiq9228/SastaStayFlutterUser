@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/components/room_component_2.dart';
 import 'package:pg_hostel/shimmers/room_details_shimmer.dart';
+import 'package:pg_hostel/view_models/auth_view_model.dart';
 
 import '../api/api_result.dart';
 import '../components/custom_progress_bar.dart';
@@ -28,6 +29,7 @@ class RoomsListPage extends StatefulWidget {
 }
 
 class _RoomsListPageState extends State<RoomsListPage> {
+  final authViewModel = Get.put(AuthViewModel());
   final hostelViewModel = Get.put(HostelViewModel());
 
   RxString searchQuery = "".obs;
@@ -155,12 +157,12 @@ class _RoomsListPageState extends State<RoomsListPage> {
                                         itemCount: roomsList?.length ?? 0,
                                         itemBuilder: (context, index) {
                                           final roomModel = roomsList?[index];
-                                          return RoomComponent2(roomModel: roomModel);
+                                          return RoomComponent2(roomModel: roomModel,authViewModel:authViewModel);
                                         }),
                                     Visibility(
-                                      visible: (roomsList?.length ?? 0) < 5,
+                                      visible: (roomsList?.length ?? 0) < 2,
                                       child: SizedBox(
-                                        height: max(0, (5 - (roomsList?.length ?? 0)) * 200),
+                                        height: max(0, (2 - (roomsList?.length ?? 0)) * 200),
                                         width: double.infinity,
                                       ),
                                     ),

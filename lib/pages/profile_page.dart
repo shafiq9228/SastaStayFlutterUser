@@ -1,8 +1,10 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pg_hostel/components/helper_bottom_sheet.dart';
 import 'package:pg_hostel/components/icon_title_message_component.dart';
 import 'package:pg_hostel/pages/coupons_page.dart';
@@ -40,76 +42,11 @@ class _ProfilePageState extends State<ProfilePage> {
   RxBool logOuting = false.obs;
   RxString customerSupportNumber = "".obs;
   RxString version = "".obs;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
 
-  void logOutConfirmationDialog(UserModel? userModel){
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 20),
-                Text("Are you sure you want to Log Out?",style:TextStyle(fontSize: 16,color: CustomColors.textColor,fontWeight: FontWeight.w700)),
-                const SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: CustomColors.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          minimumSize: const Size(70, 40),
-                        ),
-                        child: const Text(
-                          "No",
-                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          Get.back();
-                          authViewModel.kysDocuments.value  =  authViewModel.initialKycDocuments;
-                          logOuting.value = true;
-                          preferenceManager.clearAll();
-                          logOuting.value = false;
-                          Get.offAll(() =>  MobileVerificationPage());
-                          },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: CustomColors.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          minimumSize: const Size(70, 40),
-                        ),
-                        child: const Text(
-                          "Yes",
-                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,9 +88,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.w700,
                                   color: CustomColors.textColor,
-                                  fontSize: 22,
+                                  fontSize: 18,
                                 ),
                               ),
                               SizedBox(height: 20),
@@ -182,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: CustomColors.textColor,
-                                        fontSize: 20,
+                                        fontSize: 18,
                                       ),
                                     ),
                                     const SizedBox(height: 5),
@@ -353,7 +290,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                             Get.back();
                                             logOuting.value = true;
                                             preferenceManager.clearAll();
+                                            await _auth.signOut();
+                                            await _googleSignIn.signOut();
                                             logOuting.value = false;
+                                            authViewModel.kysDocuments.value  =  authViewModel.initialKycDocuments;
                                             Get.offAll(() =>  MobileVerificationPage());
                                           });
                                         },

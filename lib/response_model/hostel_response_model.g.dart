@@ -79,7 +79,15 @@ _$HostelModelImpl _$$HostelModelImplFromJson(Map<String, dynamic> json) =>
       totalIncome: json['totalIncome'] as int?,
       totalVotes: json['totalVotes'] as int?,
       rating: json['rating'],
+      categoryRatings: (json['categoryRatings'] as List<dynamic>?)
+          ?.map((e) => CategoryRating.fromJson(e as Map<String, dynamic>))
+          .toList(),
       isFavorite: json['isFavorite'] as bool?,
+      checkInTime: json['checkInTime'] as String?,
+      checkOutTime: json['checkOutTime'] as String?,
+      faq: (json['faq'] as List<dynamic>?)
+          ?.map((e) => FaqModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$HostelModelImplToJson(_$HostelModelImpl instance) =>
@@ -106,7 +114,23 @@ Map<String, dynamic> _$$HostelModelImplToJson(_$HostelModelImpl instance) =>
       'totalIncome': instance.totalIncome,
       'totalVotes': instance.totalVotes,
       'rating': instance.rating,
+      'categoryRatings': instance.categoryRatings,
       'isFavorite': instance.isFavorite,
+      'checkInTime': instance.checkInTime,
+      'checkOutTime': instance.checkOutTime,
+      'faq': instance.faq,
+    };
+
+_$FaqModelImpl _$$FaqModelImplFromJson(Map<String, dynamic> json) =>
+    _$FaqModelImpl(
+      question: json['question'] as String?,
+      answer: json['answer'] as String?,
+    );
+
+Map<String, dynamic> _$$FaqModelImplToJson(_$FaqModelImpl instance) =>
+    <String, dynamic>{
+      'question': instance.question,
+      'answer': instance.answer,
     };
 
 _$ImageDataModelImpl _$$ImageDataModelImplFromJson(Map<String, dynamic> json) =>
@@ -167,6 +191,9 @@ _$RatingAndReviewModelImpl _$$RatingAndReviewModelImplFromJson(
       userId: json['userId'],
       hostelId: json['hostelId'],
       rating: json['rating'],
+      categoryRatings: (json['categoryRatings'] as List<dynamic>?)
+          ?.map((e) => CategoryRating.fromJson(e as Map<String, dynamic>))
+          .toList(),
       review: json['review'] as String?,
     );
 
@@ -176,7 +203,21 @@ Map<String, dynamic> _$$RatingAndReviewModelImplToJson(
       'userId': instance.userId,
       'hostelId': instance.hostelId,
       'rating': instance.rating,
+      'categoryRatings': instance.categoryRatings,
       'review': instance.review,
+    };
+
+_$CategoryRatingImpl _$$CategoryRatingImplFromJson(Map<String, dynamic> json) =>
+    _$CategoryRatingImpl(
+      rating: json['rating'],
+      ratedFor: json['ratedFor'] as String?,
+    );
+
+Map<String, dynamic> _$$CategoryRatingImplToJson(
+        _$CategoryRatingImpl instance) =>
+    <String, dynamic>{
+      'rating': instance.rating,
+      'ratedFor': instance.ratedFor,
     };
 
 _$FetchHostelRoomsResponseModelImpl

@@ -28,6 +28,8 @@ class EndPoints{
   static const fetchRatingAndReviews = "fetchRatingAndReviews";
 
 
+  static const checkHostelRoomAvailabilityDates = "checkBookingDates";
+
   static const checkHostelRoomAvailability = "checkHostelRoomAvailability";
   static const confirmBooking = "confirmBooking";
   static const updateBookingStatus = "updateBookingStatus";

@@ -7,7 +7,8 @@ import '../utils/custom_colors.dart';
 
 class BookingDetailsShimmer extends StatelessWidget {
   final int index;
-  const BookingDetailsShimmer({super.key, required this.index});
+  final bool? imageView;
+  const BookingDetailsShimmer({super.key, required this.index, this.imageView});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class BookingDetailsShimmer extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  FadeShimmer(
+                 if(imageView ?? true) FadeShimmer(
                     height: 100,
                     width: 100,
                     radius: 20,

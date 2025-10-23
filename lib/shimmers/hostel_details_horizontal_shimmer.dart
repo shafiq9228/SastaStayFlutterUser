@@ -7,7 +7,8 @@ import '../utils/custom_colors.dart';
 class HostelDetailsHorizontalShimmer extends StatelessWidget {
   final int index;
   final int view;
-  const HostelDetailsHorizontalShimmer({super.key, required this.index, required this.view});
+  final bool? infiniteWidth;
+  const HostelDetailsHorizontalShimmer({super.key, required this.index, required this.view, this.infiniteWidth});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class HostelDetailsHorizontalShimmer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
         decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.circular(8),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
-        width: view == 1 ? 200 : 240,
+        width: infiniteWidth == true ? double.infinity : (view == 1 ? 200 : 240),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

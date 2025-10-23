@@ -20,9 +20,9 @@ class IconTitleMessageComponent extends StatelessWidget {
               child: Center(child: Image.asset(assetImage ?? "",width: 20,height: 20,color: color ?? CustomColors.primary
               ))),
           SizedBox(height: 5),
-          Text(message ?? "",style: TextStyle(fontWeight: FontWeight.w600,color: color ?? CustomColors.textColor,fontSize: 18)),
+          Text(message ?? "",style: TextStyle(fontWeight: FontWeight.w600,color: color ?? CustomColors.textColor,fontSize: 16)),
           SizedBox(height: 2),
-          Text(title ?? "",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 18)),
+          Text(title ?? "",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 16)),
           SizedBox(height: 5),
         ],
       ),

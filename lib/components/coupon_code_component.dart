@@ -30,6 +30,7 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
 
     return GestureDetector(
       onTap: () async {
+        if(widget.couponModel?.isActive == false) return;
         if(widget.couponModel?.expiryDate?.isAfter(today) != true){
           Get.snackbar("Error","Coupon Has Expired",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
           return;
@@ -46,30 +47,33 @@ class _CouponCodeComponentState extends State<CouponCodeComponent> {
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-        child:  Container(
-          width: double.infinity,
-          decoration: containerStyle,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(widget.couponModel?.code ?? "",style: TextStyle(fontWeight: FontWeight.w800,color: CustomColors.textColor,fontSize: 16),) ,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text("Flat  ₹${widget.couponModel?.discount ?? 0} Discount",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
-                      ),
-                      Text("Order above ₹${widget.couponModel?.orderValue ?? 0} and avail this offer",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
-                      SizedBox(height: 5),
-                      Visibility(visible:widget.selecting == true,child: Text(bookingViewModel.selectedCoupon.value == widget.couponModel ? "Remove" : "Apply",style: TextStyle(fontWeight: FontWeight.w600,color: bookingViewModel.selectedCoupon.value == widget.couponModel  ? CustomColors.red :CustomColors.primary,decoration: TextDecoration.underline,fontSize: 14),)),
-                    ],
-                  ),
-                )
-              ],
+        child:  Opacity(
+          opacity:widget.couponModel?.isActive == true ? 1.0 : 0.5,
+          child: Container(
+            width: double.infinity,
+            decoration: containerStyle,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(widget.couponModel?.code ?? "",style: TextStyle(fontWeight: FontWeight.w800,color: CustomColors.textColor,fontSize: 16),) ,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text("${(widget.couponModel?.discountType ?? "FLAT") == "CASHBACK" ? "CASHBACK Upto ₹${widget.couponModel?.discount ?? 0}" : (widget.couponModel?.discountType ?? "FLAT") == "FLAT" ? "FLAT ₹${widget.couponModel?.discount ?? 0} Discount" : "Flat ${widget.couponModel?.discount ?? 0}% Discount"} ",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
+                        ),
+                        Text("Order above ₹${widget.couponModel?.orderValue ?? 0} and avail this offer",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 14),),
+                        SizedBox(height: 5),
+                        Visibility(visible:widget.selecting == true,child: Text(bookingViewModel.selectedCoupon.value == widget.couponModel ? "Remove" : "Apply",style: TextStyle(fontWeight: FontWeight.w600,color: bookingViewModel.selectedCoupon.value == widget.couponModel  ? CustomColors.red :CustomColors.primary,decoration: TextDecoration.underline,fontSize: 14),)),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

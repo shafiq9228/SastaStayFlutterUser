@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/components/custom_network_image.dart';
+import 'package:pg_hostel/pages/booking_confirmed_page.dart';
 import 'package:pg_hostel/pages/booking_details_page.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
@@ -46,7 +47,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(hostelModel.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.black,fontSize: 20)),
+                            Text(hostelModel.hostelName ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.black,fontSize: 18)),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: Row(

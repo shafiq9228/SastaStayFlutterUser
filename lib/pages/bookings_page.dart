@@ -41,7 +41,7 @@ class _BookingsPageState extends State<BookingsPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-                  child: Text("My Bookings",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20,color: CustomColors.textColor)),
+                  child: Text("My Bookings",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 18,color: CustomColors.textColor)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10),
@@ -114,9 +114,9 @@ class _BookingsPageState extends State<BookingsPage> {
                                             return BookingDetailsComponent(bookingModel:bookingModel);
                                           }),
                                         Visibility(
-                                          visible: (bookingsList?.length ?? 0) < 5,
+                                          visible: (bookingsList?.length ?? 0) < 3,
                                           child: SizedBox(
-                                            height: max(0, (5 - (bookingsList?.length ?? 0)) * 200),
+                                            height: max(0, (3 - (bookingsList?.length ?? 0)) * 200),
                                             width: double.infinity,
                                           ),
                                         ),

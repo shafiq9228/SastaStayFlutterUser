@@ -41,7 +41,7 @@ class _SortByBottomSheetState extends State<SortByBottomSheet> {
             children: [
               Row(
                 children: [
-                  Expanded(child: Text("Sort By",textAlign: TextAlign.start,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 20,color: CustomColors.textColor),)),
+                  Expanded(child: Text("Sort By",textAlign: TextAlign.start,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 18,color: CustomColors.textColor),)),
                   IconButton(onPressed: (){
                     Get.back();
                   }, icon: Icon(Icons.cancel,size: 30,color: CustomColors.primary,))
@@ -68,7 +68,7 @@ class _SortByBottomSheetState extends State<SortByBottomSheet> {
                             )),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text(sortModel.name ?? "",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: CustomColors.textColor),),
+                              child: Text(sortModel.name ?? "",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.textColor),),
                             )
                           ],
                         ),

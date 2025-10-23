@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/pages/booking_confirmed_page.dart';
 import 'package:pg_hostel/pages/booking_details_page.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -29,6 +30,9 @@ class BookingViewModel extends GetxController{
 
   Rx<BookingRequestModel?> bookingRequestModelObserver = Rx<BookingRequestModel?>(null);
 
+  final checkAvailabilityDatesObserver = const ApiResult<HostelRoomAvailabilityDatesResponseModel>.init().obs;
+
+
   final checkHostelRoomAvailabilityObserver = const ApiResult<HostelRoomAvailabilityResponseModel>.init().obs;
   final confirmBookingObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
   final updateBookingStatusObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
@@ -47,6 +51,30 @@ class BookingViewModel extends GetxController{
   RxList<GuestDetailsModel> guestDetailsList = <GuestDetailsModel>[].obs;
   Rx<CouponDataModel?> selectedCoupon = Rx<CouponDataModel?>(null);
   RxBool userWalletBalance = false.obs;
+
+
+  Future<void> checkAvailabilityDates(String? hostelId,String? roomId,int? guestCount) async {
+    try{
+      checkAvailabilityDatesObserver.value = const ApiResult.loading("");
+
+      final response = await apiProvider.post(EndPoints.checkHostelRoomAvailabilityDates,{"hostelId":hostelId,"roomId":roomId,"guestCount":guestCount});
+      final body = response.body;
+
+      if(response.isOk && body !=null){
+        var responseData = HostelRoomAvailabilityDatesResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          checkAvailabilityDatesObserver.value = ApiResult.success(responseData);
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      checkAvailabilityDatesObserver.value = ApiResult.error(e.toString());
+    }
+  }
 
 
 
@@ -106,7 +134,11 @@ class BookingViewModel extends GetxController{
       final response = await apiProvider.post(EndPoints.confirmBooking,newRequest.toJson());
       final body = response.body;
       if(response.isOk && body !=null){
+        print("body");
+        print(body);
         final responseData = ConfirmBookingResponseModel.fromJson(body);
+        print("responseData");
+        print(responseData);
         if(responseData.status == 1){
           var options = {
             'key': ConfigKeys.razorPayId,
@@ -115,7 +147,9 @@ class BookingViewModel extends GetxController{
             'description': 'Booking Hostel Room',
             'prefill': {}
           };
+          print("hello1");
           options['prefill'] = {'contact': UserModel.fromJson(responseData.data?.bookingResponse?.userId).mobile, 'email': UserModel.fromJson(responseData.data?.bookingResponse?.userId).email};
+          print("hello2");
           razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) async {
             confirmBookingObserver.value = ApiResult.success(responseData);
             await updateOrderPaymentStatus(responseData.data?.bookingResponse?.id ?? "");
@@ -152,7 +186,7 @@ class BookingViewModel extends GetxController{
         if(responseData.status == 1){
           guestDetailsList.clear();
           bookingRequestModelObserver.value = null;
-          Get.to(() => BookingDetailsPage(bookingId: bookingId ?? "",fromPaymentScreen:true));
+          Get.to(() => BookingConfirmedPage(bookingId: bookingId ?? ""));
           updateBookingStatusObserver.value = ApiResult.success(responseData);
           confirmBookingObserver.value = ApiResult.success(responseData);
           return;
