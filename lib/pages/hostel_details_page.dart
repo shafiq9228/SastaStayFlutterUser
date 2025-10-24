@@ -299,7 +299,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                 height: 5,
                               ),
                             ),
-                            const SideHeadingComponent(title: "Why To Book this Hostel ?",viewVisible: false),
+                            const SideHeadingComponent(title: "Why To Book This Hostel ?",viewVisible: false),
                           ],
                         )),
                         _buildFaqList(hostelData?.faq ?? []),
@@ -616,7 +616,6 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                   final availabilityResponse = (response as HostelRoomAvailabilityResponseModel).data;
                   return Container(
                     padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    height: 70,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

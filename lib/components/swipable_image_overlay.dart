@@ -152,13 +152,13 @@ class _SwipableImageOverlayState extends State<SwipableImageOverlay> {
     final isNext = index == _currentPage + 1;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 5,
             offset: const Offset(0, 4),
           ),
         ],

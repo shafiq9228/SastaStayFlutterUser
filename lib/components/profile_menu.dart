@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:pg_hostel/components/animated_tap.dart';
 
 import '../utils/custom_colors.dart';
 
@@ -15,9 +16,7 @@ class ProfileMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
+    return AnimatedTap(
       onTap: onTapped,
       child: ListTile(
         leading: SizedBox(

@@ -31,14 +31,14 @@ class HostelDetailsHorizontalComponent2 extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),border: Border.all(width: 0.5,color: CustomColors.darkGray.withOpacity(0.5))),
-          width: 220,
+          width: 230,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  CustomNetworkImage(imageUrl: hostelModel?.hostelImage ?? 'https://www.askiitians.com/blog/wp-content/uploads/2014/08/MG_0286.jpg',width: 250,height: 120,fit: BoxFit.cover,borderRadius: 15),
+                  CustomNetworkImage(imageUrl: hostelModel?.hostelImage ?? 'https://www.askiitians.com/blog/wp-content/uploads/2014/08/MG_0286.jpg',width: 230,height: 120,fit: BoxFit.cover,borderRadius: 15),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Row(
@@ -92,19 +92,19 @@ class HostelDetailsHorizontalComponent2 extends StatelessWidget {
                             //   padding: const EdgeInsets.symmetric(horizontal:5),
                             //   child: Text(hostelModel?.location?.address1 ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
                             // )),
-                            Expanded(child: Text(GeoUtil().getDistanceFromLatLonInKm(hostelModel?.location?.latitude ?? 0.00,hostelModel?.location?.longitude?? 0.00,authViewModel.locationDetails.value?.latitude ?? 0.00,authViewModel.locationDetails.value?.longitude ?? 0.00),maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
+                            Expanded(child: Text(GeoUtil().getDistanceFromLatLonInKm(hostelModel?.location?.latitude ?? 0.00,hostelModel?.location?.longitude?? 0.00,authViewModel.locationDetails.value?.latitude ?? 0.00,authViewModel.locationDetails.value?.longitude ?? 0.00),maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray))),
                           ],
                         ),
                       ),
                       hostelModel?.room != null ? Row(
                         children: [
-                          Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.black)),
-                          Text("/mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                          Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.black)),
+                          Text("/mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
                           Spacer(),
-                          Image.asset("assets/images/star.png",width: 18,height: 18),
+                          Image.asset("assets/images/star.png",width: 15,height: 15),
                           SizedBox(width: 5),
-                          Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.black)),
-                          Text("(${AuthUtils.formatNumber(hostelModel?.totalVotes ?? 0)})",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.darkGray)),
+                          Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.black)),
+                          Text("(${AuthUtils.formatNumber(hostelModel?.totalVotes ?? 0)})",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
                           SizedBox(width: 5),
                         ],
                       ): Text("Currently Rooms Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12,color: CustomColors.red)),

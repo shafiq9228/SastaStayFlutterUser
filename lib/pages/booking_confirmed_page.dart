@@ -1,6 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/components/pricing_details_component.dart';
 import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/components/static_refer_and_earn_component.dart';
 import 'package:pg_hostel/pages/main_page.dart';
@@ -53,7 +54,6 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
   final bookingViewModel = Get.put(BookingViewModel());
   final authViewModel = Get.put(AuthViewModel());
 
-  bool priceDetailsView = false;
 
   @override
   Widget build(BuildContext context) {
@@ -114,71 +114,7 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-
-                                  const SideHeadingComponent(title: "Pricing Details",viewVisible: false),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16))),
-                                      Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
-                                          decorationThickness: 2,
-                                          decorationColor: Colors.black))),
-                                      const SizedBox(width: 5),
-                                      Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
-                                      IconButton(onPressed: (){
-                                        setState(() {
-                                          priceDetailsView = !priceDetailsView;
-                                        });
-
-                                      }, icon: Icon(!priceDetailsView ? Icons.keyboard_arrow_down_sharp : Icons.keyboard_arrow_up_sharp,color: CustomColors.textColor,size: 20))
-                                    ],
-                                  ),
-                                  Visibility(
-                                    visible: priceDetailsView,
-                                    child: Container(
-                                      decoration: AppStyles.categoryBg4,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 20,
-                                          right: 20,
-                                          bottom: 20, // keep bottom if you want
-                                          top: 0,     // remove upper padding
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            ListView.builder(
-                                                shrinkWrap: true,
-                                                physics: NeverScrollableScrollPhysics(),
-                                                scrollDirection: Axis.vertical,
-                                                itemBuilder: (context,index){
-                                                  final hostelModel =  bookingDataModel?.logs?[index];
-                                                  return Padding(
-                                                    padding: const EdgeInsets.symmetric(vertical: 2),
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(child: Text(hostelModel?.message ?? "",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.darkGray,fontSize: 14))),
-                                                        Text("₹${hostelModel?.amount}",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.primary,fontSize: 14)),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },itemCount: bookingDataModel?.logs?.length ?? 0),
-                                            const SizedBox(height: 20),
-                                            Row(
-                                              children: [
-                                                Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 16))),
-                                                Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
-                                                    decorationThickness: 2,
-                                                    decorationColor: Colors.black))),
-                                                const SizedBox(width: 5),
-                                                Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  PricingDetailsComponent(bookingDataModel:bookingDataModel),
                                   const SizedBox(height: 16),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 10),

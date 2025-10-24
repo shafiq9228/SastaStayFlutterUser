@@ -18,6 +18,7 @@ import '../components/empty_data_view.dart';
 import '../components/error_text_component.dart';
 import '../components/helper_bottom_sheet.dart';
 import '../components/hostel_details_extra_options_view.dart';
+import '../components/pricing_details_component.dart';
 import '../components/primary_button.dart';
 import '../components/rating_and_review_bottom_sheet.dart';
 import '../components/rating_component.dart';
@@ -209,7 +210,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal:10,vertical: 5),
-                                    child: Text(bookingDataModel?.bookingStatus ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Colors.green)),
+                                    child: Text(((bookingDataModel?.paymentStatus ?? "") != "success") ? (bookingDataModel?.paymentStatus ?? "") : bookingDataModel?.bookingStatus ?? "",maxLines: 2,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: Colors.green)),
                                   ),
                                 ),
                               ),
@@ -342,70 +343,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                     height: 5,
                                   ),
                                 ),
-                                const SideHeadingComponent(title: "Pricing Details",viewVisible: false),
-                                const SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16))),
-                                    Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
-                                        decorationThickness: 2,
-                                        decorationColor: Colors.black))),
-                                    const SizedBox(width: 5),
-                                    Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
-                                    IconButton(onPressed: (){
-                                      setState(() {
-                                        priceDetailsView = !priceDetailsView;
-                                      });
-
-                                    }, icon: Icon(!priceDetailsView ? Icons.keyboard_arrow_down_sharp : Icons.keyboard_arrow_up_sharp,color: CustomColors.textColor,size: 20))
-                                  ],
-                                ),
-                                Visibility(
-                                  visible: priceDetailsView,
-                                  child: Container(
-                                    decoration: AppStyles.categoryBg4,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        bottom: 20, // keep bottom if you want
-                                        top: 0,     // remove upper padding
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          ListView.builder(
-                                              shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              scrollDirection: Axis.vertical,
-                                              itemBuilder: (context,index){
-                                                final hostelModel =  bookingDataModel?.logs?[index];
-                                                return Padding(
-                                                  padding: const EdgeInsets.symmetric(vertical: 2),
-                                                  child: Row(
-                                                    children: [
-                                                      Expanded(child: Text(hostelModel?.message ?? "",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.darkGray,fontSize: 14))),
-                                                      Text("₹${hostelModel?.amount}",style: TextStyle(fontWeight: FontWeight.w400,color: CustomColors.primary,fontSize: 14)),
-                                                    ],
-                                                  ),
-                                                );
-                                              },itemCount: bookingDataModel?.logs?.length ?? 0),
-                                          const SizedBox(height: 20),
-                                          Row(
-                                            children: [
-                                              Expanded(child: Text("Total Amount",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 16))),
-                                              Visibility(visible: (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0) != 0 ,child: Text("₹${(bookingDataModel?.subTotal ?? 0) + (bookingDataModel?.discount ?? 0) + (bookingDataModel?.walletDeduction ?? 0)}",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.textColor,fontSize: 16,decoration: TextDecoration.lineThrough, // 👈 strike-through
-                                                  decorationThickness: 2,
-                                                  decorationColor: Colors.black))),
-                                              const SizedBox(width: 5),
-                                              Text("₹${(bookingDataModel?.subTotal ?? 0)}",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.primary,fontSize: 16)),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                PricingDetailsComponent(bookingDataModel:bookingDataModel),
                                 const SizedBox(height: 10),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -474,14 +412,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 // const SideHeadingComponent(title: "Location",viewVisible:false),
                                 // _buildLocationInfo(hostelData.location),
                                 // const SizedBox(height: 16),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
-                                  child: Container(
-                                    width: double.infinity,
-                                    color: CustomColors.lightGray,
-                                    height: 5,
-                                  ),
-                                ),
                                 // const SideHeadingComponent(title: "Rules",viewVisible: false),
                                 // _buildRulesList(hostelData.rules ?? []),
                                 const SizedBox(height: 30),
@@ -490,7 +420,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 SideHeadingComponent(title: "Refer And Earn",viewVisible: false),
                                 StaticReferAndEarnComponent(),
                                 const SizedBox(height: 30),
-                                ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
+                                ((bookingDataModel?.paymentStatus ?? "") != "success") ? const SizedBox() : ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
                                 SizedBox(
                                   height: 50,
                                   child: Row(
@@ -659,7 +589,8 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                         ),
                                       ],
                                     ),
-                                  )
+                                  ),
+                                  const SizedBox(height: 50,width: double.infinity)
                               ],
                             ),
                           ),

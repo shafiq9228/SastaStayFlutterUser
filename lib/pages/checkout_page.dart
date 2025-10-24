@@ -382,7 +382,7 @@ class CheckoutPage extends StatelessWidget {
                                           ),
                                           child: ListView.builder(
                                               shrinkWrap: true,
-                                              physics: NeverScrollableScrollPhysics(),
+                                              physics: const NeverScrollableScrollPhysics(),
                                               scrollDirection: Axis.vertical,
                                               itemBuilder: (context,index){
                                                 final hostelModel =  availabilityResponse?.paymentDetailLogs?[index];

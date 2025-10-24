@@ -30,7 +30,7 @@ class HostelDetailsComponent extends StatelessWidget {
         Get.to(() => HostelDetailPage(hostelId: hostelModel?.id ?? ''));
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
         child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),border: Border.all(width: 0.5,color: CustomColors.lightGray)),
           child: IntrinsicHeight(

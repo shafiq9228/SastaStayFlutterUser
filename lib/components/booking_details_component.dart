@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pg_hostel/components/animated_tap.dart';
 import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/pages/booking_confirmed_page.dart';
 import 'package:pg_hostel/pages/booking_details_page.dart';
@@ -25,7 +26,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
     RoomModel roomModel = RoomModel.fromJson(widget.bookingModel?.roomId);
 
 
-    return GestureDetector(
+    return AnimatedTap(
       onTap: (){
         Get.to(() => BookingDetailsPage(bookingId: widget.bookingModel?.id ?? ""));
       },

@@ -32,14 +32,14 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Container(
           decoration: BoxDecoration(color: CustomColors.white,borderRadius: BorderRadius.circular(15)),
-          width: infinityWidth ==  true ?double.infinity : 200,
+          width: 180,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 alignment: Alignment.topRight,
                 children: [
-                  CustomNetworkImage(imageUrl: hostelModel?.hostelImage ?? 'https://images.squarespace-cdn.com/content/v1/5e72c8bfe21ad940ba788673/1620923464746-9P9CHDE3GWWYHK2WWALV/hostel-dorm-bedroom-two.jpg',width: infinityWidth ==  true ?double.infinity : 200,height: 100,fit: BoxFit.cover,borderRadius: 15),
+                  CustomNetworkImage(imageUrl: hostelModel?.hostelImage ?? 'https://images.squarespace-cdn.com/content/v1/5e72c8bfe21ad940ba788673/1620923464746-9P9CHDE3GWWYHK2WWALV/hostel-dorm-bedroom-two.jpg',width: 180,height: 120,fit: BoxFit.cover,borderRadius: 15),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child:  Obx(() => hostelViewModel.updateFavouritesObserver.value.maybeWhen(
@@ -78,16 +78,16 @@ class HostelDetailsHorizontalComponent1 extends StatelessWidget {
                       ),
                       hostelModel?.room != null ? Row(
                         children: [
-                          Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.black)),
+                          Text("₹${hostelModel?.room?.rent?.monthly ?? ""}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 14,color: CustomColors.black)),
                           Text("/Mo",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
                           Spacer(),
-                          Image.asset("assets/images/star.png",width: 15,height: 15),
-                          SizedBox(width: 5),
-                          Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16,color: CustomColors.black)),
+                          Image.asset("assets/images/star.png",width: 12,height: 12),
+                          const SizedBox(width: 5),
+                          Text("${hostelModel?.rating ?? ""}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.black)),
                           Text("(${AuthUtils.formatNumber(hostelModel?.totalVotes ?? 0)})",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
                           SizedBox(width: 5),
                         ],
-                      ) : Text("Currently Rooms Are Unavailable",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12,color: CustomColors.red))
+                      ) : Text("Currently Rooms Are Unavailable",maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 12,color: CustomColors.red))
                     ],
                   ),
                 ),

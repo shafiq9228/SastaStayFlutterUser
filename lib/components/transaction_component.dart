@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/components/animated_tap.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
@@ -13,7 +14,7 @@ class TransactionComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return AnimatedTap(
       onTap: (){
         if(transactionModel?.transactionType == "booking" || transactionModel?.transactionType == "refund"){
           Get.to(() => BookingDetailsPage(bookingId: transactionModel?.bookingId ?? ""));

@@ -263,7 +263,7 @@ class _HostelsMapViewState extends State<HostelsMapView> {
                                 child: SizedBox(
                                     height: 200,
                                     child: ListView.builder(scrollDirection: Axis.horizontal,itemBuilder: (context,index){
-                                      return HostelDetailsHorizontalComponent1(hostelModel: hostelsList[index],infinityWidth: false);
+                                      return HostelDetailsHorizontalComponent1(hostelModel: hostelsList[index]);
                                     },itemCount: 5)),
                               )
                             ],

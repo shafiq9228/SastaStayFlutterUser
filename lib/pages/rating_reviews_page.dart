@@ -107,9 +107,9 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                                             return RatingAndReviewComponent(ratingAndReviewModel: ratingAndReviewModel);
                                           }),
                                       Visibility(
-                                        visible: (ratingAndReviewsList?.length ?? 0) < 10,
+                                        visible: (ratingAndReviewsList?.length ?? 0) < 5,
                                         child: SizedBox(
-                                          height: max(0, (10 - (ratingAndReviewsList?.length ?? 0)) * 100),
+                                          height: max(0, (5 - (ratingAndReviewsList?.length ?? 0)) * 100),
                                           width: double.infinity,
                                         ),
                                       ),

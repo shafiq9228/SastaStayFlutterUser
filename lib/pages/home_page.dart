@@ -134,9 +134,9 @@ class _HomePageState extends State<HomePage> {
                         .fetchNearbyHostelsObserver.value.data.value
                         .maybeWhen(
                       loading: (data) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: SizedBox(
-                          height: 200,
+                          height: 230,
                           width: double.infinity,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
@@ -165,9 +165,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 20),
+                                  horizontal: 15),
                               child: SizedBox(
-                                height: 200,
+                                height: 230,
                                 width: double.infinity,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
@@ -199,9 +199,9 @@ class _HomePageState extends State<HomePage> {
                           .fetchPopularHostelsObserver.value.data.value
                           .maybeWhen(
                         loading: (data) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: SizedBox(
-                            height: 240,
+                            height: 230,
                             width: double.infinity,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
@@ -231,9 +231,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 20),
+                                const EdgeInsets.symmetric(horizontal: 15),
                                 child: SizedBox(
-                                  height: 240,
+                                  height: 230,
                                   width: double.infinity,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
@@ -257,14 +257,14 @@ class _HomePageState extends State<HomePage> {
                     /// Hostel Feed
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
+                          horizontal: 15, vertical: 20),
                       child: Row(
                         children: [
                           Expanded(
                             child: Text(
                               "Hostel Feed",
                               style: TextStyle(
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w700,
                                 fontSize: 18,
                                 color: CustomColors.black,
                               ),
@@ -286,7 +286,7 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10,
-                                  vertical: 5,
+                                  vertical: 8,
                                 ),
                                 child: Row(
                                   children: [
@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                                       "Filter",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         color: CustomColors.black,
                                       ),
                                     ),
@@ -326,7 +326,7 @@ class _HomePageState extends State<HomePage> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10,
-                                  vertical: 5,
+                                  vertical: 8,
                                 ),
                                 child: Row(
                                   children: [
@@ -334,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                                       "Map View",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         color: CustomColors.black,
                                       ),
                                     ),
