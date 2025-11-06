@@ -1357,7 +1357,7 @@ mixin _$UserModel {
   dynamic get wallet => throw _privateConstructorUsedError;
   LocationModel? get address => throw _privateConstructorUsedError;
   String? get referralCode => throw _privateConstructorUsedError;
-  List<String>? get referrals => throw _privateConstructorUsedError;
+  int? get referralCount => throw _privateConstructorUsedError;
   int? get referralEarnings => throw _privateConstructorUsedError;
   List<DocumentDataModel>? get kycDocuments =>
       throw _privateConstructorUsedError;
@@ -1394,7 +1394,7 @@ abstract class $UserModelCopyWith<$Res> {
       dynamic wallet,
       LocationModel? address,
       String? referralCode,
-      List<String>? referrals,
+      int? referralCount,
       int? referralEarnings,
       List<DocumentDataModel>? kycDocuments,
       ReferralModel? referral});
@@ -1435,7 +1435,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? wallet = freezed,
     Object? address = freezed,
     Object? referralCode = freezed,
-    Object? referrals = freezed,
+    Object? referralCount = freezed,
     Object? referralEarnings = freezed,
     Object? kycDocuments = freezed,
     Object? referral = freezed,
@@ -1517,10 +1517,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.referralCode
           : referralCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      referrals: freezed == referrals
-          ? _value.referrals
-          : referrals // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      referralCount: freezed == referralCount
+          ? _value.referralCount
+          : referralCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       referralEarnings: freezed == referralEarnings
           ? _value.referralEarnings
           : referralEarnings // ignore: cast_nullable_to_non_nullable
@@ -1589,7 +1589,7 @@ abstract class _$$UserModelImplCopyWith<$Res>
       dynamic wallet,
       LocationModel? address,
       String? referralCode,
-      List<String>? referrals,
+      int? referralCount,
       int? referralEarnings,
       List<DocumentDataModel>? kycDocuments,
       ReferralModel? referral});
@@ -1630,7 +1630,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? wallet = freezed,
     Object? address = freezed,
     Object? referralCode = freezed,
-    Object? referrals = freezed,
+    Object? referralCount = freezed,
     Object? referralEarnings = freezed,
     Object? kycDocuments = freezed,
     Object? referral = freezed,
@@ -1712,10 +1712,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.referralCode
           : referralCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      referrals: freezed == referrals
-          ? _value._referrals
-          : referrals // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      referralCount: freezed == referralCount
+          ? _value.referralCount
+          : referralCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       referralEarnings: freezed == referralEarnings
           ? _value.referralEarnings
           : referralEarnings // ignore: cast_nullable_to_non_nullable
@@ -1755,12 +1755,11 @@ class _$UserModelImpl implements _UserModel {
       this.wallet,
       this.address,
       this.referralCode,
-      final List<String>? referrals,
+      this.referralCount,
       this.referralEarnings,
       final List<DocumentDataModel>? kycDocuments,
       this.referral})
-      : _referrals = referrals,
-        _kycDocuments = kycDocuments;
+      : _kycDocuments = kycDocuments;
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -1804,16 +1803,8 @@ class _$UserModelImpl implements _UserModel {
   final LocationModel? address;
   @override
   final String? referralCode;
-  final List<String>? _referrals;
   @override
-  List<String>? get referrals {
-    final value = _referrals;
-    if (value == null) return null;
-    if (_referrals is EqualUnmodifiableListView) return _referrals;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final int? referralCount;
   @override
   final int? referralEarnings;
   final List<DocumentDataModel>? _kycDocuments;
@@ -1831,7 +1822,7 @@ class _$UserModelImpl implements _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings, wallet: $wallet, address: $address, referralCode: $referralCode, referrals: $referrals, referralEarnings: $referralEarnings, kycDocuments: $kycDocuments, referral: $referral)';
+    return 'UserModel(id: $id, image: $image, mobile: $mobile, name: $name, email: $email, gender: $gender, dob: $dob, profilePic: $profilePic, otp: $otp, source: $source, version: $version, deviceId: $deviceId, blocked: $blocked, favouriteHostels: $favouriteHostels, onGoingBookings: $onGoingBookings, upComingBookings: $upComingBookings, wallet: $wallet, address: $address, referralCode: $referralCode, referralCount: $referralCount, referralEarnings: $referralEarnings, kycDocuments: $kycDocuments, referral: $referral)';
   }
 
   @override
@@ -1864,8 +1855,8 @@ class _$UserModelImpl implements _UserModel {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.referralCode, referralCode) ||
                 other.referralCode == referralCode) &&
-            const DeepCollectionEquality()
-                .equals(other._referrals, _referrals) &&
+            (identical(other.referralCount, referralCount) ||
+                other.referralCount == referralCount) &&
             (identical(other.referralEarnings, referralEarnings) ||
                 other.referralEarnings == referralEarnings) &&
             const DeepCollectionEquality()
@@ -1897,7 +1888,7 @@ class _$UserModelImpl implements _UserModel {
         const DeepCollectionEquality().hash(wallet),
         address,
         referralCode,
-        const DeepCollectionEquality().hash(_referrals),
+        referralCount,
         referralEarnings,
         const DeepCollectionEquality().hash(_kycDocuments),
         referral
@@ -1938,7 +1929,7 @@ abstract class _UserModel implements UserModel {
       final dynamic wallet,
       final LocationModel? address,
       final String? referralCode,
-      final List<String>? referrals,
+      final int? referralCount,
       final int? referralEarnings,
       final List<DocumentDataModel>? kycDocuments,
       final ReferralModel? referral}) = _$UserModelImpl;
@@ -1986,7 +1977,7 @@ abstract class _UserModel implements UserModel {
   @override
   String? get referralCode;
   @override
-  List<String>? get referrals;
+  int? get referralCount;
   @override
   int? get referralEarnings;
   @override

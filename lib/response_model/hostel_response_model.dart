@@ -113,7 +113,6 @@ class RatingAndReviewModel with _$RatingAndReviewModel{
     dynamic userId,
     dynamic hostelId,
     dynamic rating,
-    List<CategoryRating>? categoryRatings,
     String? review
   }) = _RatingAndReviewModel;
 

@@ -136,7 +136,7 @@ class UserModel with _$UserModel{
     dynamic wallet,
     LocationModel? address,
     String? referralCode,
-    List<String>? referrals,
+    int? referralCount,
     int? referralEarnings,
     List<DocumentDataModel>? kycDocuments,
     ReferralModel? referral

@@ -1,7 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/cancellation_policy_page.dart';
+import 'package:pg_hostel/pages/cancellation_policy_page.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -74,7 +74,7 @@ class HostelDetailsExtraOptionsView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 16)),
-                  Text(message,style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 14)),
+                  Text(message,maxLines: 5,overflow: TextOverflow.ellipsis,style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.darkGray,fontSize: 14)),
                 ],
               ),
             ),

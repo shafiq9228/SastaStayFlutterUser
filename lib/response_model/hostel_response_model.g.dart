@@ -191,9 +191,6 @@ _$RatingAndReviewModelImpl _$$RatingAndReviewModelImplFromJson(
       userId: json['userId'],
       hostelId: json['hostelId'],
       rating: json['rating'],
-      categoryRatings: (json['categoryRatings'] as List<dynamic>?)
-          ?.map((e) => CategoryRating.fromJson(e as Map<String, dynamic>))
-          .toList(),
       review: json['review'] as String?,
     );
 
@@ -203,7 +200,6 @@ Map<String, dynamic> _$$RatingAndReviewModelImplToJson(
       'userId': instance.userId,
       'hostelId': instance.hostelId,
       'rating': instance.rating,
-      'categoryRatings': instance.categoryRatings,
       'review': instance.review,
     };
 

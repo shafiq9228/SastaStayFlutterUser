@@ -290,7 +290,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text("Date",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color: CustomColors.darkGray)),
-                                                  Text("${AuthUtils.formatDateToLong(bookingDataModel?.checkInDate)}" +" - " + "${AuthUtils.formatDateToLong(bookingDataModel?.checkOutDate)}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.black)),
+                                                  Text("${AuthUtils.dateFormatToCheckInCheckOut(bookingDataModel?.checkInDate,bookingDataModel?.checkOutDate)}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.black)),
                                                 ],
                                               ),
                                             ),
@@ -381,7 +381,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 DottedLine(
                                   dashColor: CustomColors.darkGray,
                                 ),
-                                TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.formatDateToLong(bookingDataModel?.checkInDate)}" +" - " + "${AuthUtils.formatDateToLong(bookingDataModel?.checkOutDate)}",),
+                                TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.dateFormatToCheckInCheckOut(bookingDataModel?.checkInDate,bookingDataModel?.checkOutDate)}",),
                                 DottedLine(
                                   dashColor: CustomColors.darkGray,
                                 ),
@@ -435,10 +435,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                             ),
                                             child: TextButton(
                                               onPressed: (){
-                                                cancelBooking(widget.bookingId);
+                                                openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
+                                                // cancelBooking(widget.bookingId);
                                               },
                                               child: Text(
-                                                "Cancel Booking",
+                                                "Help",
+                                                // "Cancel Booking",
                                                 style: TextStyle(
                                                   color: CustomColors.textColor,
                                                   fontSize: 16,
@@ -474,9 +476,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                   ),
                                 )
                                     : ((bookingDataModel?.bookingStatus ?? "") == "Upcoming") ?
-                                CustomOutlinedButton(buttonTxt: "Cancel Booking", buttonClick: (){
-                                  cancelBooking(widget.bookingId);
-                                }) : ((bookingDataModel?.bookingStatus ?? "") == "Canceled") ?
+                                    const SizedBox()
+                                // CustomOutlinedButton(buttonTxt: "Cancel Booking", buttonClick: (){
+                                //   cancelBooking(widget.bookingId);
+                                // })
+                                    : ((bookingDataModel?.bookingStatus ?? "") == "Canceled") ?
                                 SizedBox(
                                   height: 50,
                                   child: Row(
@@ -513,7 +517,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                           ),
                                           child: TextButton(
                                             onPressed: (){
-
+                                              openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
                                             },
                                             child: Text(
                                               "Rebook",

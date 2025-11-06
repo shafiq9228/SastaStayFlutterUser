@@ -60,7 +60,6 @@ class RatingAndReviewComponent extends StatelessWidget {
             Text(ratingAndReviewModel?.review ?? "",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: CustomColors.darkGray),),
             const SizedBox(height: 10),
             DottedLine(dashColor: CustomColors.darkGray)
-
           ],
         ),
       ),

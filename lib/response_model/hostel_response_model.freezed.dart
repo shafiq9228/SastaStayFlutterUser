@@ -1924,8 +1924,6 @@ mixin _$RatingAndReviewModel {
   dynamic get userId => throw _privateConstructorUsedError;
   dynamic get hostelId => throw _privateConstructorUsedError;
   dynamic get rating => throw _privateConstructorUsedError;
-  List<CategoryRating>? get categoryRatings =>
-      throw _privateConstructorUsedError;
   String? get review => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1940,12 +1938,7 @@ abstract class $RatingAndReviewModelCopyWith<$Res> {
           $Res Function(RatingAndReviewModel) then) =
       _$RatingAndReviewModelCopyWithImpl<$Res, RatingAndReviewModel>;
   @useResult
-  $Res call(
-      {dynamic userId,
-      dynamic hostelId,
-      dynamic rating,
-      List<CategoryRating>? categoryRatings,
-      String? review});
+  $Res call({dynamic userId, dynamic hostelId, dynamic rating, String? review});
 }
 
 /// @nodoc
@@ -1965,7 +1958,6 @@ class _$RatingAndReviewModelCopyWithImpl<$Res,
     Object? userId = freezed,
     Object? hostelId = freezed,
     Object? rating = freezed,
-    Object? categoryRatings = freezed,
     Object? review = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1981,10 +1973,6 @@ class _$RatingAndReviewModelCopyWithImpl<$Res,
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      categoryRatings: freezed == categoryRatings
-          ? _value.categoryRatings
-          : categoryRatings // ignore: cast_nullable_to_non_nullable
-              as List<CategoryRating>?,
       review: freezed == review
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
@@ -2001,12 +1989,7 @@ abstract class _$$RatingAndReviewModelImplCopyWith<$Res>
       __$$RatingAndReviewModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {dynamic userId,
-      dynamic hostelId,
-      dynamic rating,
-      List<CategoryRating>? categoryRatings,
-      String? review});
+  $Res call({dynamic userId, dynamic hostelId, dynamic rating, String? review});
 }
 
 /// @nodoc
@@ -2023,7 +2006,6 @@ class __$$RatingAndReviewModelImplCopyWithImpl<$Res>
     Object? userId = freezed,
     Object? hostelId = freezed,
     Object? rating = freezed,
-    Object? categoryRatings = freezed,
     Object? review = freezed,
   }) {
     return _then(_$RatingAndReviewModelImpl(
@@ -2039,10 +2021,6 @@ class __$$RatingAndReviewModelImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      categoryRatings: freezed == categoryRatings
-          ? _value._categoryRatings
-          : categoryRatings // ignore: cast_nullable_to_non_nullable
-              as List<CategoryRating>?,
       review: freezed == review
           ? _value.review
           : review // ignore: cast_nullable_to_non_nullable
@@ -2055,12 +2033,7 @@ class __$$RatingAndReviewModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
   const _$RatingAndReviewModelImpl(
-      {this.userId,
-      this.hostelId,
-      this.rating,
-      final List<CategoryRating>? categoryRatings,
-      this.review})
-      : _categoryRatings = categoryRatings;
+      {this.userId, this.hostelId, this.rating, this.review});
 
   factory _$RatingAndReviewModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$RatingAndReviewModelImplFromJson(json);
@@ -2071,22 +2044,12 @@ class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
   final dynamic hostelId;
   @override
   final dynamic rating;
-  final List<CategoryRating>? _categoryRatings;
-  @override
-  List<CategoryRating>? get categoryRatings {
-    final value = _categoryRatings;
-    if (value == null) return null;
-    if (_categoryRatings is EqualUnmodifiableListView) return _categoryRatings;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
   @override
   final String? review;
 
   @override
   String toString() {
-    return 'RatingAndReviewModel(userId: $userId, hostelId: $hostelId, rating: $rating, categoryRatings: $categoryRatings, review: $review)';
+    return 'RatingAndReviewModel(userId: $userId, hostelId: $hostelId, rating: $rating, review: $review)';
   }
 
   @override
@@ -2097,8 +2060,6 @@ class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
             const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.hostelId, hostelId) &&
             const DeepCollectionEquality().equals(other.rating, rating) &&
-            const DeepCollectionEquality()
-                .equals(other._categoryRatings, _categoryRatings) &&
             (identical(other.review, review) || other.review == review));
   }
 
@@ -2109,7 +2070,6 @@ class _$RatingAndReviewModelImpl implements _RatingAndReviewModel {
       const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(hostelId),
       const DeepCollectionEquality().hash(rating),
-      const DeepCollectionEquality().hash(_categoryRatings),
       review);
 
   @JsonKey(ignore: true)
@@ -2133,7 +2093,6 @@ abstract class _RatingAndReviewModel implements RatingAndReviewModel {
       {final dynamic userId,
       final dynamic hostelId,
       final dynamic rating,
-      final List<CategoryRating>? categoryRatings,
       final String? review}) = _$RatingAndReviewModelImpl;
 
   factory _RatingAndReviewModel.fromJson(Map<String, dynamic> json) =
@@ -2145,8 +2104,6 @@ abstract class _RatingAndReviewModel implements RatingAndReviewModel {
   dynamic get hostelId;
   @override
   dynamic get rating;
-  @override
-  List<CategoryRating>? get categoryRatings;
   @override
   String? get review;
   @override

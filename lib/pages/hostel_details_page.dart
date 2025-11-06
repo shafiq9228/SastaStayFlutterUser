@@ -72,6 +72,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
+                  backgroundColor: CustomColors.white,
                   expandedHeight: 250.0,
                   floating: false,
                   pinned: true,
@@ -81,7 +82,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                       onTap: () => Get.back(),
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.white, // Circle background color
                           shape: BoxShape.circle,
                           boxShadow: [
@@ -362,7 +363,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             DottedLine(
                               dashColor: CustomColors.darkGray,
                             ),
-                            TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.formatDateToLong(bookingViewModel.bookingRequestModelObserver.value?.checkInDate)}" +" - " + "${AuthUtils.formatDateToLong(bookingViewModel.bookingRequestModelObserver.value?.checkOutDate)}",),
+                            TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.dateFormatToCheckInCheckOut(bookingViewModel.bookingRequestModelObserver.value?.checkInDate,bookingViewModel.bookingRequestModelObserver.value?.checkOutDate)}",),
                             DottedLine(
                               dashColor: CustomColors.darkGray,
                             ),

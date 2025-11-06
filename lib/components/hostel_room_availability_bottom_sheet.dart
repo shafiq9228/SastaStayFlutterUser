@@ -267,8 +267,8 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                 ),
               ],
               const SizedBox(height: 8),
-              Text(
-                'Select Dates:',
+              if(_selectedDates.isNotEmpty) Text(
+                _selectedDates.length == 1 ? 'Selected Date:' : 'Selected Dates:',
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: CustomColors.textColor,
@@ -283,13 +283,15 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                     buttonClick: () => _selectDate(context),
                   ))) : Column(
                 children: [
-                  Row(
+                  _selectedDates.length == 1 ?
+                       TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check In / Check Out', message: "${AuthUtils.formatDateToLong(_selectedDates.first)}",)
+                   : Row(
                     children: [
                       TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check In', message: "${AuthUtils.formatDateToLong(_selectedDates.first)}",),
                       Expanded(child: Text("${_selectedDates.length} Nights",textAlign: TextAlign.center,style: TextStyle(fontSize: 12,color: CustomColors.textColor),)),
                       TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check Out', message: "${AuthUtils.formatDateToLong(_selectedDates.last)}",),
                     ],
-                  ),
+                  ) ,
                   Obx(() => bookingViewModel.checkAvailabilityDatesObserver.value.maybeWhen(
                       loading: (d) => Center(child: CircularProgressIndicator()),
                       orElse: () => CustomOutlinedButton(

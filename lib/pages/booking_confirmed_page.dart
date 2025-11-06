@@ -192,7 +192,7 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                                   DottedLine(
                                     dashColor: CustomColors.darkGray,
                                   ),
-                                  TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.formatDateToLong(bookingDataModel?.checkInDate)}" +" - " + "${AuthUtils.formatDateToLong(bookingDataModel?.checkOutDate)}",),
+                                  TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.dateFormatToCheckInCheckOut(bookingDataModel?.checkInDate,bookingDataModel?.checkOutDate)}",),
                                   DottedLine(
                                     dashColor: CustomColors.darkGray,
                                   ),
@@ -210,13 +210,13 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                                   StaticReferAndEarnComponent(),
                                   const SizedBox(height: 30),
                                   HostelDetailsExtraOptionsView(rules: hostelData.rules,checkInTime: hostelData?.checkInTime,checkOutTime:  hostelData?.checkOutTime,mobileNumber: dealerData.mobile.toString()),
-                                  const SizedBox(height: 20),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: CustomOutlinedButton(buttonTxt: "Cancel Booking", buttonClick: (){
-                                      cancelBooking(widget.bookingId);
-                                    }),
-                                  )
+                                  const SizedBox(height: 30),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(10),
+                                  //   child: CustomOutlinedButton(buttonTxt: "Cancel Booking", buttonClick: (){
+                                  //     cancelBooking(widget.bookingId);
+                                  //   }),
+                                  // )
                                 ],
                               ),
                             ),

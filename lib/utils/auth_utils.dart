@@ -12,11 +12,36 @@ class AuthUtils {
 
   AuthUtils._();
 
+  static DateTime _toIndianTime(DateTime date) {
+    return date.toUtc().add(const Duration(hours: 5, minutes: 30));
+  }
+
   static String formatPrice(double price) => '\$${price.toStringAsFixed(2)}';
-  static String formatDate(DateTime date) => DateFormat.yMd().format(date);
+
+  static String formatDate(DateTime date) {
+    final indiaTime = _toIndianTime(date);
+    return DateFormat.yMd().format(indiaTime);
+  }
+
+  static String dateFormatToCheckInCheckOut(DateTime? checkInDate, DateTime? checkOutDate) {
+    if (checkInDate == null || checkOutDate == null) return "";
+
+    final indiaCheckIn = _toIndianTime(checkInDate);
+    final indiaCheckOut = _toIndianTime(checkOutDate);
+
+    bool isSameDate = indiaCheckIn.year == indiaCheckOut.year &&
+        indiaCheckIn.month == indiaCheckOut.month &&
+        indiaCheckIn.day == indiaCheckOut.day;
+
+    if (isSameDate) {
+      return formatDateToLong(indiaCheckIn);
+    }
+    return "${formatDateToLong(indiaCheckIn)} - ${formatDateToLong(indiaCheckOut)}";
+  }
 
   static DateTime normalizeDate(DateTime date) {
-    return DateTime(date.year, date.month, date.day);
+    final indiaTime = _toIndianTime(date);
+    return DateTime(indiaTime.year, indiaTime.month, indiaTime.day);
   }
 
   static String formatNumber(num? number) {
@@ -27,15 +52,16 @@ class AuthUtils {
     return "${(number / 1000000000).toStringAsFixed(number % 1000000000 < 100000000 ? 1 : 0)}B";
   }
 
-
   static String formatDateToLong(DateTime? date) {
-    if(date == null) return "";
-    return DateFormat("MMM d yyyy").format(date);
+    if (date == null) return "";
+    final indiaTime = date.toUtc().add(const Duration(hours: 5, minutes: 30));
+    return DateFormat("MMM d yyyy").format(indiaTime);
   }
 
   static String formatDatetime(DateTime? date) {
-    if(date == null) return "";
-    return DateFormat("dd MMMM yyyy, hh:mm a").format(date);
+    if (date == null) return "";
+    final indiaTime = date.toUtc().add(const Duration(hours: 5, minutes: 30));
+    return DateFormat("dd MMMM yyyy, hh:mm a").format(indiaTime);
   }
 
   static void navigateFromPageName(String? page){
@@ -44,7 +70,6 @@ class AuthUtils {
       case "registerUserPage": Get.offAll(() => const RegisterUserPage());
     }
   }
-
 
   static bool isValidBase64(String base64Str) {
     final base64Pattern = RegExp(r'^[A-Za-z0-9+/]+={0,2}$');

@@ -173,7 +173,7 @@ class CheckoutPage extends StatelessWidget {
                                 DottedLine(
                                   dashColor: CustomColors.darkGray,
                                 ),
-                                TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.formatDateToLong(bookingViewModel.bookingRequestModelObserver.value?.checkInDate)}" +" - " + "${AuthUtils.formatDateToLong(bookingViewModel.bookingRequestModelObserver.value?.checkOutDate)}",),
+                                TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.dateFormatToCheckInCheckOut(bookingViewModel.bookingRequestModelObserver.value?.checkInDate,bookingViewModel.bookingRequestModelObserver.value?.checkOutDate)}",),
                                 DottedLine(
                                   dashColor: CustomColors.darkGray,
                                 ),
@@ -220,12 +220,14 @@ class CheckoutPage extends StatelessWidget {
                                           children: [
                                             Icon(Icons.local_offer,size: 15,color: CustomColors.primary),
                                             const SizedBox(width: 5),
-                                            Text(
-                                                '${bookingViewModel.selectedCoupon.value?.code ?? ""} ',
-                                                style:  TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 16,
-                                                    color: CustomColors.textColor)),
+                                            Expanded(
+                                              child: Text(
+                                                  '${bookingViewModel.selectedCoupon.value?.code ?? ""} ',
+                                                  style:  TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 16,
+                                                      color: CustomColors.textColor)),
+                                            ),
                                             Text(
                                                 ' Coupon applied',
                                                 style:  TextStyle(

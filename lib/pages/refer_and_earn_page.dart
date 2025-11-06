@@ -91,7 +91,7 @@ class _ReferAndEarnPageState extends State<ReferAndEarnPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ReferAndEarnComponent(count:(authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referrals) ?? []).length,authViewModel: authViewModel),
+                      ReferAndEarnComponent(count:authViewModel.fetchUserDetailsObserver.value.whenOrNull(success: (data) => (data as FetchUserDetailsResponseModel).data?.referralCount) ?? 0,authViewModel: authViewModel),
                       const SizedBox(height: 50),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),

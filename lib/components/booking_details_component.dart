@@ -71,7 +71,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
                             ),
                             Container(decoration: AppStyles.gradient,child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                              child: Text("${AuthUtils.formatDateToLong(widget.bookingModel?.checkInDate)} To ${AuthUtils.formatDateToLong(widget.bookingModel?.checkOutDate)}",style: TextStyle(color: CustomColors.primary,fontSize: 12,fontWeight: FontWeight.w400)),
+                              child: Text("${AuthUtils.dateFormatToCheckInCheckOut(widget.bookingModel?.checkInDate,widget.bookingModel?.checkOutDate)}",style: TextStyle(color: CustomColors.primary,fontSize: 12,fontWeight: FontWeight.w400)),
                             ))
                           ],
                         ),

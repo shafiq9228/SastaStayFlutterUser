@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pg_hostel/pages/main_page.dart';
+import 'package:pg_hostel/pages/otp_verification_page.dart';
 import 'package:pg_hostel/pages/terms_and_condition_page.dart';
 import '../api/api_result.dart';
 import '../components/custom_progress_bar.dart';
@@ -172,6 +174,7 @@ class MobileVerificationPage extends StatelessWidget {
 
   Future<User?> signInWithGoogle() async {
     try {
+
       await logoutEmail();
       authViewModel.emailVerificationObserver.value = const ApiResult.loading("");
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();

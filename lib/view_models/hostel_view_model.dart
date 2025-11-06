@@ -164,6 +164,8 @@ class HostelViewModel extends GetxController{
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = FetchHostelsResponseModel.fromJson(body);
+        print("hello");
+        print(responseData);
         if(responseData.status == 1){
           observer.value.data.value.maybeWhen(success: (data) {
             final oldList = (data as FetchHostelsResponseModel?)?.data?.toList();
