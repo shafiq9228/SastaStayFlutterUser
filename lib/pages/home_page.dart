@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/api/api_result.dart';
-import 'package:pg_hostel/components/home_page_component.dart';
-import 'package:pg_hostel/components/home_page_search.dart';
-import 'package:pg_hostel/components/hostel_details_component.dart';
-import 'package:pg_hostel/components/hostel_details_horizontal_component1.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
-import 'package:pg_hostel/components/side_heading_component.dart';
-import 'package:pg_hostel/pages/filter_page.dart';
-import 'package:pg_hostel/pages/hostels_map_view.dart';
 import 'package:pg_hostel/pages/search_page.dart';
+
 import 'package:pg_hostel/request_model/auth_request_model.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/shimmers/hostel_details_horizontal_shimmer.dart';
@@ -20,10 +13,18 @@ import 'package:pg_hostel/utils/statefullwrapper.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
-import '../components/banner_widget.dart';
-import '../components/hostel_details_horizontal_component2.dart';
+import '../components/side_heading_component.dart';
 import '../components/swipable_image_overlay.dart';
+import '../components/home_page_component.dart';
+import '../components/home_page_search.dart';
+import '../components/hostel_details_component.dart';
+import '../components/hostel_details_horizontal_component1.dart';
+import '../components/hostel_details_horizontal_component2.dart';
 import '../components/type_of_hostel_component.dart';
+import 'filter_page.dart';
+import 'hostels_map_view.dart';
+
+
 
 
 class HomePage extends StatefulWidget {

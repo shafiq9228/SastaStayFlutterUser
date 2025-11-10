@@ -1,11 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
-import 'mobile_verification_page.dart';
-import '../utils/custom_colors.dart';
 import '../components/onboarding_component.dart';
+import '../utils/custom_colors.dart';
+import 'mobile_verification_page.dart';
 
 class OnBoardingScreens extends StatefulWidget {
   const OnBoardingScreens({super.key});

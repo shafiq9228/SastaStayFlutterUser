@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 import 'package:pg_hostel/api/api_result.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
-import 'package:pg_hostel/components/custom_outlined_button.dart';
 import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/components/title_message_component.dart';
+
 import 'package:pg_hostel/request_model/bookings_request_model.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
@@ -18,6 +16,10 @@ import 'package:get/get.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
 import 'colored_availability_calendar.dart';
+import 'custom_network_image.dart';
+import 'custom_outlined_button.dart';
+import 'title_message_component.dart';
+
 
 class HostelRoomAvailabilityBottomSheet extends StatefulWidget {
   final RoomModel? roomModel;
@@ -244,56 +246,53 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                   height: 5,
                 ),
               ),
-              if (_selectedDates.isNotEmpty) ...[
-                Text(
-                  'Selected Dates (${_selectedDates.length}):',
-                  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: CustomColors.textColor),
-                ),
-                const SizedBox(height: 4),
-                SizedBox(
-                  height: 60,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _selectedDates.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Chip(
-                          label: Text(DateFormat('MMM dd').format(_selectedDates[index])),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-              const SizedBox(height: 8),
-              if(_selectedDates.isNotEmpty) Text(
-                _selectedDates.length == 1 ? 'Selected Date:' : 'Selected Dates:',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: CustomColors.textColor,
-                  fontSize: 14,
-                ),
-              ),
-              const SizedBox(height: 8),
+              // if(_selectedDates.isNotEmpty) Text(
+              //   _selectedDates.length == 1 ? 'Selected Date:' : 'Selected Dates:',
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.w600,
+              //     color: CustomColors.textColor,
+              //     fontSize: 14,
+              //   ),
+              // ),
+              // const SizedBox(height: 8),
               _selectedDates.isEmpty == true ? Obx(() => bookingViewModel.checkAvailabilityDatesObserver.value.maybeWhen(
-                  loading: (d) => Center(child: CircularProgressIndicator()),
+                  loading: (d) => const Center(child: CircularProgressIndicator()),
                   orElse: () => CustomOutlinedButton(
                     buttonTxt: "Choose Dates",
                     buttonClick: () => _selectDate(context),
                   ))) : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _selectedDates.length == 1 ?
-                       TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check In / Check Out', message: "${AuthUtils.formatDateToLong(_selectedDates.first)}",)
-                   : Row(
+                  const SizedBox(height: 8),
+                  Text(
+                    'Selected Dates (${_selectedDates.length}):',
+                    style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: CustomColors.textColor),
+                  ),
+                  const SizedBox(height: 4),
+                  SizedBox(
+                    height: 60,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _selectedDates.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Chip(
+                            label: Text(DateFormat('MMM dd').format(_selectedDates[index])),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Text("${_selectedDates.length} Nights",textAlign: TextAlign.center,style: TextStyle(fontSize: 12,color: CustomColors.textColor),),
+                  Row(
                     children: [
-                      TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check In', message: "${AuthUtils.formatDateToLong(_selectedDates.first)}",),
-                      Expanded(child: Text("${_selectedDates.length} Nights",textAlign: TextAlign.center,style: TextStyle(fontSize: 12,color: CustomColors.textColor),)),
-                      TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check Out', message: "${AuthUtils.formatDateToLong(_selectedDates.last)}",),
+                      Expanded(child: TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check In', message: "${AuthUtils.formatDateToLong(_selectedDates.first)}",)),
+                      Expanded(child: TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Check Out', message: "${AuthUtils.formatDateToLong(_selectedDates.last.add(const Duration(days: 1)))}",)),
                     ],
                   ) ,
                   Obx(() => bookingViewModel.checkAvailabilityDatesObserver.value.maybeWhen(
-                      loading: (d) => Center(child: CircularProgressIndicator()),
+                      loading: (d) => const  Center(child: CircularProgressIndicator()),
                       orElse: () => CustomOutlinedButton(
                         buttonTxt: "Edit",
                         buttonClick: () => _selectDate(context),

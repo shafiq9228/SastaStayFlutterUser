@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
+
 import '../response_model/bookings_response_model.dart';
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
+
 
 
 class CouponCodeComponent extends StatefulWidget {

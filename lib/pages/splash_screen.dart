@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/pages/main_page.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:get/get.dart';
 import '../request_model/auth_request_model.dart';
 import '../utils/auth_utils.dart';
 import '../view_models/auth_view_model.dart';
+
 
 
 class SplashScreen extends StatefulWidget {

@@ -9,7 +9,6 @@ import '../api/api_result.dart';
 import '../api/end_points.dart';
 import '../components/helper_bottom_sheet.dart';
 import '../request_model/auth_request_model.dart';
-import '../request_model/bookings_request_model.dart';
 import '../response_model/auth_response_model.dart';
 import '../response_model/bookings_response_model.dart';
 import '../utils/ConfigKeys.dart';

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/animated_tap.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
-import 'package:pg_hostel/pages/booking_confirmed_page.dart';
-import 'package:pg_hostel/pages/booking_details_page.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/auth_utils.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:get/get.dart';
+import '../pages/booking_details_page.dart';
 import '../response_model/hostel_response_model.dart';
+import 'animated_tap.dart';
+import 'custom_network_image.dart';
 
 class BookingDetailsComponent extends StatefulWidget {
   final BookingModel? bookingModel;
@@ -71,7 +70,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
                             ),
                             Container(decoration: AppStyles.gradient,child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                              child: Text("${AuthUtils.dateFormatToCheckInCheckOut(widget.bookingModel?.checkInDate,widget.bookingModel?.checkOutDate)}",style: TextStyle(color: CustomColors.primary,fontSize: 12,fontWeight: FontWeight.w400)),
+                              child: Text("${AuthUtils.dateFormatToCheckInCheckOut1(widget.bookingModel?.checkInDate,widget.bookingModel?.checkOutDate)}",style: TextStyle(color: CustomColors.primary,fontSize: 12,fontWeight: FontWeight.w400)),
                             ))
                           ],
                         ),

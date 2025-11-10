@@ -6,17 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pg_hostel/pages/main_page.dart';
-import 'package:pg_hostel/pages/otp_verification_page.dart';
 import 'package:pg_hostel/pages/terms_and_condition_page.dart';
+
 import '../api/api_result.dart';
 import '../components/custom_progress_bar.dart';
 import '../components/primary_button.dart';
 import '../request_model/auth_request_model.dart';
 import '../utils/app_styles.dart';
-import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../view_models/auth_view_model.dart';
+
 
 class MobileVerificationPage extends StatelessWidget {
   MobileVerificationPage({super.key});

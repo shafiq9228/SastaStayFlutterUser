@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
+
+import '../components/secondary_heading_component.dart';
 
 
 class TermsAndConditionsPage extends StatelessWidget {

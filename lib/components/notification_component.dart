@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
 import '../utils/util.dart';
+import 'custom_network_image.dart';
 
 
 

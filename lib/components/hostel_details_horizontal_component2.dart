@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
-import 'package:pg_hostel/view_models/auth_view_model.dart';
 
 import '../pages/hostel_details_page.dart';
 import '../response_model/hostel_response_model.dart';
+import 'package:get/get.dart';
+
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
-import 'package:get/get.dart';
-
 import '../utils/geo_util.dart';
+import '../view_models/auth_view_model.dart';
 import '../view_models/hostel_view_model.dart';
 import 'animated_tap.dart';
+import 'custom_network_image.dart';
 
 class HostelDetailsHorizontalComponent2 extends StatelessWidget {
   final HostelModel? hostelModel;

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
-import 'package:pg_hostel/components/empty_data_view.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
+
 import 'package:get/get.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
+
+import '../components/custom_network_image.dart';
+import '../components/empty_data_view.dart';
+import '../components/secondary_heading_component.dart';
 
 class HostelImagesPage extends StatelessWidget {
   final List<ImageDataModel> imageDataList;

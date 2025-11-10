@@ -3,21 +3,21 @@ import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/room_component_2.dart';
 import 'package:pg_hostel/shimmers/room_details_shimmer.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 
 import '../api/api_result.dart';
-import '../components/custom_progress_bar.dart';
 import '../components/empty_data_view.dart';
-import '../components/hostel_room_availability_bottom_sheet.dart';
 import '../components/secondary_heading_component.dart';
+import '../components/hostel_room_availability_bottom_sheet.dart';
+import '../components/room_component_2.dart';
 import '../request_model/auth_request_model.dart';
 import '../response_model/hostel_response_model.dart';
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/hostel_view_model.dart';
+
 
 class RoomsListPage extends StatefulWidget {
   final String hostelId;

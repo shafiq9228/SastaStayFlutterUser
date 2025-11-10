@@ -2,30 +2,21 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/components/pricing_details_component.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
-import 'package:pg_hostel/components/static_refer_and_earn_component.dart';
-import 'package:pg_hostel/pages/main_page.dart';
-import 'package:pg_hostel/pages/rating_reviews_page.dart';
-import 'package:pg_hostel/pages/rooms_list_page.dart';
+
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../api/api_result.dart';
-import '../components/add_guest_item.dart';
 import '../components/amenities_component.dart';
 import '../components/custom_network_image.dart';
 import '../components/custom_outlined_button.dart';
 import '../components/empty_data_view.dart';
 import '../components/error_text_component.dart';
 import '../components/helper_bottom_sheet.dart';
-import '../components/hostel_details_extra_options_view.dart';
-import '../components/primary_button.dart';
-import '../components/rating_and_review_bottom_sheet.dart';
-import '../components/rating_component.dart';
-import '../components/read_more_text.dart';
-import '../components/room_component_1.dart';
 import '../components/side_heading_component.dart';
 import '../components/title_message_component.dart';
+import '../components/add_guest_item.dart';
+import '../components/hostel_details_extra_options_view.dart';
+import '../components/static_refer_and_earn_component.dart';
 import '../request_model/auth_request_model.dart';
 import '../response_model/auth_response_model.dart';
 import '../response_model/bookings_response_model.dart';
@@ -36,10 +27,8 @@ import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/booking_view_model.dart';
-import '../view_models/hostel_view_model.dart';
-import 'amenities_page.dart';
-import 'checkout_page.dart';
-import 'hostel_images_page.dart';
+import 'main_page.dart';
+
 
 
 class BookingConfirmedPage extends StatefulWidget {
@@ -192,7 +181,7 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                                   DottedLine(
                                     dashColor: CustomColors.darkGray,
                                   ),
-                                  TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Dates', message: "${AuthUtils.dateFormatToCheckInCheckOut(bookingDataModel?.checkInDate,bookingDataModel?.checkOutDate)}",),
+                                  TitleMessageComponent(asset: 'assets/images/booking.png', title: 'Selected Dates', message: "${AuthUtils.dateFormatToCheckInCheckOut(bookingDataModel?.checkInDate,bookingDataModel?.checkOutDate)}",),
                                   DottedLine(
                                     dashColor: CustomColors.darkGray,
                                   ),

@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+
 import '../components/custom_progress_bar.dart';
-import '../components/primary_button.dart';
 import '../components/secondary_heading_component.dart';
+import '../components/primary_button.dart';
 import '../request_model/auth_request_model.dart';
 import '../response_model/auth_response_model.dart';
 import '../utils/app_styles.dart';

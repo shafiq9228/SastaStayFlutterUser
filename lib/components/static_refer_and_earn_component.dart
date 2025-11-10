@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/pages/refer_and_earn_page.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
+
+import '../pages/refer_and_earn_page.dart';
 
 class StaticReferAndEarnComponent extends StatelessWidget {
   const StaticReferAndEarnComponent({super.key});

@@ -1,14 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/pages/notifications_page.dart';
-import 'package:pg_hostel/pages/search_page.dart';
+
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:get/get.dart';
 
-import '../pages/filter_page.dart';
+import '../pages/notifications_page.dart';
 
 class HomePageComponent extends StatelessWidget {
   const HomePageComponent({super.key});

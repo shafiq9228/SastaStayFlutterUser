@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/animated_tap.dart';
 
 import '../utils/custom_colors.dart';
+import 'animated_tap.dart';
+
 
 
 class ProfileMenu extends StatelessWidget {

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/custom_edit_text_component.dart';
-import 'package:pg_hostel/components/custom_progress_bar.dart';
-import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/components/static_refer_and_earn_component.dart';
-import 'package:pg_hostel/view_models/transaction_view_model.dart';
 
+import '../components/custom_edit_text_component.dart';
+import '../components/custom_progress_bar.dart';
 import '../components/secondary_heading_component.dart';
+import '../components/primary_button.dart';
+import '../components/static_refer_and_earn_component.dart';
 import '../response_model/auth_response_model.dart';
 import '../utils/custom_colors.dart';
 import '../view_models/auth_view_model.dart';
+import '../view_models/transaction_view_model.dart';
+
 
 class WalletPage extends StatefulWidget {
   const WalletPage({super.key});

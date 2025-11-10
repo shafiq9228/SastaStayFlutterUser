@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
+
 import '../utils/custom_colors.dart';
 
 class CustomNetworkImage extends StatelessWidget {

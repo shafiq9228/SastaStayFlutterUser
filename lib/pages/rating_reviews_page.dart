@@ -3,20 +3,19 @@ import 'dart:math';
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/custom_outlined_button.dart';
-import 'package:pg_hostel/components/rating_and_review_bottom_sheet.dart';
-import 'package:pg_hostel/components/rating_and_review_component.dart';
-import 'package:pg_hostel/components/rating_component.dart';
-import 'package:pg_hostel/components/side_heading_component.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/shimmers/rating_and_review_shimmer.dart';
 
 import '../components/empty_data_view.dart';
+import '../components/rating_and_review_component.dart';
 import '../components/secondary_heading_component.dart';
+import '../components/side_heading_component.dart';
+import '../components/rating_component.dart';
 import '../request_model/auth_request_model.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/hostel_view_model.dart';
+
 
 class RatingReviewsPage extends StatefulWidget {
   final double? rating;
@@ -91,12 +90,7 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                                       ),
                                       const Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 20),
-                                        child: Column(
-                                          children: [
-
-                                            SideHeadingComponent(title: "Rating And Reviews", viewVisible: false),
-                                          ],
-                                        ),
+                                        child: SideHeadingComponent(title: "Rating And Reviews", viewVisible: false),
                                       ),
                                       ListView.builder(
                                           shrinkWrap: true,

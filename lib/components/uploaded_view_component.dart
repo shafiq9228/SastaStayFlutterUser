@@ -5,6 +5,8 @@ import '../pages/file_picker_page.dart';
 import '../utils/custom_colors.dart';
 import 'custom_network_image.dart';
 
+
+
 class UploadedViewComponent extends StatelessWidget {
   final String imageUrl;
   final String fileType;

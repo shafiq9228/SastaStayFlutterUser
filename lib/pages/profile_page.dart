@@ -5,11 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pg_hostel/components/helper_bottom_sheet.dart';
-import 'package:pg_hostel/components/icon_title_message_component.dart';
-import 'package:pg_hostel/pages/coupons_page.dart';
-import 'package:pg_hostel/pages/help_support_page.dart';
-import 'package:pg_hostel/pages/kyc_page.dart';
 import 'package:pg_hostel/pages/refer_and_earn_page.dart';
 import 'package:pg_hostel/pages/register_user_page.dart';
 import 'package:pg_hostel/pages/transactions_page.dart';
@@ -21,12 +16,17 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../components/custom_progress_bar.dart';
 import '../components/empty_data_view.dart';
+import '../components/helper_bottom_sheet.dart';
+import '../components/icon_title_message_component.dart';
 import '../components/profile_menu.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/preference_manager.dart';
 import '../view_models/auth_view_model.dart';
+import 'coupons_page.dart';
+import 'help_support_page.dart';
+import 'kyc_page.dart';
 import 'mobile_verification_page.dart';
 
 class ProfilePage extends StatefulWidget {

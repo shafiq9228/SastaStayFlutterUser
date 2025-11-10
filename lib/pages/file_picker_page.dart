@@ -7,12 +7,13 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_view/photo_view.dart';
+
 import '../components/secondary_heading_component.dart';
-import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 import '../utils/image_picker_controller.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/auth_view_model.dart';
+
 
 class FilePickerPage extends StatefulWidget {
   final String fileType;

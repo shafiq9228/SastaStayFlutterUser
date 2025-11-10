@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/pages/booking_confirmed_page.dart';
-import 'package:pg_hostel/pages/booking_details_page.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
-import '../components/helper_bottom_sheet.dart';
+import '../pages/booking_confirmed_page.dart';
 import '../pages/checkout_page.dart';
 import '../request_model/auth_request_model.dart';
 import '../request_model/bookings_request_model.dart';

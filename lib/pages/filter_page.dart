@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/pages/search_page.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
+import '../components/secondary_heading_component.dart';
+import '../components/primary_button.dart';
 import '../components/type_of_hostel_component.dart';
 
 class FilterPage extends StatefulWidget {

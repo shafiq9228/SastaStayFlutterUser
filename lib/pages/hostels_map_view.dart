@@ -16,6 +16,7 @@ import '../utils/custom_colors.dart';
 import '../view_models/auth_view_model.dart';
 import '../view_models/hostel_view_model.dart';
 
+
 class HostelsMapView extends StatefulWidget {
   final String? hostelId;
   const HostelsMapView({super.key, this.hostelId});

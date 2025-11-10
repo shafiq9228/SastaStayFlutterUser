@@ -1,7 +1,6 @@
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 
-import '../components/custom_network_image.dart';
 import '../utils/custom_colors.dart';
 
 

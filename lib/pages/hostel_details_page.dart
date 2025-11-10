@@ -2,18 +2,6 @@ import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:pg_hostel/api/api_result.dart';
-import 'package:pg_hostel/components/amenities_component.dart';
-import 'package:pg_hostel/components/custom_outlined_button.dart';
-import 'package:pg_hostel/components/empty_data_view.dart';
-import 'package:pg_hostel/components/error_text_component.dart';
-import 'package:pg_hostel/components/hostel_details_extra_options_view.dart';
-import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/components/rating_component.dart';
-import 'package:pg_hostel/components/read_more_text.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
-import 'package:pg_hostel/pages/checkout_page.dart';
-import 'package:pg_hostel/pages/hostel_images_page.dart';
-import 'package:pg_hostel/pages/hostels_map_view.dart';
 import 'package:pg_hostel/pages/rating_reviews_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
@@ -29,16 +17,25 @@ import 'package:pg_hostel/view_models/hostel_view_model.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:get/get.dart';
 
 import '../components/animated_tap.dart';
 import '../components/custom_network_image.dart';
-import '../components/room_component_1.dart';
+import '../components/custom_outlined_button.dart';
+import '../components/empty_data_view.dart';
+import '../components/error_text_component.dart';
+import '../components/read_more_text.dart';
 import '../components/side_heading_component.dart';
 import '../components/title_message_component.dart';
+import '../components/hostel_details_extra_options_view.dart';
+import '../components/primary_button.dart';
+import '../components/rating_component.dart';
+import '../components/room_component_1.dart';
 import '../request_model/auth_request_model.dart';
-import 'package:get/get.dart';
-
 import 'amenities_page.dart';
+import 'checkout_page.dart';
+import 'hostel_images_page.dart';
+import 'hostels_map_view.dart';
 
 class HostelDetailPage extends StatefulWidget {
   final String? hostelId;
@@ -511,18 +508,6 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
     );
   }
 
-  Future<void> _openGoogleMaps(double latitude, double longitude) async {
-    if(latitude == 0.00 || latitude == 0.00) throw "Could not open Google Maps";
-    final Uri googleMapsUrl = Uri.parse(
-      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude',
-    );
-
-    if (await canLaunchUrl(googleMapsUrl)) {
-      await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not open Google Maps';
-    }
-  }
 
   Widget _buildFaqList(List<FaqModel> faqs) {
     return faqs.isNotEmpty ? Container(

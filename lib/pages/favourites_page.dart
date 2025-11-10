@@ -3,6 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 
+
+import 'package:get/get.dart';
+
 import '../components/empty_data_view.dart';
 import '../components/hostel_details_component.dart';
 import '../request_model/auth_request_model.dart';
@@ -10,8 +13,6 @@ import '../shimmers/hostel_details_shimmer.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/hostel_view_model.dart';
-
-import 'package:get/get.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({super.key});

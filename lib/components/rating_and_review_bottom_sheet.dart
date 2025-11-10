@@ -2,8 +2,6 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/api/api_result.dart';
-import 'package:pg_hostel/components/helper_bottom_sheet.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/request_model/bookings_request_model.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
@@ -12,6 +10,7 @@ import 'package:pg_hostel/view_models/hostel_view_model.dart';
 import '../pages/filter_page.dart';
 import '../utils/custom_colors.dart';
 import 'custom_edit_text_component.dart';
+
 
 class RatingAndReviewBottomSheet extends StatefulWidget {
   final String hostelId;

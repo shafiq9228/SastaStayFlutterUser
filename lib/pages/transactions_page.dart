@@ -3,12 +3,12 @@ import 'dart:math';
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/transaction_component.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 
 import '../components/empty_data_view.dart';
 import '../components/secondary_heading_component.dart';
+import '../components/transaction_component.dart';
 import '../request_model/auth_request_model.dart';
 import '../shimmers/booking_details_shimmer.dart';
 import '../utils/custom_colors.dart';

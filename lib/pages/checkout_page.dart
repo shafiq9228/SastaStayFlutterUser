@@ -2,14 +2,9 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/add_guest_bottom_sheet.dart';
-import 'package:pg_hostel/components/add_guest_item.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
-import 'package:pg_hostel/components/error_text_component.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
-import 'package:pg_hostel/pages/coupons_page.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
 import 'package:pg_hostel/pages/terms_and_condition_page.dart';
+
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
@@ -17,12 +12,17 @@ import 'package:pg_hostel/utils/statefullwrapper.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 
-import '../components/primary_button.dart';
+import '../components/custom_network_image.dart';
+import '../components/error_text_component.dart';
+import '../components/secondary_heading_component.dart';
 import '../components/side_heading_component.dart';
 import '../components/title_message_component.dart';
+import '../components/primary_button.dart';
 import '../response_model/bookings_response_model.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
+import 'coupons_page.dart';
+
 
 
 class CheckoutPage extends StatelessWidget {

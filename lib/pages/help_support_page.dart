@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../components/secondary_heading_component.dart';
 import '../utils/app_styles.dart';
 
 class HelpSupportPage extends StatefulWidget {

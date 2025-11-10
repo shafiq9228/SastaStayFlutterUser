@@ -8,6 +8,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../pages/main_page.dart';
 import '../pages/register_user_page.dart';
 
+
+
 class AuthUtils {
 
   AuthUtils._();
@@ -23,7 +25,7 @@ class AuthUtils {
     return DateFormat.yMd().format(indiaTime);
   }
 
-  static String dateFormatToCheckInCheckOut(DateTime? checkInDate, DateTime? checkOutDate) {
+  static String dateFormatToCheckInCheckOut1(DateTime? checkInDate, DateTime? checkOutDate) {
     if (checkInDate == null || checkOutDate == null) return "";
 
     final indiaCheckIn = _toIndianTime(checkInDate);
@@ -37,6 +39,24 @@ class AuthUtils {
       return formatDateToLong(indiaCheckIn);
     }
     return "${formatDateToLong(indiaCheckIn)} - ${formatDateToLong(indiaCheckOut)}";
+
+  }
+
+  static String dateFormatToCheckInCheckOut(DateTime? checkInDate, DateTime? checkOutDate) {
+    if (checkInDate == null || checkOutDate == null) return "";
+
+    final indiaCheckIn = _toIndianTime(checkInDate);
+    final indiaCheckOut = _toIndianTime(checkOutDate);
+
+    bool isSameDate = indiaCheckIn.year == indiaCheckOut.year &&
+        indiaCheckIn.month == indiaCheckOut.month &&
+        indiaCheckIn.day == indiaCheckOut.day;
+
+    if (isSameDate) {
+      return "${formatDateToLong(indiaCheckIn)}\nCheck In : ${formatDateToLong(indiaCheckIn)}\nCheck Out : ${formatDateToLong(indiaCheckOut.add(Duration(days: 1)))}";
+    }
+    return "${formatDateToLong(indiaCheckIn)} - ${formatDateToLong(indiaCheckOut)}\nCheck In : ${formatDateToLong(indiaCheckIn)}\nCheck Out : ${formatDateToLong(indiaCheckOut.add(Duration(days: 1)))}";
+        
   }
 
   static DateTime normalizeDate(DateTime date) {

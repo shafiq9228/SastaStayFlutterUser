@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/pages/bookings_page.dart';
 import 'package:pg_hostel/pages/profile_page.dart';
 
-
 import '../utils/custom_colors.dart';
-import 'package:get/get.dart';
-
 import '../utils/statefullwrapper.dart';
+import 'bookings_page.dart';
 import 'favourites_page.dart';
 import 'home_page.dart';
 

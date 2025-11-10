@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/side_heading_component.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
+import 'side_heading_component.dart';
+
 
 class PricingDetailsComponent extends StatefulWidget {
   final BookingModel? bookingDataModel;

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../components/amenity_component.dart';
-import '../components/custom_progress_bar.dart';
 import '../components/empty_data_view.dart';
 import '../components/secondary_heading_component.dart';
 import '../request_model/auth_request_model.dart';
@@ -14,6 +13,7 @@ import '../response_model/hostel_response_model.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
 import '../view_models/hostel_view_model.dart';
+
 
 class AmenitiesPage extends StatefulWidget {
   final String? hostelId;

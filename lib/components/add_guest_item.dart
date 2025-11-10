@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
+import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 
 import '../response_model/bookings_response_model.dart';
-import '../utils/custom_colors.dart';
+import 'custom_network_image.dart';
+
 
 class AddGuestItem extends StatelessWidget {
   final int index;

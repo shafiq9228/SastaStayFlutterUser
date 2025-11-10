@@ -4,6 +4,7 @@ import 'package:pg_hostel/utils/custom_colors.dart';
 
 import '../response_model/hostel_response_model.dart';
 
+
 class RatingComponent extends StatefulWidget {
   final double? rating;
   final List<CategoryRating>? categoryRatings;

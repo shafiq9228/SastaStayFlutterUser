@@ -8,15 +8,15 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
-
 import '../api/api_result.dart';
 import '../components/custom_progress_bar.dart';
-import '../components/primary_button.dart';
 import '../components/secondary_heading_component.dart';
+import '../components/primary_button.dart';
 import '../request_model/auth_request_model.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../view_models/auth_view_model.dart';
+
 
 class OtpVerificationPage extends StatefulWidget {
   final bool mobileVerification;

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/kyc_document_component.dart';
-import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
-import 'package:pg_hostel/components/side_heading_component.dart';
 import 'package:pg_hostel/request_model/auth_request_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 
+import '../components/kyc_document_component.dart';
+import '../components/secondary_heading_component.dart';
+import '../components/side_heading_component.dart';
+import '../components/primary_button.dart';
 import '../response_model/auth_response_model.dart';
 
 
@@ -76,7 +76,6 @@ class _KycPageState extends State<KycPage> {
                          Get.snackbar("Error","Please Upload Files",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
                           return;
                        }
-                       print("hello2");
                      authViewModel.registerUser( RegisterUserRequestModel(image: widget.userModel?.image ?? "",name:widget.userModel?.name ?? "",mobile: "${widget.userModel?.mobile ?? 0}",email: widget.userModel?.email ?? "",dob:widget.userModel?.dob ?? "",gender:widget.userModel?.gender ?? "",address: widget.userModel?.address , kycDocuments: authViewModel.kysDocuments));
                  }))),
                )

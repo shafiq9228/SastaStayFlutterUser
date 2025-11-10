@@ -11,10 +11,10 @@ import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 
-import '../components/amenities_component.dart';
 import '../components/empty_data_view.dart';
-import '../components/secondary_heading_component.dart';
 import '../utils/statefullwrapper.dart';
+
+
 
 class BookingsPage extends StatefulWidget {
   const BookingsPage({super.key});

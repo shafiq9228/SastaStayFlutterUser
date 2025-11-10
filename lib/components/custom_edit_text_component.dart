@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
+
 
 class CustomEditTextComponent extends StatelessWidget {
   final String title;

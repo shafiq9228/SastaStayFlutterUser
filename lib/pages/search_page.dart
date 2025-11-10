@@ -3,9 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/hostel_details_component.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
-import 'package:pg_hostel/components/sort_by_bottom_sheet.dart';
+
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/shimmers/hostel_details_shimmer.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
@@ -15,6 +13,9 @@ import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
 import '../api/api_result.dart';
 import '../components/empty_data_view.dart';
+import '../components/secondary_heading_component.dart';
+import '../components/hostel_details_component.dart';
+import '../components/sort_by_bottom_sheet.dart';
 import '../request_model/auth_request_model.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';

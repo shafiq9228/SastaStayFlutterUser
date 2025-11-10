@@ -9,13 +9,12 @@ import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
 import '../components/coupon_code_component.dart';
-import '../components/custom_progress_bar.dart';
 import '../components/empty_data_view.dart';
 import '../components/secondary_heading_component.dart';
 import '../request_model/auth_request_model.dart';
-import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 import '../utils/statefullwrapper.dart';
+
 
 
 class CouponsPage extends StatefulWidget {

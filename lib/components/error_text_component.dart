@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../utils/app_styles.dart';
 import '../utils/custom_colors.dart';
 
+
 class ErrorTextComponent extends StatelessWidget {
   final String? assetImage;
   final String text;

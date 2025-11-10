@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/custom_edit_text_component.dart';
 import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/components/uploaded_view_component.dart';
-import 'package:pg_hostel/components/uploading_view_component.dart';
+
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
+import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
@@ -12,7 +11,10 @@ import 'package:pg_hostel/view_models/booking_view_model.dart';
 import '../pages/file_picker_page.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
-import '../utils/custom_colors.dart';
+import 'custom_edit_text_component.dart';
+import 'uploaded_view_component.dart';
+import 'uploading_view_component.dart';
+
 
 
 class AddGuestBottomSheet extends StatefulWidget {

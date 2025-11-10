@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../response_model/auth_response_model.dart';
 import '../utils/custom_colors.dart';
+
 
 class OnBoardingScreenComponent extends StatelessWidget {
   final OnBoardingDataModel onBoardingDataModel;

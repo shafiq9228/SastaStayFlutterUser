@@ -9,11 +9,11 @@ import 'package:pg_hostel/utils/statefullwrapper.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:pg_hostel/components/refer_and_earn_component.dart';
-import 'package:pg_hostel/components/secondary_heading_component.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 
+import '../components/secondary_heading_component.dart';
+import '../components/refer_and_earn_component.dart';
 import '../response_model/hostel_response_model.dart';
 import '../view_models/auth_view_model.dart';
 

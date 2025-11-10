@@ -1,10 +1,10 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/pages/cancellation_policy_page.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../pages/cancellation_policy_page.dart';
 import 'error_text_component.dart';
 
 class HostelDetailsExtraOptionsView extends StatelessWidget {

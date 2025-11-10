@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../response_model/bookings_response_model.dart';
 import 'package:get/get.dart';
+
+import '../response_model/bookings_response_model.dart';
+import 'primary_button.dart';
 
 class ColoredAvailabilityCalendar extends StatefulWidget {
   final BookingViewModel bookingViewModel;

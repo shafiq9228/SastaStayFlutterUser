@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
+
+import 'package:get/get.dart';
 
 import '../response_model/auth_response_model.dart';
 import '../view_models/auth_view_model.dart';
-import 'package:get/get.dart';
+import 'custom_network_image.dart';
 
 class SwipableImageOverlay extends StatefulWidget {
   final double imageHeight;

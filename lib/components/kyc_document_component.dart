@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/custom_network_image.dart';
 import 'package:pg_hostel/components/uploaded_view_component.dart';
 import 'package:pg_hostel/components/uploading_view_component.dart';
-import 'package:pg_hostel/pages/file_picker_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 
+import '../pages/file_picker_page.dart';
 import 'icon_title_message_component.dart';
 
 class KycDocumentComponent extends StatefulWidget {

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../utils/custom_colors.dart';
 
+
 class SearchViewComponent extends StatelessWidget {
   const SearchViewComponent({super.key});
 

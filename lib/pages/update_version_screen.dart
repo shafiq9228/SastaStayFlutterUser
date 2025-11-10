@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../utils/custom_colors.dart';
 import '../view_models/auth_view_model.dart';
 
+
 class UpdateVersionScreen extends StatefulWidget {
   const UpdateVersionScreen({super.key});
 

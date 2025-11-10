@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/components/amenities_component.dart';
-import 'package:pg_hostel/components/animated_tap.dart';
 import 'package:pg_hostel/components/primary_button.dart';
-import 'package:pg_hostel/pages/hostel_details_page.dart';
 import 'package:pg_hostel/response_model/hostel_response_model.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 
+import 'package:get/get.dart';
+
+import '../pages/hostel_details_page.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
 import '../utils/geo_util.dart';
+import 'amenities_component.dart';
+import 'animated_tap.dart';
 import 'custom_network_image.dart';
-import 'package:get/get.dart';
 
 
 class HostelDetailsComponent extends StatelessWidget {
@@ -49,7 +50,7 @@ class HostelDetailsComponent extends StatelessWidget {
                         child: Row(
                           children: [
                             ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: 100),
+                              constraints: const BoxConstraints(maxWidth: 100),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(200),

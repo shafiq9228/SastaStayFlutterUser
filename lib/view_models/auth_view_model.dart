@@ -10,17 +10,18 @@ import 'package:image/image.dart' as img;
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pg_hostel/pages/onboarding_screens.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
+
 import '../components/amenities_component.dart';
 import '../components/custom_network_image.dart';
 import '../components/error_text_component.dart';
 import '../pages/main_page.dart';
 import '../pages/mobile_verification_page.dart';
+import '../pages/onboarding_screens.dart';
 import '../pages/otp_verification_page.dart';
 import '../pages/register_user_page.dart';
 import '../pages/update_version_screen.dart';

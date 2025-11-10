@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pg_hostel/components/animated_tap.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 
 import '../pages/booking_details_page.dart';
 import '../utils/auth_utils.dart';
+import 'animated_tap.dart';
+
 
 class TransactionComponent extends StatelessWidget {
   final TransactionDataModel? transactionModel;

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-
 import '../response_model/auth_response_model.dart';
+import 'package:get/get.dart';
+
 import '../utils/custom_colors.dart';
 import '../view_models/auth_view_model.dart';
 import 'custom_network_image.dart';
-import 'package:get/get.dart';
 
 class BannerWidget extends StatefulWidget {
   const BannerWidget({super.key});

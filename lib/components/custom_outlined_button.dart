@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 
-import '../utils/app_styles.dart';
 
 class CustomOutlinedButton extends StatelessWidget {
   final String buttonTxt;

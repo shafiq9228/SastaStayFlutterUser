@@ -1,14 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pg_hostel/pages/search_page.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
-import '../utils/custom_colors.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/search_page.dart';
+import '../utils/custom_colors.dart';
 import 'animated_tap.dart';
+
 
 class TypeOfHostelComponent extends StatelessWidget {
   final bool? filter;

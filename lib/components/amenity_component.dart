@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../response_model/hostel_response_model.dart';
 import '../utils/custom_colors.dart';
-import '../view_models/auth_view_model.dart';
 import 'custom_network_image.dart';
 
 class AmenityComponent extends StatelessWidget {
