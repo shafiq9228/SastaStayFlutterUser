@@ -1,1 +1,1 @@
-class ConfigKeys {  ConfigKeys._();  // test id = rzp_test_x9zZZnzoLiEG7C  // live id = rzp_live_YMcnEc8qAQRE4M  static const razorPayId = false ? 'rzp_live_XhjweDBSf9fLuN' : 'rzp_test_R5FzCkzQFRyceo';}
+class ConfigKeys {  ConfigKeys._();  // test id = rzp_test_x9zZZnzoLiEG7C  // live id = rzp_live_YMcnEc8qAQRE4M  static const razorPayId = false ? 'rzp_live_XhjweDBSf9fLuN' : 'rzp_test_R5FzCkzQFRyceo';  //Kommunicate Chat App Id  static final appId = "2c6d2150a3c3d4f08dc38b7e766a5ad66";}

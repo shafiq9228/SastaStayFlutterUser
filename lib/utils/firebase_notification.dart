@@ -50,7 +50,6 @@ class FireBaseNotification {
       if (notification == null) return;
 
       final imageUrl = notification.android?.imageUrl ?? notification.apple?.imageUrl;
-      print("📷 Notification image URL: $imageUrl");
 
       AwesomeNotifications().createNotification(
         content: NotificationContent(

@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD5lweTY8XpatalR0knkkSHfXrVtJDJy4c',
-    appId: '1:161030257652:android:06b7496e37e4163b0557a1',
+    appId: '1:161030257652:android:db91bba5f9b217e60557a1',
     messagingSenderId: '161030257652',
     projectId: 'sastastay-1d420',
     storageBucket: 'sastastay-1d420.firebasestorage.app',
@@ -65,11 +65,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyADGDPBsI1AOA5bxZMOLs1u_rN_wz9UQKU',
-    appId: '1:161030257652:ios:09fdedebc036f2830557a1',
+    appId: '1:161030257652:ios:c3b20e120d168eaf0557a1',
     messagingSenderId: '161030257652',
     projectId: 'sastastay-1d420',
     storageBucket: 'sastastay-1d420.firebasestorage.app',
-    iosClientId: '161030257652-ljlr7vb5ratffvlqekuss0va1jiot8pv.apps.googleusercontent.com',
-    iosBundleId: 'com.example.pgHostel',
+    androidClientId: '161030257652-asleoefo2bop372c04dblmhfdampdvtv.apps.googleusercontent.com',
+    iosClientId: '161030257652-gbq0hiktop6v0a6870a3ed8nbup8f8ef.apps.googleusercontent.com',
+    iosBundleId: 'com.sastastays.user',
   );
+
 }

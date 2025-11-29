@@ -5,6 +5,7 @@ import 'custom_colors.dart';
 class AppStyles {
   AppStyles._();
 
+
       static  final  bottomBg = BoxDecoration(color: CustomColors.white,borderRadius: const BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)));
 
       static final gradient = BoxDecoration(gradient: LinearGradient(

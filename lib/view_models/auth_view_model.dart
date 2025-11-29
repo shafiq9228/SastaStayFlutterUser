@@ -185,7 +185,6 @@ class AuthViewModel extends GetxController{
   }
 
 
-
   Future<Position?> fetchCurrentLocation() async {
     if (locationPosition.value == null) {
       await Geolocator.requestPermission();

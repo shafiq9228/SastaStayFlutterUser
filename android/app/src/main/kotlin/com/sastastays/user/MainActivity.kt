@@ -1,4 +1,4 @@
-package com.example.pg_hostel
+package com.sastastays.user
 
 import io.flutter.embedding.android.FlutterActivity
 

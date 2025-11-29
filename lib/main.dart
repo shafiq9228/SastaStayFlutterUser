@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 import 'package:pg_hostel/pages/splash_screen.dart';
+import 'package:pg_hostel/utils/ConfigKeys.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/firebase_notification.dart';
 import 'firebase_options.dart';
@@ -11,6 +13,18 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+
+  // try {
+  //   dynamic result = await KommunicateFlutterPlugin.buildConversation(
+  //     {
+  //       'appId': ConfigKeys.appId,
+  //     },
+  //   );
+  //   print("Conversation builder success : " + result.toString());
+  // } catch (e) {
+  //   print("Conversation builder error : " + e.toString());
+  // }
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -48,7 +62,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: CustomColors.primary),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home:  const SplashScreen(),
     );
   }
 

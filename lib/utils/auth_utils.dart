@@ -14,6 +14,9 @@ class AuthUtils {
 
   AuthUtils._();
 
+  static final appId = "2c6d2150a3c3d4f08dc38b7e766a5ad66";
+
+
   static DateTime _toIndianTime(DateTime date) {
     return date.toUtc().add(const Duration(hours: 5, minutes: 30));
   }

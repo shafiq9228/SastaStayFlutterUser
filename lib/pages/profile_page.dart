@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 import 'package:pg_hostel/pages/refer_and_earn_page.dart';
 import 'package:pg_hostel/pages/register_user_page.dart';
 import 'package:pg_hostel/pages/transactions_page.dart';
@@ -19,6 +20,7 @@ import '../components/empty_data_view.dart';
 import '../components/helper_bottom_sheet.dart';
 import '../components/icon_title_message_component.dart';
 import '../components/profile_menu.dart';
+import '../utils/ConfigKeys.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
@@ -265,6 +267,26 @@ class _ProfilePageState extends State<ProfilePage> {
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Add Money", image: "assets/images/wallet.png", onTapped: (){
                                       Get.to(() => const WalletPage());
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    ProfileMenu(title: "Chat", image: "assets/images/wallet.png", onTapped: () async {
+                                      try {
+                                        dynamic conversationObject = {
+                                          'appId': ConfigKeys.appId,
+                                          'botIds': ['sastastay-fewpl'],    // <-- Add your bot here
+                                          'isSingleConversation': true,
+                                          'metadata': {
+                                            'userId': userModel?.id ?? "",
+                                            'name': userModel?.name ?? ""
+                                          }// optional but recommended
+                                        };
+
+                                        var result = await KommunicateFlutterPlugin.buildConversation(conversationObject);
+
+                                        print("Chatbot opened: $result");
+                                      } catch (e) {
+                                        print("Error opening chatbot: $e");
+                                      }
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Refer And Earn", image: "assets/images/refer_and_earn_1.png", onTapped: (){

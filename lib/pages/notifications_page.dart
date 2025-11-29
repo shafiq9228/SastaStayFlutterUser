@@ -86,7 +86,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                         itemCount: notificationList?.length ?? 0,
                                         itemBuilder: (context, index) {
                                           final notificationModel = notificationList?[index];
-
                                           return Dismissible(
                                             key: Key(notificationModel?.id.toString() ?? index.toString()), // unique key
                                             direction: DismissDirection.endToStart, // swipe from right to left
