@@ -188,18 +188,31 @@ class AuthViewModel extends GetxController{
   Future<Position?> fetchCurrentLocation() async {
     if (locationPosition.value == null) {
       await Geolocator.requestPermission();
+
       LocationPermission locationPermission =
       await Geolocator.checkPermission();
-      if (locationPermission == LocationPermission.denied) return null;
-      final position = await Geolocator.getCurrentPosition();
-      final geoAddress = await GeoUtil().getApiAddress(position.latitude, position.longitude);
+
+      if (locationPermission == LocationPermission.denied ||
+          locationPermission == LocationPermission.deniedForever) {
+        return null;
+      }
+
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low,
+      );
+
+      final geoAddress = await GeoUtil()
+          .getApiAddress(position.latitude, position.longitude);
+
       locationPosition.value = position;
       locationDetails.value = geoAddress;
+
       return position;
     } else {
       return locationPosition.value;
     }
   }
+
 
   Future<void> performUploadFile(File selectedFile,String type) async {
     try {

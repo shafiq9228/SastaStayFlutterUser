@@ -262,10 +262,10 @@ class _HostelsMapViewState extends State<HostelsMapView> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 20),
                                 child: SizedBox(
-                                    height: 200,
+                                    height: 220,
                                     child: ListView.builder(scrollDirection: Axis.horizontal,itemBuilder: (context,index){
                                       return HostelDetailsHorizontalComponent1(hostelModel: hostelsList[index]);
-                                    },itemCount: 5)),
+                                    },itemCount: hostelsList?.length ?? 0)),
                               )
                             ],
                           );
