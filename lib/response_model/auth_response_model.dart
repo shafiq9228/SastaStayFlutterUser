@@ -85,6 +85,7 @@ class VerifyOtpResponseModel with _$VerifyOtpResponseModel{
 @Freezed()
 class VerifyOtpDataModel with _$VerifyOtpDataModel{
   const factory VerifyOtpDataModel({
+    dynamic registerValue,
     bool? registerUser,
     String? token,
   }) = _VerifyOtpDataModel;

@@ -48,8 +48,6 @@ class _ProfilePageState extends State<ProfilePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return StatefulWrapper(
@@ -270,23 +268,35 @@ class _ProfilePageState extends State<ProfilePage> {
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Chat", image: "assets/images/wallet.png", onTapped: () async {
+
                                       try {
-                                        dynamic conversationObject = {
-                                          'appId': ConfigKeys.appId,
-                                          'botIds': ['sastastay-fewpl'],    // <-- Add your bot here
-                                          'isSingleConversation': true,
-                                          'metadata': {
-                                            'userId': userModel?.id ?? "",
-                                            'name': userModel?.name ?? ""
-                                          }// optional but recommended
-                                        };
-
-                                        var result = await KommunicateFlutterPlugin.buildConversation(conversationObject);
-
-                                        print("Chatbot opened: $result");
+                                        dynamic result = await KommunicateFlutterPlugin.buildConversation(
+                                          {
+                                            'appId': ConfigKeys.appId,
+                                          },
+                                        );
+                                        print("Conversation builder success : " + result.toString());
                                       } catch (e) {
-                                        print("Error opening chatbot: $e");
+                                        print("Conversation builder error : " + e.toString());
                                       }
+
+                                      // try {
+                                      //   dynamic conversationObject = {
+                                      //     'appId': ConfigKeys.appId,
+                                      //     'botIds': ['sastastay-fewpl'],    // <-- Add your bot here
+                                      //     'isSingleConversation': true,
+                                      //     'metadata': {
+                                      //       'userId': userModel?.id ?? "",
+                                      //       'name': userModel?.name ?? ""
+                                      //     }// optional but recommended
+                                      //   };
+                                      //
+                                      //   var result = await KommunicateFlutterPlugin.buildConversation(conversationObject);
+                                      //
+                                      //   print("Chatbot opened: $result");
+                                      // } catch (e) {
+                                      //   print("Error opening chatbot: $e");
+                                      // }
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Refer And Earn", image: "assets/images/refer_and_earn_1.png", onTapped: (){

@@ -29,7 +29,9 @@ class TransactionViewModel extends GetxController {
   final updateDepositStatusObserver = const ApiResult<ConfirmBookingResponseModel>.init().obs;
 
 
-  Future<void> performAddAmountToBalance(int? amount,BuildContext context) async {
+
+
+  Future<ConfirmBookingResponseModel?> performAddAmountToBalance(int? amount,BuildContext context) async {
     try{
       if(amount == null) throw "Invalid Booking Request";
       razorpay.clear();
@@ -38,31 +40,9 @@ class TransactionViewModel extends GetxController {
       final body = response.body;
       if(response.isOk && body !=null){
         final responseData = ConfirmBookingResponseModel.fromJson(body);
-        print("responseData");
-        print(responseData);
-
         if(responseData.status == 1){
-
-          var options = {
-            'key': ConfigKeys.razorPayId,
-            'order_id': responseData.data?.transactionResponse?.orderId ?? "",
-            'name': 'SastaStay',
-            'description': 'Booking Hostel Room',
-            'prefill': {}
-          };
-
-          options['prefill'] = {'contact': UserModel.fromJson(responseData.data?.transactionResponse?.userId).mobile, 'email': UserModel.fromJson(responseData.data?.transactionResponse?.userId).email};
-
-          razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) async {
-            addAmountToWalletObserver.value = ApiResult.success(responseData);
-            await updateDepositStatus(responseData.data?.transactionResponse?.orderId ?? "",amount,context);
-          });
-          razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (razorPayResponse){
-            addAmountToWalletObserver.value = ApiResult.error(razorPayResponse.message?.replaceAll("undefined", "Payment Aborted. Please try again") ?? "");
-          });
-          razorpay.open(options);
-          // placeOrderObserver.value = ApiResult.success(responseData);
-          return;
+          addAmountToWalletObserver.value = ApiResult.success(responseData);
+          return responseData;
         }
         throw "${responseData.message}";
       }
@@ -71,6 +51,7 @@ class TransactionViewModel extends GetxController {
     catch(e){
       Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
       addAmountToWalletObserver.value = ApiResult.error(e.toString());
+      return null;
     }
   }
 

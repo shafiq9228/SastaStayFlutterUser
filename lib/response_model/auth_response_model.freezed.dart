@@ -802,6 +802,7 @@ VerifyOtpDataModel _$VerifyOtpDataModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$VerifyOtpDataModel {
+  dynamic get registerValue => throw _privateConstructorUsedError;
   bool? get registerUser => throw _privateConstructorUsedError;
   String? get token => throw _privateConstructorUsedError;
 
@@ -817,7 +818,7 @@ abstract class $VerifyOtpDataModelCopyWith<$Res> {
           VerifyOtpDataModel value, $Res Function(VerifyOtpDataModel) then) =
       _$VerifyOtpDataModelCopyWithImpl<$Res, VerifyOtpDataModel>;
   @useResult
-  $Res call({bool? registerUser, String? token});
+  $Res call({dynamic registerValue, bool? registerUser, String? token});
 }
 
 /// @nodoc
@@ -833,10 +834,15 @@ class _$VerifyOtpDataModelCopyWithImpl<$Res, $Val extends VerifyOtpDataModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? registerValue = freezed,
     Object? registerUser = freezed,
     Object? token = freezed,
   }) {
     return _then(_value.copyWith(
+      registerValue: freezed == registerValue
+          ? _value.registerValue
+          : registerValue // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       registerUser: freezed == registerUser
           ? _value.registerUser
           : registerUser // ignore: cast_nullable_to_non_nullable
@@ -857,7 +863,7 @@ abstract class _$$VerifyOtpDataModelImplCopyWith<$Res>
       __$$VerifyOtpDataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool? registerUser, String? token});
+  $Res call({dynamic registerValue, bool? registerUser, String? token});
 }
 
 /// @nodoc
@@ -871,10 +877,15 @@ class __$$VerifyOtpDataModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? registerValue = freezed,
     Object? registerUser = freezed,
     Object? token = freezed,
   }) {
     return _then(_$VerifyOtpDataModelImpl(
+      registerValue: freezed == registerValue
+          ? _value.registerValue
+          : registerValue // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       registerUser: freezed == registerUser
           ? _value.registerUser
           : registerUser // ignore: cast_nullable_to_non_nullable
@@ -890,11 +901,14 @@ class __$$VerifyOtpDataModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$VerifyOtpDataModelImpl implements _VerifyOtpDataModel {
-  const _$VerifyOtpDataModelImpl({this.registerUser, this.token});
+  const _$VerifyOtpDataModelImpl(
+      {this.registerValue, this.registerUser, this.token});
 
   factory _$VerifyOtpDataModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$VerifyOtpDataModelImplFromJson(json);
 
+  @override
+  final dynamic registerValue;
   @override
   final bool? registerUser;
   @override
@@ -902,7 +916,7 @@ class _$VerifyOtpDataModelImpl implements _VerifyOtpDataModel {
 
   @override
   String toString() {
-    return 'VerifyOtpDataModel(registerUser: $registerUser, token: $token)';
+    return 'VerifyOtpDataModel(registerValue: $registerValue, registerUser: $registerUser, token: $token)';
   }
 
   @override
@@ -910,6 +924,8 @@ class _$VerifyOtpDataModelImpl implements _VerifyOtpDataModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$VerifyOtpDataModelImpl &&
+            const DeepCollectionEquality()
+                .equals(other.registerValue, registerValue) &&
             (identical(other.registerUser, registerUser) ||
                 other.registerUser == registerUser) &&
             (identical(other.token, token) || other.token == token));
@@ -917,7 +933,8 @@ class _$VerifyOtpDataModelImpl implements _VerifyOtpDataModel {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, registerUser, token);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(registerValue), registerUser, token);
 
   @JsonKey(ignore: true)
   @override
@@ -936,12 +953,15 @@ class _$VerifyOtpDataModelImpl implements _VerifyOtpDataModel {
 
 abstract class _VerifyOtpDataModel implements VerifyOtpDataModel {
   const factory _VerifyOtpDataModel(
-      {final bool? registerUser,
+      {final dynamic registerValue,
+      final bool? registerUser,
       final String? token}) = _$VerifyOtpDataModelImpl;
 
   factory _VerifyOtpDataModel.fromJson(Map<String, dynamic> json) =
       _$VerifyOtpDataModelImpl.fromJson;
 
+  @override
+  dynamic get registerValue;
   @override
   bool? get registerUser;
   @override

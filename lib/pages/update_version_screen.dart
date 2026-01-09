@@ -120,7 +120,7 @@ class _UpdateVersionScreenState extends State<UpdateVersionScreen> {
     );
   }
 
-  final String playStoreUrl = "https://play.google.com/store/apps/details?id=com.example.kinzuser";
+  final String playStoreUrl = "https://play.google.com/store/apps/details?id=com.sastastays.user&pcampaignid=web_share";
   final String appStoreUrl = "https://apps.apple.com/us/search?term=KinzUrl";
 
   Future<void> _launchURL() async {
@@ -167,5 +167,4 @@ class _UpdateVersionScreenState extends State<UpdateVersionScreen> {
     }
   }
 
-  canLaunchUrl(Uri url) {}
 }

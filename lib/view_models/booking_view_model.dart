@@ -122,56 +122,61 @@ class BookingViewModel extends GetxController{
     }
   }
 
-  Future<void> performConfirmBooking(BookingRequestModel? request) async {
-    try{
-      if(request == null) throw "Invalid Booking Request";
-      razorpay.clear();
-      final newRequest = request.copyWith(couponId: selectedCoupon.value?.id ?? "",useWalletBalance:userWalletBalance.value);
+  Future<ConfirmBookingResponseModel?> performConfirmBooking(
+      BookingRequestModel? request,
+      ) async {
+    try {
+      if (request == null) throw "Invalid Booking Request";
+
+      final newRequest = request.copyWith(
+        couponId: selectedCoupon.value?.id ?? "",
+        useWalletBalance: userWalletBalance.value,
+      );
+
       confirmBookingObserver.value = const ApiResult.loading("");
-      final response = await apiProvider.post(EndPoints.confirmBooking,newRequest.toJson());
+
+      final response = await apiProvider.post(EndPoints.confirmBooking, newRequest.toJson());
+
       final body = response.body;
-      if(response.isOk && body !=null){
-        print("body");
-        print(body);
-        final responseData = ConfirmBookingResponseModel.fromJson(body);
-        print("responseData");
-        print(responseData);
-        if(responseData.status == 1){
-          var options = {
-            'key': ConfigKeys.razorPayId,
-            'order_id': responseData.data?.bookingResponse?.orderId ?? "",
-            'name': 'SastaStay',
-            'description': 'Booking Hostel Room',
-            'prefill': {}
-          };
-          print("hello1");
-          options['prefill'] = {'contact': UserModel.fromJson(responseData.data?.bookingResponse?.userId).mobile, 'email': UserModel.fromJson(responseData.data?.bookingResponse?.userId).email};
-          print("hello2");
-          razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) async {
-            confirmBookingObserver.value = ApiResult.success(responseData);
-            await updateOrderPaymentStatus(responseData.data?.bookingResponse?.id ?? "");
-          });
-          razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (razorPayResponse){
-            confirmBookingObserver.value = ApiResult.error(razorPayResponse.message?.replaceAll("undefined", "Payment Aborted. Please try again") ?? "");
-          });
-          razorpay.open(options);
-          // placeOrderObserver.value = ApiResult.success(responseData);
-          return;
-        }
-        else if(responseData.status == 2){
-          confirmBookingObserver.value = ApiResult.success(responseData);
-          await updateOrderPaymentStatus(responseData.data?.bookingResponse?.id ?? "");
-          return;
-        }
-        throw "${responseData.message}";
+      if (!response.isOk || body == null) {
+        throw "Failed to confirm booking";
       }
-      throw "Response Body Null";
-    }
-    catch(e){
-      Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+
+      final responseData = ConfirmBookingResponseModel.fromJson(body);
+      debugPrint("ConfirmBookingResponse: $responseData");
+
+      /// 🔹 PAYMENT REQUIRED
+      if (responseData.status == 1) {
+        confirmBookingObserver.value = ApiResult.success(responseData);
+        return responseData;
+      }
+
+      /// 🔹 NO PAYMENT (Wallet / Free booking)
+      if (responseData.status == 2) {
+        confirmBookingObserver.value = ApiResult.success(responseData);
+
+        await updateOrderPaymentStatus(
+          responseData.data?.bookingResponse?.id ?? "",
+        );
+
+        return responseData;
+      }
+
+      throw responseData.message ?? "Booking failed";
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        e.toString(),
+        backgroundColor: CustomColors.primary,
+        colorText: CustomColors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
       confirmBookingObserver.value = ApiResult.error(e.toString());
+      return null;
     }
   }
+
 
   Future<void> updateOrderPaymentStatus(String? bookingId) async{
     try{
@@ -199,6 +204,84 @@ class BookingViewModel extends GetxController{
       confirmBookingObserver.value = ApiResult.error(e.toString());
     }
   }
+
+
+  // Future<void> performConfirmBooking(BookingRequestModel? request) async {
+  //   try{
+  //     if(request == null) throw "Invalid Booking Request";
+  //     razorpay.clear();
+  //     final newRequest = request.copyWith(couponId: selectedCoupon.value?.id ?? "",useWalletBalance:userWalletBalance.value);
+  //     confirmBookingObserver.value = const ApiResult.loading("");
+  //     final response = await apiProvider.post(EndPoints.confirmBooking,newRequest.toJson());
+  //     final body = response.body;
+  //     if(response.isOk && body !=null){
+  //       final responseData = ConfirmBookingResponseModel.fromJson(body);
+  //       print("responseData");
+  //       print(responseData);
+  //
+  //       if(responseData.status == 1){
+  //         var options = {
+  //           'key': ConfigKeys.razorPayId,
+  //           'order_id': responseData.data?.bookingResponse?.orderId ?? "",
+  //           'name': 'SastaStay',
+  //           'description': 'Booking Hostel Room',
+  //           'prefill': {}
+  //         };
+  //         print("hello1");
+  //         options['prefill'] = {'contact': UserModel.fromJson(responseData.data?.bookingResponse?.userId).mobile, 'email': UserModel.fromJson(responseData.data?.bookingResponse?.userId).email};
+  //
+  //         razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, (response) async {
+  //           confirmBookingObserver.value = ApiResult.success(responseData);
+  //           await updateOrderPaymentStatus(responseData.data?.bookingResponse?.id ?? "");
+  //         });
+  //         razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (razorPayResponse){
+  //           confirmBookingObserver.value = ApiResult.error(razorPayResponse.message?.replaceAll("undefined", "Payment Aborted. Please try again") ?? "");
+  //         });
+  //         razorpay.open(options);
+  //         // placeOrderObserver.value = ApiResult.success(responseData);
+  //         return;
+  //       }
+  //       else if(responseData.status == 2){
+  //         confirmBookingObserver.value = ApiResult.success(responseData);
+  //         await updateOrderPaymentStatus(responseData.data?.bookingResponse?.id ?? "");
+  //         return;
+  //       }
+  //       throw "${responseData.message}";
+  //     }
+  //     throw "Response Body Null";
+  //   }
+  //   catch(e){
+  //     Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+  //     confirmBookingObserver.value = ApiResult.error(e.toString());
+  //   }
+  // }
+
+  // Future<void> updateOrderPaymentStatus(String? bookingId) async{
+  //   try{
+  //     updateBookingStatusObserver.value = const ApiResult.loading("");
+  //     final response = await apiProvider.post(EndPoints.updateBookingStatus,{"bookingId":bookingId});
+  //     final body = response.body;
+  //     if(response.isOk && body !=null){
+  //       final responseData = ConfirmBookingResponseModel.fromJson(body);
+  //       if(responseData.status == 1){
+  //         guestDetailsList.clear();
+  //         bookingRequestModelObserver.value = null;
+  //         Get.to(() => BookingConfirmedPage(bookingId: bookingId ?? ""));
+  //         updateBookingStatusObserver.value = ApiResult.success(responseData);
+  //         confirmBookingObserver.value = ApiResult.success(responseData);
+  //         return;
+  //       }
+  //       throw "${responseData.message}";
+  //     }
+  //     throw "Response Body Null";
+  //   }
+  //   catch(e){
+  //     razorpay.clear();
+  //     Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+  //     updateBookingStatusObserver.value = const ApiResult.error("Unable to Start Booking");
+  //     confirmBookingObserver.value = ApiResult.error(e.toString());
+  //   }
+  // }
 
 
   Future<void> performCancelBooking(String? bookingId) async{

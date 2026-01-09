@@ -1,6 +1,12 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cashfree_pg_sdk/api/cferrorresponse/cferrorresponse.dart';
+import 'package:flutter_cashfree_pg_sdk/api/cfpayment/cfwebcheckoutpayment.dart';
+import 'package:flutter_cashfree_pg_sdk/api/cfpaymentgateway/cfpaymentgatewayservice.dart';
+import 'package:flutter_cashfree_pg_sdk/api/cfsession/cfsession.dart';
+import 'package:flutter_cashfree_pg_sdk/utils/cfenums.dart';
+import 'package:flutter_cashfree_pg_sdk/utils/cfexceptions.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/pages/rooms_list_page.dart';
 import 'package:pg_hostel/pages/terms_and_condition_page.dart';
@@ -12,6 +18,7 @@ import 'package:pg_hostel/utils/statefullwrapper.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 
+import '../api/api_result.dart';
 import '../components/custom_network_image.dart';
 import '../components/error_text_component.dart';
 import '../components/secondary_heading_component.dart';
@@ -28,18 +35,72 @@ import 'coupons_page.dart';
 class CheckoutPage extends StatelessWidget {
 
   final HostelModel? hostelData;
-  const CheckoutPage({super.key, required this.hostelData});
+  CheckoutPage({super.key, required this.hostelData});
+
+
 
   @override
   Widget build(BuildContext context) {
-    RxBool termsAndCondition = false.obs;
+
+    final CFPaymentGatewayService cfPaymentGatewayService =
+    CFPaymentGatewayService();
+
+    final RxBool termsAndCondition = false.obs;
+
+    /// Cashfree values (from backend)
+    ///
+    late String bookingId;
+    late String orderId;
+    late String paymentSessionId;
+
+    final CFEnvironment environment = CFEnvironment.SANDBOX;
+
+
     final authViewModel = Get.put(AuthViewModel());
     final bookingViewModel = Get.put(BookingViewModel());
+
+    void verifyPayment(String orderId) async {
+      await bookingViewModel.updateOrderPaymentStatus(bookingId);
+    }
+
+    void onError(CFErrorResponse errorResponse, String orderId) {
+      debugPrint("❌ Payment Failed : ${errorResponse.getMessage()}");
+      bookingViewModel.confirmBookingObserver.value = ApiResult.error(
+        errorResponse.getMessage() ?? "Payment failed. Please try again",
+      );
+    }
+
+    /// 🔐 CREATE CASHFREE SESSION
+    CFSession createSession() {
+      return CFSessionBuilder()
+          .setEnvironment(environment)
+          .setOrderId(orderId)
+          .setPaymentSessionId(paymentSessionId)
+          .build();
+    }
+
+    /// 🌐 OPEN CASHFREE CHECKOUT
+    void webCheckout() {
+      try {
+        final session = createSession();
+
+        final cfWebCheckout = CFWebCheckoutPaymentBuilder()
+            .setSession(session)
+            .build();
+
+        cfPaymentGatewayService.doPayment(cfWebCheckout);
+      } on CFException catch (e) {
+        debugPrint("Cashfree Exception: ${e.message}");
+        bookingViewModel.confirmBookingObserver.value =
+            ApiResult.error("Unable to start payment");
+      }
+    }
 
     return Scaffold(
       backgroundColor: CustomColors.white,
       body: StatefulWrapper(
         onInit: (){
+          cfPaymentGatewayService.setCallback(verifyPayment, onError);
         },
         onStart: (){
           bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,0);
@@ -490,14 +551,40 @@ class CheckoutPage extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: (){
-                                                if(termsAndCondition.value == false){
-                                                    Get.snackbar("Error","Please Agree The Terms And Conditions",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
-                                                    return;
+                                              PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: () async {
+                                                if (!termsAndCondition.value) {
+                                                  Get.snackbar(
+                                                    "Error",
+                                                    "Please agree to the Terms and Conditions",
+                                                    backgroundColor: CustomColors.primary,
+                                                    colorText: Colors.white,
+                                                  );
+                                                  return;
                                                 }
-                                                final newRequest = bookingViewModel.bookingRequestModelObserver.value?.copyWith(guestDetailsList:bookingViewModel.guestDetailsList);
-                                                bookingViewModel.performConfirmBooking(newRequest);
-                                              }),
+
+                                                final newRequest = bookingViewModel.bookingRequestModelObserver.value?.copyWith(guestDetailsList: bookingViewModel.guestDetailsList,);
+
+                                                /// 🔥 CALL BACKEND
+                                                final response = await bookingViewModel.performConfirmBooking(newRequest);
+
+                                                if (response != null && response.status == 1) {
+                                                  bookingId = response.data?.bookingResponse?.id ?? "";
+                                                  orderId = response.data?.bookingResponse?.orderId ?? "";
+                                                  paymentSessionId = response.data?.bookingResponse?.paymentId ?? "";
+
+                                                  webCheckout(); // Cashfree open
+                                                }
+                                              },)
+                                              // PrimaryButton(buttonTxt: "Confirm Booking", buttonClick: (){
+                                              //   if(termsAndCondition.value == false){
+                                              //       Get.snackbar("Error","Please Agree The Terms And Conditions",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+                                              //       return;
+                                              //   }
+                                              //   final newRequest = bookingViewModel.bookingRequestModelObserver.value?.copyWith(guestDetailsList:bookingViewModel.guestDetailsList);
+                                              //   // bookingViewModel.performConfirmBooking(newRequest);
+                                              //
+                                              //
+                                              // }),
                                             ],
                                           )
                                       ),

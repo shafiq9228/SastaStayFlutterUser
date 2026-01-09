@@ -60,6 +60,18 @@ class SendOtpRequestModel with _$SendOtpRequestModel{
 }
 
 
+@Freezed()
+class TrueCallerRequestModel with _$TrueCallerRequestModel{
+  const factory TrueCallerRequestModel({
+    required String? authorizationCode,
+    required String? codeVerifier,
+    required String? source,
+    required String? version,
+    required String? deviceId,
+  }) = _TrueCallerRequestModel;
+
+  factory TrueCallerRequestModel.fromJson(Map<String, dynamic> json) => _$TrueCallerRequestModelFromJson(json);
+}
 
 @Freezed()
 class VerifyOtpRequestModel with _$VerifyOtpRequestModel{

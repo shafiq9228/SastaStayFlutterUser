@@ -43,6 +43,7 @@ class AuthViewModel extends GetxController{
   final validaVersionObserver = const ApiResult<ValidateVersionResponseModel>.init().obs;
   final sendOtpResponseObserver = const ApiResult<PrimaryResponseModel>.init().obs;
   final emailVerificationObserver = const ApiResult<PrimaryResponseModel>.init().obs;
+  final trueCallerVerificationObserver = const ApiResult<VerifyOtpResponseModel>.init().obs;
   final verifyOtpResponseObserver  = const ApiResult<VerifyOtpResponseModel>.init().obs;
   final registerUserResponseObserver  = const ApiResult<PrimaryResponseModel>.init().obs;
   final fetchUserDetailsObserver  = const ApiResult<FetchUserDetailsResponseModel>.init().obs;
@@ -359,6 +360,7 @@ class AuthViewModel extends GetxController{
     }
   }
 
+
   Future<void> verifyOtp(VerifyOtpRequestModel request) async {
     try{
       verifyOtpResponseObserver.value = const ApiResult.loading("");
@@ -384,6 +386,36 @@ class AuthViewModel extends GetxController{
     catch(e){
       Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
       verifyOtpResponseObserver.value = ApiResult.error(e.toString());
+    }
+  }
+
+
+  Future<void> trueCallerLogin(TrueCallerRequestModel request) async {
+    try{
+      trueCallerVerificationObserver.value = const ApiResult.loading("");
+      final String? validatorResponse = AuthUtils.validateRequestFields(['authorizationCode','codeVerifier','source','version','deviceId'], request.toJson());
+      if(validatorResponse != null) throw validatorResponse;
+      print(request.toString());
+      final response = await apiProvider.post(EndPoints.trueCallerLogin,request.toJson());
+      final body = response.body;
+      if(response.isOk && body !=null){
+        final responseData = VerifyOtpResponseModel.fromJson(body);
+        if(responseData.status == 1){
+          final page = responseData.data?.registerUser ==  true ? "registerUserPage" : "mainPage";
+          preferenceManager.setValue("page",page);
+          preferenceManager.setValue("registerValue",responseData.data?.registerValue);
+          preferenceManager.setValue("token",responseData.data?.token);
+          trueCallerVerificationObserver.value = ApiResult.success(responseData);
+          AuthUtils.navigateFromPageName(page);
+          return;
+        }
+        throw "${responseData.message}";
+      }
+      throw "Response Body Null";
+    }
+    catch(e){
+      Get.snackbar("Error", e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      trueCallerVerificationObserver.value = ApiResult.error(e.toString());
     }
   }
 

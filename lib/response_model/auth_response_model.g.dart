@@ -80,6 +80,7 @@ Map<String, dynamic> _$$VerifyOtpResponseModelImplToJson(
 _$VerifyOtpDataModelImpl _$$VerifyOtpDataModelImplFromJson(
         Map<String, dynamic> json) =>
     _$VerifyOtpDataModelImpl(
+      registerValue: json['registerValue'],
       registerUser: json['registerUser'] as bool?,
       token: json['token'] as String?,
     );
@@ -87,6 +88,7 @@ _$VerifyOtpDataModelImpl _$$VerifyOtpDataModelImplFromJson(
 Map<String, dynamic> _$$VerifyOtpDataModelImplToJson(
         _$VerifyOtpDataModelImpl instance) =>
     <String, dynamic>{
+      'registerValue': instance.registerValue,
       'registerUser': instance.registerUser,
       'token': instance.token,
     };
