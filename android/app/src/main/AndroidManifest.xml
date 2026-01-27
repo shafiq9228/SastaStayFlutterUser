@@ -60,6 +60,7 @@
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDf0aKkhQtwMnkHdjLEAmK7hjajE5T32cU"/>
+
         <meta-data android:name="com.truecaller.android.sdk.ClientId" android:value="docapaigw7vhshb1hd7wpr8dljd3jnzjqoe-9uk-rky"/>
 
     </application>

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
 import '../api/end_points.dart';
@@ -22,7 +21,6 @@ class BookingViewModel extends GetxController{
   final apiProvider = Get.put(ApiProvider());
   final preferenceManager = Get.put(PreferenceManager());
   final hostelViewModel = Get.put(HostelViewModel());
-  final Razorpay razorpay = Razorpay();
 
 
   Rx<BookingRequestModel?> bookingRequestModelObserver = Rx<BookingRequestModel?>(null);
@@ -198,7 +196,6 @@ class BookingViewModel extends GetxController{
       throw "Response Body Null";
     }
     catch(e){
-      razorpay.clear();
       Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
       updateBookingStatusObserver.value = const ApiResult.error("Unable to Start Booking");
       confirmBookingObserver.value = ApiResult.error(e.toString());

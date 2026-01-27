@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/view_models/auth_view_model.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../api/api_provider.dart';
 import '../api/api_result.dart';
@@ -20,7 +19,6 @@ class TransactionViewModel extends GetxController {
   final authViewModel = Get.put(AuthViewModel());
   final apiProvider = Get.put(ApiProvider());
 
-  final Razorpay razorpay = Razorpay();
 
 
   final fetchTransactionsObserver =  PaginationModel(data: const ApiResult<FetchTransactionsResponseModel>.init().obs, isLoading: false, isPaginationCompleted: false, page: 1, error: "").obs;
@@ -34,7 +32,6 @@ class TransactionViewModel extends GetxController {
   Future<ConfirmBookingResponseModel?> performAddAmountToBalance(int? amount,BuildContext context) async {
     try{
       if(amount == null) throw "Invalid Booking Request";
-      razorpay.clear();
       addAmountToWalletObserver.value = const ApiResult.loading("");
       final response = await apiProvider.post(EndPoints.addAmountToWallet,{"amount":amount});
       final body = response.body;
@@ -92,7 +89,6 @@ class TransactionViewModel extends GetxController {
       throw "Response Body Null";
     }
     catch(e){
-      razorpay.clear();
       Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
       updateDepositStatusObserver.value = ApiResult.error(e.toString());
     }

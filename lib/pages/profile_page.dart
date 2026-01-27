@@ -318,10 +318,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                         builder: (context) {
                                           return HelperBottomSheet(assetImage: "assets/images/log_out.png",title: "Are you sure you want to log out?",message: "You will need to sign in again to access your account.",btn1Txt: "NO",btn1Click: (){
                                             Get.back();
-                                          },btn2Txt: "Yes",btn2Click: ()async {
+                                          },btn2Txt: "Yes",btn2Click: () async {
                                             Get.back();
                                             logOuting.value = true;
-                                            preferenceManager.clearAll();
+                                            await preferenceManager.clearAll();
                                             await _auth.signOut();
                                             await _googleSignIn.signOut();
                                             logOuting.value = false;

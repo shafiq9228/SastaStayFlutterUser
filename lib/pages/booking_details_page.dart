@@ -123,13 +123,20 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                             padding: const EdgeInsets.symmetric(horizontal: 10),
                                             child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: (hostelData.images?.first.images?.length ?? 0) > 5
+                                              itemCount: (hostelData.images?.isNotEmpty == true)
+                                                  ? ((hostelData.images?.first.images?.length ?? 0) > 5
                                                   ? 5
-                                                  : hostelData.images?.length ?? 0,
+                                                  : hostelData.images!.first.images?.length ?? 0)
+                                                  : 0,
                                               itemBuilder: (context, index) {
-                                                final images = hostelData.images?.first.images ?? [];
+                                                final images = hostelData.images?.isNotEmpty == true
+                                                    ? hostelData.images?.first.images ?? []
+                                                    : [];
+
+                                                if (images.isEmpty) return const SizedBox.shrink();
+
                                                 final imageUrl = images[index];
-                                                // If last index and there are more than 5 images
+
                                                 if (index == 4 && images.length > 5) {
                                                   final remainingCount = images.length - 5;
                                                   return Padding(

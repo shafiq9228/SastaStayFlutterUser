@@ -53,7 +53,7 @@ class CheckoutPage extends StatelessWidget {
     late String orderId;
     late String paymentSessionId;
 
-    final CFEnvironment environment = CFEnvironment.SANDBOX;
+    const CFEnvironment environment = CFEnvironment.SANDBOX;
 
 
     final authViewModel = Get.put(AuthViewModel());

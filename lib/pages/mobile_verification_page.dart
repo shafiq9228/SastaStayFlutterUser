@@ -23,8 +23,7 @@ class MobileVerificationPage extends StatefulWidget {
   const MobileVerificationPage({super.key});
 
   @override
-  State<MobileVerificationPage> createState() =>
-      _MobileVerificationPageState();
+  State<MobileVerificationPage> createState() => _MobileVerificationPageState();
 }
 
 class _MobileVerificationPageState extends State<MobileVerificationPage> {
@@ -52,8 +51,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
       sdkOption: TcSdkOptions.OPTION_VERIFY_ALL_USERS,
     );
 
-    _tcStreamSub =
-        TcSdk.streamCallbackData.listen(_onTruecallerCallback);
+    _tcStreamSub = TcSdk.streamCallbackData.listen(_onTruecallerCallback);
   }
 
   @override
@@ -344,7 +342,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                             child: Image.asset(
                                 "assets/images/google.png")),
                         const SizedBox(width: 10),
-                        const Text("Continue With Google"),
+                         Text("Continue With Google",style: TextStyle(fontSize: 16,color: CustomColors.black),),
                       ],
                     ),
                   ),
@@ -358,17 +356,17 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                   onTap: signInWithTrueCaller,
                   child: Container(
                     height: 40,
-                    decoration: AppStyles.trueCallerContainerStyle,
+                    decoration: AppStyles.googleContainerStyle,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                            width: 20,
-                            height: 20,
+                            width: 30,
+                            height: 30,
                             child: Image.asset(
                                 "assets/images/truecaller.webp")),
                         SizedBox(width: 10),
-                        Text("Continue With Truecaller",style: TextStyle(fontSize: 16,color: CustomColors.white),),
+                        Text("Continue With Truecaller",style: TextStyle(fontSize: 16,color: CustomColors.black),),
                       ],
                     ),
                   ),

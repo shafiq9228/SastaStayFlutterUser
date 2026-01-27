@@ -8,6 +8,7 @@ import 'package:pg_hostel/pages/splash_screen.dart';
 import 'package:pg_hostel/utils/ConfigKeys.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:pg_hostel/utils/firebase_notification.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import 'firebase_options.dart';
 
 

@@ -388,7 +388,7 @@ class _RegisterUserPageState extends State<RegisterUserPage> {
                             Get.snackbar("Error",validatorResponse,backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
                             return;
                           }
-                          final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','landMark','pinCode','latitude','longitude'], request.address!.toJson());
+                          final String? locationValidation = AuthUtils.validateRequestFields(['address1','address2','city','state','pinCode','latitude','longitude'], request.address!.toJson());
                           if(locationValidation != null){
                             Get.to(() =>  const LocationPickerPage());
                             Get.snackbar("Error",locationValidation,backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
