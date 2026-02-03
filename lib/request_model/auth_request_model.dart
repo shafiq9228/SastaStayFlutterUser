@@ -53,9 +53,9 @@ class FilterRequestModel with _$FilterRequestModel{
 @Freezed()
 class SendOtpRequestModel with _$SendOtpRequestModel{
   const factory SendOtpRequestModel({
-    required int? mobile
+    required int? mobile,
+    required String? signature
   }) = _SendOtpRequestModel;
-
   factory SendOtpRequestModel.fromJson(Map<String, dynamic> json) => _$SendOtpRequestModelFromJson(json);
 }
 

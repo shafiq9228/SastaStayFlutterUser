@@ -92,7 +92,7 @@ class BookingViewModel extends GetxController{
                 success: (data){
                   final hostelData = (data as FetchHostelDetailsResponseModel).data;
                   Get.close(2);
-                  Get.to(() => CheckoutPage(hostelData: hostelData));
+                  Get.to(() => CheckoutPage(hostelData: hostelData,retryBookingId: null));
                 },
                 orElse: (){
                   Get.close(2);
@@ -133,7 +133,7 @@ class BookingViewModel extends GetxController{
 
       confirmBookingObserver.value = const ApiResult.loading("");
 
-      final response = await apiProvider.post(EndPoints.confirmBooking, newRequest.toJson());
+      final response = await apiProvider.post(request.bookingId != null ? EndPoints.retryBooking : EndPoints.confirmBooking, newRequest.toJson());
 
       final body = response.body;
       if (!response.isOk || body == null) {

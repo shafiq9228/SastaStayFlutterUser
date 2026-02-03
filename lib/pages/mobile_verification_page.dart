@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 import 'package:truecaller_sdk/truecaller_sdk.dart';
 
 import '../api/api_result.dart';
@@ -415,13 +416,10 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                   const CustomProgressBar(),
                   orElse: () => PrimaryButton(
                     buttonTxt: "Log In",
-                    buttonClick: () {
-                      authViewModel.sendOtp(
-                        SendOtpRequestModel(
-                          mobile: int.tryParse(
-                              mobileNumberText.text),
-                        ),
-                      );
+                    buttonClick: () async {
+                      authViewModel.sendOtpResponseObserver.value = const ApiResult.loading("n");
+                      String signature = await SmsAutoFill().getAppSignature;
+                      authViewModel.sendOtp(SendOtpRequestModel(mobile: int.tryParse(mobileNumberText.text), signature:signature));
                     },
                   ),
                 )),

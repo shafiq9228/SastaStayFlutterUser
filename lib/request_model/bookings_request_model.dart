@@ -11,6 +11,7 @@ part 'bookings_request_model.g.dart';
 @Freezed()
 class BookingRequestModel with _$BookingRequestModel{
   const factory BookingRequestModel({
+    String? bookingId,
     required RoomModel? roomModel,
     required String? hostelId,
     required String? roomId,

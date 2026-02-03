@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pg_hostel/pages/booking_confirmed_page.dart';
 import 'package:pg_hostel/response_model/bookings_response_model.dart';
 import 'package:pg_hostel/utils/app_styles.dart';
 import 'package:pg_hostel/utils/auth_utils.dart';
@@ -27,6 +28,7 @@ class _BookingDetailsComponentState extends State<BookingDetailsComponent> {
 
     return AnimatedTap(
       onTap: (){
+        //Get.to(() => BookingConfirmedPage(bookingId: widget.bookingModel?.id ?? ""));
         Get.to(() => BookingDetailsPage(bookingId: widget.bookingModel?.id ?? ""));
       },
       child: Padding(

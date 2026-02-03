@@ -20,6 +20,7 @@ BookingRequestModel _$BookingRequestModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BookingRequestModel {
+  String? get bookingId => throw _privateConstructorUsedError;
   RoomModel? get roomModel => throw _privateConstructorUsedError;
   String? get hostelId => throw _privateConstructorUsedError;
   String? get roomId => throw _privateConstructorUsedError;
@@ -44,7 +45,8 @@ abstract class $BookingRequestModelCopyWith<$Res> {
       _$BookingRequestModelCopyWithImpl<$Res, BookingRequestModel>;
   @useResult
   $Res call(
-      {RoomModel? roomModel,
+      {String? bookingId,
+      RoomModel? roomModel,
       String? hostelId,
       String? roomId,
       String? couponId,
@@ -70,6 +72,7 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? bookingId = freezed,
     Object? roomModel = freezed,
     Object? hostelId = freezed,
     Object? roomId = freezed,
@@ -81,6 +84,10 @@ class _$BookingRequestModelCopyWithImpl<$Res, $Val extends BookingRequestModel>
     Object? useWalletBalance = freezed,
   }) {
     return _then(_value.copyWith(
+      bookingId: freezed == bookingId
+          ? _value.bookingId
+          : bookingId // ignore: cast_nullable_to_non_nullable
+              as String?,
       roomModel: freezed == roomModel
           ? _value.roomModel
           : roomModel // ignore: cast_nullable_to_non_nullable
@@ -142,7 +149,8 @@ abstract class _$$BookingRequestModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {RoomModel? roomModel,
+      {String? bookingId,
+      RoomModel? roomModel,
       String? hostelId,
       String? roomId,
       String? couponId,
@@ -167,6 +175,7 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? bookingId = freezed,
     Object? roomModel = freezed,
     Object? hostelId = freezed,
     Object? roomId = freezed,
@@ -178,6 +187,10 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
     Object? useWalletBalance = freezed,
   }) {
     return _then(_$BookingRequestModelImpl(
+      bookingId: freezed == bookingId
+          ? _value.bookingId
+          : bookingId // ignore: cast_nullable_to_non_nullable
+              as String?,
       roomModel: freezed == roomModel
           ? _value.roomModel
           : roomModel // ignore: cast_nullable_to_non_nullable
@@ -222,7 +235,8 @@ class __$$BookingRequestModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BookingRequestModelImpl implements _BookingRequestModel {
   const _$BookingRequestModelImpl(
-      {required this.roomModel,
+      {this.bookingId,
+      required this.roomModel,
       required this.hostelId,
       required this.roomId,
       required this.couponId,
@@ -236,6 +250,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
   factory _$BookingRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$BookingRequestModelImplFromJson(json);
 
+  @override
+  final String? bookingId;
   @override
   final RoomModel? roomModel;
   @override
@@ -266,7 +282,7 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
 
   @override
   String toString() {
-    return 'BookingRequestModel(roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, couponId: $couponId, guestDetailsList: $guestDetailsList, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, useWalletBalance: $useWalletBalance)';
+    return 'BookingRequestModel(bookingId: $bookingId, roomModel: $roomModel, hostelId: $hostelId, roomId: $roomId, couponId: $couponId, guestDetailsList: $guestDetailsList, checkInDate: $checkInDate, checkOutDate: $checkOutDate, guestCount: $guestCount, useWalletBalance: $useWalletBalance)';
   }
 
   @override
@@ -274,6 +290,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BookingRequestModelImpl &&
+            (identical(other.bookingId, bookingId) ||
+                other.bookingId == bookingId) &&
             (identical(other.roomModel, roomModel) ||
                 other.roomModel == roomModel) &&
             (identical(other.hostelId, hostelId) ||
@@ -297,6 +315,7 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      bookingId,
       roomModel,
       hostelId,
       roomId,
@@ -324,7 +343,8 @@ class _$BookingRequestModelImpl implements _BookingRequestModel {
 
 abstract class _BookingRequestModel implements BookingRequestModel {
   const factory _BookingRequestModel(
-      {required final RoomModel? roomModel,
+      {final String? bookingId,
+      required final RoomModel? roomModel,
       required final String? hostelId,
       required final String? roomId,
       required final String? couponId,
@@ -337,6 +357,8 @@ abstract class _BookingRequestModel implements BookingRequestModel {
   factory _BookingRequestModel.fromJson(Map<String, dynamic> json) =
       _$BookingRequestModelImpl.fromJson;
 
+  @override
+  String? get bookingId;
   @override
   RoomModel? get roomModel;
   @override

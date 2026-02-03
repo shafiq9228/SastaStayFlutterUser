@@ -6,11 +6,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kommunicate_flutter/kommunicate_flutter.dart';
+import 'package:pg_hostel/pages/cancellation_policy_page.dart';
 import 'package:pg_hostel/pages/refer_and_earn_page.dart';
 import 'package:pg_hostel/pages/register_user_page.dart';
+import 'package:pg_hostel/pages/terms_and_condition_page.dart';
 import 'package:pg_hostel/pages/transactions_page.dart';
 import 'package:pg_hostel/pages/wallet_page.dart';
 import 'package:pg_hostel/response_model/auth_response_model.dart';
+import 'package:pg_hostel/shimmers/profile_page_shimmer.dart';
 import 'package:pg_hostel/utils/statefullwrapper.dart';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -51,7 +54,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return StatefulWrapper(
-      onInit: _refreshData,
+      onInit: (){
+
+      },
+      onStart: _refreshData,
       child: Scaffold(
         backgroundColor: CustomColors.white,
         body: RefreshIndicator(
@@ -60,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
           top: true,
             child: Obx(() => authViewModel.fetchUserDetailsObserver.value.maybeWhen(
                 error: (error) => const SizedBox(width: double.infinity,height: double.infinity,child: Center(child: SingleChildScrollView(physics: AlwaysScrollableScrollPhysics(),child: SizedBox(width: double.infinity,height: 500,child: Center(child: EmptyDataView(text: "Something went wrong"),))))),
-                loading: (data) => SizedBox(width: double.infinity,height: double.infinity,child: Center(child: SingleChildScrollView(physics: AlwaysScrollableScrollPhysics(),child: SizedBox(width: double.infinity,height: 500,child: Center(child: SizedBox(height: 30,width: 30,child: CircularProgressIndicator(color: CustomColors.primary)),))))),
+                loading: (data) => const ProfilePageShimmer(),
                 success: (data){
                   final userModel = (data as FetchUserDetailsResponseModel).data;
 
@@ -260,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                        ),
                                     ),
                                     ProfileMenu(title: "Transaction History", image: "assets/images/wallet.png", onTapped: (){
-                                      Get.to(() => TransactionsPage());
+                                      Get.to(() => const TransactionsPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Add Money", image: "assets/images/wallet.png", onTapped: (){
@@ -305,6 +311,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Coupons", image: "assets/images/couponv.png", onTapped: (){
                                       Get.to(() => CouponsPage(selecting: false));
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    ProfileMenu(title: "Terms And Condition", image: "assets/images/terms.png", onTapped: (){
+                                      Get.to(() => TermsAndConditionsPage());
+                                    }),
+                                    DottedLine(dashColor: CustomColors.darkGray),
+                                    ProfileMenu(title: "Cancellation And Policy", image: "assets/images/cancel.png", onTapped: (){
+                                      Get.to(() => CancellationPolicyPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     Obx(() => logOuting.value == true ? CustomProgressBar() :

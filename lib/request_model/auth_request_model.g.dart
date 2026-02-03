@@ -83,12 +83,14 @@ _$SendOtpRequestModelImpl _$$SendOtpRequestModelImplFromJson(
         Map<String, dynamic> json) =>
     _$SendOtpRequestModelImpl(
       mobile: json['mobile'] as int?,
+      signature: json['signature'] as String?,
     );
 
 Map<String, dynamic> _$$SendOtpRequestModelImplToJson(
         _$SendOtpRequestModelImpl instance) =>
     <String, dynamic>{
       'mobile': instance.mobile,
+      'signature': instance.signature,
     };
 
 _$TrueCallerRequestModelImpl _$$TrueCallerRequestModelImplFromJson(

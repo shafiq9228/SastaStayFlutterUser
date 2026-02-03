@@ -9,6 +9,7 @@ part of 'bookings_request_model.dart';
 _$BookingRequestModelImpl _$$BookingRequestModelImplFromJson(
         Map<String, dynamic> json) =>
     _$BookingRequestModelImpl(
+      bookingId: json['bookingId'] as String?,
       roomModel: json['roomModel'] == null
           ? null
           : RoomModel.fromJson(json['roomModel'] as Map<String, dynamic>),
@@ -31,6 +32,7 @@ _$BookingRequestModelImpl _$$BookingRequestModelImplFromJson(
 Map<String, dynamic> _$$BookingRequestModelImplToJson(
         _$BookingRequestModelImpl instance) =>
     <String, dynamic>{
+      'bookingId': instance.bookingId,
       'roomModel': instance.roomModel,
       'hostelId': instance.hostelId,
       'roomId': instance.roomId,

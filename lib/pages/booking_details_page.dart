@@ -1,7 +1,10 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/components/primary_button.dart';
+import 'package:pg_hostel/pages/checkout_page.dart';
 import 'package:pg_hostel/pages/rating_reviews_page.dart';
+import 'package:pg_hostel/request_model/bookings_request_model.dart';
 
 import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -413,12 +416,17 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                 // const SideHeadingComponent(title: "Rules",viewVisible: false),
                                 // _buildRulesList(hostelData.rules ?? []),
                                 const SizedBox(height: 30),
-                                HostelDetailsExtraOptionsView(rules: hostelData.rules,checkInTime: hostelData?.checkInTime,checkOutTime:  hostelData?.checkOutTime,mobileNumber: dealerData.mobile.toString()),
+                                HostelDetailsExtraOptionsView(rules: hostelData.rules,checkInTime: hostelData.checkInTime,checkOutTime:  hostelData.checkOutTime,mobileNumber: dealerData.mobile.toString()),
                                 const SizedBox(height: 30),
                                 SideHeadingComponent(title: "Refer And Earn",viewVisible: false),
                                 StaticReferAndEarnComponent(),
                                 const SizedBox(height: 30),
-                                ((bookingDataModel?.paymentStatus ?? "") != "success") ? const SizedBox() : ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
+                                ((bookingDataModel?.paymentStatus ?? "") != "success")  && (bookingDataModel?.bookingStatus ?? "") != "Past" ? PrimaryButton(buttonTxt: "Retry Booking", buttonClick: (){
+
+                                  bookingViewModel.bookingRequestModelObserver.value = BookingRequestModel(roomModel: roomModelData, hostelId: hostelData.id, roomId: roomModelData.id, couponId: "", guestDetailsList: bookingDataModel?.guestDetailsList, checkInDate: bookingDataModel?.checkInDate, checkOutDate: bookingDataModel?.checkOutDate, guestCount: bookingDataModel?.guestCount, useWalletBalance: bookingViewModel.userWalletBalance.value);
+                                  Get.to(() => CheckoutPage(hostelData: hostelData, retryBookingId: bookingDataModel?.id));
+
+                                }) : ((bookingDataModel?.bookingStatus ?? "") == "Ongoing") ?
                                 SizedBox(
                                   height: 50,
                                   child: Row(

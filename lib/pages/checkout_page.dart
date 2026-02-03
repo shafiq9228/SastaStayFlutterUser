@@ -28,14 +28,15 @@ import '../components/primary_button.dart';
 import '../response_model/bookings_response_model.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
+import 'cancellation_policy_page.dart';
 import 'coupons_page.dart';
 
 
 
 class CheckoutPage extends StatelessWidget {
-
   final HostelModel? hostelData;
-  CheckoutPage({super.key, required this.hostelData});
+  final String? retryBookingId;
+  CheckoutPage({super.key, required this.hostelData,required this.retryBookingId});
 
 
 
@@ -100,6 +101,7 @@ class CheckoutPage extends StatelessWidget {
       backgroundColor: CustomColors.white,
       body: StatefulWrapper(
         onInit: (){
+          print(bookingViewModel.bookingRequestModelObserver.value);
           cfPaymentGatewayService.setCallback(verifyPayment, onError);
         },
         onStart: (){
@@ -429,8 +431,9 @@ class CheckoutPage extends StatelessWidget {
                             const SizedBox(height: 10),
                             Obx(() => bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
                                 success: (response) {
-                                  final availabilityResponse = (response as HostelRoomAvailabilityResponseModel).data;
-                                  return Column(
+                                  final responseData = (response as HostelRoomAvailabilityResponseModel);
+                                  final availabilityResponse = responseData.data;
+                                  return responseData.status == 1 ? Column(
                                     children: [
                                       const SideHeadingComponent(title: "Pricing Details",viewVisible: false),
                                       const SizedBox(height: 10),
@@ -533,9 +536,10 @@ class CheckoutPage extends StatelessWidget {
                                                                 style: TextStyle(color: CustomColors.primary, fontSize: 12, fontWeight: FontWeight.w500),
                                                               ),
                                                               TextSpan(
-                                                                onEnter: (value){
-                                                                  Get.to(() => TermsAndConditionsPage());
-                                                                },
+                                                                recognizer: TapGestureRecognizer()
+                                                                  ..onTap = () {
+                                                                    Get.to(() => CancellationPolicyPage());
+                                                                  },
                                                                 text: 'Cancellation Policy,',
                                                                 style: TextStyle(color: CustomColors.primary, fontSize: 12, fontWeight: FontWeight.w500),
                                                               ),
@@ -562,10 +566,10 @@ class CheckoutPage extends StatelessWidget {
                                                   return;
                                                 }
 
-                                                final newRequest = bookingViewModel.bookingRequestModelObserver.value?.copyWith(guestDetailsList: bookingViewModel.guestDetailsList,);
+                                                final newRequest = bookingViewModel.bookingRequestModelObserver.value?.copyWith(bookingId:retryBookingId,guestDetailsList: bookingViewModel.guestDetailsList,);
 
-                                                /// 🔥 CALL BACKEND
                                                 final response = await bookingViewModel.performConfirmBooking(newRequest);
+
 
                                                 if (response != null && response.status == 1) {
                                                   bookingId = response.data?.bookingResponse?.id ?? "";
@@ -590,6 +594,13 @@ class CheckoutPage extends StatelessWidget {
                                       ),
                                       ),
                                       const SizedBox(height: 50),
+                                    ],
+                                  ) : Column(
+                                    children: [
+                                      Text(responseData.message ?? "",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 16)),
+                                      PrimaryButton(buttonTxt: "Change Date", buttonClick: (){
+                                        Get.to(() => RoomsListPage(hostelId: hostelData?.id ?? "",roomModel: bookingViewModel.bookingRequestModelObserver.value?.roomModel));
+                                      },)
                                     ],
                                   );
                                 },

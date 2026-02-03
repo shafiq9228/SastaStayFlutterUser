@@ -33,6 +33,7 @@ class EndPoints{
 
   static const checkHostelRoomAvailability = "checkHostelRoomAvailability";
   static const confirmBooking = "confirmBooking";
+  static const retryBooking = "retryBooking";
   static const updateBookingStatus = "updateBookingStatus";
   static const fetchBookings = "fetchBookings";
   static const fetchBookingDetails = "fetchBookingDetails";

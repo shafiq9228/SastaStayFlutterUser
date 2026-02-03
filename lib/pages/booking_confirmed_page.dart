@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pg_hostel/components/pricing_details_component.dart';
 
 import 'package:pg_hostel/view_models/auth_view_model.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../components/amenities_component.dart';
@@ -12,6 +15,7 @@ import '../components/custom_outlined_button.dart';
 import '../components/empty_data_view.dart';
 import '../components/error_text_component.dart';
 import '../components/helper_bottom_sheet.dart';
+import '../components/icon_title_message_component.dart';
 import '../components/side_heading_component.dart';
 import '../components/title_message_component.dart';
 import '../components/add_guest_item.dart';
@@ -79,8 +83,7 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                               icon: Image.asset(
                                 'assets/images/back_btn.png', // your asset path
                                 width: 20,
-                                height: 20
-                                ,
+                                height: 20,
                               ),
                               onPressed: () => Get.offAll(() => const MainPage()), // or Navigator.pop(context)
                             ),
@@ -194,7 +197,26 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                                       height: 5,
                                     ),
                                   ),
-                                  const SizedBox(height: 30),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      IconTitleMessageComponent(assetImage: "assets/images/help.png",title: "",message: "Help",color: Colors.redAccent,onClick: (){
+                                        openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
+                                      }),
+                                      Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                      IconTitleMessageComponent(assetImage: "assets/images/cell.png",title: "",message: "Call Hostel",color: CustomColors.primary,onClick: (){
+                                        openDialPad(dealerData.mobile.toString());
+                                      }),
+                                      Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                      IconTitleMessageComponent(assetImage: "assets/images/direction.png",title: "",message: "Direction",onClick: (){
+                                        _openGoogleMaps(hostelData.location?.latitude ?? 0.00,hostelData.location?.longitude ?? 0.00);
+                                      },color: Colors.orangeAccent),
+                                      Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                      IconTitleMessageComponent(assetImage: "assets/images/share.png",title: "",message: "Share",onClick: (){
+                                        shareApp();
+                                      },color: Colors.lightGreenAccent)
+                                    ],
+                                  ),
                                   SideHeadingComponent(title: "Refer And Earn",viewVisible: false),
                                   StaticReferAndEarnComponent(),
                                   const SizedBox(height: 30),
@@ -223,6 +245,15 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
         ),
       ),
     );
+  }
+
+
+  void shareApp() {
+    final String appLink = Platform.isAndroid
+        ? "https://play.google.com/store/apps/details?id=com.sastastays.user"
+        : "https://apps.apple.com/app/idYOUR_APP_ID";
+
+    Share.share("Hey 👋 Try this app:\n$appLink");
   }
 
   Future<void> openWhatsAppChat({

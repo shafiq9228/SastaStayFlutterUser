@@ -33,8 +33,7 @@ Future<void> main() async {
 
   await FireBaseNotification().initNotifications();
 
-  // String signature = await SmsAutoFill().getAppSignature;
-  // print("📩 App Signature: $signature");
+
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: CustomColors.primary,

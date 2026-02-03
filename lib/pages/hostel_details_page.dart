@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fade_shimmer/fade_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -15,6 +17,7 @@ import 'package:pg_hostel/view_models/auth_view_model.dart';
 import 'package:pg_hostel/view_models/booking_view_model.dart';
 import 'package:pg_hostel/view_models/hostel_view_model.dart';
 import 'package:dotted_line/dotted_line.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:get/get.dart';
@@ -198,7 +201,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                   actions: [
                     InkWell(
                       onTap: (){
-
+                        shareApp();
                       },
                       child: Container(width:35,height:35,decoration: AppStyles.whiteCircleBg,child:Center(child: Icon(Icons.share,size: 20,))),
                     ),
@@ -425,7 +428,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                                   ),
                                   const SizedBox(height: 10),
                                   PrimaryButton(buttonTxt: "Book Now", buttonClick: (){
-                                      Get.to(() => CheckoutPage(hostelData: hostelData));
+                                      Get.to(() => CheckoutPage(hostelData: hostelData,retryBookingId:null));
                                   }),
                                   const SizedBox(height: 50),
                                 ],
@@ -506,6 +509,14 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
         SizedBox(height: 10),
       ],
     );
+  }
+
+  void shareApp() {
+    final String appLink = Platform.isAndroid
+        ? "https://play.google.com/store/apps/details?id=com.sastastays.user"
+        : "https://apps.apple.com/app/idYOUR_APP_ID";
+
+    Share.share("Hey 👋 Try this app:\n$appLink");
   }
 
 
@@ -631,7 +642,7 @@ class _HostelDetailPageState extends State<HostelDetailPage> {
                             ),
                           ),
                           onPressed: () {
-                            Get.to(() => CheckoutPage(hostelData: hostelModel));
+                            Get.to(() => CheckoutPage(hostelData: hostelModel,retryBookingId: null));
                           },
                           child: Text('Book Now',style: TextStyle(fontSize: 16,color: CustomColors.white)),
                         ),
