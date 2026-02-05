@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final preferenceManager = Get.put(PreferenceManager());
   final authViewModel = Get.put(AuthViewModel());
   RxBool logOuting = false.obs;
+  RxBool chatBoot = false.obs;
   RxString customerSupportNumber = "".obs;
   RxString version = "".obs;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -273,17 +276,42 @@ class _ProfilePageState extends State<ProfilePage> {
                                       Get.to(() => const WalletPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
-                                    ProfileMenu(title: "Chat", image: "assets/images/wallet.png", onTapped: () async {
+                                    ProfileMenu(observer: chatBoot,title: "Chat", image: "assets/images/wallet.png", onTapped: () async {
 
                                       try {
-                                        dynamic result = await KommunicateFlutterPlugin.buildConversation(
-                                          {
+                                        chatBoot.value = true;
+                                        dynamic user = {
+                                            'userId': userModel?.id,  //unique userId
+                                            'password': userModel?.id,
+                                            'displayName': userModel?.name,
+                                            'contactNumber': userModel?.mobile.toString(),
+                                            'imageLink': userModel?.profilePic,
+                                            'email': userModel?.email,
+                                            'appId': ConfigKeys.appId
+                                          };
+
+                                         await KommunicateFlutterPlugin.login(user).then((result) async {
+                                          dynamic conversationObject = {
                                             'appId': ConfigKeys.appId,
-                                          },
-                                        );
-                                        print("Conversation builder success : " + result.toString());
+                                            'kmUser': jsonEncode(user),
+                                            'isSingleConversation': false
+                                          };
+
+                                          await KommunicateFlutterPlugin.buildConversation(conversationObject).then((clientConversationId) {
+                                            chatBoot.value = false;
+                                            print("Conversation builder success : " + clientConversationId.toString());
+                                          }).catchError((error) {
+                                            chatBoot.value = false;
+                                            print("Conversation builder error : " + error.toString());
+                                          });
+
+                                        }).catchError((error) {
+                                           chatBoot.value = false;
+                                          print("Login failed : " + error.toString());
+                                        });
                                       } catch (e) {
-                                        print("Conversation builder error : " + e.toString());
+                                        chatBoot.value = false;
+                                        print("Conversation error: $e");
                                       }
 
                                       // try {
@@ -321,8 +349,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       Get.to(() => CancellationPolicyPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
-                                    Obx(() => logOuting.value == true ? CustomProgressBar() :
-                                    ProfileMenu(title: "Log Out", image: "assets/images/log_out_icon.png",logOutMenu: true, onTapped: () {
+                                    ProfileMenu(observer: logOuting,title: "Log Out", image: "assets/images/log_out_icon.png",logOutMenu: true, onTapped: () {
                                       showModalBottomSheet(
                                         context: context,
                                         isScrollControlled: true, // allows full height scroll
@@ -338,6 +365,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             await preferenceManager.clearAll();
                                             await _auth.signOut();
                                             await _googleSignIn.signOut();
+                                            await KommunicateFlutterPlugin.logout();
                                             logOuting.value = false;
                                             authViewModel.kysDocuments.value  =  authViewModel.initialKycDocuments;
                                             Get.offAll(() =>  MobileVerificationPage());
@@ -346,7 +374,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                       );
                                       // logOutConfirmationDialog(userModel);
                                     }),
-                                    ),
                                   ],
                                 ),
                               ),

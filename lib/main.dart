@@ -27,6 +27,13 @@ Future<void> main() async {
   //   print("Conversation builder error : " + e.toString());
   // }
 
+  KommunicateFlutterPlugin.init(ConfigKeys.appId).then((value) {
+    print("Initialization successful : " + value.toString());
+    // Usually returns null; sometimes it may return the appID.
+  }).catchError((error) {
+    print("Initialization error occurred : " + error.toString());
+  });
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
