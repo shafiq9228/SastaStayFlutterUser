@@ -276,7 +276,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       Get.to(() => const WalletPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
-                                    ProfileMenu(observer: chatBoot,title: "Chat", image: "assets/images/wallet.png", onTapped: () async {
+                                    ProfileMenu(observer: chatBoot,title: "Chat", image: "assets/images/chat_help.png", onTapped: () async {
 
                                       try {
                                         chatBoot.value = true;

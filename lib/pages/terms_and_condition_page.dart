@@ -104,7 +104,7 @@ class TermsContent extends StatelessWidget {
         SectionTitle('10. Contact Information'),
         SectionContent(
             'For questions about these Terms and Conditions, please contact us at: '
-                'support@hostelbookingapp.com'
+                'sastastays@gmail.com'
         ),
 
         SizedBox(height: 80), // Space for the fixed button

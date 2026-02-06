@@ -160,7 +160,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                           Expanded(
                             child: OutlinedButton(
                               onPressed: () {
-                                openEmailSupport(email:"sastastaysupport@gmil.com");
+                                openEmailSupport(email:"sastastays@gmil.com");
                               },
                               child: const Text("Email Us"),
                             ),
@@ -169,7 +169,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                           Expanded(
                             child: InkWell(
                               onTap: (){
-                                openWhatsAppChat(phoneNumber: "9515486032");
+                                openWhatsAppChat(phoneNumber: "9848313231");
                               },
                               child: Container(
                                 height: 40,

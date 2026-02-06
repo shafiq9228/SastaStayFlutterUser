@@ -19,14 +19,14 @@ class HostelDetailsExtraOptionsView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Visibility(
-          visible: mobileNumber.toString().trim().isNotEmpty,
-          child: InkWell(
-              onTap: (){
-                openWhatsAppChat(phoneNumber: mobileNumber.toString());
-              },
-              child: const ErrorTextComponent(assetImage: "assets/images/chat.png",text: "Have Queries? Here to help")),
-        ),
+        // Visibility(
+        //   visible: mobileNumber.toString().trim().isNotEmpty,
+        //   child: InkWell(
+        //       onTap: (){
+        //         openWhatsAppChat(phoneNumber: mobileNumber.toString());
+        //       },
+        //       child: const ErrorTextComponent(assetImage: "assets/images/chat.png",text: "Have Queries? Here to help")),
+        // ),
         const SizedBox(height: 20),
         Text("Rules & Policies",style: TextStyle(fontWeight: FontWeight.w600,color: CustomColors.textColor,fontSize: 18)),
         SizedBox(height: 10),
