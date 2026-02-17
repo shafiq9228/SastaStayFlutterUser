@@ -159,8 +159,8 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                         children: [
                           Expanded(
                             child: OutlinedButton(
-                              onPressed: () {
-                                openEmailSupport(email:"sastastays@gmil.com");
+                              onPressed: () async {
+                                await openEmailSupport(email:"sastastays@gmail.com");
                               },
                               child: const Text("Email Us"),
                             ),

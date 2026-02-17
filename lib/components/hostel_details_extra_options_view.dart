@@ -1,6 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pg_hostel/components/tags_bottom_sheet.dart';
 import 'package:pg_hostel/utils/custom_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,14 +34,44 @@ class HostelDetailsExtraOptionsView extends StatelessWidget {
         Visibility(
           visible: (rules ?? []).isNotEmpty,
           child: slideComponent("Rules",(rules ?? []).join(","),(){
-
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              isScrollControlled: true,
+              builder: (context) => SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: TagsBottomSheet(
+                    title: 'Rules',
+                    tags: rules ?? [],
+                  ),
+                ),
+              ),
+            );
           }),
         ) ,
         slideComponent("Cancellation Policy","Free cancellation up to 48 hours before check-in",(){
           Get.to(() => const CancellationPolicyPage());
         }),
         slideComponent("Check-in / Check-out Times","${checkInTime ?? ""} - ${checkOutTime ?? ""}",(){
-
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: TagsBottomSheet(
+                  title: 'Check-in / Check-out Times',
+                  tags: ["Check-in : ${checkInTime ?? ""}","Check-out : ${checkOutTime ?? ""}"],
+                ),
+              ),
+            ),
+          );
         }),
 
       ],

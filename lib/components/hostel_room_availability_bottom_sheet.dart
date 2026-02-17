@@ -23,7 +23,8 @@ import 'title_message_component.dart';
 
 class HostelRoomAvailabilityBottomSheet extends StatefulWidget {
   final RoomModel? roomModel;
-  const HostelRoomAvailabilityBottomSheet({super.key, required this.roomModel});
+  final int? navigate;
+  const HostelRoomAvailabilityBottomSheet({super.key, required this.roomModel, this.navigate});
 
   @override
   State<HostelRoomAvailabilityBottomSheet> createState() =>
@@ -231,9 +232,8 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                   ),
                   Obx(() =>
                       bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
-                          success: (res) {
-                            final response  = (res as HostelRoomAvailabilityResponseModel);
-                            return response.status == 3 ? Text(response.message ?? "",style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.red,fontSize: 12),) : SizedBox();
+                          error: (res) {
+                            return Text(res ?? "",maxLines: 1,style: TextStyle(fontWeight: FontWeight.w500,color: CustomColors.red,fontSize: 12));
                           },
                           orElse: () => SizedBox()))
                 ],
@@ -597,7 +597,7 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                               guestCount: _guestCount,
                               guestDetailsList: [],
                               couponId: '', useWalletBalance: bookingViewModel.userWalletBalance.value,
-                            ),2
+                            ),widget.navigate ?? 2
                           );
                         }),
                       ],
@@ -620,7 +620,7 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                             guestCount: _guestCount,
                             guestDetailsList: [],
                             couponId: '', useWalletBalance: bookingViewModel.userWalletBalance.value
-                          ),2
+                          ),widget.navigate ?? 2
                         );
                       },
                     );

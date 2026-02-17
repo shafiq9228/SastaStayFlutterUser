@@ -185,7 +185,7 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
         _handleGoogleSuccess(user);
       }
 
-      authViewModel.sendEmailVerification(
+      await authViewModel.sendEmailVerification(
         userCredential.user?.email ?? "",
       );
 
@@ -328,23 +328,27 @@ class _MobileVerificationPageState extends State<MobileVerificationPage> {
                     ],
                   ),
                 ),
-
                 GestureDetector(
                   onTap: signInWithGoogle,
                   child: Container(
                     height: 40,
                     decoration: AppStyles.googleContainerStyle,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: Image.asset(
-                                "assets/images/google.png")),
-                        const SizedBox(width: 10),
-                         Text("Continue With Google",style: TextStyle(fontSize: 16,color: CustomColors.black),),
-                      ],
+                    child: Obx(() => authViewModel.emailVerificationObserver.value.maybeWhen(
+                      loading: (d) => Center(child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: CircularProgressIndicator(color: CustomColors.primary),
+                      )),
+                        orElse: () => Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset("assets/images/google.png")),
+                            const SizedBox(width: 10),
+                            Text("Continue With Google",style: TextStyle(fontSize: 16,color: CustomColors.black),),
+                          ],
+                        ))
                     ),
                   ),
                 ),

@@ -428,8 +428,8 @@ mixin _$HostelModel {
   List<String>? get rules => throw _privateConstructorUsedError;
   List<ImageDataModel>? get images => throw _privateConstructorUsedError;
   LocationModel? get location => throw _privateConstructorUsedError;
-  int? get monthlyIncome => throw _privateConstructorUsedError;
-  int? get totalIncome => throw _privateConstructorUsedError;
+  dynamic get monthlyIncome => throw _privateConstructorUsedError;
+  dynamic get totalIncome => throw _privateConstructorUsedError;
   int? get totalVotes => throw _privateConstructorUsedError;
   dynamic get rating => throw _privateConstructorUsedError;
   List<CategoryRating>? get categoryRatings =>
@@ -470,8 +470,8 @@ abstract class $HostelModelCopyWith<$Res> {
       List<String>? rules,
       List<ImageDataModel>? images,
       LocationModel? location,
-      int? monthlyIncome,
-      int? totalIncome,
+      dynamic monthlyIncome,
+      dynamic totalIncome,
       int? totalVotes,
       dynamic rating,
       List<CategoryRating>? categoryRatings,
@@ -601,11 +601,11 @@ class _$HostelModelCopyWithImpl<$Res, $Val extends HostelModel>
       monthlyIncome: freezed == monthlyIncome
           ? _value.monthlyIncome
           : monthlyIncome // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       totalIncome: freezed == totalIncome
           ? _value.totalIncome
           : totalIncome // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       totalVotes: freezed == totalVotes
           ? _value.totalVotes
           : totalVotes // ignore: cast_nullable_to_non_nullable
@@ -689,8 +689,8 @@ abstract class _$$HostelModelImplCopyWith<$Res>
       List<String>? rules,
       List<ImageDataModel>? images,
       LocationModel? location,
-      int? monthlyIncome,
-      int? totalIncome,
+      dynamic monthlyIncome,
+      dynamic totalIncome,
       int? totalVotes,
       dynamic rating,
       List<CategoryRating>? categoryRatings,
@@ -820,11 +820,11 @@ class __$$HostelModelImplCopyWithImpl<$Res>
       monthlyIncome: freezed == monthlyIncome
           ? _value.monthlyIncome
           : monthlyIncome // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       totalIncome: freezed == totalIncome
           ? _value.totalIncome
           : totalIncome // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as dynamic,
       totalVotes: freezed == totalVotes
           ? _value.totalVotes
           : totalVotes // ignore: cast_nullable_to_non_nullable
@@ -977,9 +977,9 @@ class _$HostelModelImpl implements _HostelModel {
   @override
   final LocationModel? location;
   @override
-  final int? monthlyIncome;
+  final dynamic monthlyIncome;
   @override
-  final int? totalIncome;
+  final dynamic totalIncome;
   @override
   final int? totalVotes;
   @override
@@ -1049,10 +1049,10 @@ class _$HostelModelImpl implements _HostelModel {
             const DeepCollectionEquality().equals(other._images, _images) &&
             (identical(other.location, location) ||
                 other.location == location) &&
-            (identical(other.monthlyIncome, monthlyIncome) ||
-                other.monthlyIncome == monthlyIncome) &&
-            (identical(other.totalIncome, totalIncome) ||
-                other.totalIncome == totalIncome) &&
+            const DeepCollectionEquality()
+                .equals(other.monthlyIncome, monthlyIncome) &&
+            const DeepCollectionEquality()
+                .equals(other.totalIncome, totalIncome) &&
             (identical(other.totalVotes, totalVotes) ||
                 other.totalVotes == totalVotes) &&
             const DeepCollectionEquality().equals(other.rating, rating) &&
@@ -1089,8 +1089,8 @@ class _$HostelModelImpl implements _HostelModel {
         const DeepCollectionEquality().hash(_rules),
         const DeepCollectionEquality().hash(_images),
         location,
-        monthlyIncome,
-        totalIncome,
+        const DeepCollectionEquality().hash(monthlyIncome),
+        const DeepCollectionEquality().hash(totalIncome),
         totalVotes,
         const DeepCollectionEquality().hash(rating),
         const DeepCollectionEquality().hash(_categoryRatings),
@@ -1134,8 +1134,8 @@ abstract class _HostelModel implements HostelModel {
       final List<String>? rules,
       final List<ImageDataModel>? images,
       final LocationModel? location,
-      final int? monthlyIncome,
-      final int? totalIncome,
+      final dynamic monthlyIncome,
+      final dynamic totalIncome,
       final int? totalVotes,
       final dynamic rating,
       final List<CategoryRating>? categoryRatings,
@@ -1185,9 +1185,9 @@ abstract class _HostelModel implements HostelModel {
   @override
   LocationModel? get location;
   @override
-  int? get monthlyIncome;
+  dynamic get monthlyIncome;
   @override
-  int? get totalIncome;
+  dynamic get totalIncome;
   @override
   int? get totalVotes;
   @override

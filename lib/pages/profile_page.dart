@@ -345,7 +345,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       Get.to(() => TermsAndConditionsPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
-                                    ProfileMenu(title: "Cancellation And Policy", image: "assets/images/cancel.png", onTapped: (){
+                                    ProfileMenu(title: "Cancellation Policy", image: "assets/images/cancel.png", onTapped: (){
                                       Get.to(() => CancellationPolicyPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),

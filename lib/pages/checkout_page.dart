@@ -21,6 +21,7 @@ import 'package:pg_hostel/view_models/booking_view_model.dart';
 import '../api/api_result.dart';
 import '../components/custom_network_image.dart';
 import '../components/error_text_component.dart';
+import '../components/hostel_room_availability_bottom_sheet.dart';
 import '../components/secondary_heading_component.dart';
 import '../components/side_heading_component.dart';
 import '../components/title_message_component.dart';
@@ -65,6 +66,8 @@ class CheckoutPage extends StatelessWidget {
     }
 
     void onError(CFErrorResponse errorResponse, String orderId) {
+      Get.snackbar("Error", "❌ Payment Failed : ${errorResponse.getMessage()}",backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+
       debugPrint("❌ Payment Failed : ${errorResponse.getMessage()}");
       bookingViewModel.confirmBookingObserver.value = ApiResult.error(
         errorResponse.getMessage() ?? "Payment failed. Please try again",
@@ -256,185 +259,186 @@ class CheckoutPage extends StatelessWidget {
                             ),
                             ErrorTextComponent(assetImage: "assets/images/aadhar.png",text: "Carry your Aadhaar card to ensure smooth check-in."),
                             const SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Container(
-                                width: double.infinity,
-                                color: CustomColors.lightGray,
-                                height: 5,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Obx(() {
-                              return bookingViewModel.selectedCoupon.value != null ? InkWell(
-                                onTap: (){
-                                  Get.to(() =>  CouponsPage(selecting: true,hostelId: hostelData?.id ?? ""));
-                                },
-                                child: Container(
-                                  decoration: AppStyles.editTextBg,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Icon(Icons.local_offer,size: 15,color: CustomColors.primary),
-                                            const SizedBox(width: 5),
-                                            Expanded(
-                                              child: Text(
-                                                  '${bookingViewModel.selectedCoupon.value?.code ?? ""} ',
-                                                  style:  TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 16,
-                                                      color: CustomColors.textColor)),
-                                            ),
-                                            Text(
-                                                ' Coupon applied',
-                                                style:  TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 12,
-                                                    color: CustomColors.textColor)),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text('View all offers',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
-                                                decoration: TextDecoration.underline,
-                                                color: CustomColors.primary))
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ) :
-                              InkWell(
-                                onTap: (){
-                                  Get.to(() => CouponsPage(selecting: true,hostelId: hostelData?.id ?? ""));
-                                },
-                                child: Container(
-                                  decoration: AppStyles.editTextBg,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Icon(Icons.local_offer_outlined,size: 15,color: CustomColors.textColor),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 5),
-                                              child: Text(
-                                                  'Apply Coupon',
-                                                  style:  TextStyle(
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 16,
-                                                      color: CustomColors.textColor)),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text('View all offers',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
-                                                decoration: TextDecoration.underline,
-                                                color: CustomColors.primary))
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            ),
-                            const SizedBox(height: 10),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Container(
-                                width: double.infinity,
-                                color: CustomColors.lightGray,
-                                height: 5,
-                              ),
-                            ),
-                            Obx(() {
-                            final walletBalance = authViewModel.fetchUserDetailsObserver.value.whenOrNull(
-                              success: (data) =>
-                              (data as FetchUserDetailsResponseModel).data?.wallet,
-                            ) ?? 0;
 
-                            return Visibility(
-                              visible: walletBalance != 0,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        // Wallet Info
-                                        Row(
-                                          children: [
-                                            Container(
-                                              decoration: AppStyles.whiteCircleBg,
-                                              padding: const EdgeInsets.all(8),
-                                              child: Image.asset(
-                                                "assets/images/wallet.png",
-                                                width: 20,
-                                                height: 20,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Wallet",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: CustomColors.textColor,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "Available Balance  : ₹$walletBalance",
-                                                  style: TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: CustomColors.textColor,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-
-                                        // Checkbox
-                                        Checkbox(
-                                          value: bookingViewModel.userWalletBalance.value,
-                                          onChanged: (value) {
-                                            bookingViewModel.userWalletBalance.value = value ?? false;
-                                            bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,0);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
-                            const SizedBox(height: 10),
                             Obx(() => bookingViewModel.checkHostelRoomAvailabilityObserver.value.maybeWhen(
                                 success: (response) {
                                   final responseData = (response as HostelRoomAvailabilityResponseModel);
                                   final availabilityResponse = responseData.data;
-                                  return responseData.status == 1 ? Column(
+                                  return Column(
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: CustomColors.lightGray,
+                                          height: 5,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Obx(() {
+                                        return bookingViewModel.selectedCoupon.value != null ? InkWell(
+                                          onTap: (){
+                                            Get.to(() =>  CouponsPage(selecting: true,hostelId: hostelData?.id ?? ""));
+                                          },
+                                          child: Container(
+                                            decoration: AppStyles.editTextBg,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Icon(Icons.local_offer,size: 15,color: CustomColors.primary),
+                                                      const SizedBox(width: 5),
+                                                      Expanded(
+                                                        child: Text(
+                                                            '${bookingViewModel.selectedCoupon.value?.code ?? ""} ',
+                                                            style:  TextStyle(
+                                                                fontWeight: FontWeight.w600,
+                                                                fontSize: 16,
+                                                                color: CustomColors.textColor)),
+                                                      ),
+                                                      Text(
+                                                          ' Coupon applied',
+                                                          style:  TextStyle(
+                                                              fontWeight: FontWeight.w600,
+                                                              fontSize: 12,
+                                                              color: CustomColors.textColor)),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text('View all offers',
+                                                      style: TextStyle(
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 14,
+                                                          decoration: TextDecoration.underline,
+                                                          color: CustomColors.primary))
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ) :
+                                        InkWell(
+                                          onTap: (){
+                                            Get.to(() => CouponsPage(selecting: true,hostelId: hostelData?.id ?? ""));
+                                          },
+                                          child: Container(
+                                            decoration: AppStyles.editTextBg,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(height: 10),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Icon(Icons.local_offer_outlined,size: 15,color: CustomColors.textColor),
+                                                      Padding(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                                                        child: Text(
+                                                            'Apply Coupon',
+                                                            style:  TextStyle(
+                                                                fontWeight: FontWeight.w700,
+                                                                fontSize: 16,
+                                                                color: CustomColors.textColor)),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 8),
+                                                  Text('View all offers',
+                                                      style: TextStyle(
+                                                          fontWeight: FontWeight.w700,
+                                                          fontSize: 14,
+                                                          decoration: TextDecoration.underline,
+                                                          color: CustomColors.primary))
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10),
+                                        child: Container(
+                                          width: double.infinity,
+                                          color: CustomColors.lightGray,
+                                          height: 5,
+                                        ),
+                                      ),
+                                      Obx(() {
+                                        final walletBalance = authViewModel.fetchUserDetailsObserver.value.whenOrNull(
+                                          success: (data) =>
+                                          (data as FetchUserDetailsResponseModel).data?.wallet,
+                                        ) ?? 0;
+
+                                        return Visibility(
+                                          visible: walletBalance != 0,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    // Wallet Info
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                          decoration: AppStyles.whiteCircleBg,
+                                                          padding: const EdgeInsets.all(8),
+                                                          child: Image.asset(
+                                                            "assets/images/wallet.png",
+                                                            width: 20,
+                                                            height: 20,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(width: 10),
+                                                        Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              "Wallet",
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight: FontWeight.w700,
+                                                                color: CustomColors.textColor,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "Available Balance  : ₹$walletBalance",
+                                                              style: TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight: FontWeight.w500,
+                                                                color: CustomColors.textColor,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+
+                                                    // Checkbox
+                                                    Checkbox(
+                                                      value: bookingViewModel.userWalletBalance.value,
+                                                      onChanged: (value) {
+                                                        bookingViewModel.userWalletBalance.value = value ?? false;
+                                                        bookingViewModel.checkHostelRoomAvailability(bookingViewModel.bookingRequestModelObserver.value,0);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                      const SizedBox(height: 10),
                                       const SideHeadingComponent(title: "Pricing Details",viewVisible: false),
                                       const SizedBox(height: 10),
                                       Container(
@@ -595,19 +599,50 @@ class CheckoutPage extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 50),
                                     ],
-                                  ) : Column(
-                                    children: [
-                                      Text(responseData.message ?? "",style: TextStyle(fontWeight: FontWeight.w700,color: CustomColors.textColor,fontSize: 16)),
-                                      PrimaryButton(buttonTxt: "Change Date", buttonClick: (){
-                                        Get.to(() => RoomsListPage(hostelId: hostelData?.id ?? "",roomModel: bookingViewModel.bookingRequestModelObserver.value?.roomModel));
-                                      },)
-                                    ],
+                                  );
+                                },
+                                loading: (cd) => Center(child: CircularProgressIndicator(color: CustomColors.primary)),
+                                error: (error){
+                                  return Column(
+                                    children:[
+                                      Text(error,style: TextStyle(color: CustomColors.red,fontSize: 12,fontWeight: FontWeight.w500),),
+                                      Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: PrimaryButton(buttonTxt: "Check Availability", buttonClick: (){
+
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true, // allows full height scroll
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                            ),
+                                            builder: (context) {
+                                              return HostelRoomAvailabilityBottomSheet(roomModel: bookingViewModel.bookingRequestModelObserver.value?.roomModel,navigate: 1);
+                                            },
+                                          );
+
+                                          // Get.to(() => RoomsListPage(hostelId: hostelData?.id ?? ""));
+                                        }),
+                                      )
+                                    ]
                                   );
                                 },
                                 orElse: () => Padding(
                                   padding: const EdgeInsets.all(20),
-                                  child: PrimaryButton(buttonTxt: "Select Room", buttonClick: (){
-                                    Get.to(() => RoomsListPage(hostelId: hostelData?.id ?? ""));
+                                  child: PrimaryButton(buttonTxt: "Check Availability", buttonClick: (){
+
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true, // allows full height scroll
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                      ),
+                                      builder: (context) {
+                                        return HostelRoomAvailabilityBottomSheet(roomModel: bookingViewModel.bookingRequestModelObserver.value?.roomModel);
+                                      },
+                                    );
+
+                                    // Get.to(() => RoomsListPage(hostelId: hostelData?.id ?? ""));
                                   }),
                                 )))
                           ],

@@ -34,7 +34,7 @@ class HomePageComponent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Image.asset("assets/images/bottom_line.png",width: 10,height: 10,color: CustomColors.white),
+                  // Image.asset("assets/images/bottom_line.png",width: 10,height: 10,color: CustomColors.white),
                   const SizedBox(width:20),
                   InkWell(
                     onTap: (){

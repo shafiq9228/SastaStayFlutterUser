@@ -46,9 +46,22 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  Future<bool> _onWillPop() async {
+    if (_selectedIndex != 0) {
+      setState(() {
+        _selectedIndex = 0;
+        _pageController.jumpToPage(0);
+      });
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop:_onWillPop,
+        child:Scaffold(
       backgroundColor: CustomColors.white,
       body: StatefulWrapper(
         onInit: ()  {
@@ -143,6 +156,6 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
       ),
-    );
+    ) );
   }
 }

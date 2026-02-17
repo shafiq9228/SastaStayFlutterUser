@@ -74,7 +74,7 @@ class TransactionComponent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(transactionModel?.transactionType?.toUpperCase() ?? "Amount",style: TextStyle(fontWeight: FontWeight.w400,fontSize: 14,color: CustomColors.darkGray)),
-                          Text("${transactionModel?.amount ?? 0}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.textColor)),
+                          Text("₹${transactionModel?.amount ?? 0}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 14,color: CustomColors.textColor)),
                         ],
                       ),
                     ),

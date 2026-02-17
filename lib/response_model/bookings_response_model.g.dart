@@ -104,10 +104,10 @@ Map<String, dynamic> _$$GuestDetailsModelImplToJson(
 _$HostelRoomBookingDataModelImpl _$$HostelRoomBookingDataModelImplFromJson(
         Map<String, dynamic> json) =>
     _$HostelRoomBookingDataModelImpl(
-      amount: json['amount'] as int?,
-      discount: json['discount'] as int?,
-      walletDeduction: json['walletDeduction'] as int?,
-      subTotal: json['subTotal'] as int?,
+      amount: json['amount'],
+      discount: json['discount'],
+      walletDeduction: json['walletDeduction'],
+      subTotal: json['subTotal'],
       paymentDetailLogs: (json['paymentDetailLogs'] as List<dynamic>?)
           ?.map((e) => AmountDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -168,7 +168,7 @@ _$TransactionDataModelImpl _$$TransactionDataModelImplFromJson(
       bookingId: json['bookingId'],
       orderId: json['orderId'] as String?,
       paymentId: json['paymentId'] as String?,
-      amount: json['amount'] as int?,
+      amount: json['amount'],
       logs: (json['logs'] as List<dynamic>?)
           ?.map((e) => AmountDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -262,10 +262,10 @@ _$BookingModelImpl _$$BookingModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['checkOutDate'] as String),
       guestCount: json['guestCount'] as int?,
-      amount: json['amount'] as int?,
-      discount: json['discount'] as int?,
-      walletDeduction: json['walletDeduction'] as int?,
-      subTotal: json['subTotal'] as int?,
+      amount: json['amount'],
+      discount: json['discount'],
+      walletDeduction: json['walletDeduction'],
+      subTotal: json['subTotal'],
       guestDetailsList: (json['guestDetailsList'] as List<dynamic>?)
           ?.map((e) => GuestDetailsModel.fromJson(e as Map<String, dynamic>))
           .toList(),

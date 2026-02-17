@@ -75,8 +75,8 @@ _$HostelModelImpl _$$HostelModelImplFromJson(Map<String, dynamic> json) =>
       location: json['location'] == null
           ? null
           : LocationModel.fromJson(json['location'] as Map<String, dynamic>),
-      monthlyIncome: json['monthlyIncome'] as int?,
-      totalIncome: json['totalIncome'] as int?,
+      monthlyIncome: json['monthlyIncome'],
+      totalIncome: json['totalIncome'],
       totalVotes: json['totalVotes'] as int?,
       rating: json['rating'],
       categoryRatings: (json['categoryRatings'] as List<dynamic>?)
