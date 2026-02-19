@@ -34,6 +34,7 @@ _$ValidateDataModelImpl _$$ValidateDataModelImplFromJson(
           : UserModel.fromJson(json['userData'] as Map<String, dynamic>),
       banners:
           (json['banners'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      cashFree: json['cashFree'] as bool?,
     );
 
 Map<String, dynamic> _$$ValidateDataModelImplToJson(
@@ -43,6 +44,7 @@ Map<String, dynamic> _$$ValidateDataModelImplToJson(
       'userBlocked': instance.userBlocked,
       'userData': instance.userData,
       'banners': instance.banners,
+      'cashFree': instance.cashFree,
     };
 
 _$PrimaryResponseModelImpl _$$PrimaryResponseModelImplFromJson(

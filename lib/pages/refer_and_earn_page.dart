@@ -46,7 +46,7 @@ class _ReferAndEarnPageState extends State<ReferAndEarnPage> {
         final file = File('${tempDir.path}/refer.png');
         await file.writeAsBytes(byteData.buffer.asUint8List());
 
-        const appLink = "https://play.google.com/store/apps/details?id=com.sastastay.user";
+        const appLink = "https://play.google.com/store/apps/details?id=com.sastastays.user";
 
         // Message with clickable referral code and link
         final text = "Hey! 👋\n\n"

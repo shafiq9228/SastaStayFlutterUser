@@ -25,14 +25,10 @@ import '../response_model/auth_response_model.dart';
 import '../view_models/auth_view_model.dart';
 import '../view_models/transaction_view_model.dart';
 
-class WalletPage extends StatefulWidget {
-  const WalletPage({super.key});
+class WalletPage extends StatelessWidget {
 
-  @override
-  State<WalletPage> createState() => _WalletPageState();
-}
+  WalletPage({super.key});
 
-class _WalletPageState extends State<WalletPage> {
   final authViewModel = Get.put(AuthViewModel());
   final transactionViewModel = Get.put(TransactionViewModel());
   final TextEditingController addFundController = TextEditingController();
@@ -41,22 +37,30 @@ class _WalletPageState extends State<WalletPage> {
   final CFPaymentGatewayService _cfPaymentService =
   CFPaymentGatewayService();
 
-  final CFEnvironment _environment = CFEnvironment.SANDBOX;
+  late final CFEnvironment environment =
+  authViewModel.isCashFreProduction()
+      ? CFEnvironment.PRODUCTION
+      : CFEnvironment.SANDBOX;
 
-  late String orderId;
-  late String paymentSessionId;
+  final RxString orderId = "".obs;
+  final RxString paymentSessionId = "".obs;
 
-  @override
-  void initState() {
-    super.initState();
-    _cfPaymentService.setCallback(_verifyPayment, _onPaymentError);
+  /// ✅ Constructor-like init
+  void _initCallbacks(BuildContext context) {
+    _cfPaymentService.setCallback(
+          (orderId) => _verifyPayment(orderId, context),
+      _onPaymentError,
+    );
   }
 
   /// ✅ PAYMENT SUCCESS
-  void _verifyPayment(String orderId) async {
-    await transactionViewModel.updateDepositStatus(orderId,int.tryParse(addFundController.text) ?? 0,context);
+  void _verifyPayment(String orderId, BuildContext context) async {
+    await transactionViewModel.updateDepositStatus(
+      orderId,
+      int.tryParse(addFundController.text) ?? 0,
+      context,
+    );
   }
-
 
   /// ❌ PAYMENT FAILED
   void _onPaymentError(CFErrorResponse errorResponse, String orderId) {
@@ -67,26 +71,29 @@ class _WalletPageState extends State<WalletPage> {
       colorText: CustomColors.white,
       snackPosition: SnackPosition.BOTTOM,
     );
-    transactionViewModel.updateDepositStatusObserver.value = ApiResult.error(
-      errorResponse.getMessage() ?? "Payment failed. Please try again",
-    );
+
+    transactionViewModel.updateDepositStatusObserver.value =
+        ApiResult.error(
+          errorResponse.getMessage() ?? "Payment failed. Please try again",
+        );
   }
 
-  /// 🔐 CREATE CASHFREE SESSION
+  /// 🔐 CREATE SESSION
   CFSession _createSession() {
     return CFSessionBuilder()
-        .setEnvironment(_environment)
-        .setOrderId(orderId)
-        .setPaymentSessionId(paymentSessionId)
+        .setEnvironment(environment)
+        .setOrderId(orderId.value)
+        .setPaymentSessionId(paymentSessionId.value)
         .build();
   }
 
-  /// 🌐 OPEN CASHFREE CHECKOUT
+  /// 🌐 OPEN CHECKOUT
   void _openCashfree() {
     try {
       final session = _createSession();
 
-      final cfWebCheckout = CFWebCheckoutPaymentBuilder().setSession(session).build();
+      final cfWebCheckout =
+      CFWebCheckoutPaymentBuilder().setSession(session).build();
 
       _cfPaymentService.doPayment(cfWebCheckout);
     } on CFException catch (e) {
@@ -101,6 +108,9 @@ class _WalletPageState extends State<WalletPage> {
 
   @override
   Widget build(BuildContext context) {
+    /// 🔥 ensure callback set once per build lifecycle
+    _initCallbacks(context);
+
     return Scaffold(
       backgroundColor: CustomColors.white,
       body: SafeArea(
@@ -115,7 +125,7 @@ class _WalletPageState extends State<WalletPage> {
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
-                          /// 💰 WALLET BALANCE
+                          /// 💰 BALANCE
                           Container(
                             width: double.infinity,
                             height: 100,
@@ -135,7 +145,8 @@ class _WalletPageState extends State<WalletPage> {
                                       () => Text(
                                     '₹ ${authViewModel.fetchUserDetailsObserver.value.maybeWhen(
                                       success: (data) =>
-                                          ((data as FetchUserDetailsResponseModel)
+                                          ((data
+                                          as FetchUserDetailsResponseModel)
                                               .data
                                               ?.wallet ??
                                               0)
@@ -167,7 +178,7 @@ class _WalletPageState extends State<WalletPage> {
                           const StaticReferAndEarnComponent(),
                           const SizedBox(height: 50),
 
-                          /// 💳 ADD MONEY BUTTON
+                          /// 💳 BUTTON
                           Obx(
                                 () => transactionViewModel
                                 .addAmountToWalletObserver.value
@@ -192,12 +203,20 @@ class _WalletPageState extends State<WalletPage> {
                                     return;
                                   }
 
-                                  /// 🔥 CREATE CASHFREE ORDER FROM BACKEND
-                                  final response = await transactionViewModel.performAddAmountToBalance(amount,context);
+                                  final response =
+                                  await transactionViewModel
+                                      .performAddAmountToBalance(
+                                      amount, context);
 
-                                  if (response != null && response.status == 1) {
-                                    orderId = response.data?.bookingResponse?.orderId ?? "";
-                                    paymentSessionId = response.data?.bookingResponse?.paymentId ?? "";
+                                  if (response != null &&
+                                      response.status == 1) {
+                                    orderId.value = response.data?.bookingResponse
+                                        ?.orderId ??
+                                        "";
+                                    paymentSessionId.value = response
+                                        .data?.bookingResponse?.paymentId ??
+                                        "";
+
                                     _openCashfree();
                                   }
                                 },
@@ -212,7 +231,7 @@ class _WalletPageState extends State<WalletPage> {
               ],
             ),
 
-            /// 🔄 FULLSCREEN LOADER
+            /// 🔄 LOADER
             Obx(
                   () => transactionViewModel
                   .updateDepositStatusObserver.value

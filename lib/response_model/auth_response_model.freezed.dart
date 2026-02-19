@@ -226,6 +226,7 @@ mixin _$ValidateDataModel {
   bool? get userBlocked => throw _privateConstructorUsedError;
   UserModel? get userData => throw _privateConstructorUsedError;
   List<String>? get banners => throw _privateConstructorUsedError;
+  bool? get cashFree => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -243,7 +244,8 @@ abstract class $ValidateDataModelCopyWith<$Res> {
       {bool? validVersion,
       bool? userBlocked,
       UserModel? userData,
-      List<String>? banners});
+      List<String>? banners,
+      bool? cashFree});
 
   $UserModelCopyWith<$Res>? get userData;
 }
@@ -265,6 +267,7 @@ class _$ValidateDataModelCopyWithImpl<$Res, $Val extends ValidateDataModel>
     Object? userBlocked = freezed,
     Object? userData = freezed,
     Object? banners = freezed,
+    Object? cashFree = freezed,
   }) {
     return _then(_value.copyWith(
       validVersion: freezed == validVersion
@@ -283,6 +286,10 @@ class _$ValidateDataModelCopyWithImpl<$Res, $Val extends ValidateDataModel>
           ? _value.banners
           : banners // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      cashFree: freezed == cashFree
+          ? _value.cashFree
+          : cashFree // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -311,7 +318,8 @@ abstract class _$$ValidateDataModelImplCopyWith<$Res>
       {bool? validVersion,
       bool? userBlocked,
       UserModel? userData,
-      List<String>? banners});
+      List<String>? banners,
+      bool? cashFree});
 
   @override
   $UserModelCopyWith<$Res>? get userData;
@@ -332,6 +340,7 @@ class __$$ValidateDataModelImplCopyWithImpl<$Res>
     Object? userBlocked = freezed,
     Object? userData = freezed,
     Object? banners = freezed,
+    Object? cashFree = freezed,
   }) {
     return _then(_$ValidateDataModelImpl(
       validVersion: freezed == validVersion
@@ -350,6 +359,10 @@ class __$$ValidateDataModelImplCopyWithImpl<$Res>
           ? _value._banners
           : banners // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      cashFree: freezed == cashFree
+          ? _value.cashFree
+          : cashFree // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -361,7 +374,8 @@ class _$ValidateDataModelImpl implements _ValidateDataModel {
       {this.validVersion,
       this.userBlocked,
       this.userData,
-      final List<String>? banners})
+      final List<String>? banners,
+      this.cashFree})
       : _banners = banners;
 
   factory _$ValidateDataModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -384,8 +398,11 @@ class _$ValidateDataModelImpl implements _ValidateDataModel {
   }
 
   @override
+  final bool? cashFree;
+
+  @override
   String toString() {
-    return 'ValidateDataModel(validVersion: $validVersion, userBlocked: $userBlocked, userData: $userData, banners: $banners)';
+    return 'ValidateDataModel(validVersion: $validVersion, userBlocked: $userBlocked, userData: $userData, banners: $banners, cashFree: $cashFree)';
   }
 
   @override
@@ -399,13 +416,15 @@ class _$ValidateDataModelImpl implements _ValidateDataModel {
                 other.userBlocked == userBlocked) &&
             (identical(other.userData, userData) ||
                 other.userData == userData) &&
-            const DeepCollectionEquality().equals(other._banners, _banners));
+            const DeepCollectionEquality().equals(other._banners, _banners) &&
+            (identical(other.cashFree, cashFree) ||
+                other.cashFree == cashFree));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, validVersion, userBlocked,
-      userData, const DeepCollectionEquality().hash(_banners));
+      userData, const DeepCollectionEquality().hash(_banners), cashFree);
 
   @JsonKey(ignore: true)
   @override
@@ -427,7 +446,8 @@ abstract class _ValidateDataModel implements ValidateDataModel {
       {final bool? validVersion,
       final bool? userBlocked,
       final UserModel? userData,
-      final List<String>? banners}) = _$ValidateDataModelImpl;
+      final List<String>? banners,
+      final bool? cashFree}) = _$ValidateDataModelImpl;
 
   factory _ValidateDataModel.fromJson(Map<String, dynamic> json) =
       _$ValidateDataModelImpl.fromJson;
@@ -440,6 +460,8 @@ abstract class _ValidateDataModel implements ValidateDataModel {
   UserModel? get userData;
   @override
   List<String>? get banners;
+  @override
+  bool? get cashFree;
   @override
   @JsonKey(ignore: true)
   _$$ValidateDataModelImplCopyWith<_$ValidateDataModelImpl> get copyWith =>

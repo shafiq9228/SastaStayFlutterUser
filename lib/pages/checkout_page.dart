@@ -55,11 +55,13 @@ class CheckoutPage extends StatelessWidget {
     late String orderId;
     late String paymentSessionId;
 
-    const CFEnvironment environment = CFEnvironment.SANDBOX;
 
 
     final authViewModel = Get.put(AuthViewModel());
     final bookingViewModel = Get.put(BookingViewModel());
+
+    CFEnvironment environment = authViewModel.isCashFreProduction() ? CFEnvironment.PRODUCTION : CFEnvironment.SANDBOX;
+
 
     void verifyPayment(String orderId) async {
       await bookingViewModel.updateOrderPaymentStatus(bookingId);

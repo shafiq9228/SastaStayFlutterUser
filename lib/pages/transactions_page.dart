@@ -35,9 +35,12 @@ class _TransactionsPageState extends State<TransactionsPage> {
             top:true,
             child: Column(
               children: [
-                SecondaryHeadingComponent(buttonTxt: "Transaction History", buttonClick: (){
-                  Get.back();
-                }),
+                SecondaryHeadingComponent(
+                  buttonTxt: "Transaction History",
+                  buttonClick: (){
+                    Get.back();
+                  },
+                ),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () => _refreshData(),
@@ -102,9 +105,12 @@ class _TransactionsPageState extends State<TransactionsPage> {
       ),);
   }
 
+
   Future<void> _refreshData() async{
     transactionViewModel.fetchTransactions(const PaginationRequestModel(page: 1),true);
   }
+
+
 
   Future<void> _addData() async {
     final observer = transactionViewModel.fetchTransactionsObserver;

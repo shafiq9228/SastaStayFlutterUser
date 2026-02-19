@@ -47,6 +47,7 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
   final bookingViewModel = Get.put(BookingViewModel());
   final authViewModel = Get.put(AuthViewModel());
 
+  RxBool chatBoot = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -200,8 +201,13 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      IconTitleMessageComponent(assetImage: "assets/images/help.png",title: "",message: "Help",color: Colors.redAccent,onClick: (){
-                                        openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
+                                      IconTitleMessageComponent(assetImage: "assets/images/help.png",title: "",message: "Help",color: Colors.redAccent,onClick: () async {
+
+                                        UserModel? userModel = authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (response) => (response as FetchUserDetailsResponseModel).data,orElse: () => null);
+                                        chatBoot.value = true;
+                                        await AuthUtils.openChatBoot(userModel);
+                                        chatBoot.value = false;
+                                        //AuthUtils.openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
                                       }),
                                       Container(width: 0.5,height: 50,color: CustomColors.darkGray),
                                       IconTitleMessageComponent(assetImage: "assets/images/cell.png",title: "",message: "Call Hostel",color: CustomColors.primary,onClick: (){
@@ -209,11 +215,11 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                                       }),
                                       Container(width: 0.5,height: 50,color: CustomColors.darkGray),
                                       IconTitleMessageComponent(assetImage: "assets/images/direction.png",title: "",message: "Direction",onClick: (){
-                                        _openGoogleMaps(hostelData.location?.latitude ?? 0.00,hostelData.location?.longitude ?? 0.00);
+                                        AuthUtils.openGoogleMaps(hostelData.location?.latitude ?? 0.00,hostelData.location?.longitude ?? 0.00);
                                       },color: Colors.orangeAccent),
                                       Container(width: 0.5,height: 50,color: CustomColors.darkGray),
                                       IconTitleMessageComponent(assetImage: "assets/images/share.png",title: "",message: "Share",onClick: (){
-                                        shareApp();
+                                        AuthUtils.shareApp();
                                       },color: Colors.lightGreenAccent)
                                     ],
                                   ),
@@ -239,6 +245,7 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
                     child: EmptyDataView(text: "Something went wrong"),
                   ))
               ),
+              Obx(() => chatBoot.value == true ? Container(width:double.infinity,height:double.infinity,color: CustomColors.black.withOpacity(0.4),child: Center(child: CircularProgressIndicator(color: CustomColors.white)),) : SizedBox()),
               Obx(()=> bookingViewModel.cancelBookingStatusObserver.value.maybeWhen(loading: (loading) => Container(width:double.infinity,height:double.infinity,color: CustomColors.black.withOpacity(0.4),child: Center(child: CircularProgressIndicator(color: CustomColors.white)),),orElse: () => SizedBox())),
             ],
           ),
@@ -248,28 +255,7 @@ class _BookingConfirmedPageState extends State<BookingConfirmedPage> {
   }
 
 
-  void shareApp() {
-    final String appLink = Platform.isAndroid
-        ? "https://play.google.com/store/apps/details?id=com.sastastays.user"
-        : "https://apps.apple.com/app/idYOUR_APP_ID";
 
-    Share.share("Hey 👋 Try this app:\n$appLink");
-  }
-
-  Future<void> openWhatsAppChat({
-    required String phoneNumber, // in international format without '+'
-    String message = '',
-  }) async {
-    final Uri whatsappUri = Uri.parse(
-      "https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}",
-    );
-
-    if (await canLaunchUrl(whatsappUri)) {
-      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch WhatsApp';
-    }
-  }
 
   Widget _buildLocationInfo(LocationModel? location) {
     return Column(

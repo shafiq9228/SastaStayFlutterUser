@@ -214,6 +214,10 @@ class AuthViewModel extends GetxController{
     }
   }
 
+  bool isCashFreProduction(){
+    return validaVersionObserver.value.maybeWhen(success: (res) => (res as ValidateVersionResponseModel).data?.cashFree ?? true ,orElse: ()=> true);
+  }
+
 
   Future<void> performUploadFile(File selectedFile,String type) async {
     try {
@@ -301,13 +305,15 @@ class AuthViewModel extends GetxController{
       final response = await apiProvider.post(EndPoints.validateVersion,request.toJson());
       final body = response.body;
       if(response.statusCode == 401){
-        Get.offAll(() => MobileVerificationPage());
+        await preferenceManager.clearAll();
+        Get.offAll(() => const MobileVerificationPage());
         throw "Please Login Again";
       }
       if(response.isOk && body !=null){
         final responseData = ValidateVersionResponseModel.fromJson(body);
         if(responseData.status == 1){
           validaVersionObserver.value = ApiResult.success(responseData);
+
           if(responseData.data?.validVersion == false){
             Get.offAll(() => const UpdateVersionScreen());
           }

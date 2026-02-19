@@ -1,12 +1,19 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../pages/main_page.dart';
 import '../pages/register_user_page.dart';
+import '../response_model/auth_response_model.dart';
+import 'ConfigKeys.dart';
+import 'custom_colors.dart';
 
 
 
@@ -15,6 +22,78 @@ class AuthUtils {
   AuthUtils._();
 
   static final appId = "2c6d2150a3c3d4f08dc38b7e766a5ad66";
+
+
+  static void shareApp() {
+    final String appLink = Platform.isAndroid
+        ? "https://play.google.com/store/apps/details?id=com.sastastays.user"
+        : "https://apps.apple.com/app/idYOUR_APP_ID";
+
+    Share.share("Hey 👋 Try this app:\n$appLink");
+  }
+
+  static Future<void> openWhatsAppChat({
+    required String phoneNumber, // in international format without '+'
+    String message = '',
+  }) async {
+    final Uri whatsappUri = Uri.parse(
+      "https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}",
+    );
+
+    if (await canLaunchUrl(whatsappUri)) {
+      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch WhatsApp';
+    }
+  }
+
+  static Future<void> openGoogleMaps(double latitude, double longitude) async {
+    if(latitude == 0.00 || latitude == 0.00) throw "Could not open Google Maps";
+    final Uri googleMapsUrl = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude',
+    );
+
+    if (await canLaunchUrl(googleMapsUrl)) {
+      await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not open Google Maps';
+    }
+  }
+
+  static Future<void> openChatBoot(UserModel? userModel)async {
+    try {
+      if(userModel == null) throw "Please Try Again In Sometime";
+      dynamic user = {
+        'userId': userModel?.id,  //unique userId
+        'password': userModel?.id,
+        'displayName': userModel?.name,
+        'contactNumber': userModel?.mobile.toString(),
+        'imageLink': userModel?.profilePic,
+        'email': userModel?.email,
+        'appId': ConfigKeys.appId
+      };
+
+      await KommunicateFlutterPlugin.login(user).then((result) async {
+        dynamic conversationObject = {
+          'appId': ConfigKeys.appId,
+          'kmUser': jsonEncode(user),
+          'isSingleConversation': false
+        };
+
+        await KommunicateFlutterPlugin.buildConversation(conversationObject).then((clientConversationId) {
+          print("Conversation builder success : " + clientConversationId.toString());
+        }).catchError((error) {
+          print("Conversation builder error : " + error.toString());
+        });
+
+      }).catchError((error) {
+        print("Login failed : " + error.toString());
+      });
+    } catch (e) {
+      Get.snackbar("Error",e.toString(),backgroundColor: CustomColors.primary,colorText: CustomColors.white,snackPosition: SnackPosition.BOTTOM);
+      print("Conversation error: $e");
+    }
+  }
 
 
   static DateTime _toIndianTime(DateTime date) {

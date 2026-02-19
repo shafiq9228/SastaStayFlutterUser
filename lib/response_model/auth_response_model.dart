@@ -51,7 +51,8 @@ class ValidateDataModel with _$ValidateDataModel{
     bool? validVersion,
     bool? userBlocked,
     UserModel? userData,
-    List<String>? banners
+    List<String>? banners,
+    bool? cashFree
   }) = _ValidateDataModel;
 
   factory ValidateDataModel.fromJson(Map<String, dynamic> json) => _$ValidateDataModelFromJson(json);

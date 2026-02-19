@@ -587,6 +587,7 @@ class _HostelRoomAvailabilityBottomSheetState extends State<HostelRoomAvailabili
                             );
                             return;
                           }
+                          bookingViewModel.selectedCoupon.value = null;
                           bookingViewModel.checkHostelRoomAvailability(
                             BookingRequestModel(
                               roomModel: widget.roomModel,

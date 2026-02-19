@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 import 'package:pg_hostel/components/primary_button.dart';
 import 'package:pg_hostel/pages/checkout_page.dart';
 import 'package:pg_hostel/pages/rating_reviews_page.dart';
@@ -14,6 +17,7 @@ import '../components/custom_network_image.dart';
 import '../components/empty_data_view.dart';
 import '../components/error_text_component.dart';
 import '../components/helper_bottom_sheet.dart';
+import '../components/icon_title_message_component.dart';
 import '../components/read_more_text.dart';
 import '../components/side_heading_component.dart';
 import '../components/title_message_component.dart';
@@ -28,6 +32,7 @@ import '../response_model/auth_response_model.dart';
 import '../response_model/bookings_response_model.dart';
 import '../response_model/hostel_response_model.dart';
 import '../shimmers/hostel_details_page_shimmer.dart';
+import '../utils/ConfigKeys.dart';
 import '../utils/app_styles.dart';
 import '../utils/auth_utils.dart';
 import '../utils/custom_colors.dart';
@@ -47,6 +52,7 @@ class BookingDetailsPage extends StatefulWidget {
 class _BookingDetailsPageState extends State<BookingDetailsPage> {
   final bookingViewModel = Get.put(BookingViewModel());
   final authViewModel = Get.put(AuthViewModel());
+  RxBool chatBoot = false.obs;
 
   bool priceDetailsView = true;
 
@@ -307,6 +313,38 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                     ),
                                   ),
                                 ),
+                                if(((bookingDataModel?.paymentStatus ?? "") == "success")) Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: CustomColors.lightGray,
+                                    height: 5,
+                                  ),
+                                ),
+                                if(((bookingDataModel?.paymentStatus ?? "") == "success")) Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    IconTitleMessageComponent(assetImage: "assets/images/help.png",title: "",message: "Help",color: Colors.redAccent,onClick: () async {
+                                      UserModel? userModel = authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (response) => (response as FetchUserDetailsResponseModel).data,orElse: () => null);
+                                      chatBoot.value = true;
+                                      await AuthUtils.openChatBoot(userModel);
+                                      chatBoot.value = false;
+                                      // AuthUtils.openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
+                                    }),
+                                    Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                    IconTitleMessageComponent(assetImage: "assets/images/cell.png",title: "",message: "Call Hostel",color: CustomColors.primary,onClick: (){
+                                      openDialPad(dealerData.mobile.toString());
+                                    }),
+                                    Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                    IconTitleMessageComponent(assetImage: "assets/images/direction.png",title: "",message: "Direction",onClick: (){
+                                      AuthUtils.openGoogleMaps(hostelData.location?.latitude ?? 0.00,hostelData.location?.longitude ?? 0.00);
+                                    },color: Colors.orangeAccent),
+                                    Container(width: 0.5,height: 50,color: CustomColors.darkGray),
+                                    IconTitleMessageComponent(assetImage: "assets/images/share.png",title: "",message: "Share",onClick: (){
+                                      AuthUtils. shareApp();
+                                    },color: Colors.lightGreenAccent)
+                                  ],
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 10),
                                   child: Container(
@@ -364,7 +402,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                     removeTop: true,
                                     child: ListView.builder(
                                       shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       scrollDirection: Axis.vertical,
                                       itemCount: bookingDataModel?.guestDetailsList?.length ?? 0,
                                       itemBuilder: (context, index) {
@@ -440,9 +478,12 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                                 border: Border.all(width: 0.5,color: CustomColors.darkGray)
                                             ),
                                             child: TextButton(
-                                              onPressed: (){
-                                                openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
-                                                // cancelBooking(widget.bookingId);
+                                              onPressed: () async {
+                                                UserModel? userModel = authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (response) => (response as FetchUserDetailsResponseModel).data,orElse: () => null);
+                                                chatBoot.value = true;
+                                                await AuthUtils.openChatBoot(userModel);
+                                                chatBoot.value = false;
+                                                // AuthUtils.openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
                                               },
                                               child: Text(
                                                 "Help",
@@ -522,8 +563,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                             color: CustomColors.primary,
                                           ),
                                           child: TextButton(
-                                            onPressed: (){
-                                              openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
+                                            onPressed: () {
+                                              bookingViewModel.bookingRequestModelObserver.value = BookingRequestModel(roomModel: roomModelData, hostelId: hostelData.id, roomId: roomModelData.id, couponId: "", guestDetailsList: bookingDataModel?.guestDetailsList, checkInDate: DateTime.now(), checkOutDate: DateTime.now(), guestCount: bookingDataModel?.guestCount, useWalletBalance: bookingViewModel.userWalletBalance.value);
+                                              Get.to(() => CheckoutPage(hostelData: hostelData, retryBookingId: bookingDataModel?.id));
                                             },
                                             child: Text(
                                               "Rebook",
@@ -612,6 +654,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     child: EmptyDataView(text: "Something went wrong"),
                   ))
               ),
+              Obx(() => chatBoot.value == true ? Container(width:double.infinity,height:double.infinity,color: CustomColors.black.withOpacity(0.4),child: Center(child: CircularProgressIndicator(color: CustomColors.white)),) : SizedBox()),
               Obx(()=> bookingViewModel.cancelBookingStatusObserver.value.maybeWhen(loading: (loading) => Container(width:double.infinity,height:double.infinity,color: CustomColors.black.withOpacity(0.4),child: Center(child: CircularProgressIndicator(color: CustomColors.white)),),orElse: () => SizedBox())),
             ],
           ),
@@ -620,20 +663,9 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     );
   }
 
-  Future<void> openWhatsAppChat({
-    required String phoneNumber, // in international format without '+'
-    String message = '',
-  }) async {
-    final Uri whatsappUri = Uri.parse(
-      "https://wa.me/$phoneNumber?text=${Uri.encodeFull(message)}",
-    );
 
-    if (await canLaunchUrl(whatsappUri)) {
-      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
-    } else {
-      throw 'Could not launch WhatsApp';
-    }
-  }
+
+
 
   void cancelBooking(String bookingId){
     showModalBottomSheet(

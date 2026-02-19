@@ -231,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         IconTitleMessageComponent(assetImage: "assets/images/bed.png",title: "Ongoing",message: "${userModel?.onGoingBookings ?? 0}"),
                                         Container(width: 0.5,height: 50,color: CustomColors.darkGray),
                                         IconTitleMessageComponent(assetImage: "assets/images/wallet.png",title: "Wallet",message: "${userModel?.wallet ?? 0}",onClick: (){
-                                          Get.to(() => const WalletPage());
+                                          Get.to(() =>  WalletPage());
                                         })
                                       ],
                                     )
@@ -273,47 +273,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(title: "Add Money", image: "assets/images/wallet.png", onTapped: (){
-                                      Get.to(() => const WalletPage());
+                                      Get.to(() =>  WalletPage());
                                     }),
                                     DottedLine(dashColor: CustomColors.darkGray),
                                     ProfileMenu(observer: chatBoot,title: "Chat", image: "assets/images/chat_help.png", onTapped: () async {
-
-                                      try {
-                                        chatBoot.value = true;
-                                        dynamic user = {
-                                            'userId': userModel?.id,  //unique userId
-                                            'password': userModel?.id,
-                                            'displayName': userModel?.name,
-                                            'contactNumber': userModel?.mobile.toString(),
-                                            'imageLink': userModel?.profilePic,
-                                            'email': userModel?.email,
-                                            'appId': ConfigKeys.appId
-                                          };
-
-                                         await KommunicateFlutterPlugin.login(user).then((result) async {
-                                          dynamic conversationObject = {
-                                            'appId': ConfigKeys.appId,
-                                            'kmUser': jsonEncode(user),
-                                            'isSingleConversation': false
-                                          };
-
-                                          await KommunicateFlutterPlugin.buildConversation(conversationObject).then((clientConversationId) {
-                                            chatBoot.value = false;
-                                            print("Conversation builder success : " + clientConversationId.toString());
-                                          }).catchError((error) {
-                                            chatBoot.value = false;
-                                            print("Conversation builder error : " + error.toString());
-                                          });
-
-                                        }).catchError((error) {
-                                           chatBoot.value = false;
-                                          print("Login failed : " + error.toString());
-                                        });
-                                      } catch (e) {
-                                        chatBoot.value = false;
-                                        print("Conversation error: $e");
-                                      }
-
+                                      chatBoot.value = true;
+                                      await AuthUtils.openChatBoot(userModel);
+                                      chatBoot.value = false;
                                       // try {
                                       //   dynamic conversationObject = {
                                       //     'appId': ConfigKeys.appId,
