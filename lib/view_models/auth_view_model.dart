@@ -190,11 +190,9 @@ class AuthViewModel extends GetxController{
     if (locationPosition.value == null) {
       await Geolocator.requestPermission();
 
-      LocationPermission locationPermission =
-      await Geolocator.checkPermission();
+      LocationPermission locationPermission = await Geolocator.checkPermission();
 
-      if (locationPermission == LocationPermission.denied ||
-          locationPermission == LocationPermission.deniedForever) {
+      if (locationPermission == LocationPermission.denied || locationPermission == LocationPermission.deniedForever) {
         return null;
       }
 

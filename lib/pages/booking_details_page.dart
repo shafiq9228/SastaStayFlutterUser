@@ -506,10 +506,19 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                             ),
                                             child: TextButton(
                                               onPressed: (){
-                                                openDialPad(dealerData.mobile.toString());
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  isScrollControlled: true,
+                                                  shape: const RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                                                  ),
+                                                  builder: (context) {
+                                                    return  RatingAndReviewBottomSheet(hostelId: hostelData.id ?? '');
+                                                  },
+                                                );
                                               },
                                               child: Text(
-                                                "Contact Hostel",
+                                                "Rate Hostel",
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 16,
@@ -523,7 +532,63 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                                   ),
                                 )
                                     : ((bookingDataModel?.bookingStatus ?? "") == "Upcoming") ?
-                                    const SizedBox()
+                                SizedBox(
+                                  height: 50,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(20),
+                                              color: CustomColors.white,
+                                              border: Border.all(width: 0.5,color: CustomColors.darkGray)
+                                          ),
+                                          child: TextButton(
+                                            onPressed: () async {
+                                              UserModel? userModel = authViewModel.fetchUserDetailsObserver.value.maybeWhen(success: (response) => (response as FetchUserDetailsResponseModel).data,orElse: () => null);
+                                              chatBoot.value = true;
+                                              await AuthUtils.openChatBoot(userModel);
+                                              chatBoot.value = false;
+                                              // AuthUtils.openWhatsAppChat(phoneNumber: dealerData.mobile.toString());
+                                            },
+                                            child: Text(
+                                              "Help",
+                                              // "Cancel Booking",
+                                              style: TextStyle(
+                                                color: CustomColors.textColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20),
+                                            color: CustomColors.primary,
+                                          ),
+                                          child: TextButton(
+                                            onPressed: (){
+                                              cancelBooking(widget.bookingId);
+                                            },
+                                            child: Text(
+                                              "Cancel Booking",
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
                                 // CustomOutlinedButton(buttonTxt: "Cancel Booking", buttonClick: (){
                                 //   cancelBooking(widget.bookingId);
                                 // })
